@@ -3,10 +3,16 @@ import { Footer } from "@/components/layout/Footer";
 import { Hero } from "@/components/sections/Hero";
 import { Stats } from "@/components/sections/Stats";
 import { Approach } from "@/components/sections/Approach";
+import { VideoSystem } from "@/components/sections/VideoSystem";
+import { VideoEngine } from "@/components/sections/VideoEngine";
+import { OperatingModel } from "@/components/sections/OperatingModel";
+import { Showreel } from "@/components/sections/Showreel";
 import { ServiceAccordion } from "@/components/sections/ServiceAccordion";
+import { InsightGeneration } from "@/components/sections/InsightGeneration";
 import { SelectedWork } from "@/components/sections/SelectedWork";
 import { AboutTeam } from "@/components/sections/AboutTeam";
 import { BudgetTool } from "@/components/sections/BudgetTool";
+import { QuestionsEntry } from "@/components/sections/QuestionsEntry";
 import { Contact } from "@/components/sections/Contact";
 
 export default function Home() {
@@ -17,10 +23,16 @@ export default function Home() {
         <Hero />
         <Stats />
         <Approach />
+        <Showreel />
+        <VideoSystem />
+        <VideoEngine />
+        <OperatingModel />
         <ServiceAccordion />
+        <InsightGeneration />
         <SelectedWork />
         <AboutTeam />
         <BudgetTool />
+        <QuestionsEntry />
         <Contact />
       </main>
       <Footer />
