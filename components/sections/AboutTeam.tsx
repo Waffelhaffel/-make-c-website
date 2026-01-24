@@ -10,8 +10,8 @@ export function AboutTeam() {
       <div className="max-w-7xl mx-auto">
         
         {/* Quote Section */}
-        <div className="text-center mb-20 md:mb-32">
-          <h2 className="text-3xl md:text-5xl lg:text-6xl leading-tight mb-6">
+        <div className="text-center mb-12 md:mb-32">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl leading-tight mb-4 md:mb-6">
             <span className="font-bold italic">"WE BELIEVE IN THE</span>
             <br />
             <span className="font-garamond font-semibold italic">POWER OF MOVING IMAGES."</span>
@@ -35,7 +35,7 @@ export function AboutTeam() {
         </div>
 
         {/* Power / Leidenschaft / Umsetzung - 3 Blue Circles */}
-        <div className="grid grid-cols-3 gap-8 md:gap-16 lg:gap-24 mb-20 md:mb-32 max-w-4xl mx-auto">
+        <div className="grid grid-cols-3 gap-2 sm:gap-4 md:gap-12 lg:gap-20 mb-12 md:mb-32 max-w-4xl mx-auto px-2 sm:px-0">
           <PowerCounter label="Power" duration={2} delay={0} />
           <PowerCounter label="Leidenschaft" duration={3} delay={0.2} />
           <PowerCounter label="Umsetzung" duration={4} delay={0.4} />
@@ -54,9 +54,9 @@ export function AboutTeam() {
           
           {/* Left: Team Image with diagonal lines background */}
           <div className="relative">
-            {/* Diagonal Lines Background - positioned bottom left */}
+            {/* Diagonal Lines Background - positioned bottom left, hidden on mobile */}
             <div 
-              className="absolute -bottom-20 -left-8 md:-bottom-32 md:-left-16 w-[90%] h-[100%] opacity-50 pointer-events-none z-0"
+              className="hidden sm:block absolute -bottom-12 -left-4 sm:-bottom-20 sm:-left-8 md:-bottom-32 md:-left-16 w-[70%] sm:w-[80%] md:w-[90%] h-[80%] sm:h-[90%] md:h-[100%] opacity-30 sm:opacity-40 md:opacity-50 pointer-events-none z-0"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -79,7 +79,7 @@ export function AboutTeam() {
           </div>
 
           {/* Right: Text Content - with top padding to align with image */}
-          <div className="flex flex-col justify-start pt-16 md:pt-24">
+          <div className="flex flex-col justify-start pt-4 sm:pt-8 md:pt-24">
             {/* Blue subtitle */}
             <p className="text-makec-blue text-sm md:text-base italic mb-6">
               / Highend Produktion für skalierbare Video-Systeme /

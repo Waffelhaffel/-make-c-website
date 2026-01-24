@@ -36,7 +36,7 @@ export function SelectedWork() {
         {/* Section Title */}
         <div className="py-16 md:py-20 px-6 md:px-12">
           <div className="max-w-7xl mx-auto">
-            <h2 className="text-5xl md:text-7xl lg:text-8xl uppercase tracking-tight text-center">
+            <h2 className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl uppercase tracking-tight text-center">
               <span className="font-bold italic font-gotham">SELECTED</span>
               <span className="font-garamond font-normal italic">WORK</span>
             </h2>

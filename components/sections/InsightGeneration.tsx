@@ -27,7 +27,7 @@ export function InsightGeneration() {
       <div className="relative bg-makec-dark min-h-[280px] md:min-h-[320px]">
         {/* Simple blue triangle on the left */}
         <div 
-          className="absolute top-0 left-0 w-[35%] md:w-[30%] h-full bg-makec-blue"
+          className="absolute top-0 left-0 w-[25%] sm:w-[30%] md:w-[30%] h-full bg-makec-blue"
           style={{
             clipPath: 'polygon(0 0, 100% 0, 0 100%)'
           }}
@@ -41,7 +41,7 @@ export function InsightGeneration() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
-              className="ml-[20%] md:ml-[22%] flex flex-col md:flex-row gap-6 md:gap-12 items-start"
+              className="ml-[28%] sm:ml-[25%] md:ml-[22%] flex flex-col md:flex-row gap-6 md:gap-12 items-start"
             >
               {/* Left: Label + Title */}
               <div className="flex-shrink-0">
@@ -49,7 +49,7 @@ export function InsightGeneration() {
                   / Insights /
                 </span>
                 
-                <h2 className="text-2xl md:text-4xl lg:text-5xl leading-[1.15] tracking-tight">
+                <h2 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl leading-[1.15] tracking-tight">
                   <span className="font-garamond font-semibold italic text-makec-blue">Mehr Output.</span>
                   <br />
                   <span className="font-garamond font-semibold italic text-makec-blue">Mehr Insights.</span>

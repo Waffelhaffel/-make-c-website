@@ -33,17 +33,17 @@ export function PowerCounter({ label, duration = 2, delay = 0 }: CounterProps) {
       {/* Blue Circle */}
       <motion.div
         ref={ref}
-        className="w-32 h-32 md:w-40 md:h-40 bg-makec-blue rounded-full flex items-center justify-center"
+        className="w-20 h-20 sm:w-28 sm:h-28 md:w-36 md:h-36 lg:w-40 lg:h-40 bg-makec-blue rounded-full flex items-center justify-center"
         whileHover={{ scale: 1.05 }}
         transition={{ type: "spring", stiffness: 200, damping: 20 }}
       >
-        <div className="text-3xl md:text-4xl font-bold text-white tabular-nums">
+        <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white tabular-nums">
           <motion.span>{rounded}</motion.span>%
         </div>
       </motion.div>
       
       {/* Label below */}
-      <p className="mt-4 text-sm md:text-base text-white/80 italic">
+      <p className="mt-2 sm:mt-4 text-xs sm:text-sm md:text-base text-white/80 italic">
         / {label} /
       </p>
     </div>
