@@ -8,37 +8,47 @@ export function Approach() {
   return (
     <MotionSection
       id="approach"
-      className="pt-8 md:pt-12 pb-16 md:pb-28 px-6 md:px-12 bg-black border-b border-zinc-900/60"
+      className="pt-16 md:pt-24 pb-20 md:pb-32 px-6 md:px-12 bg-makec-dark"
     >
       <div className="max-w-7xl mx-auto">
-        <span className="block text-xs font-bold text-gray-500 uppercase tracking-[0.35em] mb-10">
-          [ APPROACH ]
-        </span>
-
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.35 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16"
+          className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20"
         >
-          <div className="flex flex-col gap-8">
-            <h2 className="text-4xl md:text-6xl font-bold leading-tight max-w-xl">
-              {APPROACH_CONTENT.headline}
+          {/* Left: Title */}
+          <div className="flex flex-col gap-6">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl leading-[1.1] uppercase tracking-tight">
+              <span className="font-bold italic font-gotham block">WE MAKE VIDEOS</span>
+              <span className="font-garamond font-semibold italic text-gray-400 block">THAT WORK</span>
             </h2>
-            <div className="h-px w-16 bg-white/70" />
           </div>
 
-          <div className="flex flex-col gap-6 md:gap-7 md:border-l md:border-zinc-800 md:pl-10 text-lg md:text-xl text-gray-300 font-light leading-relaxed">
-            {APPROACH_CONTENT.paragraphs.map((para, i) => (
-              <p key={i} className="max-w-2xl">
-                {para}
-              </p>
-            ))}
+          {/* Right: Description */}
+          <div className="flex flex-col gap-8">
+            {/* Approach Label */}
+            <span className="text-xs font-medium text-makec-blue italic tracking-widest">
+              / Approach /
+            </span>
+
+            {/* Description Text */}
+            <div className="flex flex-col gap-6 text-base md:text-lg text-gray-300 font-light leading-relaxed">
+              {APPROACH_CONTENT.paragraphs.map((para, i) => (
+                <p key={i}>
+                  {para}
+                </p>
+              ))}
+            </div>
+
+            {/* Bold Closing Statement */}
+            <p className="text-sm md:text-base font-bold uppercase tracking-wide text-white leading-relaxed">
+              UNSER TEAM ARBEITET MIT EINEM INTEGRIERTEN ANSATZ AUS STRATEGIE, KREATION UND PRODUKTION.
+            </p>
           </div>
         </motion.div>
       </div>
     </MotionSection>
   );
 }
-

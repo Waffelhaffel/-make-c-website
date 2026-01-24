@@ -11,86 +11,94 @@ export function ServiceAccordion() {
   const [activeId, setActiveId] = useState<string | null>(null);
 
   return (
-    <MotionSection id="service" className="py-16 md:py-24 px-6 md:px-12 bg-black">
+    <MotionSection id="service" className="relative py-20 md:py-32 px-6 md:px-12 bg-makec-blue overflow-hidden">
       <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-8">
-          <h2 className="text-5xl md:text-7xl font-bold uppercase leading-none text-white">
-            LEISTUNGEN
+        {/* Section Title with Mixed Typography */}
+        <div className="mb-16 md:mb-20">
+          <h2 className="text-5xl md:text-7xl lg:text-8xl uppercase leading-[0.9] tracking-tight">
+            <span className="font-bold italic font-gotham">UNSERE </span>
+            <span className="font-garamond font-semibold italic">LEISTUNGEN</span>
           </h2>
         </div>
 
+        {/* Accordion List */}
         <div 
-          className="flex flex-col border-t border-zinc-800"
+          className="flex flex-col"
           onMouseLeave={() => setActiveId(null)}
         >
-          {SERVICES.map((service) => (
+          {SERVICES.map((service, index) => (
             <div
               key={service.id}
               onMouseEnter={() => setActiveId(service.id)}
-              className="relative border-b border-zinc-800 overflow-hidden"
+              className="relative border-t border-white/30 last:border-b overflow-hidden"
             >
               {/* Header / Trigger */}
-              <div className="group flex items-center justify-between py-8 md:py-10 cursor-pointer relative z-10 bg-black/50 hover:bg-black/0 transition-colors">
-                <h3 className={`text-3xl md:text-5xl font-bold uppercase transition-all duration-300 ${activeId === service.id ? 'pl-4 text-white' : 'text-gray-400 group-hover:text-white'}`}>
-                  {service.title}
+              <div className="group flex items-center justify-between py-6 md:py-8 cursor-pointer relative z-10">
+                <h3 className={`text-2xl md:text-4xl lg:text-5xl font-bold italic tracking-tight transition-all duration-300 ${
+                  activeId === service.id ? 'translate-x-2' : ''
+                }`}>
+                  {service.headline}
                 </h3>
-                <div className={`p-2 rounded-full transition-all duration-300 ${activeId === service.id ? 'bg-white text-black rotate-45' : 'bg-zinc-900 text-gray-400 group-hover:bg-zinc-800 group-hover:text-white'}`}>
-                  <Plus size={24} />
+                <div className={`flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-white flex items-center justify-center transition-all duration-300 ${
+                  activeId === service.id ? 'bg-white text-makec-blue rotate-45' : 'bg-transparent text-white'
+                }`}>
+                  <Plus size={20} strokeWidth={2.5} />
                 </div>
               </div>
 
               {/* Expanded Content */}
-              <motion.div
-                initial={false}
-                animate={{
-                  height: activeId === service.id ? "auto" : 0,
-                  opacity: activeId === service.id ? 1 : 0
-                }}
-                transition={{ duration: 0.4, ease: "easeInOut" }}
-                className="overflow-hidden"
-              >
-                <div className="pb-10 pt-2 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                  {/* Video Loop */}
-                  <div className="relative aspect-video rounded-2xl overflow-hidden bg-zinc-900">
-                    <video
-                      src={service.video}
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      className="absolute inset-0 w-full h-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-black/10" />
-                  </div>
+              <AnimatePresence>
+                {activeId === service.id && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.4, ease: "easeInOut" }}
+                    className="overflow-hidden"
+                  >
+                    <div className="pb-8 pt-2 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                      {/* Video Loop */}
+                      <div className="relative aspect-video rounded-lg overflow-hidden bg-black/20">
+                        <video
+                          src={service.video}
+                          autoPlay
+                          muted
+                          loop
+                          playsInline
+                          className="absolute inset-0 w-full h-full object-cover"
+                        />
+                      </div>
 
-                  {/* Description & Link */}
-                  <div className="flex flex-col items-start gap-6">
-                    <p className="text-lg text-gray-300 leading-relaxed font-light">
-                      {service.description}
-                    </p>
-                    
-                    {service.externalLink ? (
-                      <a
-                        href={service.externalLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group/btn flex items-center gap-3 px-6 py-3 rounded-full bg-white text-black font-bold uppercase tracking-wider text-sm hover:bg-gray-200 transition-colors"
-                      >
-                        {service.buttonText || "Zur Website"}
-                        <ExternalLink size={16} className="transition-transform group-hover/btn:translate-x-1" />
-                      </a>
-                    ) : (
-                      <Link
-                        href={`/services/${service.id}`}
-                        className="group/btn flex items-center gap-3 px-6 py-3 rounded-full bg-white text-black font-bold uppercase tracking-wider text-sm hover:bg-gray-200 transition-colors"
-                      >
-                        Mehr erfahren
-                        <ArrowRight size={16} className="transition-transform group-hover/btn:translate-x-1" />
-                      </Link>
-                    )}
-                  </div>
-                </div>
-              </motion.div>
+                      {/* Description & Link */}
+                      <div className="flex flex-col items-start gap-6">
+                        <p className="text-lg text-white/90 leading-relaxed font-light">
+                          {service.description}
+                        </p>
+                        
+                        {service.externalLink ? (
+                          <a
+                            href={service.externalLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group/btn flex items-center gap-3 px-6 py-3 rounded-full bg-white text-makec-blue font-bold uppercase tracking-wider text-sm hover:bg-white/90 transition-colors"
+                          >
+                            {service.buttonText || "Zur Website"}
+                            <ExternalLink size={16} className="transition-transform group-hover/btn:translate-x-1" />
+                          </a>
+                        ) : (
+                          <Link
+                            href={`/services/${service.id}`}
+                            className="group/btn flex items-center gap-3 px-6 py-3 rounded-full bg-white text-makec-blue font-bold uppercase tracking-wider text-sm hover:bg-white/90 transition-colors"
+                          >
+                            Mehr erfahren
+                            <ArrowRight size={16} className="transition-transform group-hover/btn:translate-x-1" />
+                          </Link>
+                        )}
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           ))}
         </div>

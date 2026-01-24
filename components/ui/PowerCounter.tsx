@@ -17,11 +17,10 @@ export function PowerCounter({ label, duration = 2, delay = 0 }: CounterProps) {
 
   useEffect(() => {
     if (isInView) {
-      // easeOutCubic (or similar) feels nice for "slowing down at the end"
       const controls = animate(count, 100, { 
         duration: duration, 
         delay: delay,
-        ease: [0.16, 1, 0.3, 1] // Custom easeOut for distinct slowdown
+        ease: [0.16, 1, 0.3, 1]
       });
       return () => controls.stop();
     } else {
@@ -30,25 +29,23 @@ export function PowerCounter({ label, duration = 2, delay = 0 }: CounterProps) {
   }, [isInView, count, duration, delay]);
 
   return (
-    <motion.div
-      ref={ref}
-      className="group relative flex flex-col items-center justify-center text-center bg-zinc-900/40 border border-zinc-800/50 rounded-3xl py-12 px-6 overflow-hidden cursor-default"
-      whileHover={{ scale: 1.03, y: -5 }}
-      transition={{ type: "spring", stiffness: 200, damping: 20 }}
-    >
-      {/* Background Hover Effect */}
+    <div className="flex flex-col items-center">
+      {/* Blue Circle */}
       <motion.div
-        className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-      />
-      
-      <div className="relative z-10">
-        <div className="text-5xl md:text-7xl font-bold tabular-nums leading-none mb-4 bg-clip-text text-transparent bg-gradient-to-b from-white to-white/70">
+        ref={ref}
+        className="w-32 h-32 md:w-40 md:h-40 bg-makec-blue rounded-full flex items-center justify-center"
+        whileHover={{ scale: 1.05 }}
+        transition={{ type: "spring", stiffness: 200, damping: 20 }}
+      >
+        <div className="text-3xl md:text-4xl font-bold text-white tabular-nums">
           <motion.span>{rounded}</motion.span>%
         </div>
-        <p className="text-xs md:text-sm font-semibold uppercase tracking-[0.25em] text-gray-400 group-hover:text-white transition-colors duration-300">
-          {label}
-        </p>
-      </div>
-    </motion.div>
+      </motion.div>
+      
+      {/* Label below */}
+      <p className="mt-4 text-sm md:text-base text-white/80 italic">
+        / {label} /
+      </p>
+    </div>
   );
 }

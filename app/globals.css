@@ -4,8 +4,9 @@
 
 :root {
   --foreground-rgb: 255, 255, 255;
-  --background-start-rgb: 0, 0, 0;
-  --background-end-rgb: 0, 0, 0;
+  --background-color: #14140F;
+  --makec-blue: #2C2CC6;
+  --makec-dark: #14140F;
 }
 
 html {
@@ -14,7 +15,7 @@ html {
 
 body {
   color: rgb(var(--foreground-rgb));
-  background-color: black;
+  background-color: var(--makec-dark);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -24,4 +25,26 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+/* Gotham Font Fallback - using system fonts that closely match Gotham */
+@font-face {
+  font-family: 'Gotham';
+  src: local('Gotham Bold Italic'), local('GothamBold-Italic'), local('Gotham-BoldItalic');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Utility classes for mixed typography */
+.font-gotham-bold-italic {
+  font-family: var(--font-gotham), system-ui, -apple-system, "Helvetica Neue", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.font-garamond-semibold-italic {
+  font-family: var(--font-garamond), "EB Garamond", Georgia, serif;
+  font-weight: 600;
+  font-style: italic;
 }

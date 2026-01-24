@@ -4,6 +4,16 @@ import { useEffect } from "react";
 import Lenis from "lenis";
 
 export function SmoothScroll({ children }: { children: React.ReactNode }) {
+  // Always scroll to top on page load/reload
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    
+    // Prevent browser from restoring scroll position
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+  }, []);
+
   useEffect(() => {
     const lenis = new Lenis({
       duration: 1.2,

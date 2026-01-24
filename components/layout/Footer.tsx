@@ -3,7 +3,7 @@ import { FOOTER_CONTENT } from "@/lib/data";
 
 export function Footer() {
   return (
-    <footer className="bg-black pt-12 pb-0 px-0">
+    <footer className="bg-makec-dark pt-12 pb-0 px-0">
       <div className="w-full h-full">
         <div className="rounded-t-[32px] md:rounded-t-[44px] bg-[#f5f5f5] text-[#222222] px-6 md:px-12 pt-16 pb-12 shadow-[0_-18px_60px_rgba(0,0,0,0.65)] min-h-[50vh]">
           <div className="mx-auto max-w-7xl flex flex-col gap-16 md:gap-20">

@@ -13,7 +13,7 @@ export const HERO_CONTENT = {
   corners: {
     left: "BASED IN KÖLN & ESSEN",
     center: "SCROLL DOWN",
-    right: "SINCE 2014",
+    right: "SINCE 2015",
   },
 };
 
@@ -30,6 +30,7 @@ export const SERVICES = [
     id: "video-produktion",
     title: "VIDEO PRODUKTION",
     headline: "Video Produktion",
+    displayTitle: "Video Produktion",
     description:
       "Wir produzieren Filme, die Marken sichtbar machen – von emotionalen, cineastischen Imagefilmen bis zu klaren Kampagnen- und Produktvideos. Unser Team übernimmt Konzeption, Dreh und Postproduktion komplett inhouse.",
     keywords:
@@ -40,6 +41,7 @@ export const SERVICES = [
     id: "event-content",
     title: "EVENT CONTENT",
     headline: "Event Content",
+    displayTitle: "Event Content",
     description:
       "Wir produzieren professionellen Event-Content für Konferenzen, Townhalls und Messen – live, hybrid oder on demand. Livestreams, digitale Bühnen und Social-Clips.",
     keywords:
@@ -50,6 +52,7 @@ export const SERVICES = [
     id: "video-beratung",
     title: "VIDEO BERATUNG",
     headline: "Video Beratung",
+    displayTitle: "Video Beratung",
     description:
       "Wir beraten Unternehmen dabei, Video strategisch einzusetzen – mit klaren Formaten, Prozessen und KPIs. Content-Strukturen, Distributionsstrategien und Inhouse-Setups.",
     keywords:
@@ -58,8 +61,9 @@ export const SERVICES = [
   },
   {
     id: "studiobau",
-    title: "STUDIOBAU",
-    headline: "Studiobau",
+    title: "STUDIO BAU",
+    headline: "Studio Bau",
+    displayTitle: "Studio Bau",
     description:
       "Wir planen und bauen Corporate Studios, die perfekt auf interne und externe Kommunikation abgestimmt sind. Technikplanung, Workflows, Set-Design und Betreuung.",
     keywords:
@@ -70,6 +74,7 @@ export const SERVICES = [
     id: "artificial-intelligence",
     title: "ARTIFICIAL INTELLIGENCE",
     headline: "Artificial Intelligence",
+    displayTitle: "Artificial Intelligence",
     description:
       "Wir haben eine eigene AI Unit namens make/ai. Wir nutzen KI für Skripte, Storyboards, Voiceover und Video-Generierung, um effizienter und kreativer zu produzieren.",
     keywords:
@@ -84,37 +89,37 @@ export const SELECTED_WORK = [
   {
     name: "Köln Bonn Airport",
     slug: "koeln-bonn-airport",
-    image: "/Flughafen_Bild.png",
+    image: "/Selected Work/Flughafen_Bild.jpg",
+    year: "2024",
+  },
+  {
+    name: "Zeitgeist",
+    slug: "zeitgeist",
+    image: "/Selected Work/Zeitgeist_Bild.png",
     year: "2024",
   },
   {
     name: "Merkur",
     slug: "merkur",
-    image: "/Merkur_Bild.png",
+    image: "/Selected Work/Merkur_Bild.jpg",
     year: "2024",
   },
   {
     name: "Wundholding",
     slug: "wundholding",
-    image: "/Wundholding_Bild.jpg",
+    image: "/Selected Work/Wundholding_Bild.jpg",
     year: "2024",
   },
   {
     name: "ALDI",
     slug: "aldi",
-    image: "/ALDI_Bild.png",
+    image: "/Selected Work/Aldi_Bild.png",
     year: "2023",
   },
   {
-    name: "Zeitgeist",
-    slug: "zeitgeist",
-    image: "/Zeitgeist_Bild.png",
-    year: "2024",
-  },
-  {
-    name: "KMPNG",
-    slug: "kmpng",
-    image: "/KMPNG_Bild.png",
+    name: "KPMG",
+    slug: "kpmg",
+    image: "/Selected Work/KMNPG_Bild.png",
     year: "2025",
   },
 ];
