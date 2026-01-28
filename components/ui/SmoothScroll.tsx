@@ -1,18 +1,20 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Lenis from "lenis";
 
 export function SmoothScroll({ children }: { children: React.ReactNode }) {
-  // Always scroll to top on page load/reload
+  const pathname = usePathname();
+
+  // Always scroll to top on initial load and when the route changes
   useEffect(() => {
     window.scrollTo(0, 0);
-    
-    // Prevent browser from restoring scroll position
-    if ('scrollRestoration' in history) {
-      history.scrollRestoration = 'manual';
+
+    if ("scrollRestoration" in history) {
+      history.scrollRestoration = "manual";
     }
-  }, []);
+  }, [pathname]);
 
   useEffect(() => {
     const lenis = new Lenis({

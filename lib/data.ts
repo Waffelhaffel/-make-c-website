@@ -32,9 +32,9 @@ export const SERVICES = [
     headline: "Video Produktion",
     displayTitle: "Video Produktion",
     description:
-      "Wir produzieren Filme, die Marken sichtbar machen – von emotionalen, cineastischen Imagefilmen bis zu klaren Kampagnen- und Produktvideos. Unser Team übernimmt Konzeption, Dreh und Postproduktion komplett inhouse.",
+      "Wir planen und produzieren Video-Content, der Marken langfristig aufbaut: von cineastischen Imagefilmen über Kampagnen- und Produktvideos bis zu skalierbaren Social-Formaten und Studio-Produktionen.",
     keywords:
-      "Imagefilm • Kampagnenfilm • Produktvideo • Recruiting • Social Content",
+      "Imagefilm • Brand Story • Kampagnenfilm • Produktvideo • Social-First Content • Studio Produktionen",
     video: "/Vidoe Produktion Loop.mp4",
   },
   {

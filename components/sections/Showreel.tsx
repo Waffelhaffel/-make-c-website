@@ -75,7 +75,7 @@ export function Showreel() {
             {/* Mixed Typography Title */}
             <h2 className="text-5xl md:text-7xl lg:text-8xl uppercase tracking-tight">
               <span className="font-bold italic font-gotham">SHOW</span>
-              <span className="font-garamond font-semibold italic">REEL</span>
+              <span className="font-garamond font-semibold italic text-[1.15em]">REEL</span>
             </h2>
           </div>
 

@@ -10,6 +10,10 @@ import { useState } from "react";
 export function ServiceAccordion() {
   const [activeId, setActiveId] = useState<string | null>(null);
 
+  const toggleService = (id: string) => {
+    setActiveId((current) => (current === id ? null : id));
+  };
+
   return (
     <MotionSection id="service" className="relative py-20 md:py-32 px-6 md:px-12 bg-makec-blue overflow-hidden">
       <div className="max-w-7xl mx-auto">
@@ -17,7 +21,7 @@ export function ServiceAccordion() {
         <div className="mb-16 md:mb-20">
           <h2 className="text-5xl md:text-7xl lg:text-8xl uppercase leading-[0.9] tracking-tight">
             <span className="font-bold italic font-gotham">UNSERE </span>
-            <span className="font-garamond font-semibold italic">LEISTUNGEN</span>
+            <span className="font-garamond font-semibold italic text-[1.15em]">LEISTUNGEN</span>
           </h2>
         </div>
 
@@ -33,7 +37,10 @@ export function ServiceAccordion() {
               className="relative border-t border-white/30 last:border-b overflow-hidden"
             >
               {/* Header / Trigger */}
-              <div className="group flex items-center justify-between py-6 md:py-8 cursor-pointer relative z-10">
+              <div
+                className="group flex items-center justify-between py-6 md:py-8 cursor-pointer relative z-10"
+                onClick={() => toggleService(service.id)}
+              >
                 <h3 className={`text-2xl md:text-4xl lg:text-5xl font-bold italic tracking-tight transition-all duration-300 ${
                   activeId === service.id ? 'translate-x-2' : ''
                 }`}>

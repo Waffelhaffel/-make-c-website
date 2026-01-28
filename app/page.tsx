@@ -19,8 +19,8 @@ export default function Home() {
       <main className="bg-makec-dark min-h-screen text-white overflow-x-hidden">
         <Hero />
         <Stats />
-        <Approach />
         <Showreel />
+        <Approach />
         <ServiceAccordion />
         <InsightGeneration />
         <SelectedWork />
