@@ -23,17 +23,22 @@ const FALLBACK_API_VERSION = "2024-10-01";
 const PLACEHOLDER_PROJECT_ID = "missing-project-id";
 const PLACEHOLDER_DATASET = "production";
 
-function readEnv(key: string): string | undefined {
-  const value = process.env[key];
+/** Trimmt den Wert und behandelt leere Strings als „nicht gesetzt". */
+function clean(value: string | undefined): string | undefined {
   if (typeof value !== "string") return undefined;
   const trimmed = value.trim();
   return trimmed === "" ? undefined : trimmed;
 }
 
-const rawProjectId = readEnv("NEXT_PUBLIC_SANITY_PROJECT_ID");
-const rawDataset = readEnv("NEXT_PUBLIC_SANITY_DATASET");
+// WICHTIG: NEXT_PUBLIC_* müssen als STATISCHE Literale gelesen werden, damit
+// Next.js sie zur Build-Zeit in den Client-Bundle einbettet. Dynamischer Zugriff
+// (process.env[key]) wird NICHT eingebettet und ist im Browser `undefined` —
+// das betrifft besonders das eingebettete Studio, das rein clientseitig läuft.
+const rawProjectId = clean(process.env.NEXT_PUBLIC_SANITY_PROJECT_ID);
+const rawDataset = clean(process.env.NEXT_PUBLIC_SANITY_DATASET);
 
-export const apiVersion = readEnv("NEXT_PUBLIC_SANITY_API_VERSION") ?? FALLBACK_API_VERSION;
+export const apiVersion =
+  clean(process.env.NEXT_PUBLIC_SANITY_API_VERSION) ?? FALLBACK_API_VERSION;
 
 /**
  * Server-only Read-Token (optional). Nur nötig bei privatem Dataset oder
@@ -41,11 +46,11 @@ export const apiVersion = readEnv("NEXT_PUBLIC_SANITY_API_VERSION") ?? FALLBACK_
  * SANITY_API_TOKEN, damit die Config projektübergreifend kompatibel ist.
  */
 export const readToken =
-  readEnv("SANITY_API_READ_TOKEN") ?? readEnv("SANITY_API_TOKEN");
+  clean(process.env.SANITY_API_READ_TOKEN) ?? clean(process.env.SANITY_API_TOKEN);
 
 /** Server-only Write-Token – ausschließlich für Seed-/Migrations-Skripte. */
 export const writeToken =
-  readEnv("SANITY_API_WRITE_TOKEN") ?? readEnv("SANITY_API_TOKEN");
+  clean(process.env.SANITY_API_WRITE_TOKEN) ?? clean(process.env.SANITY_API_TOKEN);
 
 /** Pflicht-Variablen, ohne die der Client nicht mit Sanity sprechen kann. */
 const missing: string[] = [];
