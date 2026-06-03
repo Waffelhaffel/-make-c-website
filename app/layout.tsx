@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, EB_Garamond } from "next/font/google";
 import "./globals.css";
-import { SmoothScroll } from "@/components/ui/SmoothScroll";
-import { Grain } from "@/components/ui/Grain";
-import { CustomCursor } from "@/components/ui/CustomCursor";
+import { SiteEffects } from "@/components/layout/SiteEffects";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,6 +17,11 @@ const ebGaramond = EB_Garamond({
 export const metadata: Metadata = {
   title: "make/c - Video Marketing & Production",
   description: "make/c entwickelt und produziert Bewegtbild für Marken.",
+  icons: {
+    icon: "/make:c_logo_icon.png",
+    shortcut: "/make:c_logo_icon.png",
+    apple: "/make:c_logo_icon.png",
+  },
   robots: {
     index: false,
     follow: false,
@@ -36,12 +39,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="de" className={`scroll-smooth ${ebGaramond.variable}`}>
-      <body className={`${inter.className} bg-makec-dark text-white antialiased cursor-none`}>
-        <SmoothScroll>
-          <Grain />
-          <CustomCursor />
-          {children}
-        </SmoothScroll>
+      <body className={`${inter.className} bg-makec-dark text-white antialiased`}>
+        <SiteEffects>{children}</SiteEffects>
       </body>
     </html>
   );

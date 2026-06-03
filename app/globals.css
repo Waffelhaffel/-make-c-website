@@ -25,6 +25,9 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+  .cursor-none {
+    cursor: none;
+  }
 }
 
 /* Gotham Font Fallback - using system fonts that closely match Gotham */

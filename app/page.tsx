@@ -11,24 +11,32 @@ import { AboutTeam } from "@/components/sections/AboutTeam";
 import { BudgetTool } from "@/components/sections/BudgetTool";
 import { QuestionsEntry } from "@/components/sections/QuestionsEntry";
 import { Contact } from "@/components/sections/Contact";
+import { FloatingContact } from "@/components/ui/FloatingContact";
+import { getLandingPage } from "@/sanity/lib/getLandingPage";
+import { getServices } from "@/sanity/lib/getServices";
 
-export default function Home() {
+export const revalidate = 60;
+
+export default async function Home() {
+  const [data, services] = await Promise.all([getLandingPage(), getServices()]);
+
   return (
     <>
       <Header />
       <main className="bg-makec-dark min-h-screen text-white overflow-x-hidden">
-        <Hero />
-        <Stats />
-        <Showreel />
-        <Approach />
-        <ServiceAccordion />
-        <InsightGeneration />
+        <Hero data={data.hero} />
+        <Stats data={data.stats} />
+        <Showreel data={data.showreel} />
+        <Approach data={data.approach} />
+        <ServiceAccordion services={services} />
+        <InsightGeneration data={data.insight} />
         <SelectedWork />
-        <AboutTeam />
+        <AboutTeam data={data.about} />
         <BudgetTool />
-        <QuestionsEntry />
-        <Contact />
+        <QuestionsEntry data={data.questions} />
+        <Contact data={data.contact} />
       </main>
+      <FloatingContact data={data.contact} />
       <Footer />
     </>
   );

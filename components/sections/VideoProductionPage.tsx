@@ -2,15 +2,13 @@
 
 import Image from "next/image";
 import { MotionSection } from "@/components/ui/MotionSection";
-import type { SERVICES } from "@/lib/data";
-
-type Service = (typeof SERVICES)[number];
+import type { Service } from "@/sanity/types";
 
 interface VideoProductionPageProps {
   service: Service;
 }
 
-export function VideoProductionPage({ service }: VideoProductionPageProps) {
+export function VideoProductionPage({ service: _service }: VideoProductionPageProps) {
   return (
     <main className="min-h-screen bg-makec-dark text-white pt-32 pb-24">
       <div className="max-w-7xl mx-auto px-6 md:px-12 space-y-24 md:space-y-32">

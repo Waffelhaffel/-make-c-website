@@ -1,14 +1,17 @@
 "use client";
 
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import { HERO_CONTENT } from "@/lib/data";
 import { useRef } from "react";
+import type { LandingHero } from "@/sanity/types";
 
-export function Hero() {
+type HeroProps = {
+  data: LandingHero;
+};
+
+export function Hero({ data }: HeroProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
-  
-  // Transform scroll position to a subtle skew effect
+
   const skewValue = useTransform(scrollY, [0, 1000], [0, -15]);
   const smoothSkew = useSpring(skewValue, { damping: 20, stiffness: 100 });
 
@@ -30,14 +33,20 @@ export function Hero() {
       opacity: 1,
       transition: {
         duration: 0.8,
-        ease: [0.22, 1, 0.36, 1],
+        ease: [0.22, 1, 0.36, 1] as const,
       },
     },
   };
 
+  const lines = [data.headlineLine1, data.headlineLine2, data.headlineLine3].filter(
+    Boolean
+  ) as string[];
+
   return (
-    <section ref={containerRef} className="relative min-h-screen flex flex-col pt-24 pb-12 px-6 md:px-12 justify-between overflow-hidden">
-      {/* Background video */}
+    <section
+      ref={containerRef}
+      className="relative min-h-screen flex flex-col pt-24 pb-12 px-6 md:px-12 justify-between overflow-hidden"
+    >
       <div className="absolute inset-0 z-0 overflow-hidden">
         <video
           className="h-full w-full object-cover"
@@ -60,7 +69,7 @@ export function Hero() {
           style={{ skewY: smoothSkew }}
         >
           <h1 className="text-[16vw] sm:text-[14vw] lg:text-[12vw] leading-[0.8] font-bold tracking-tighter uppercase mb-4 text-white flex flex-col">
-            {HERO_CONTENT.headline.split("\n").map((line, lineIndex) => (
+            {lines.map((line, lineIndex) => (
               <span key={lineIndex} className="block overflow-hidden">
                 <span className="flex">
                   {line.split("").map((char, charIndex) => (
@@ -69,38 +78,37 @@ export function Hero() {
                       variants={letterVariants}
                       className="inline-block"
                     >
-                      {char === " " ? "\u00A0" : char}
+                      {char === " " ? " " : char}
                     </motion.span>
                   ))}
                 </span>
               </span>
             ))}
           </h1>
-          <motion.p 
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 1, ease: "easeOut" }}
-            className="text-sm md:text-base tracking-[0.2em] font-medium text-gray-400 uppercase mt-4 ml-2"
-          >
-            {HERO_CONTENT.subheadline}
-          </motion.p>
+          {data.subheadline && (
+            <motion.p
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 1, ease: "easeOut" }}
+              className="text-sm md:text-base tracking-[0.2em] font-medium text-gray-400 uppercase mt-4 ml-2"
+            >
+              {data.subheadline}
+            </motion.p>
+          )}
         </motion.div>
 
         <div className="h-10 md:h-16" />
       </div>
 
-      {/* Bottom Labels */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 1.2 }}
         className="relative grid grid-cols-2 md:grid-cols-3 gap-4 text-[10px] md:text-xs font-medium uppercase tracking-wider text-gray-400 mt-12 w-full max-w-7xl mx-auto z-10"
       >
-        <div className="text-left">{HERO_CONTENT.corners.left}</div>
-        <div className="hidden md:block text-center">
-          {HERO_CONTENT.corners.center}
-        </div>
-        <div className="text-right">{HERO_CONTENT.corners.right}</div>
+        <div className="text-left">{data.cornerLeft}</div>
+        <div className="hidden md:block text-center">{data.cornerCenter}</div>
+        <div className="text-right">{data.cornerRight}</div>
       </motion.div>
     </section>
   );
