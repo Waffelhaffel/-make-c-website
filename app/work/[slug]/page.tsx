@@ -19,7 +19,7 @@ export async function generateStaticParams() {
     tags: ["caseStudy"],
   });
 
-  return slugs.filter(Boolean).map((slug) => ({ slug }));
+  return (slugs ?? []).filter(Boolean).map((slug) => ({ slug }));
 }
 
 export async function generateMetadata(

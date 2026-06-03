@@ -20,7 +20,7 @@ export default async function WorkPage() {
       <Header />
       <main className="bg-black min-h-screen text-white pt-32 pb-24 px-6 md:px-12">
         <div className="max-w-7xl mx-auto">
-          <WorkGrid caseStudies={caseStudies} />
+          <WorkGrid caseStudies={caseStudies ?? []} />
 
           <div className="mt-24 flex justify-center">
             <Link
