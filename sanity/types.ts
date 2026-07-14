@@ -105,10 +105,17 @@ export type LandingLocationCard = {
   headlineLineOne?: string;
   headlineLineTwo?: string;
   cityLabel?: string;
+  addressLine1?: string;
+  addressLine2?: string;
+  mapsUrl?: string;
 };
 
 export type LandingContact = {
   kicker?: string;
+  headlineLine1?: string;
+  headlineLine2?: string;
+  introLinkText?: string;
+  ctaButtonText?: string;
   contactImage?: SanityImage;
   contactName?: string;
   contactRole?: string;
@@ -119,6 +126,12 @@ export type LandingContact = {
   locations?: LandingLocationCard[];
 };
 
+export type ServiceItem = {
+  _key?: string;
+  title: string;
+  description?: string;
+};
+
 export type Service = {
   _id: string;
   title: string;
@@ -126,9 +139,10 @@ export type Service = {
   slug: string;
   headline?: string;
   description: string;
-  keywords?: string;
+  detailText?: string;
+  features?: ServiceItem[];
+  processSteps?: ServiceItem[];
   heroImage?: SanityImage;
-  referenceVideoUrl?: string;
   externalLink?: string;
   buttonText?: string;
   order?: number;
@@ -188,6 +202,12 @@ export type Seo = {
   ogImage?: SanityImage;
 };
 
+export type CreditItem = {
+  _key: string;
+  role: string;
+  name: string;
+};
+
 export type CaseStudy = {
   _id: string;
   title: string;
@@ -195,6 +215,7 @@ export type CaseStudy = {
   kicker?: string;
   project: string;
   intro?: string;
+  introHeading?: string;
   summary: string;
   services?: string[];
   projectMeta: ProjectMeta;
@@ -203,7 +224,7 @@ export type CaseStudy = {
   mainMedia: MainMedia;
   solution: SolutionSection;
   gallery?: GalleryItem[];
-  cta: CtaSection;
+  credits?: CreditItem[];
   thumbnailImage?: SanityImage;
   seo?: Seo;
 };

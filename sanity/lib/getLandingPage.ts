@@ -16,59 +16,57 @@ const HERO_FALLBACK: LandingHero = {
   headlineLine1: "DIE",
   headlineLine2: "VIDEO",
   headlineLine3: "AGENTUR",
-  subheadline: "VIDEO MARKETING & PRODUCTION",
-  cornerLeft: "BASED IN KÖLN & ESSEN",
+  subheadline: "Mehr Impact für dein Videobudget",
+  cornerLeft: "Köln, Essen /",
   cornerCenter: "SCROLL DOWN",
-  cornerRight: "SINCE 2015",
+  cornerRight: "/ Seit 2015",
 };
 
 const STATS_FALLBACK: LandingStats = {
-  kicker: "/ Mehr als nur Videoproduktion /",
-  headlineLine1: "Ein Team, das skalierbare Video-Lösungen für",
-  headlineLine2: "Marken, Unternehmen und Events baut.",
+  kicker: "Video ist kein Produkt. Video ist ein Werkzeug.",
+  headlineLine1: "Wir zeigen Unternehmen,",
+  headlineLine2: "wie man es richtig einsetzt.",
   items: [
     {
+      icon: "mapPin",
+      number: "10",
+      label: "Jahre",
+      subtext: "Erfahrung im Bereich",
+    },
+    {
       icon: "users",
-      number: "15+",
-      label: "Mitarbeiter",
-      subtext:
-        "plus Hinweis, dass ihr Zugriff auf ein Netzwerk von ~80 weiteren Expert:innen habt.",
+      number: "Mehr als",
+      label: "100",
+      subtext: "Mitarbeiter Netzwerk",
     },
     {
       icon: "play",
-      number: "5.000+",
-      label: "Videos",
-      subtext: "Anzahl produzierter Videos seit der Gründung.",
-    },
-    {
-      icon: "mapPin",
-      number: "2",
-      label: "Standorte",
-      subtext: "Köln & Essen, mitten in der Metropolregion Rhein/Ruhr.",
+      number: "Mehr als",
+      label: "10 Tsd.",
+      subtext: "Video Produktion",
     },
   ],
 };
 
 const SHOWREEL_FALLBACK: LandingShowreel = {
-  kicker: "/ High-End Produktion für skalierbare Video-Systeme /",
+  kicker: "/ Was wir können /",
   headlinePart1: "SHOW",
   headlinePart2: "REEL",
 };
 
 const APPROACH_FALLBACK: LandingApproach = {
-  headlineLine1: "WE MAKE VIDEOS",
-  headlineLine2: "THAT WORK",
-  kicker: "/ Approach /",
+  headlineLine1: "We make video",
+  headlineLine2: "that work.",
+  kicker: "/Ansatz/",
   paragraphs: [
-    "make/c entwickelt und produziert Bewegtbild für Marken – klar in der Idee, hochwertig in der Umsetzung und abgestimmt auf die richtigen Kanäle. Von Social Content bis Imagefilm, von Animation bis Live.",
-    "Unser Team arbeitet mit einem integrierten Ansatz aus Strategie, Kreation und Produktion.",
+    "Video ist mehr als Produktion. Es ist Strategie.",
+    "Wir beraten, entwickeln und produzieren Videokommunikation ganzheitlich. Statt isolierter Inhalte schaffen wir strategische Lösungen, die nachhaltig wirken. So holen unsere Kunden das Maximum aus ihrem Video-Budget heraus.",
   ],
-  closing:
-    "UNSER TEAM ARBEITET MIT EINEM INTEGRIERTEN ANSATZ AUS STRATEGIE, KREATION UND PRODUKTION.",
+  closing: "",
 };
 
 const INSIGHT_FALLBACK: LandingInsight = {
-  headlineLine1: "Mehr Output.",
+  headlineLine1: "Mehr Output,",
   headlineLine2: "Mehr Insights.",
   kicker: "Insights /",
   body:
@@ -96,8 +94,12 @@ const QUESTIONS_FALLBACK: LandingQuestions = {
 
 const CONTACT_FALLBACK: LandingContact = {
   kicker: "Unsere 2 Standorte von make/c",
+  headlineLine1: "Der richtige Startpunkt",
+  headlineLine2: "sind die richtigen Fragen.",
+  introLinkText: "Lass uns über dein Projekt sprechen",
+  ctaButtonText: "Gespräch anfragen",
   contactName: "Paul Zajonc",
-  contactRole: "Ansprechpartner",
+  contactRole: "Ansprechpartner · make/c",
   phone: "+49 123 455667",
   email: "pz@make-c.de",
   floatingCtaEnabled: true,
@@ -107,11 +109,17 @@ const CONTACT_FALLBACK: LandingContact = {
       headlineLineOne: "Im Herzen",
       headlineLineTwo: "der Dom Stadt.",
       cityLabel: "Köln /",
+      addressLine1: "Picassoplatz 1",
+      addressLine2: "50679 Köln",
+      mapsUrl: "https://maps.google.com/?q=Picassoplatz+1+50679+K%C3%B6ln",
     },
     {
       headlineLineOne: "Im Zentrum",
       headlineLineTwo: "des Ruhrgebiets",
       cityLabel: "Essen /",
+      addressLine1: "Sigsfeldstraße 5",
+      addressLine2: "45141 Essen",
+      mapsUrl: "https://maps.google.com/?q=Sigsfeldstra%C3%9Fe+5+45141+Essen",
     },
   ],
 };
@@ -169,14 +177,29 @@ export async function getLandingPage(): Promise<ResolvedLandingPage> {
     contact: {
       ...CONTACT_FALLBACK,
       ...(data?.contact ?? {}),
+      headlineLine1: data?.contact?.headlineLine1 || CONTACT_FALLBACK.headlineLine1,
+      headlineLine2: data?.contact?.headlineLine2 || CONTACT_FALLBACK.headlineLine2,
+      introLinkText: data?.contact?.introLinkText || CONTACT_FALLBACK.introLinkText,
+      ctaButtonText: data?.contact?.ctaButtonText || CONTACT_FALLBACK.ctaButtonText,
       contactName: data?.contact?.contactName || CONTACT_FALLBACK.contactName,
       contactRole: data?.contact?.contactRole || CONTACT_FALLBACK.contactRole,
       phone: data?.contact?.phone || CONTACT_FALLBACK.phone,
       email: data?.contact?.email || CONTACT_FALLBACK.email,
       ctaLabel: data?.contact?.ctaLabel || CONTACT_FALLBACK.ctaLabel,
+      // Per-Feld-Merge: Live-Locations haben (noch) keine Adresse/Maps — diese
+      // aus dem Fallback (nach Index) auffüllen, damit sie sofort rendern.
       locations:
         data?.contact?.locations && data.contact.locations.length > 0
-          ? data.contact.locations
+          ? data.contact.locations.map((loc, i) => {
+              const fb = CONTACT_FALLBACK.locations?.[i];
+              return {
+                ...fb,
+                ...loc,
+                addressLine1: loc.addressLine1 || fb?.addressLine1,
+                addressLine2: loc.addressLine2 || fb?.addressLine2,
+                mapsUrl: loc.mapsUrl || fb?.mapsUrl,
+              };
+            })
           : CONTACT_FALLBACK.locations,
     },
   };

@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
-import { NAV_LINKS } from "@/lib/data";
+import { NAV_LINKS, HEADER_NAV_LINKS } from "@/lib/data";
 import { motion, AnimatePresence } from "framer-motion";
 import { Magnetic } from "@/components/ui/Magnetic";
 import type { SiteSettings } from "@/sanity/types";
@@ -21,6 +21,26 @@ const LEGAL_LINKS = [
 export function HeaderClient({ settings }: HeaderClientProps) {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
+  const toggleButtonRef = useRef<HTMLButtonElement>(null);
+  const firstNavLinkRef = useRef<HTMLAnchorElement>(null);
+
+  // Escape schließt das Menü, Fokus kehrt zum Toggle zurück
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsOpen(false);
+        toggleButtonRef.current?.focus();
+      }
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [isOpen]);
+
+  // Fokus beim Öffnen auf den ersten Menüpunkt
+  useEffect(() => {
+    if (isOpen) firstNavLinkRef.current?.focus();
+  }, [isOpen]);
 
   const getNavHref = (href: string) => {
     if (!href.startsWith("#")) {
@@ -41,31 +61,35 @@ export function HeaderClient({ settings }: HeaderClientProps) {
   }, [isOpen]);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-6 md:px-12 bg-black/80 backdrop-blur-md border-b border-white/5">
-      <Link href="/" className="text-xl font-bold tracking-tighter text-white z-[60] mix-blend-difference">
+    <header className="fixed top-0 left-0 right-0 z-50 flex h-[70px] items-center justify-between px-6 md:px-10 xl:px-[70px] bg-makec-dark">
+      <Link href="/" className="font-gotham text-2xl font-bold italic tracking-tight text-white z-[60]">
         make/c
       </Link>
 
-      {/* Desktop Navigation */}
-      <nav className="hidden lg:flex items-center gap-2">
-        {NAV_LINKS.map((link) => (
-          <Magnetic key={link.name} strength={0.2}>
-            <Link
-              href={getNavHref(link.href)}
-              scroll
-              className="text-[11px] font-bold text-white hover:text-gray-400 transition-colors uppercase py-2 px-3 tracking-widest"
-            >
-              {link.name}
-            </Link>
-          </Magnetic>
-        ))}
-      </nav>
+      <div className="flex items-center gap-4 lg:gap-10">
+        {/* Desktop Navigation */}
+        <nav className="hidden lg:flex items-center gap-8">
+          {HEADER_NAV_LINKS.map((link) => (
+            <Magnetic key={link.name} strength={0.2}>
+              <Link
+                href={getNavHref(link.href)}
+                scroll
+                className="font-gotham text-meta text-white hover:text-white/60 transition-colors py-2"
+              >
+                {link.name}
+              </Link>
+            </Magnetic>
+          ))}
+        </nav>
 
-      {/* Mobile Menu Button */}
+      {/* Menu Button (alle Breakpoints, Figma zeigt Burger auch auf Desktop) */}
       <button
-        className="lg:hidden z-[10000] text-white p-2 flex items-center gap-2 group"
+        ref={toggleButtonRef}
+        className="z-[10000] text-white p-2 flex items-center gap-2 group"
         onClick={() => setIsOpen(!isOpen)}
-        aria-label="Toggle menu"
+        aria-label={isOpen ? "Menü schließen" : "Menü öffnen"}
+        aria-expanded={isOpen}
+        aria-controls="site-menu-overlay"
       >
         <span className="text-[10px] font-bold uppercase tracking-[0.2em] opacity-0 group-hover:opacity-100 transition-opacity hidden sm:block">
           {isOpen ? "Close" : "Menu"}
@@ -84,22 +108,27 @@ export function HeaderClient({ settings }: HeaderClientProps) {
            </AnimatePresence>
         </div>
       </button>
+      </div>
 
-      {/* Mobile Navigation Overlay */}
+      {/* Navigation Overlay */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            id="site-menu-overlay"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Seitenmenü"
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed inset-0 bg-black z-[9999] flex flex-col lg:hidden shadow-[-20px_0_50px_rgba(0,0,0,0.5)] h-[100dvh] w-screen overflow-y-auto"
+            className="fixed inset-0 bg-makec-dark z-[9999] flex flex-col shadow-[-20px_0_50px_rgba(0,0,0,0.5)] h-[100dvh] w-screen overflow-y-auto"
           >
-            <div className="absolute inset-0 bg-black z-[-2]" />
-            <div className="absolute inset-0 opacity-[0.05] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')] mix-blend-overlay z-[-1]" />
+            <div className="absolute inset-0 bg-makec-dark z-[-2]" />
+            <div className="absolute inset-0 opacity-[0.05] pointer-events-none bg-[url('/noise.svg')] mix-blend-overlay z-[-1]" />
 
             <div className="flex-1 flex flex-col justify-center px-8 sm:px-12 pt-28 pb-12 relative z-10">
-              <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-[0.4em] mb-8">Navigation</p>
+              <p className="text-[10px] font-bold text-white/60 uppercase tracking-[0.4em] mb-8">Navigation</p>
 
               <nav className="flex flex-col gap-4">
                 {NAV_LINKS.map((link, i) => (
@@ -110,10 +139,11 @@ export function HeaderClient({ settings }: HeaderClientProps) {
                     transition={{ delay: 0.1 + i * 0.05, duration: 0.5 }}
                   >
                     <Link
+                      ref={i === 0 ? firstNavLinkRef : undefined}
                       href={getNavHref(link.href)}
                       scroll
                       onClick={() => setIsOpen(false)}
-                      className="text-4xl sm:text-5xl font-bold text-white hover:text-zinc-400 transition-colors uppercase tracking-tighter inline-block"
+                      className="text-4xl sm:text-5xl font-bold text-white hover:text-white/70 transition-colors uppercase tracking-tighter inline-block"
                     >
                       {link.name}
                     </Link>
@@ -126,11 +156,11 @@ export function HeaderClient({ settings }: HeaderClientProps) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
-              className="p-8 sm:p-12 border-t border-white/5 bg-zinc-900/20 backdrop-blur-xl"
+              className="p-8 sm:p-12 border-t border-white/5 bg-white/5 backdrop-blur-xl"
             >
               <div className="grid grid-cols-2 gap-8">
                 <div>
-                  <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-4">Socials</p>
+                  <p className="text-[10px] font-bold text-white/60 uppercase tracking-widest mb-4">Socials</p>
                   <div className="flex flex-col gap-2">
                     {(settings.socials ?? []).map((social) =>
                       social.url ? (
@@ -139,7 +169,7 @@ export function HeaderClient({ settings }: HeaderClientProps) {
                           href={social.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-xs font-bold text-white hover:text-zinc-400 transition-colors uppercase"
+                          className="text-xs font-bold text-white hover:text-white/70 transition-colors uppercase"
                         >
                           {social.label}
                         </a>
@@ -155,10 +185,10 @@ export function HeaderClient({ settings }: HeaderClientProps) {
                   </div>
                 </div>
                 <div>
-                  <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-4">Get in touch</p>
+                  <p className="text-[10px] font-bold text-white/60 uppercase tracking-widest mb-4">Get in touch</p>
                   <a
                     href={`mailto:${settings.email}`}
-                    className="text-xs font-bold text-white hover:text-zinc-400 transition-colors uppercase break-all"
+                    className="text-xs font-bold text-white hover:text-white/70 transition-colors uppercase break-all"
                   >
                     {settings.email}
                   </a>
@@ -166,7 +196,7 @@ export function HeaderClient({ settings }: HeaderClientProps) {
               </div>
 
               <div className="mt-12 flex justify-between items-end">
-                <p className="text-[9px] text-zinc-600 uppercase tracking-[0.3em]">
+                <p className="text-[9px] text-white/60 uppercase tracking-[0.3em]">
                   {settings.copyright ?? "make/c — © 2025"}
                 </p>
                 <div className="flex gap-4">
@@ -175,7 +205,7 @@ export function HeaderClient({ settings }: HeaderClientProps) {
                       key={item.label}
                       href={item.href}
                       onClick={() => setIsOpen(false)}
-                      className="text-[9px] text-zinc-600 uppercase tracking-widest cursor-pointer hover:text-white transition-colors"
+                      className="text-[9px] text-white/60 uppercase tracking-widest cursor-pointer hover:text-white transition-colors"
                     >
                       {item.label}
                     </Link>

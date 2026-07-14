@@ -1,9 +1,17 @@
 import type { Metadata } from "next";
-import { Inter, EB_Garamond } from "next/font/google";
+import { Montserrat, EB_Garamond } from "next/font/google";
 import "./globals.css";
 import { SiteEffects } from "@/components/layout/SiteEffects";
 
-const inter = Inter({ subsets: ["latin"] });
+// Kostenloser Gotham-Ersatz (geometrische Grotesk); liefert als Variable Font
+// auch das Book-Gewicht 325 und Italic. Echte Gotham später via next/font/local
+// unter derselben Variable einhängen — Rest der Codebase bleibt unverändert.
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  variable: "--font-gotham",
+  display: "swap",
+});
 
 const ebGaramond = EB_Garamond({
   subsets: ["latin"],
@@ -38,8 +46,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="de" className={`scroll-smooth ${ebGaramond.variable}`}>
-      <body className={`${inter.className} bg-makec-dark text-white antialiased`}>
+    <html lang="de" className={`scroll-smooth ${ebGaramond.variable} ${montserrat.variable}`}>
+      <body className="font-gotham bg-makec-dark text-white antialiased">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[10001] focus:rounded-full focus:bg-white focus:px-6 focus:py-3 focus:font-bold focus:text-makec-dark"
+        >
+          Zum Inhalt springen
+        </a>
         <SiteEffects>{children}</SiteEffects>
       </body>
     </html>

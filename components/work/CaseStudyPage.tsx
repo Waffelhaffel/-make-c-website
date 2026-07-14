@@ -1,8 +1,14 @@
 import Image from "next/image";
-import Link from "next/link";
 
+import { Swoosh } from "@/components/ui/Swoosh";
+import { SquiggleUnderline } from "@/components/ui/SquiggleUnderline";
+import { VideoFacade } from "@/components/work/VideoFacade";
 import { urlFor, hasImageAsset } from "@/sanity/lib/image";
 import type { CaseStudy, SanityImage } from "@/sanity/types";
+
+// Case-Study-Detailseite nach Design "MERKUR Variante 1a (Editorial Grid)":
+// ruhige, leichte Editorial-Typo (font-normal + Garamond-Italic-Akzent),
+// dünne Trennlinien, Cinemascope-Hero. Nav/Footer kommen von Header/Footer.
 
 type CaseStudyPageProps = {
   data: CaseStudy;
@@ -16,10 +22,6 @@ function altFor(image: SanityImage | null | undefined, fallback: string) {
   return image?.alt && image.alt.trim().length > 0 ? image.alt : fallback;
 }
 
-/**
- * Renders a Sanity image as a `fill` <Image>, or a neutral placeholder when the
- * asset is missing (e.g. directly after swapping the image in Sanity).
- */
 function CaseImage({
   image,
   alt,
@@ -51,234 +53,281 @@ function CaseImage({
   );
 }
 
+// "Kurz / Dynamisch, emotional." → ["Kurz / Dynamisch,", "emotional."];
+// ohne Komma: Split am letzten Leerzeichen, sonst alles in part1.
+function splitHeading(text: string): [string, string | null] {
+  const commaIdx = text.indexOf(",");
+  if (commaIdx !== -1 && text.slice(commaIdx + 1).trim().length > 0) {
+    return [text.slice(0, commaIdx + 1), text.slice(commaIdx + 1).trim()];
+  }
+  const idx = text.lastIndexOf(" ");
+  if (idx === -1) return [text, null];
+  return [text.slice(0, idx), text.slice(idx + 1)];
+}
+
+// Editorial-Misch-Headline dieses Layouts: erster Teil Gotham aufrecht/normal,
+// zweiter Teil Garamond SemiBold Italic in eigener Zeile (bewusst leichter als
+// die Bold-MixedHeadline der Landing — Typo-Charakter des Figma-Designs 1a).
+function EditorialHeading({
+  as: Tag = "h2",
+  part1,
+  part2,
+  sizeClass,
+}: {
+  as?: "h2" | "h3";
+  part1: string;
+  part2?: string | null;
+  sizeClass: string;
+}) {
+  return (
+    <Tag
+      className={`font-gotham font-normal text-white leading-[1.02] tracking-[-0.02em] ${sizeClass}`}
+    >
+      {part1}
+      {part2 && (
+        <>
+          <br />
+          <span className="font-garamond font-semibold italic tracking-normal">{part2}</span>
+        </>
+      )}
+    </Tag>
+  );
+}
+
+// Credit-Zeile: Rolle links gedimmt, Name rechts, dünne Trennlinie oben.
+function CreditRow({
+  role,
+  name,
+  last = false,
+}: {
+  role: string;
+  name: string;
+  last?: boolean;
+}) {
+  return (
+    <div
+      className={`flex items-baseline justify-between gap-5 py-4 border-t border-white/15 ${
+        last ? "border-b" : ""
+      }`}
+    >
+      <span className="font-gotham text-sm text-white/55">{role}</span>
+      <span className="font-gotham text-[15px] text-white text-right">{name}</span>
+    </div>
+  );
+}
+
 export function CaseStudyPage({ data }: CaseStudyPageProps) {
   const client = data.projectMeta.client;
-  const studioLabel = data.projectMeta.studio ?? "";
-  const solutionFooterLabel = data.solution.footerLabel ?? studioLabel;
-
-  const mainVideoHref = data.mainMedia.videoUrl ?? null;
+  const credits = data.credits ?? [];
+  const introCredits = credits.slice(0, 2);
+  const services = data.services ?? [];
+  const fullWidthImage = data.gallery?.[0]?.image ?? null;
+  const posterUrl = hasImageAsset(data.mainMedia.posterImage)
+    ? sanityImageUrl(data.mainMedia.posterImage, 1800)
+    : null;
+  const [introPart1, introPart2] = data.introHeading
+    ? splitHeading(data.introHeading)
+    : [null, null];
+  const [solutionPart1, solutionPart2] = splitHeading(data.solution.heading);
+  // Credits auf 2 Spalten verteilen (links eine mehr bei ungerader Anzahl)
+  const creditsSplit = Math.ceil(credits.length / 2);
+  const creditsLeft = credits.slice(0, creditsSplit);
+  const creditsRight = credits.slice(creditsSplit);
 
   return (
-    <main className="bg-[#05060B] text-white">
-      <section className="relative isolate overflow-hidden pt-20 md:pt-24">
-        <div className="mx-auto max-w-[1400px] px-4 md:px-8">
-          <div className="relative aspect-[16/12] overflow-hidden md:aspect-[16/10]">
+    <main id="main-content" className="bg-makec-dark text-white overflow-x-hidden pt-[70px]">
+      {/* Hero: Cinemascope-Still, full-bleed */}
+      <figure className="relative aspect-[4/3] md:aspect-[2.35/1] overflow-hidden">
+        <CaseImage
+          image={data.heroImage}
+          alt={altFor(data.heroImage, `${client} Hero Visual`)}
+          width={2200}
+          priority
+          sizes="100vw"
+        />
+      </figure>
+
+      {/* Titel + Credits-Kurzblock */}
+      <header className="max-w-[1052px] mx-auto px-6 md:px-12 pt-12 md:pt-20 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-14 items-end">
+        <div>
+          <div className="flex items-center gap-3 font-gotham text-meta uppercase tracking-[0.16em] mb-6">
+            {data.kicker && <span className="text-makec-blue">{data.kicker}</span>}
+            {data.projectMeta.year && (
+              <span className="text-white/40">{data.projectMeta.year}</span>
+            )}
+          </div>
+          <h1 className="font-gotham font-bold uppercase text-white leading-[0.9] tracking-[-0.035em] text-[clamp(3.625rem,7vw,6.5rem)]">
+            {data.headline.lead}
+            <span className="font-garamond font-semibold italic normal-case tracking-[-0.01em]">
+              {data.headline.impact}
+            </span>
+          </h1>
+          {data.projectMeta.category && (
+            <p className="font-gotham font-light text-[19px] text-white/60 mt-5">
+              {data.projectMeta.category}
+            </p>
+          )}
+        </div>
+
+        <div className="self-end">
+          <p className="font-gotham text-meta uppercase tracking-[0.18em] text-makec-blue pb-3.5 border-b border-white/15 mb-2">
+            Credits
+          </p>
+          <div className="flex items-baseline justify-between gap-7 py-2.5">
+            <span className="font-gotham text-[13px] text-white/50">Kunde</span>
+            <span className="font-gotham text-[15px] text-right">{client}</span>
+          </div>
+          {introCredits.map((credit) => (
+            <div
+              key={credit._key}
+              className="flex items-baseline justify-between gap-7 py-2.5 border-t border-white/10"
+            >
+              <span className="font-gotham text-[13px] text-white/50">{credit.role}</span>
+              <span className="font-gotham text-[15px] text-right">{credit.name}</span>
+            </div>
+          ))}
+        </div>
+      </header>
+
+      {/* Intro: Headline + Squiggle links, Fließtext rechts */}
+      <section className="max-w-[1052px] mx-auto px-6 md:px-12 py-16 md:py-28 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-start">
+        <div>
+          {introPart1 && (
+            <EditorialHeading
+              part1={introPart1}
+              part2={introPart2}
+              sizeClass="text-[clamp(2rem,3.6vw,3.125rem)] leading-[1.06]"
+            />
+          )}
+          <SquiggleUnderline className="mt-5 w-[clamp(11rem,55%,17.5rem)] text-makec-blue" />
+        </div>
+        <p className="font-gotham font-light text-[19px] leading-[1.62] text-white/80 md:mt-1.5">
+          {data.summary}
+        </p>
+      </section>
+
+      {/* Main Video: Label-Zeile + Facade */}
+      {(posterUrl || data.mainMedia.videoUrl) && (
+        <section className="max-w-[1180px] mx-auto px-6 md:px-12 pb-16 md:pb-28">
+          <div className="flex items-center gap-5 mb-6">
+            <span className="font-gotham font-semibold uppercase tracking-[-0.01em] text-white text-[clamp(1.375rem,2.4vw,2rem)]">
+              Main
+              <span className="font-garamond font-semibold italic normal-case">Video</span>
+            </span>
+            <span className="flex-1 h-px bg-white/15" aria-hidden />
+            <span className="font-gotham text-xs uppercase tracking-[0.14em] text-white/45">
+              Play / Pause
+            </span>
+          </div>
+          <VideoFacade
+            videoUrl={data.mainMedia.videoUrl ?? null}
+            posterUrl={posterUrl}
+            alt={altFor(data.mainMedia.posterImage, `${client} Main Video`)}
+          />
+        </section>
+      )}
+
+      {/* Was wir gemacht haben: Headline + weißer Swoosh, nummerierte Services */}
+      {services.length > 0 && (
+        <section className="max-w-[1052px] mx-auto px-6 md:px-12 pb-12 md:pb-20 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-start">
+          <div>
+            <EditorialHeading
+              part1="Was wir"
+              part2="gemacht haben."
+              sizeClass="text-[clamp(2.5rem,5vw,4.25rem)] leading-[0.98] tracking-[-0.03em]"
+            />
+            <Swoosh className="mt-4 w-[clamp(12.5rem,60%,20rem)] text-white" />
+          </div>
+          <div className="self-center">
+            {services.map((service, i) => (
+              <div
+                key={service}
+                className={`flex items-baseline gap-4 py-4 border-t border-white/15 ${
+                  i === services.length - 1 ? "border-b" : ""
+                }`}
+              >
+                <span className="font-garamond italic text-makec-blue text-xl w-9 shrink-0">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span className="font-gotham font-normal text-white text-[clamp(1.25rem,2.2vw,1.75rem)]">
+                  {service}
+                </span>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Full-width Still */}
+      {hasImageAsset(fullWidthImage) && (
+        <figure className="px-6 md:px-12 pb-16 md:pb-28">
+          <div className="relative aspect-[16/9] md:aspect-[16/7] overflow-hidden">
             <CaseImage
-              image={data.heroImage}
-              alt={altFor(data.heroImage, `${client} Hero Visual`)}
-              width={2000}
-              priority
-              className="object-cover object-top"
+              image={fullWidthImage}
+              alt={altFor(fullWidthImage, `${client} Still`)}
+              width={2200}
               sizes="100vw"
             />
-            <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.18)_0%,rgba(0,0,0,0.34)_45%,rgba(0,0,0,0.85)_82%,#05060B_100%)]" />
-            <div className="absolute bottom-6 left-5 right-5 text-center md:bottom-10 md:left-12 md:right-12">
-              <p className="font-garamond text-4xl font-semibold italic text-white md:text-6xl">{data.headline.lead}</p>
-              <h1 className="mt-1 text-5xl font-black uppercase italic leading-[0.88] tracking-[-0.03em] text-white md:text-8xl lg:text-[7rem]">
-                {data.headline.impact}
-              </h1>
-            </div>
           </div>
+        </figure>
+      )}
+
+      {/* Statement: Bild 4/5 links, solution.heading/body rechts */}
+      <section className="max-w-[1052px] mx-auto px-6 md:px-12 pb-16 md:pb-28 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-end">
+        <div className="relative aspect-[4/5] overflow-hidden">
+          <CaseImage
+            image={data.solution.imageLeft}
+            alt={altFor(data.solution.imageLeft, `${client} Still`)}
+            width={1200}
+            sizes="(max-width: 768px) 100vw, 50vw"
+          />
+        </div>
+        <div className="md:pb-2">
+          <EditorialHeading
+            as="h3"
+            part1={solutionPart1}
+            part2={solutionPart2}
+            sizeClass="text-[clamp(1.75rem,3.2vw,2.625rem)] leading-[1.08]"
+          />
+          <p className="font-gotham font-light text-lg leading-[1.62] text-white/80 mt-5">
+            {data.solution.body}
+          </p>
         </div>
       </section>
 
-      <section className="pb-20 pt-12 md:pt-16">
-        <div className="mx-auto grid max-w-6xl gap-8 px-6 md:grid-cols-12 md:px-12">
-          <div className="relative aspect-[16/10] overflow-hidden border border-white/10 md:col-span-6">
-            <CaseImage
-              image={data.solution.imageLeft}
-              alt={altFor(data.solution.imageLeft, "Das Projekt Visual")}
-              width={1200}
-              sizes="(max-width: 768px) 100vw, 45vw"
-            />
-            <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.15),rgba(0,0,0,0.45))]" />
-          </div>
-          <div className="space-y-5 md:col-span-6 md:pt-2">
-            <h2 className="text-4xl font-black italic leading-none tracking-tight md:text-5xl">
-              <span className="text-white">das </span>
-              <span className="font-garamond text-[#2C2CC6]">Projekt.</span>
-            </h2>
-            <p className="max-w-md text-sm leading-relaxed text-white/72 md:text-base">{data.summary}</p>
-            <div className="grid grid-cols-2 gap-5 border-t border-white/10 pt-5 text-[11px] uppercase tracking-[0.2em] text-white/55">
-              <div>
-                <p>Kunde</p>
-                <p className="mt-2 text-xs text-white/85 md:text-sm">{client}</p>
-              </div>
-              <div>
-                <p>Jahr</p>
-                <p className="mt-2 text-xs text-white/85 md:text-sm">{data.projectMeta.year}</p>
-              </div>
-              <div>
-                <p>Kategorie</p>
-                <p className="mt-2 text-xs text-white/85 md:text-sm">{data.projectMeta.category}</p>
-              </div>
-              {studioLabel && (
-                <div>
-                  <p>Studio</p>
-                  <p className="mt-2 text-xs text-white/85 md:text-sm">{studioLabel}</p>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="relative pb-24">
-        <div className="pointer-events-none absolute bottom-2 right-2 hidden h-[280px] w-[280px] bg-[radial-gradient(circle_at_center,rgba(44,44,198,0.2),transparent_65%)] md:block" />
-        <div className="mx-auto max-w-6xl px-6 md:px-12">
-          <div className="relative bg-[#1726FF] p-4 md:p-7">
-            <div className="grid items-center gap-6 md:grid-cols-12">
-              <MainVideoFrame
-                href={mainVideoHref}
-                image={data.mainMedia.posterImage}
-                imageAlt={altFor(data.mainMedia.posterImage, `${client} Main Video Vorschau`)}
-              />
-              <div className="relative md:col-span-3 md:-ml-3">
-                <p className="text-5xl font-black uppercase italic leading-[0.8] tracking-tight text-white md:text-6xl">
-                  MAIN
-                  <br />
-                  VIDEO
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="relative pb-24 pt-8 md:pt-10">
-        <div className="pointer-events-none absolute left-0 right-0 top-0 h-px bg-white/10" />
-        <div className="mx-auto max-w-6xl px-6 md:px-12">
-          <div className="mx-auto mb-8 hidden w-[240px] md:block">
-            <svg viewBox="0 0 240 36" className="h-auto w-full text-white/90" fill="none" aria-hidden="true">
-              <path
-                d="M4 26C20 5 36 5 52 26C68 5 84 5 100 26C116 5 132 5 148 26C164 5 180 5 196 26C212 5 228 5 236 16"
-                stroke="currentColor"
-                strokeWidth="3"
-                strokeLinecap="round"
-              />
-            </svg>
-          </div>
-          <div className="grid items-end gap-10 md:grid-cols-12">
-            <div className="md:col-span-6">
-              <div className="relative aspect-[16/10] overflow-hidden border border-white/10">
-                <CaseImage
-                  image={data.solution.imageLeft}
-                  alt={altFor(data.solution.imageLeft, "Solution Visual")}
-                  width={1200}
-                  sizes="(max-width: 768px) 100vw, 46vw"
-                />
-              </div>
-              <div className="mt-8 max-w-md">
-                <h3 className="text-5xl font-black italic leading-none tracking-tight md:text-6xl">
-                  <SolutionHeading heading={data.solution.heading} />
-                </h3>
-                <p className="mt-4 text-sm leading-relaxed text-white/70 md:text-base">{data.solution.body}</p>
-                <div className="mt-5 flex items-center justify-between text-[11px] uppercase tracking-[0.2em] text-white/45">
-                  <span>Projekt.</span>
-                  {solutionFooterLabel && <span>{solutionFooterLabel}</span>}
-                </div>
-              </div>
-            </div>
-            <div className="md:col-span-6 md:pb-4">
-              <div className="relative ml-auto aspect-[16/10] w-full max-w-[430px] overflow-hidden border border-white/10">
-                <CaseImage
-                  image={data.solution.imageRight}
-                  alt={altFor(data.solution.imageRight, "Solution Detail")}
-                  width={900}
-                  sizes="(max-width: 768px) 100vw, 38vw"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="mt-10 bg-[#EFEFEF] text-black">
-        <div className="mx-auto max-w-7xl px-6 py-16 md:px-12 md:py-20">
-          <div className="grid gap-10 md:grid-cols-2 md:items-end">
+      {/* Full Credits */}
+      {credits.length > 0 && (
+        <section className="max-w-[1052px] mx-auto px-6 md:px-12 pb-20 md:pb-32">
+          <EditorialHeading
+            part1="Full"
+            part2="Credits"
+            sizeClass="text-[clamp(2.5rem,5vw,4.25rem)] leading-[0.98] tracking-[-0.03em]"
+          />
+          <SquiggleUnderline className="mt-2 mb-10 w-48 md:w-64 text-makec-blue" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 lg:gap-x-24">
             <div>
-              <p className="font-garamond text-5xl font-semibold italic leading-[0.9] md:text-7xl">{data.cta.title}</p>
-              <p className="mt-6 max-w-xl text-sm leading-relaxed text-black/75 md:text-base">{data.cta.text}</p>
-              <a
-                href={`mailto:${data.cta.mail}`}
-                className="mt-6 inline-block border-b border-black/70 pb-1 text-lg text-black transition-opacity hover:opacity-65"
-              >
-                {data.cta.mail}
-              </a>
+              {creditsLeft.map((credit, i) => (
+                <CreditRow
+                  key={credit._key}
+                  role={credit.role}
+                  name={credit.name}
+                  last={i === creditsLeft.length - 1}
+                />
+              ))}
             </div>
-            <div className="space-y-3 text-xs uppercase tracking-[0.2em] text-black/65 md:text-right">
-              <p>Köln</p>
-              <p>Essen</p>
-              <div className="pt-6">
-                <Link href="/impressum" className="mr-5 hover:text-black">
-                  Impressum
-                </Link>
-                <Link href="/datenschutz" className="hover:text-black">
-                  Datenschutz
-                </Link>
-              </div>
-              <p className="pt-8 text-[11px] tracking-[0.25em] text-black/50">make/c — 2026</p>
+            <div>
+              {creditsRight.map((credit, i) => (
+                <CreditRow
+                  key={credit._key}
+                  role={credit.role}
+                  name={credit.name}
+                  last={i === creditsRight.length - 1}
+                />
+              ))}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
     </main>
-  );
-}
-
-function MainVideoFrame({
-  href,
-  image,
-  imageAlt,
-}: {
-  href: string | null;
-  image: SanityImage | null | undefined;
-  imageAlt: string;
-}) {
-  const content = (
-    <>
-      <CaseImage
-        image={image}
-        alt={imageAlt}
-        width={1600}
-        sizes="(max-width: 768px) 100vw, 70vw"
-      />
-      <div className="absolute inset-0 bg-black/30" />
-      <span className="absolute left-1/2 top-1/2 grid h-14 w-14 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white/90 text-xs font-bold text-black transition-transform duration-300 group-hover:scale-105 md:h-20 md:w-20 md:text-sm">
-        ▶
-      </span>
-    </>
-  );
-
-  const className =
-    "group relative aspect-[16/10] overflow-hidden border border-black/40 md:col-span-9";
-
-  if (href) {
-    return (
-      <a href={href} target="_blank" rel="noopener noreferrer" className={className}>
-        {content}
-      </a>
-    );
-  }
-
-  return <div className={className}>{content}</div>;
-}
-
-function SolutionHeading({ heading }: { heading: string }) {
-  const trimmed = heading.trim();
-  const lastSpace = trimmed.lastIndexOf(" ");
-
-  if (lastSpace === -1) {
-    return <span className="font-garamond text-[#2C2CC6]">{trimmed}</span>;
-  }
-
-  const leading = trimmed.slice(0, lastSpace + 1);
-  const accent = trimmed.slice(lastSpace + 1);
-
-  return (
-    <>
-      <span className="text-white">{leading}</span>
-      <span className="font-garamond text-[#2C2CC6]">{accent}</span>
-    </>
   );
 }

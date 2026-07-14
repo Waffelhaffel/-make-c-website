@@ -74,6 +74,13 @@ export const caseStudy = defineType({
       group: "content",
     }),
     defineField({
+      name: "introHeading",
+      title: "Intro-Überschrift (fetter Vorspann)",
+      description: "Z. B. '07/ Geschäftsbereiche, eine visuelle Sprache.'",
+      type: "string",
+      group: "content",
+    }),
+    defineField({
       name: "summary",
       title: "Projektbeschreibung (Das Projekt)",
       type: "text",
@@ -124,16 +131,48 @@ export const caseStudy = defineType({
     defineField({
       name: "gallery",
       title: "Galerie (optional)",
+      description:
+        "Bild 1 erscheint links unter dem Main-Video, Bild 2 neben den Leistungen",
       type: "array",
       of: [{ type: "galleryItem" }],
       group: "media",
     }),
     defineField({
+      name: "credits",
+      title: "Full Credits (Rolle → Name)",
+      type: "array",
+      group: "content",
+      of: [
+        {
+          type: "object",
+          name: "creditItem",
+          title: "Credit",
+          fields: [
+            defineField({
+              name: "role",
+              title: "Rolle",
+              type: "string",
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: "name",
+              title: "Name",
+              type: "string",
+              validation: (Rule) => Rule.required(),
+            }),
+          ],
+          preview: {
+            select: { title: "role", subtitle: "name" },
+          },
+        },
+      ],
+    }),
+    defineField({
       name: "cta",
       title: "CTA-Sektion",
+      description: "Aktuell ungenutzt — die Detailseite rendert keine CTA-Sektion.",
       type: "ctaSection",
       group: "content",
-      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "thumbnailImage",

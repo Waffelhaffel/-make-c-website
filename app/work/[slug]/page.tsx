@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 import { CaseStudyPage } from "@/components/work/CaseStudyPage";
 import { urlFor, hasImageAsset } from "@/sanity/lib/image";
 import {
@@ -73,6 +74,7 @@ export default async function WorkDetailPage(props: { params: Promise<{ slug: st
     <>
       <Header />
       <CaseStudyPage data={caseStudy} />
+      <Footer />
     </>
   );
 }

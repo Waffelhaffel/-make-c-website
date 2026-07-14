@@ -26,6 +26,7 @@ export const seo = defineType({
       title: "Open Graph Bild",
       description: "Wenn leer, wird das Hero-Bild verwendet",
       type: "image",
+      fields: [defineField({ name: "alt", title: "Alt-Text", type: "string" })],
     }),
   ],
 });

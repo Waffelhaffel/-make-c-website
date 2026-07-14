@@ -25,18 +25,60 @@ body {
   .text-balance {
     text-wrap: balance;
   }
-  .cursor-none {
-    cursor: none;
+  /* Nativen Cursor nur dort ausblenden, wo der CustomCursor ihn ersetzt (hidden lg:flex) */
+  @media (min-width: 1024px) {
+    .cursor-none {
+      cursor: none;
+    }
   }
 }
 
-/* Gotham Font Fallback - using system fonts that closely match Gotham */
-@font-face {
-  font-family: 'Gotham';
-  src: local('Gotham Bold Italic'), local('GothamBold-Italic'), local('Gotham-BoldItalic');
-  font-weight: 700;
-  font-style: italic;
-  font-display: swap;
+/* Reduzierte Bewegung: Animationen/Transitions (inkl. Logo-Marquee) stoppen,
+   Smooth-Scroll deaktivieren. framer-motion respektiert dies zusätzlich via
+   MotionConfig reducedMotion="user" (SiteEffects), Lenis via matchMedia-Guard. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Logo-Banner: Endlos-Marquee + einfarbig blaue Tönung der Logos (Figma 25:55) */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Logos einheitlich blau tönen — funktioniert auch für PNGs OHNE Transparenz:
+   Graustufen + multiply lässt weiße Logo-Hintergründe auf dem weißen Banner
+   verschwinden; die blaue ::after-Fläche färbt per lighten nur dunkle Pixel. */
+.logo-banner {
+  position: relative;
+  isolation: isolate;
+}
+
+.logo-banner img {
+  filter: grayscale(1);
+  mix-blend-mode: multiply;
+}
+
+.logo-banner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #2c2cc6;
+  mix-blend-mode: lighten;
+  pointer-events: none;
 }
 
 /* Utility classes for mixed typography */

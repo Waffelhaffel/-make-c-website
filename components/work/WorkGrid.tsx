@@ -19,11 +19,9 @@ export function WorkGrid({ caseStudies }: WorkGridProps) {
         animate={{ opacity: 1, y: 0 }}
         className="mb-20"
       >
-        <h1 className="text-6xl md:text-8xl font-bold uppercase tracking-tighter">
-          Referenzen
-        </h1>
-        <p className="text-gray-400 mt-4 tracking-widest uppercase text-sm">
-          Portfolio — 2024 / 2025
+        <h1 className="font-gotham text-h2 uppercase text-white">Referenzen</h1>
+        <p className="font-gotham text-meta text-white/60 mt-4 tracking-widest uppercase">
+          Portfolio
         </p>
       </motion.div>
 
@@ -46,7 +44,7 @@ export function WorkGrid({ caseStudies }: WorkGridProps) {
             >
               <Link
                 href={`/work/${item.slug}`}
-                className="block aspect-[4/5] bg-neutral-900 border border-white/5 rounded-sm overflow-hidden relative"
+                className="block aspect-[4/5] bg-white/5 border border-white/5 rounded-sm overflow-hidden relative"
               >
                 {imageUrl && (
                   <Image
@@ -59,10 +57,10 @@ export function WorkGrid({ caseStudies }: WorkGridProps) {
                 )}
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/80 opacity-70 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="absolute bottom-0 left-0 p-8 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                  <p className="text-xs text-gray-300 uppercase tracking-widest mb-2">
+                  <p className="font-gotham text-meta text-white/70 uppercase tracking-widest mb-2">
                     {item.projectMeta.client} · {item.projectMeta.year}
                   </p>
-                  <h3 className="text-xl font-bold uppercase tracking-tight">
+                  <h3 className="font-gotham text-small uppercase tracking-tight">
                     {item.project}
                   </h3>
                 </div>

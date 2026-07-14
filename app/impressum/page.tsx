@@ -23,18 +23,18 @@ export default async function ImpressumPage() {
   return (
     <>
       <Header />
-      <main className="bg-black text-white min-h-screen pt-32 pb-24 px-6 md:px-12">
+      <main id="main-content" className="bg-makec-dark text-white min-h-screen pt-32 pb-24 px-6 md:px-12">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-5xl md:text-7xl font-bold uppercase tracking-tighter mb-16">
+          <h1 className="font-gotham text-h2 uppercase text-white mb-16">
             {page.title}
           </h1>
 
-          <div className="space-y-4 text-zinc-400 leading-relaxed">
+          <div className="space-y-4 font-gotham text-white/70 leading-relaxed">
             <PortableTextRenderer value={page.body} />
           </div>
 
           {page.effectiveDate && (
-            <p className="mt-16 text-xs uppercase tracking-widest text-zinc-500">
+            <p className="mt-16 font-gotham text-meta uppercase tracking-widest text-white/60">
               Stand: {page.effectiveDate}
             </p>
           )}

@@ -137,7 +137,7 @@ export const landingPage = defineType({
         defineField({
           name: "thumbnail",
           title: "Thumbnail-Bild",
-          description: "Vorschaubild vor dem Start des Videos. Wenn leer, wird /thumbnail_Showreel.png genutzt.",
+          description: "Vorschaubild vor dem Start des Videos. Wenn leer, wird /thumbnail_Showreel.webp genutzt.",
           type: "image",
           options: { hotspot: true },
           fields: [defineField({ name: "alt", title: "Alt-Text", type: "string" })],
@@ -328,14 +328,38 @@ export const landingPage = defineType({
       fields: [
         defineField({
           name: "kicker",
-          title: "Kicker (rechts oben)",
+          title: "Kicker (Standorte-Label)",
           description: "Z. B. 'Unsere 2 Standorte von make/c'",
+          type: "string",
+        }),
+        defineField({
+          name: "headlineLine1",
+          title: "Headline – Zeile 1 (Gotham)",
+          description: "Z. B. 'Der richtige Startpunkt'",
+          type: "string",
+        }),
+        defineField({
+          name: "headlineLine2",
+          title: "Headline – Zeile 2 (Garamond, kursiv)",
+          description: "Z. B. 'sind die richtigen Fragen.'",
+          type: "string",
+        }),
+        defineField({
+          name: "introLinkText",
+          title: "Intro-Link-Text (unterstrichen, verlinkt E-Mail)",
+          description: "Z. B. 'Lass uns über Wirkung sprechen'",
+          type: "string",
+        }),
+        defineField({
+          name: "ctaButtonText",
+          title: "Button-Text (Ansprechpartner)",
+          description: "Z. B. 'Gespräch anfragen'",
           type: "string",
         }),
         defineField({
           name: "contactImage",
           title: "Kontakt-Bild (Ansprechpartner)",
-          description: "Bild der Kontaktperson. Wenn leer, wird /Kontakt_Guy.png genutzt.",
+          description: "Bild der Kontaktperson. Wenn leer, wird /Kontakt_Guy.webp genutzt.",
           type: "image",
           options: { hotspot: true },
           fields: [defineField({ name: "alt", title: "Alt-Text", type: "string" })],

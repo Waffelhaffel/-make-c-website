@@ -26,6 +26,24 @@ export const locationCard = defineType({
       type: "string",
       validation: (Rule) => Rule.required(),
     }),
+    defineField({
+      name: "addressLine1",
+      title: "Adresse – Zeile 1",
+      description: "Z. B. 'Picassoplatz 1'",
+      type: "string",
+    }),
+    defineField({
+      name: "addressLine2",
+      title: "Adresse – Zeile 2",
+      description: "Z. B. '50679 Köln'",
+      type: "string",
+    }),
+    defineField({
+      name: "mapsUrl",
+      title: "Google-Maps-Link ('Route anzeigen')",
+      description: "Vollständige URL, z. B. 'https://maps.google.com/?q=...'",
+      type: "url",
+    }),
   ],
   preview: {
     select: {

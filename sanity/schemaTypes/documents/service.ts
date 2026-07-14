@@ -67,11 +67,77 @@ export const service = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: "keywords",
-      title: "Keywords",
-      description: "Komma-/Punkt-getrennte Stichworte, z. B. 'Imagefilm • Brand Story • …'",
-      type: "string",
+      name: "detailText",
+      title: "Ausführlicher Text",
+      description:
+        "Optional. Zweiter, längerer Absatz unter der Kurzbeschreibung im aufgeklappten Akkordeon.",
+      type: "text",
+      rows: 5,
       group: "content",
+    }),
+    defineField({
+      name: "features",
+      title: "Leistungen im Detail",
+      description:
+        "Liste konkreter Leistungspunkte (Titel + kurze Erklärung), die im aufgeklappten Akkordeon erscheinen.",
+      type: "array",
+      group: "content",
+      of: [
+        defineField({
+          name: "feature",
+          title: "Leistung",
+          type: "object",
+          fields: [
+            defineField({
+              name: "title",
+              title: "Titel",
+              type: "string",
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: "description",
+              title: "Beschreibung",
+              type: "text",
+              rows: 2,
+            }),
+          ],
+          preview: {
+            select: { title: "title", subtitle: "description" },
+          },
+        }),
+      ],
+    }),
+    defineField({
+      name: "processSteps",
+      title: "Ablauf / So arbeiten wir",
+      description:
+        "Nummerierte Schritte (Titel + Text). Die Nummerierung erfolgt automatisch nach Reihenfolge.",
+      type: "array",
+      group: "content",
+      of: [
+        defineField({
+          name: "step",
+          title: "Schritt",
+          type: "object",
+          fields: [
+            defineField({
+              name: "title",
+              title: "Titel",
+              type: "string",
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: "description",
+              title: "Beschreibung",
+              type: "text",
+              rows: 2,
+            }),
+          ],
+          preview: {
+            select: { title: "title", subtitle: "description" },
+          },
+        }),
+      ],
     }),
     defineField({
       name: "heroImage",
@@ -80,15 +146,6 @@ export const service = defineType({
       type: "image",
       options: { hotspot: true },
       fields: [defineField({ name: "alt", title: "Alt-Text", type: "string" })],
-      group: "media",
-    }),
-    defineField({
-      name: "referenceVideoUrl",
-      title: "Referenz-Video (Vimeo/YouTube/URL)",
-      description:
-        "Optional. Ein klickbares Referenz-Video auf der Detail-Page. Loop-Videos im Akkordeon bleiben hardcoded.",
-      type: "url",
-      validation: (Rule) => Rule.uri({ scheme: ["http", "https"] }),
       group: "media",
     }),
     defineField({

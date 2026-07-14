@@ -1,6 +1,7 @@
 "use client";
 
 import { MotionSection } from "@/components/ui/MotionSection";
+import { MixedHeadline } from "@/components/ui/MixedHeadline";
 import { Users, Play, MapPin } from "lucide-react";
 import { motion } from "framer-motion";
 import type { LandingStats, StatIcon } from "@/sanity/types";
@@ -19,6 +20,9 @@ function iconFor(name: StatIcon | undefined) {
   return ICON_MAP[name ?? "users"] ?? Users;
 }
 
+// Diese Glyphen sind im Figma gefüllt (schwarz auf blauem Kreis)
+const FILLED_ICONS = new Set<StatIcon>(["play", "mapPin"]);
+
 const container = {
   hidden: {},
   show: {
@@ -35,24 +39,20 @@ export function Stats({ data }: StatsProps) {
   const stats = data.items ?? [];
 
   return (
-    <MotionSection className="relative py-20 md:py-32 px-6 md:px-12 bg-makec-dark overflow-hidden">
+    <MotionSection className="relative py-16 md:py-32 px-6 md:px-12 bg-makec-dark overflow-hidden">
       <div className="relative max-w-7xl mx-auto z-10">
-        <div className="text-center mb-16 md:mb-20">
+        <div className="text-center mb-16 md:mb-32">
           {data.kicker && (
-            <span className="block text-xs md:text-sm font-medium text-makec-blue italic tracking-widest mb-6">
+            <span className="block font-gotham text-small text-white mb-4">
               {data.kicker}
             </span>
           )}
 
-          <h2 className="text-2xl md:text-4xl lg:text-5xl leading-tight max-w-4xl mx-auto text-white">
-            {data.headlineLine1 && (
-              <span className="font-bold italic">{data.headlineLine1}</span>
-            )}
-            <br />
-            {data.headlineLine2 && (
-              <span className="font-garamond font-semibold italic">{data.headlineLine2}</span>
-            )}
-          </h2>
+          <MixedHeadline
+            part1={data.headlineLine1}
+            part2={data.headlineLine2}
+            className="max-w-5xl mx-auto"
+          />
         </div>
 
         <motion.div
@@ -68,19 +68,23 @@ export function Stats({ data }: StatsProps) {
               <motion.div
                 key={`${stat.label ?? "stat"}-${idx}`}
                 variants={item}
-                className="flex flex-col items-center gap-5"
+                className="flex flex-col items-center gap-7"
               >
-                <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-makec-blue flex items-center justify-center">
-                  <Icon size={32} strokeWidth={1.5} className="text-white" />
+                <div className="w-20 h-20 md:w-[100px] md:h-[100px] rounded-full bg-makec-blue flex items-center justify-center">
+                  <Icon
+                    size={40}
+                    strokeWidth={2}
+                    className="text-black"
+                    {...(FILLED_ICONS.has(stat.icon ?? "users") ? { fill: "currentColor" } : {})}
+                  />
                 </div>
 
-                <div className="flex flex-col gap-2">
-                  <h3 className="text-2xl md:text-3xl">
-                    <span className="font-bold">{stat.number}</span>{" "}
-                    <span className="font-garamond italic">{stat.label}</span>
+                <div className="flex flex-col gap-1">
+                  <h3 className="font-gotham text-h4 text-white">
+                    {[stat.number, stat.label].filter(Boolean).join(" ")}
                   </h3>
                   {stat.subtext && (
-                    <p className="text-sm text-gray-400 font-light leading-relaxed max-w-xs mx-auto">
+                    <p className="font-gotham text-body-lg text-white max-w-xs mx-auto">
                       {stat.subtext}
                     </p>
                   )}

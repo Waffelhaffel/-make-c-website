@@ -20,10 +20,12 @@ export const CASE_STUDY_BY_SLUG_QUERY = groq`
     kicker,
     project,
     intro,
+    introHeading,
     summary,
     services,
     projectMeta,
     headline,
+    "credits": credits[]{_key, role, name},
     heroImage ${IMAGE_PROJECTION},
     mainMedia{
       posterImage ${IMAGE_PROJECTION},
@@ -41,7 +43,6 @@ export const CASE_STUDY_BY_SLUG_QUERY = groq`
       ratio,
       image ${IMAGE_PROJECTION}
     },
-    cta,
     thumbnailImage ${IMAGE_PROJECTION},
     seo{
       metaTitle,
@@ -101,33 +102,14 @@ export const ALL_SERVICES_QUERY = groq`
     "slug": slug.current,
     headline,
     description,
-    keywords,
+    detailText,
+    features[]{ _key, title, description },
+    processSteps[]{ _key, title, description },
     heroImage ${IMAGE_PROJECTION},
-    referenceVideoUrl,
     externalLink,
     buttonText,
     order
   }
-`;
-
-export const SERVICE_BY_SLUG_QUERY = groq`
-  *[_type == "service" && slug.current == $slug][0]{
-    _id,
-    title,
-    displayTitle,
-    "slug": slug.current,
-    headline,
-    description,
-    keywords,
-    heroImage ${IMAGE_PROJECTION},
-    referenceVideoUrl,
-    externalLink,
-    buttonText
-  }
-`;
-
-export const SERVICE_SLUGS_QUERY = groq`
-  *[_type == "service" && defined(slug.current)][].slug.current
 `;
 
 export const LANDING_PAGE_QUERY = groq`
@@ -173,6 +155,10 @@ export const LANDING_PAGE_QUERY = groq`
     },
     contact{
       kicker,
+      headlineLine1,
+      headlineLine2,
+      introLinkText,
+      ctaButtonText,
       contactImage ${IMAGE_PROJECTION},
       contactName,
       contactRole,
@@ -180,7 +166,7 @@ export const LANDING_PAGE_QUERY = groq`
       email,
       floatingCtaEnabled,
       ctaLabel,
-      locations[]{ headlineLineOne, headlineLineTwo, cityLabel }
+      locations[]{ headlineLineOne, headlineLineTwo, cityLabel, addressLine1, addressLine2, mapsUrl }
     }
   }
 `;

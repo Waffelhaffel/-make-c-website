@@ -18,14 +18,14 @@ export default async function WorkPage() {
   return (
     <>
       <Header />
-      <main className="bg-black min-h-screen text-white pt-32 pb-24 px-6 md:px-12">
+      <main id="main-content" className="bg-makec-dark min-h-screen text-white pt-32 pb-24 px-6 md:px-12">
         <div className="max-w-7xl mx-auto">
           <WorkGrid caseStudies={caseStudies ?? []} />
 
           <div className="mt-24 flex justify-center">
             <Link
               href="/"
-              className="text-sm font-bold uppercase tracking-[0.2em] text-white hover:text-gray-400 transition-colors"
+              className="font-gotham text-small uppercase tracking-[0.2em] text-white hover:text-white/70 transition-colors"
             >
               Zurück zur Startseite
             </Link>

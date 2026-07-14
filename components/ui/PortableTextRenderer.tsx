@@ -5,12 +5,12 @@ const components: PortableTextComponents = {
   block: {
     normal: ({ children }) => <p className="mt-4 first:mt-0">{children}</p>,
     h2: ({ children }) => (
-      <h2 className="text-white font-bold uppercase tracking-widest text-sm mt-12 mb-6 pb-2 border-b border-zinc-800">
+      <h2 className="text-white font-gotham text-small uppercase tracking-widest mt-12 mb-6 pb-2 border-b border-white/10">
         {children}
       </h2>
     ),
     h3: ({ children }) => (
-      <h3 className="text-white font-bold uppercase text-xs mt-8 mb-3 tracking-wider">
+      <h3 className="text-white font-gotham text-meta font-bold uppercase mt-8 mb-3 tracking-wider">
         {children}
       </h3>
     ),
@@ -44,7 +44,7 @@ const components: PortableTextComponents = {
         <a
           href={href}
           {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-          className="text-white underline-offset-4 underline hover:text-zinc-400 transition-colors"
+          className="text-white underline-offset-4 underline hover:text-white/70 transition-colors"
         >
           {children}
         </a>

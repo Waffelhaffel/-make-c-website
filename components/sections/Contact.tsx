@@ -2,7 +2,10 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 import { MotionSection } from "@/components/ui/MotionSection";
+import { MixedHeadline } from "@/components/ui/MixedHeadline";
+import { SquiggleUnderline } from "@/components/ui/SquiggleUnderline";
 import { urlFor, hasImageAsset } from "@/sanity/lib/image";
 import type { LandingContact } from "@/sanity/types";
 
@@ -10,96 +13,201 @@ type ContactProps = {
   data: LandingContact;
 };
 
-const DEFAULT_CONTACT_IMAGE = "/Kontakt_Guy.png";
+const DEFAULT_CONTACT_IMAGE = "/Kontakt_Guy.webp";
+
+// Statische Stadt→Icon-Zuordnung (Assets im "icon /"-Ordner; Trailing-Space im
+// Pfad ist gewollt — bekannter Projekt-Fallstrick). Analog zu SERVICE_LOOP_VIDEOS.
+const LOCATION_ICONS: { match: string; src: string }[] = [
+  { match: "koln", src: "/icon /Dom_Icon.png" },
+  { match: "essen", src: "/icon /Zeche_Icon.png" },
+];
+
+function iconForCity(city?: string): string | null {
+  if (!city) return null;
+  const norm = city.toLowerCase().replace(/ö/g, "o").replace(/[^a-z]/g, "");
+  return LOCATION_ICONS.find((i) => norm.includes(i.match))?.src ?? null;
+}
+
+// "Köln /" → "Köln"
+function cityName(cityLabel?: string): string {
+  return (cityLabel ?? "").replace(/\s*\/\s*$/, "").trim();
+}
 
 export function Contact({ data }: ContactProps) {
   const locations = data.locations ?? [];
-
-  const contactImageSrc = hasImageAsset(data.contactImage)
-    ? urlFor(data.contactImage).width(900).quality(85).auto("format").url()
-    : DEFAULT_CONTACT_IMAGE;
-
+  const email = data.email ?? "";
+  const mailHref = email ? `mailto:${email}` : undefined;
   const phoneHref = data.phone ? `tel:${data.phone.replace(/[^+\d]/g, "")}` : undefined;
 
+  const contactImageSrc = hasImageAsset(data.contactImage)
+    ? urlFor(data.contactImage).width(480).quality(85).auto("format").url()
+    : DEFAULT_CONTACT_IMAGE;
+
   return (
-    <MotionSection id="contact" className="relative py-16 md:py-32 px-6 md:px-12 bg-makec-dark">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-20 items-start">
+    <MotionSection
+      id="contact"
+      className="relative bg-makec-dark text-white py-16 md:py-32 px-6 md:px-12"
+    >
+      <div className="max-w-[1080px] mx-auto">
+        {/* Kicker */}
+        <p className="font-gotham text-meta uppercase tracking-[0.18em] text-white/70 mb-6 md:mb-7">
+          / Kontakt
+        </p>
+
+        {/* Misch-Typo-Headline */}
+        <MixedHeadline variant="h2" part1={data.headlineLine1} part2={data.headlineLine2} />
+
+        {/* Intro-Link mit handgezeichneter Unterstreichung */}
+        {mailHref && data.introLinkText && (
+          <a href={mailHref} className="group inline-block mt-7 md:mt-8">
+            <span className="font-garamond italic font-medium text-[clamp(1.25rem,2.2vw,1.625rem)] text-white group-hover:text-white/80 transition-colors">
+              {data.introLinkText}
+            </span>
+            <SquiggleUnderline className="block w-full mt-1.5 text-makec-blue" />
+          </a>
+        )}
+
+        {/* 2-Spalten-Grid: Ansprechpartner / Standorte */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 lg:gap-[72px] mt-12 md:mt-20 items-start">
+          {/* Ansprechpartner */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="w-full bg-zinc-900/40 border border-zinc-800/50 rounded-2xl p-6 md:p-10"
           >
-            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 md:gap-10">
-              <div className="relative w-40 h-40 sm:w-44 sm:h-44 md:w-52 md:h-52 shrink-0 overflow-hidden rounded-2xl">
+            <p className="font-gotham text-meta uppercase tracking-[0.18em] text-makec-blue pb-4 border-b border-white/15 mb-7">
+              Dein Ansprechpartner
+            </p>
+
+            <div className="flex items-center gap-5 md:gap-6">
+              <div className="relative flex-none w-40 h-40 md:w-52 md:h-52">
                 <Image
                   src={contactImageSrc}
                   alt={data.contactImage?.alt || data.contactName || "Ansprechpartner make/c"}
                   fill
-                  sizes="(max-width: 640px) 160px, 208px"
-                  className="object-cover"
+                  sizes="(min-width: 768px) 208px, 160px"
+                  className="object-contain"
                 />
               </div>
-
-              <div className="flex flex-col gap-4 text-center sm:text-left">
-                {(data.contactName || data.contactRole) && (
-                  <div>
-                    {data.contactName && (
-                      <p className="text-xl md:text-2xl font-bold text-white leading-tight">
-                        {data.contactName}
-                      </p>
-                    )}
-                    {data.contactRole && (
-                      <p className="text-sm md:text-base text-gray-400">{data.contactRole}</p>
-                    )}
-                  </div>
+              <div>
+                {data.contactName && (
+                  <p className="font-gotham font-semibold leading-tight text-[clamp(1.5rem,2.6vw,2rem)] text-white">
+                    {data.contactName}
+                  </p>
                 )}
-
-                <div className="flex flex-col gap-2">
-                  {data.phone && (
-                    <a
-                      href={phoneHref}
-                      className="text-lg md:text-xl text-white hover:text-makec-blue transition-colors"
-                    >
-                      {data.phone}
-                    </a>
-                  )}
-                  {data.email && (
-                    <a
-                      href={`mailto:${data.email}`}
-                      className="text-lg md:text-xl text-white hover:text-makec-blue transition-colors break-all"
-                    >
-                      {data.email}
-                    </a>
-                  )}
-                </div>
+                {data.contactRole && (
+                  <p className="font-gotham text-meta text-white/55 mt-1">{data.contactRole}</p>
+                )}
               </div>
             </div>
+
+            {/* Telefon / E-Mail */}
+            <div className="mt-7 flex flex-col">
+              {data.phone && (
+                <a
+                  href={phoneHref}
+                  className="flex items-center justify-between gap-4 py-4 border-t border-white/15 font-gotham text-base text-white hover:text-makec-blue transition-colors"
+                >
+                  <span className="text-[13px] text-white/50">Telefon</span>
+                  <span>{data.phone}</span>
+                </a>
+              )}
+              {email && (
+                <a
+                  href={mailHref}
+                  className="flex items-center justify-between gap-4 py-4 border-t border-b border-white/15 font-gotham text-base text-white hover:text-makec-blue transition-colors"
+                >
+                  <span className="shrink-0 text-[13px] text-white/50">E-Mail</span>
+                  <span className="break-all">{email}</span>
+                </a>
+              )}
+            </div>
+
+            {/* CTA-Button (design-treu: blau gefüllt statt weißer PillButton) */}
+            {mailHref && (
+              <a
+                href={mailHref}
+                className="group inline-flex items-center gap-2.5 mt-7 rounded-[2px] bg-makec-blue px-6 py-3.5 font-gotham font-medium text-small text-white hover:bg-makec-blue/90 transition-colors"
+              >
+                {data.ctaButtonText}
+                <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+              </a>
+            )}
           </motion.div>
 
+          {/* Standorte */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="flex flex-col gap-10 md:gap-14 lg:pl-8"
+            transition={{ duration: 0.6, delay: 0.15 }}
           >
             {data.kicker && (
-              <p className="text-xs text-gray-500 uppercase tracking-[0.2em]">{data.kicker}</p>
+              <p className="font-gotham text-meta uppercase tracking-[0.18em] text-white/55 pb-4 border-b border-white/15">
+                {data.kicker}
+              </p>
             )}
 
-            {locations.map((loc, i) => (
-              <div key={`${loc.cityLabel ?? "loc"}-${i}`}>
-                <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white leading-tight mb-2">
-                  {loc.headlineLineOne}
-                  <br />
-                  {loc.headlineLineTwo}
-                </h3>
-                {loc.cityLabel && <p className="text-base text-gray-400">{loc.cityLabel}</p>}
-              </div>
-            ))}
+            <div className="flex flex-col">
+              {locations.map((loc, i) => {
+                const icon = iconForCity(loc.cityLabel);
+                const subtitle = [loc.headlineLineOne, loc.headlineLineTwo]
+                  .filter(Boolean)
+                  .join(" ");
+                return (
+                  <div
+                    key={`${loc.cityLabel ?? "loc"}-${i}`}
+                    className="flex items-start gap-5 py-6 border-b border-white/15"
+                  >
+                    {icon && (
+                      <div className="relative flex-none w-12 h-12 md:w-[52px] md:h-[52px]">
+                        <Image
+                          src={icon}
+                          alt={cityName(loc.cityLabel)}
+                          fill
+                          sizes="52px"
+                          className="object-contain"
+                        />
+                      </div>
+                    )}
+                    <div className="flex-1">
+                      <div className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
+                        <span className="font-gotham font-semibold text-[clamp(1.375rem,2.4vw,1.875rem)] text-white">
+                          {cityName(loc.cityLabel)}
+                        </span>
+                        {subtitle && (
+                          <span className="font-garamond italic text-base text-white/55">
+                            {subtitle}
+                          </span>
+                        )}
+                      </div>
+                      {(loc.addressLine1 || loc.addressLine2) && (
+                        <p className="font-gotham font-light text-[15px] leading-relaxed text-white/60 mt-2">
+                          {loc.addressLine1}
+                          {loc.addressLine1 && loc.addressLine2 && <br />}
+                          {loc.addressLine2}
+                        </p>
+                      )}
+                      {loc.mapsUrl && (
+                        <a
+                          href={loc.mapsUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="group mt-3 inline-flex items-center gap-1.5 font-gotham text-[13.5px] text-makec-blue hover:text-white transition-colors"
+                        >
+                          Route anzeigen
+                          <ArrowRight
+                            size={14}
+                            className="transition-transform group-hover:translate-x-1"
+                          />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </motion.div>
         </div>
       </div>

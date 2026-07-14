@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { MotionConfig } from "framer-motion";
 
 import { CustomCursor } from "@/components/ui/CustomCursor";
 import { Grain } from "@/components/ui/Grain";
@@ -22,10 +23,12 @@ export function SiteEffects({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <SmoothScroll>
-      <Grain />
-      <CustomCursor />
-      {children}
-    </SmoothScroll>
+    <MotionConfig reducedMotion="user">
+      <SmoothScroll>
+        <Grain />
+        <CustomCursor />
+        {children}
+      </SmoothScroll>
+    </MotionConfig>
   );
 }
