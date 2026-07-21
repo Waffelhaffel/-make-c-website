@@ -244,8 +244,3 @@ export type CaseStudy = {
   thumbnailImage?: SanityImage;
   seo?: Seo;
 };
-
-export type CaseStudySummary = Pick<
-  CaseStudy,
-  "_id" | "title" | "project" | "slug" | "projectMeta" | "thumbnailImage" | "heroImage"
->;

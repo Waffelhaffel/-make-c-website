@@ -8,12 +8,10 @@ const IMAGE_PROJECTION = `{
   alt
 }`;
 
-export const CASE_STUDY_SLUGS_QUERY = groq`
-  *[_type == "caseStudy" && defined(slug.current)][].slug.current
-`;
-
-export const CASE_STUDY_BY_SLUG_QUERY = groq`
-  *[_type == "caseStudy" && slug.current == $slug][0]{
+// Volle Projektion aller Cases (für Modal + /work-Grid). Nur 6 Dokumente →
+// einmalig serverseitig laden ist billig; kein Detailseiten-Fetch mehr nötig.
+export const ALL_CASE_STUDIES_QUERY = groq`
+  *[_type == "caseStudy" && (featured == true || !defined(featured))] | order(coalesce(order, 100) asc, _createdAt desc){
     _id,
     title,
     "slug": slug.current,
@@ -49,18 +47,6 @@ export const CASE_STUDY_BY_SLUG_QUERY = groq`
       metaDescription,
       ogImage ${IMAGE_PROJECTION}
     }
-  }
-`;
-
-export const ALL_CASE_STUDIES_QUERY = groq`
-  *[_type == "caseStudy" && (featured == true || !defined(featured))] | order(coalesce(order, 100) asc, _createdAt desc){
-    _id,
-    title,
-    project,
-    "slug": slug.current,
-    projectMeta,
-    thumbnailImage ${IMAGE_PROJECTION},
-    heroImage ${IMAGE_PROJECTION}
   }
 `;
 

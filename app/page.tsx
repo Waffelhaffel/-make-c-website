@@ -15,11 +15,22 @@ import { Contact } from "@/components/sections/Contact";
 import { FloatingContact } from "@/components/ui/FloatingContact";
 import { getLandingPage } from "@/sanity/lib/getLandingPage";
 import { getServices } from "@/sanity/lib/getServices";
+import { getCaseStudies } from "@/sanity/lib/getCaseStudies";
+import { SELECTED_WORK } from "@/lib/data";
 
 export const revalidate = 60;
 
 export default async function Home() {
-  const [data, services] = await Promise.all([getLandingPage(), getServices()]);
+  const [data, services, caseStudies] = await Promise.all([
+    getLandingPage(),
+    getServices(),
+    getCaseStudies(),
+  ]);
+
+  // Landing zeigt nur die kuratierten Selected-Work-Kacheln — nur deren
+  // Case-Daten ans Modal geben (nicht alle Cases in die Landing-Props serialisieren).
+  const selectedSlugs = new Set(SELECTED_WORK.map((w) => w.slug));
+  const landingCases = caseStudies.filter((c) => selectedSlugs.has(c.slug));
 
   return (
     <>
@@ -32,7 +43,7 @@ export default async function Home() {
         <Approach data={data.approach} />
         <ServiceAccordion services={services} />
         <InsightGeneration data={data.insight} />
-        <SelectedWork />
+        <SelectedWork caseStudies={landingCases} />
         <Testimonials data={data.testimonials} />
         <AboutTeam data={data.about} />
         <VideoCheck />

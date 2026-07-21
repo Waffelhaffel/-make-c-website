@@ -2,16 +2,19 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
 
 import { urlFor, hasImageAsset } from "@/sanity/lib/image";
-import type { CaseStudySummary } from "@/sanity/types";
+import type { CaseStudy } from "@/sanity/types";
+import { CaseModal } from "@/components/work/CaseModal";
+import { useCaseModal } from "@/components/work/useCaseModal";
 
 type WorkGridProps = {
-  caseStudies: CaseStudySummary[];
+  caseStudies: CaseStudy[];
 };
 
 export function WorkGrid({ caseStudies }: WorkGridProps) {
+  const { activeCase, openCase, closeCase } = useCaseModal();
+
   return (
     <>
       <motion.div
@@ -25,11 +28,11 @@ export function WorkGrid({ caseStudies }: WorkGridProps) {
         </p>
       </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
         {caseStudies.map((item, i) => {
           const image = item.thumbnailImage ?? item.heroImage;
           const imageUrl = hasImageAsset(image)
-            ? urlFor(image).width(900).height(1100).fit("crop").auto("format").url()
+            ? urlFor(image).width(700).height(875).fit("crop").auto("format").url()
             : null;
           const alt = image?.alt || item.projectMeta.client;
 
@@ -39,12 +42,14 @@ export function WorkGrid({ caseStudies }: WorkGridProps) {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
+              transition={{ delay: Math.min(i * 0.04, 0.4) }}
               className="group relative"
             >
-              <Link
-                href={`/work/${item.slug}`}
-                className="block aspect-[4/5] bg-white/5 border border-white/5 rounded-sm overflow-hidden relative"
+              <button
+                type="button"
+                onClick={() => openCase(item)}
+                data-cursor="VIEW"
+                className="block w-full text-left aspect-[4/5] bg-white/5 border border-white/5 rounded-sm overflow-hidden relative"
               >
                 {imageUrl && (
                   <Image
@@ -52,19 +57,19 @@ export function WorkGrid({ caseStudies }: WorkGridProps) {
                     alt={alt}
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                   />
                 )}
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/80 opacity-70 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="absolute bottom-0 left-0 p-8 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                  <p className="font-gotham text-meta text-white/70 uppercase tracking-widest mb-2">
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/80 opacity-80 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute bottom-0 left-0 p-4 md:p-5">
+                  <p className="font-gotham text-[10px] text-white/70 uppercase tracking-widest mb-1">
                     {item.projectMeta.client} · {item.projectMeta.year}
                   </p>
-                  <h3 className="font-gotham text-small uppercase tracking-tight">
+                  <h3 className="font-gotham text-xs sm:text-sm uppercase tracking-tight leading-tight">
                     {item.project}
                   </h3>
                 </div>
-              </Link>
+              </button>
             </motion.div>
           );
         })}
@@ -75,6 +80,8 @@ export function WorkGrid({ caseStudies }: WorkGridProps) {
           Noch keine Case Studies veröffentlicht.
         </p>
       )}
+
+      <CaseModal caseData={activeCase} onClose={closeCase} />
     </>
   );
 }

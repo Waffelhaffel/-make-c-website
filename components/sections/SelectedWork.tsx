@@ -2,14 +2,23 @@
 
 import { SELECTED_WORK } from "@/lib/data";
 import { motion } from "framer-motion";
-import Link from "next/link";
 import Image from "next/image";
 import { Magnetic } from "@/components/ui/Magnetic";
 import { MixedHeadline } from "@/components/ui/MixedHeadline";
 import { PillButton } from "@/components/ui/PillButton";
 import { Swoosh } from "@/components/ui/Swoosh";
+import { CaseModal } from "@/components/work/CaseModal";
+import { useCaseModal } from "@/components/work/useCaseModal";
+import type { CaseStudy } from "@/sanity/types";
 
-export function SelectedWork() {
+type SelectedWorkProps = {
+  caseStudies: CaseStudy[];
+};
+
+export function SelectedWork({ caseStudies }: SelectedWorkProps) {
+  const { activeCase, openCase, closeCase } = useCaseModal();
+  const bySlug = new Map(caseStudies.map((c) => [c.slug, c]));
+
   return (
     <section id="work" className="relative bg-makec-dark">
       {/* Blauer Auftakt: läuft nahtlos aus der Insights-Section, Headline überlappt das Grid (Figma 45:14) */}
@@ -25,32 +34,42 @@ export function SelectedWork() {
 
       {/* Full-bleed Grid ohne Abstände (Figma 45:22–27, Kacheln ~960×538) */}
       <div className="grid grid-cols-1 md:grid-cols-2">
-        {SELECTED_WORK.map((project) => (
-          <Link
-            key={project.slug}
-            href={`/work/${project.slug}`}
-            className="block group relative"
-            data-cursor="VIEW"
-          >
-            <motion.div className="w-full overflow-hidden bg-makec-dark relative aspect-[960/538]">
-              <Image
-                src={project.image}
-                alt={project.name}
-                fill
-                className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-                sizes="(min-width: 768px) 50vw, 100vw"
-              />
-              <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-              <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-                <p className="font-gotham text-meta uppercase tracking-[0.3em] text-white/80 mb-2">
-                  Case Study
-                </p>
-                <p className="font-gotham text-h4 text-white uppercase">{project.name}</p>
-                <span className="font-gotham text-meta text-white/70 mt-2">{project.year}</span>
-              </div>
-            </motion.div>
-          </Link>
-        ))}
+        {SELECTED_WORK.map((project) => {
+          const doc = bySlug.get(project.slug);
+          return (
+            <button
+              key={project.slug}
+              type="button"
+              onClick={() => {
+                if (doc) {
+                  openCase(doc);
+                } else if (process.env.NODE_ENV !== "production") {
+                  console.warn(`[SelectedWork] Kein Sanity-Case für Slug "${project.slug}"`);
+                }
+              }}
+              className="block w-full text-left group relative"
+              data-cursor="VIEW"
+            >
+              <motion.div className="w-full overflow-hidden bg-makec-dark relative aspect-[960/538]">
+                <Image
+                  src={project.image}
+                  alt={project.name}
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                  sizes="(min-width: 768px) 50vw, 100vw"
+                />
+                <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+                  <p className="font-gotham text-meta uppercase tracking-[0.3em] text-white/80 mb-2">
+                    Case Study
+                  </p>
+                  <p className="font-gotham text-h4 text-white uppercase">{project.name}</p>
+                  <span className="font-gotham text-meta text-white/70 mt-2">{project.year}</span>
+                </div>
+              </motion.div>
+            </button>
+          );
+        })}
       </div>
 
       {/* Swoosh auf der Unterkante des Grids (Figma 45:28) */}
@@ -62,6 +81,8 @@ export function SelectedWork() {
           <PillButton href="/work">Alle Referenzen anzeigen</PillButton>
         </Magnetic>
       </div>
+
+      <CaseModal caseData={activeCase} onClose={closeCase} />
     </section>
   );
 }
