@@ -88,6 +88,9 @@ const ABOUT_FALLBACK: LandingAbout = {
 };
 
 const TESTIMONIALS_FALLBACK: LandingTestimonials = {
+  kicker: "Testimonials",
+  headlineLine1: "Das sagen",
+  headlineLine2: "unsere Kunden",
   items: [
     {
       quote:
@@ -189,6 +192,9 @@ export async function getLandingPage(): Promise<ResolvedLandingPage> {
     },
     insight: { ...INSIGHT_FALLBACK, ...(data?.insight ?? {}) },
     testimonials: {
+      kicker: data?.testimonials?.kicker || TESTIMONIALS_FALLBACK.kicker,
+      headlineLine1: data?.testimonials?.headlineLine1 || TESTIMONIALS_FALLBACK.headlineLine1,
+      headlineLine2: data?.testimonials?.headlineLine2 || TESTIMONIALS_FALLBACK.headlineLine2,
       items:
         data?.testimonials?.items && data.testimonials.items.length > 0
           ? data.testimonials.items

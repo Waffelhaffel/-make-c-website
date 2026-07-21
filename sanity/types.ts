@@ -110,6 +110,9 @@ export type LandingTestimonial = {
 };
 
 export type LandingTestimonials = {
+  kicker?: string;
+  headlineLine1?: string;
+  headlineLine2?: string;
   items?: LandingTestimonial[];
 };
 

@@ -142,6 +142,8 @@ export const LANDING_PAGE_QUERY = groq`
       body
     },
     testimonials{
+      kicker,
+      headlineLine1, headlineLine2,
       items[]{ _key, quote, author, role, rating }
     },
     about{

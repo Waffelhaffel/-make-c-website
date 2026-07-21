@@ -239,6 +239,24 @@ export const landingPage = defineType({
       description: "Kundenstimmen unter den Referenzen (3 Spalten empfohlen).",
       fields: [
         defineField({
+          name: "kicker",
+          title: "Kicker (klein, über der Headline)",
+          description: "Z. B. 'Testimonials'",
+          type: "string",
+        }),
+        defineField({
+          name: "headlineLine1",
+          title: "Headline – Zeile 1 (Gotham)",
+          description: "Z. B. 'Das sagen'",
+          type: "string",
+        }),
+        defineField({
+          name: "headlineLine2",
+          title: "Headline – Zeile 2 (Garamond, kursiv)",
+          description: "Z. B. 'unsere Kunden'",
+          type: "string",
+        }),
+        defineField({
           name: "items",
           title: "Stimmen",
           description: "Genau 3 Einträge empfohlen.",
