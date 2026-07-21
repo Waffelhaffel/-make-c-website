@@ -12,6 +12,7 @@ export const landingPage = defineType({
     { name: "showreel", title: "Showreel" },
     { name: "approach", title: "Approach" },
     { name: "insight", title: "Insights" },
+    { name: "testimonials", title: "Testimonials" },
     { name: "about", title: "About / Team" },
     { name: "questions", title: "Fragen" },
     { name: "contact", title: "Kontakt-Sektion" },
@@ -225,6 +226,25 @@ export const landingPage = defineType({
           title: "Beschreibungstext",
           type: "text",
           rows: 4,
+        }),
+      ],
+    }),
+
+    // ------------- TESTIMONIALS -------------
+    defineField({
+      name: "testimonials",
+      title: "Testimonials",
+      type: "object",
+      group: "testimonials",
+      description: "Kundenstimmen unter den Referenzen (3 Spalten empfohlen).",
+      fields: [
+        defineField({
+          name: "items",
+          title: "Stimmen",
+          description: "Genau 3 Einträge empfohlen.",
+          type: "array",
+          of: [{ type: "testimonial" }],
+          validation: (Rule) => Rule.max(6),
         }),
       ],
     }),

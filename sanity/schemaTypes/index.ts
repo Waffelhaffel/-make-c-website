@@ -17,6 +17,7 @@ import { seo } from "./objects/seo";
 import { socialLink } from "./objects/socialLink";
 import { solutionSection } from "./objects/solutionSection";
 import { statItem } from "./objects/statItem";
+import { testimonial } from "./objects/testimonial";
 
 export const schemaTypes: SchemaTypeDefinition[] = [
   // Documents
@@ -38,4 +39,5 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   statItem,
   locationCard,
   powerWord,
+  testimonial,
 ];

@@ -10,6 +10,7 @@ import type {
   LandingQuestions,
   LandingShowreel,
   LandingStats,
+  LandingTestimonials,
 } from "../types";
 
 const HERO_FALLBACK: LandingHero = {
@@ -86,6 +87,31 @@ const ABOUT_FALLBACK: LandingAbout = {
   ],
 };
 
+const TESTIMONIALS_FALLBACK: LandingTestimonials = {
+  items: [
+    {
+      quote:
+        "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit.",
+      author: "Vorname Nachname",
+      role: "Position, Firma",
+      rating: 5,
+    },
+    {
+      quote: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit.",
+      author: "Vorname Nachname",
+      role: "Position, Firma",
+      rating: 5,
+    },
+    {
+      quote:
+        "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet.",
+      author: "Vorname Nachname",
+      role: "Position, Firma",
+      rating: 5,
+    },
+  ],
+};
+
 const QUESTIONS_FALLBACK: LandingQuestions = {
   headlineLine1: "Der richtige Startpunkt",
   headlineLine2: "sind die richtigen Fragen.",
@@ -130,6 +156,7 @@ export type ResolvedLandingPage = {
   showreel: LandingShowreel;
   approach: LandingApproach;
   insight: LandingInsight;
+  testimonials: LandingTestimonials;
   about: LandingAbout;
   questions: LandingQuestions;
   contact: LandingContact;
@@ -161,6 +188,12 @@ export async function getLandingPage(): Promise<ResolvedLandingPage> {
           : APPROACH_FALLBACK.paragraphs,
     },
     insight: { ...INSIGHT_FALLBACK, ...(data?.insight ?? {}) },
+    testimonials: {
+      items:
+        data?.testimonials?.items && data.testimonials.items.length > 0
+          ? data.testimonials.items
+          : TESTIMONIALS_FALLBACK.items,
+    },
     about: {
       ...ABOUT_FALLBACK,
       ...(data?.about ?? {}),

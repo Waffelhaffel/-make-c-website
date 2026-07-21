@@ -101,6 +101,18 @@ export type LandingQuestions = {
   linkText?: string;
 };
 
+export type LandingTestimonial = {
+  _key?: string;
+  quote: string;
+  author: string;
+  role?: string;
+  rating?: number;
+};
+
+export type LandingTestimonials = {
+  items?: LandingTestimonial[];
+};
+
 export type LandingLocationCard = {
   headlineLineOne?: string;
   headlineLineTwo?: string;
@@ -154,6 +166,7 @@ export type LandingPage = {
   showreel?: LandingShowreel;
   approach?: LandingApproach;
   insight?: LandingInsight;
+  testimonials?: LandingTestimonials;
   about?: LandingAbout;
   questions?: LandingQuestions;
   contact?: LandingContact;

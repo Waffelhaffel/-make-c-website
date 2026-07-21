@@ -8,6 +8,7 @@ import { Showreel } from "@/components/sections/Showreel";
 import { ServiceAccordion } from "@/components/sections/ServiceAccordion";
 import { InsightGeneration } from "@/components/sections/InsightGeneration";
 import { SelectedWork } from "@/components/sections/SelectedWork";
+import { Testimonials } from "@/components/sections/Testimonials";
 import { AboutTeam } from "@/components/sections/AboutTeam";
 import { VideoCheck } from "@/components/sections/VideoCheck";
 import { Contact } from "@/components/sections/Contact";
@@ -32,6 +33,7 @@ export default async function Home() {
         <ServiceAccordion services={services} />
         <InsightGeneration data={data.insight} />
         <SelectedWork />
+        <Testimonials data={data.testimonials} />
         <AboutTeam data={data.about} />
         <VideoCheck />
         <Contact data={data.contact} />

@@ -141,6 +141,9 @@ export const LANDING_PAGE_QUERY = groq`
       kicker,
       body
     },
+    testimonials{
+      items[]{ _key, quote, author, role, rating }
+    },
     about{
       quoteLine1, quoteLine2,
       powerWords[]{ label },
