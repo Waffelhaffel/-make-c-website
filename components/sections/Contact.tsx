@@ -76,7 +76,7 @@ export function Contact({ data }: ContactProps) {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <p className="font-gotham text-meta uppercase tracking-[0.18em] text-makec-blue pb-4 border-b border-white/15 mb-7">
+            <p className="font-gotham text-meta uppercase tracking-[0.18em] text-white pb-4 border-b border-white/15 mb-7">
               Dein Ansprechpartner
             </p>
 
@@ -194,7 +194,7 @@ export function Contact({ data }: ContactProps) {
                           href={loc.mapsUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="group mt-3 inline-flex items-center gap-1.5 font-gotham text-[13.5px] text-makec-blue hover:text-white transition-colors"
+                          className="group mt-3 inline-flex items-center gap-1.5 font-gotham text-[13.5px] text-white hover:text-white/60 transition-colors"
                         >
                           Route anzeigen
                           <ArrowRight

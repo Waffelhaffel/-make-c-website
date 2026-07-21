@@ -59,15 +59,6 @@ export function AboutTeam({ data }: AboutTeamProps) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-start -mt-4 md:-mt-8">
             <div className="relative">
-              <div className="hidden sm:block absolute -bottom-12 -left-4 sm:-bottom-20 sm:-left-8 md:-bottom-32 md:-left-16 w-[70%] sm:w-[80%] md:w-[90%] h-[80%] sm:h-[90%] md:h-[100%] opacity-30 sm:opacity-40 md:opacity-50 pointer-events-none z-0">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/icon /schräge_Linien_hintergrund.svg"
-                  alt=""
-                  className="w-full h-full object-contain invert"
-                />
-              </div>
-
               {/* Team-Bild schwebt/wabert sanft beim Hover */}
               <div className="relative z-10 group">
                 <div className="relative aspect-square w-full overflow-hidden transition-transform duration-700 ease-out group-hover:-translate-y-3 group-hover:-rotate-1 group-hover:scale-[1.02]">
