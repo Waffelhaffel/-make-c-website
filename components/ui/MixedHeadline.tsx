@@ -8,7 +8,7 @@ type MixedHeadlineProps = {
   variant?: "h2" | "display";
   part1?: ReactNode;
   part2?: ReactNode;
-  /** display: "/" zwischen den Teilen (SELECTED/WORK) */
+  /** display: "/" zwischen den Teilen (SELECTED/WORK, VIDEO/PRODUKTION) */
   slash?: boolean;
   /** Teile als Blöcke untereinander; Default: true bei "h2", false bei "display" */
   stacked?: boolean;
@@ -60,42 +60,15 @@ export function MixedHeadline({
       {part1 != null && (
         <span className={part1Class || undefined}>
           {part1}
-          {isDisplay && slash && !stack && part2 != null ? "/" : ""}
+          {isDisplay && slash && part2 != null ? "/" : ""}
         </span>
       )}
+      {/* Gestapelt sind beide Teile block-Elemente — ein Leerzeichen dazwischen
+          kollabiert visuell, trennt die Wörter aber im Textinhalt. Ohne das
+          liest sich "Was wir" + "konkret machen" als "Was wirkonkret machen"
+          (Screenreader, Suchmaschinen, Textextraktion). */}
+      {stack && part1 != null && part2 != null ? " " : null}
       {part2 != null && <span className={part2Class}>{part2}</span>}
     </Tag>
-  );
-}
-
-// Auto-Split einer CMS-Zeile ins Misch-Typo-Muster: bei Komma mit Folgetext
-// Gotham-Teil bis inkl. Komma + Garamond-Rest als Blöcke untereinander,
-// sonst Split am ersten Leerzeichen (inline).
-export function MixedText({ text }: { text: string }) {
-  const commaIdx = text.indexOf(",");
-  if (commaIdx !== -1 && text.slice(commaIdx + 1).trim().length > 0) {
-    return (
-      <>
-        <span className="font-gotham font-bold tracking-[-0.05em] block">
-          {text.slice(0, commaIdx + 1)}
-        </span>
-        <span className="font-garamond font-semibold italic text-[1.2em] leading-[0.85] tracking-normal block">
-          {text.slice(commaIdx + 1).trim()}
-        </span>
-      </>
-    );
-  }
-  const idx = text.indexOf(" ");
-  const part1 = idx === -1 ? text : text.slice(0, idx);
-  const part2 = idx === -1 ? null : text.slice(idx + 1);
-  return (
-    <>
-      <span className="font-gotham font-bold tracking-[-0.05em]">{part1} </span>
-      {part2 && (
-        <span className="font-garamond font-semibold italic text-[1.2em] leading-[0.85] tracking-normal">
-          {part2}
-        </span>
-      )}
-    </>
   );
 }

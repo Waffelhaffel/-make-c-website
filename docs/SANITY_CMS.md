@@ -1,5 +1,14 @@
 # make/c — Sanity CMS Dokumentation
 
+> **Stand 31.07.2026.** Zwei Einschränkungen zu diesem Dokument:
+> 1. Zwischen 06/2026 und 31.07.2026 lagen auch Landing, Leistungen, Site-Settings und die
+>    Legal-Seiten in Sanity. Das ist zurückgenommen — „ausschließlich Case Studies" stimmt
+>    wieder. Der übrige Inhalt liegt in `lib/content/` und `lib/leistungen.ts`.
+> 2. **Die Case-Detailseiten `/work/[slug]` gibt es nicht mehr** (Commit `b890bf9`, Umstellung
+>    auf Modal-Fenster). Die Abschnitte „Einzelne Case Study" und „Alle Slugs (für Static
+>    Generation)" beschreiben deshalb Queries, die im Code nicht existieren — sie sind
+>    historisch. Aktuell gibt es genau drei Queries, siehe `sanity/lib/queries.ts`.
+
 ## Übersicht
 
 Das Projekt nutzt **Sanity v5** als Headless CMS. Der Inhalt, der über Sanity verwaltet wird, sind ausschließlich die **Case Studies** (Fallstudien / Work-Projekte).

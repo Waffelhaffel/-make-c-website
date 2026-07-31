@@ -1,4 +1,20 @@
-# Gotham-Fontdateien hier ablegen
+# Fontdateien
+
+## Was hier schon liegt: die OG-Bild-Fonts (nicht anfassen)
+
+`Montserrat-Bold.ttf` und `EBGaramond-SemiBoldItalic.ttf` (plus die beiden
+`OFL-*.txt`) gehören **nur** zu `lib/og.tsx`, also zu den OpenGraph-Bildern.
+Sie haben mit der Website-Typografie nichts zu tun und dürfen nicht gegen
+Gotham getauscht werden.
+
+Warum sie überhaupt im Repo liegen: `ImageResponse` (Satori) kann die von
+`next/font/google` geladenen Schriften nicht erreichen und verarbeitet weder
+WOFF2 noch Variable Fonts mit Gewichtsachse. Es braucht also statische
+TTF-Schnitte auf der Platte. Bezogen von der Fontsource-CDN
+(`cdn.jsdelivr.net/fontsource/fonts/montserrat@latest/latin-700-normal.ttf`
+bzw. `eb-garamond@latest/latin-600-italic.ttf`), Lizenz OFL.
+
+## Gotham-Fontdateien hier ablegen
 
 **Aktueller Stand (Juli 2026):** Als kostenloser Ersatz ist **Montserrat** (Google Fonts,
 Variable Font inkl. Italic) über `next/font/google` in `app/layout.tsx` eingebunden und

@@ -8,7 +8,7 @@ const FOCUSABLE =
 // Minimaler, dependency-freier Focus-Trap: fokussiert beim Öffnen das erste
 // fokussierbare Element (sonst den Container), hält Tab/Shift+Tab im Container
 // und gibt beim Schließen den Fokus an das vorher fokussierte Element zurück.
-// Nutzt das projektweite `focus({ preventScroll: true })`-Idiom (ServiceAccordion).
+// Nutzt das projektweite `focus({ preventScroll: true })`-Idiom.
 export function useFocusTrap(
   ref: RefObject<HTMLElement | null>,
   isOpen: boolean,

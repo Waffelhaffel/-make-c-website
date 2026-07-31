@@ -4,23 +4,17 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
-import { urlFor, hasImageAsset } from "@/sanity/lib/image";
-import type { LandingContact } from "@/sanity/types";
+import type { LandingContact } from "@/lib/content/types";
 
 type FloatingContactProps = {
   data: LandingContact;
 };
 
-const DEFAULT_CONTACT_IMAGE = "/Kontakt_Guy.webp";
-
 export function FloatingContact({ data }: FloatingContactProps) {
   const enabled = data.floatingCtaEnabled !== false;
   const [visible, setVisible] = useState(false);
 
-  const imageSrc = hasImageAsset(data.contactImage)
-    ? urlFor(data.contactImage).width(160).height(160).quality(85).auto("format").url()
-    : DEFAULT_CONTACT_IMAGE;
-  const label = data.ctaLabel || "Let's talk";
+  const label = data.ctaLabel;
 
   useEffect(() => {
     if (!enabled) return;
@@ -73,7 +67,8 @@ export function FloatingContact({ data }: FloatingContactProps) {
             <span className="text-sm font-bold uppercase tracking-[0.15em] text-white">
               {label}
             </span>
-            <span className="flex items-center justify-end gap-1 text-[10px] uppercase tracking-[0.2em] text-makec-blue">
+            {/* Weiß, nicht makec-blue: Dunkelblau auf dem dunklen Panel war kaum lesbar */}
+            <span className="flex items-center justify-end gap-1 text-[10px] uppercase tracking-[0.2em] text-white/70">
               Kontakt
               <ArrowUpRight size={12} />
             </span>
@@ -81,8 +76,8 @@ export function FloatingContact({ data }: FloatingContactProps) {
 
           <span className="relative h-12 w-12 md:h-14 md:w-14 shrink-0 overflow-hidden rounded-full ring-2 ring-white/20">
             <Image
-              src={imageSrc}
-              alt={data.contactImage?.alt || data.contactName || "Kontakt make/c"}
+              src={data.contactImage.src}
+              alt={data.contactImage.alt || data.contactName}
               fill
               sizes="56px"
               className="object-cover"

@@ -1,65 +1,69 @@
-// Sichtbare Links in der Header-Leiste (Figma: Über Uns / Leistungen / Selected Work)
+// Sichtbare Links in der Header-Leiste (Figma: Über Uns / Leistungen / Selected Work).
+// "Leistungen" zeigt seit den Detailseiten auf die eigene Route statt auf den
+// Landing-Anker — Anker-Links werden von getNavHref() in HeaderClient.tsx auf
+// Unterseiten automatisch zu "/#anker" umgeschrieben, Routen bleiben unverändert.
 export const HEADER_NAV_LINKS = [
   { name: "Über Uns", href: "#team" },
-  { name: "Leistungen", href: "#service" },
+  { name: "Leistungen", href: "/leistungen" },
   { name: "Selected Work", href: "#work" },
 ];
 
 export const NAV_LINKS = [
   { name: "Approach", href: "#approach" },
-  { name: "Leistungen", href: "#service" },
+  { name: "Leistungen", href: "/leistungen" },
   { name: "Selected Work", href: "#work" },
-  { name: "Team", href: "#team" },
-  { name: "FAQ", href: "#video-check" },
+  { name: "Video-Check", href: "#video-check" },
   { name: "Kontakt", href: "#contact" },
 ];
 
-export const SELECTED_WORK = [
+export type SelectedWorkItem = {
+  name: string;
+  /** Genre-Label, ersetzt seit 07/2026 die frühere Jahresangabe */
+  label: string;
+  image: string;
+  /**
+   * Slug des zugehörigen caseStudy-Dokuments in Sanity. Fehlt der Slug, gibt es
+   * (noch) keinen Case — die Kachel wird dann bewusst nicht klickbar gerendert.
+   */
+  caseSlug?: string;
+};
+
+export const SELECTED_WORK: SelectedWorkItem[] = [
   {
-    name: "Köln Bonn Airport",
-    slug: "koeln-bonn-airport",
+    name: "Flughafen Köln Bonn",
+    label: "Imagefilm",
     image: "/Selected Work/Flughafen_Bild.webp",
-    year: "2024",
+    caseSlug: "koeln-bonn-airport",
   },
   {
-    name: "Wundholding",
-    slug: "wundholding",
+    name: "Wund Holding",
+    label: "SocialSpot",
     image: "/Selected Work/Wundholding_Bild.webp",
-    year: "2024",
+    caseSlug: "wundholding",
   },
   {
-    name: "Merkur",
-    slug: "merkur",
+    name: "BarmeniaGothaer",
+    label: "KI Avatar",
+    image: "/Selected Work/BarmeniaGothaer_Bild.png",
+  },
+  {
+    name: "Merkur Lighthouse",
+    label: "Doku",
     image: "/Selected Work/Merkur_Bild.webp",
-    year: "2024",
+    caseSlug: "merkur",
   },
   {
-    name: "Zeitgeist",
-    slug: "zeitgeist",
-    image: "/Selected Work/Zeitgeist_Bild.webp",
-    year: "2024",
+    name: "FOM Video",
+    label: "Studio bau und Betrieb",
+    image: "/Selected Work/FOM_Bild.png",
   },
   {
-    name: "ALDI",
-    slug: "aldi",
-    image: "/Selected Work/Aldi_Bild.webp",
-    year: "2023",
-  },
-  {
-    name: "KPMG",
-    slug: "kpmg",
-    image: "/Selected Work/KMNPG_Bild.webp",
-    year: "2025",
+    name: "TELEKOM",
+    label: "Event Content",
+    image: "/Selected Work/Telekom_Bild.png",
   },
 ];
 
-export const FOOTER_CONTENT = {
-  email: "info@make-c.de",
-  locations: [
-    { city: "KÖLN", address: ["Picassoplatz 1", "50679 Köln"] },
-    { city: "ESSEN", address: ["Sigsfeldstraße 5", "45141 Essen"] },
-  ],
-  socials: ["INSTAGRAM", "LINKEDIN", "VIMEO"],
-  legal: ["IMPRESSUM", "DATENSCHUTZ"],
-  copyright: "© 2025 MAKE/C",
-};
+// Hinweis: `FOOTER_CONTENT` lag bis 07/2026 hier und diente als Fallback für
+// das Sanity-Dokument `siteSettings`. Die Footer-Angaben stehen jetzt in
+// `lib/content/site.ts`, die Adressen kommen von dort aus `ORG` (`lib/seo.ts`).

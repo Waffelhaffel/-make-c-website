@@ -58,14 +58,17 @@ export function CustomCursor() {
         translateY: "-50%",
       }}
     >
+      {/* Die Hintergrundfarbe gehört in die className, nicht in `animate`: sie
+          ändert sich nie, und ohne Startwert versuchte framer-motion von der
+          berechneten `rgba(0,0,0,0)` zum Schlüsselwort `white` zu tweenen —
+          daher die Konsolen-Warnung „not animatable". */}
       <motion.div
         animate={{
           width: isHovering ? (cursorText ? 100 : 60) : 12,
           height: isHovering ? (cursorText ? 100 : 60) : 12,
-          backgroundColor: "white",
         }}
         transition={{ type: "spring", damping: 20, stiffness: 200 }}
-        className="rounded-full flex items-center justify-center overflow-hidden"
+        className="rounded-full bg-white flex items-center justify-center overflow-hidden"
       >
         {cursorText && (
           <motion.span

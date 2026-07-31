@@ -7,7 +7,7 @@ import { Menu, X } from "lucide-react";
 import { NAV_LINKS, HEADER_NAV_LINKS } from "@/lib/data";
 import { motion, AnimatePresence } from "framer-motion";
 import { Magnetic } from "@/components/ui/Magnetic";
-import type { SiteSettings } from "@/sanity/types";
+import type { SiteSettings } from "@/lib/content/types";
 
 type HeaderClientProps = {
   settings: SiteSettings;
@@ -125,7 +125,8 @@ export function HeaderClient({ settings }: HeaderClientProps) {
             className="fixed inset-0 bg-makec-dark z-[9999] flex flex-col shadow-[-20px_0_50px_rgba(0,0,0,0.5)] h-[100dvh] w-screen overflow-y-auto"
           >
             <div className="absolute inset-0 bg-makec-dark z-[-2]" />
-            <div className="absolute inset-0 opacity-[0.05] pointer-events-none bg-[url('/noise.svg')] mix-blend-overlay z-[-1]" />
+            {/* Kein eigenes Noise-Overlay: public/noise.svg existiert nicht mehr
+                (404 bei jedem Menü-Öffnen). Grain.tsx erzeugt den Effekt global. */}
 
             <div className="flex-1 flex flex-col justify-center px-8 sm:px-12 pt-28 pb-12 relative z-10">
               <p className="text-[10px] font-bold text-white/60 uppercase tracking-[0.4em] mb-8">Navigation</p>

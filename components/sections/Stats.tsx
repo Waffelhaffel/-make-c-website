@@ -2,9 +2,9 @@
 
 import { MotionSection } from "@/components/ui/MotionSection";
 import { MixedHeadline } from "@/components/ui/MixedHeadline";
-import { Users, Play, MapPin } from "lucide-react";
+import { Users, Play, Clock, MapPin } from "lucide-react";
 import { motion } from "framer-motion";
-import type { LandingStats, StatIcon } from "@/sanity/types";
+import type { LandingStats, StatIcon } from "@/lib/content/types";
 
 type StatsProps = {
   data: LandingStats;
@@ -13,6 +13,7 @@ type StatsProps = {
 const ICON_MAP = {
   users: Users,
   play: Play,
+  clock: Clock,
   mapPin: MapPin,
 } as const;
 
@@ -20,7 +21,8 @@ function iconFor(name: StatIcon | undefined) {
   return ICON_MAP[name ?? "users"] ?? Users;
 }
 
-// Diese Glyphen sind im Figma gefüllt (schwarz auf blauem Kreis)
+// Diese Glyphen sind im Figma gefüllt (schwarz auf blauem Kreis).
+// clock bleibt bewusst draußen — gefüllt wäre es nur eine schwarze Scheibe.
 const FILLED_ICONS = new Set<StatIcon>(["play", "mapPin"]);
 
 const container = {
@@ -80,7 +82,10 @@ export function Stats({ data }: StatsProps) {
                 </div>
 
                 <div className="flex flex-col gap-1">
-                  <h3 className="font-gotham text-h4 text-white">
+                  {/* leading/text-balance: "100 feste Mitarbeiter" bricht in der
+                      Spalte zweizeilig — mit lineHeight 1 aus dem Token würden
+                      sich die Zeilen berühren. */}
+                  <h3 className="font-gotham text-h4 leading-[1.1] text-balance text-white">
                     {[stat.number, stat.label].filter(Boolean).join(" ")}
                   </h3>
                   {stat.subtext && (

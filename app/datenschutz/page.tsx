@@ -1,24 +1,22 @@
-import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PortableTextRenderer } from "@/components/ui/PortableTextRenderer";
-import { LEGAL_PAGE_BY_SLUG_QUERY } from "@/sanity/lib/queries";
-import { sanityFetch } from "@/sanity/lib/fetch";
-import type { LegalPage } from "@/sanity/types";
+import { DATENSCHUTZ } from "@/lib/content/legal";
+import { pageMetadata } from "@/lib/seo";
 
-export const revalidate = 60;
+// Kein `revalidate` und kein `notFound()` mehr — Begründung siehe
+// app/impressum/page.tsx.
 
-export default async function DatenschutzPage() {
-  const page = await sanityFetch<LegalPage | null>({
-    query: LEGAL_PAGE_BY_SLUG_QUERY,
-    params: { slug: "datenschutz" },
-    tags: ["legalPage", "legalPage:datenschutz"],
-  });
+export const metadata: Metadata = pageMetadata({
+  title: "Datenschutz",
+  description: "Datenschutzerklärung von make/c.",
+  path: "/datenschutz",
+});
 
-  if (!page) {
-    notFound();
-  }
+export default function DatenschutzPage() {
+  const page = DATENSCHUTZ;
 
   return (
     <>

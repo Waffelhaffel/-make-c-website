@@ -4,7 +4,9 @@ import { MotionSection } from "@/components/ui/MotionSection";
 import { motion } from "framer-motion";
 import { Swoosh } from "@/components/ui/Swoosh";
 import { MixedHeadline } from "@/components/ui/MixedHeadline";
-import type { LandingApproach } from "@/sanity/types";
+import { EmphasizedText } from "@/components/ui/EmphasizedText";
+import { WordSlot } from "@/components/ui/WordSlot";
+import type { LandingApproach } from "@/lib/content/types";
 
 type ApproachProps = {
   data: LandingApproach;
@@ -27,18 +29,18 @@ export function Approach({ data }: ApproachProps) {
           className="flex flex-col lg:flex-row gap-12 lg:gap-0 items-start"
         >
           <div className="flex-shrink-0 lg:w-[42%]">
-            <MixedHeadline part1={data.headlineLine1} part2={data.headlineLine2} />
+            {/* „make" steht kursiv wie in der Wortmarke — welches Wort, kommt aus dem CMS */}
+            <MixedHeadline
+              part1={
+                <EmphasizedText text={data.headlineLine1} word={data.italicWord} />
+              }
+              part2={data.headlineLine2}
+            />
           </div>
 
           <div className="hidden lg:block w-px bg-white self-stretch mx-12 xl:mx-16" />
 
           <div className="flex-1 flex flex-col gap-6">
-            {data.kicker && (
-              <span className="font-gotham text-small text-white -mt-1 lg:-mt-10">
-                {data.kicker}
-              </span>
-            )}
-
             <div className="flex flex-col gap-6 text-white">
               {paragraphs.map((para, i) => (
                 <p
@@ -53,14 +55,21 @@ export function Approach({ data }: ApproachProps) {
                 </p>
               ))}
             </div>
-
-            {data.closing && (
-              <p className="font-gotham text-body-lg font-bold text-white">
-                {data.closing}
-              </p>
-            )}
+            {/* Hier stand ein optionaler `closing`-Absatz. Das Feld war im CMS
+                nie gefüllt und im Code-Fallback ein Leerstring — der Block hat
+                also nie gerendert und ist beim Hartcodieren entfallen. */}
           </div>
         </motion.div>
+
+        {/* Wortmarken-Slot: bewusst groß und zentriert unter beiden Spalten.
+            Größe ist so gedeckelt, dass der breiteste Zustand ("make/Communities")
+            auch bei 1920px innerhalb von max-w-7xl bleibt — main hat
+            overflow-x-hidden, ein Überlauf würde also still abgeschnitten. */}
+        <WordSlot
+          words={data.wordmarkWords}
+          size="text-[clamp(1.75rem,7vw,6rem)]"
+          className="mt-16 md:mt-24"
+        />
       </div>
 
       {/* Swoosh auf der Kante Blau → Dunkel (Figma 45:12) */}

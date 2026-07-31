@@ -1,5 +1,24 @@
 # PROJECT_OVERVIEW — make/c Website
 
+> ## ⚠️ HEAVILY OUTDATED — read with care (noted 31.07.2026)
+>
+> This document describes the state **before** the landing-page rebuild of 30.07.2026 and the
+> Sanity reduction of 31.07.2026. Concretely, the following no longer exist as described:
+>
+> - `ServiceAccordion`, `InsightGeneration`, `QuestionsEntry`, `PowerCounter`, `BudgetTool`
+>   and the `/services/[slug]` route — all removed.
+> - `/work/[slug]` case-detail pages — replaced by a modal (commit `b890bf9`).
+> - **"Sanity-connected" is wrong almost everywhere in §7/§8.** Sanity now holds *only*
+>   `caseStudy`. Landing, services, header/footer and the legal pages are hardcoded in
+>   `lib/content/`; the service pages' copy is in `lib/leistungen.ts`. There is no
+>   `landingPage`, `service`, `siteSettings` or `legalPage` schema anymore, and
+>   `getLandingPage`/`getServices`/`getSiteSettings` are deleted.
+> - The legal pages no longer `notFound()` when Sanity is unavailable.
+>
+> Still roughly valid: the directory layout, the build/deploy notes and the design sections.
+> **The authoritative short reference is `CLAUDE.md`**; for the current delta see
+> `HANDOVER.md` §0b.
+>
 > Comprehensive technical documentation generated from a full codebase analysis.
 > Audience: developers and AI agents picking up this project.
 > Language note: the project content is German; this document is in English, but quotes German field names/content verbatim.

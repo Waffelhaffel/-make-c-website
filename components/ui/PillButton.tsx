@@ -69,6 +69,18 @@ export function PillButton({
     );
   }
 
+  // Ohne href und ohne onClick ist das Pill reine Optik → <span>. Nötig für
+  // Buttons, die *innerhalb* eines Links sitzen (ServiceList-Kacheln): ein <a>
+  // im <a> ist ungültiges HTML, ein <button> im <a> ebenso.
+  if (!onClick) {
+    return (
+      <span className={rootClass}>
+        {children}
+        {iconEl}
+      </span>
+    );
+  }
+
   return (
     <button type="button" onClick={onClick} className={rootClass}>
       {children}

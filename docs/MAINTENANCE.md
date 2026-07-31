@@ -66,10 +66,10 @@ Sanity interpretiert den Teil vor dem ersten Punkt einer `_id` als Version/Bundl
 (wie `drafts.` / `versions.`). IDs wie `legalPage.impressum` sind dadurch **nicht** im
 öffentlich-veröffentlichten Layer → anonyme Queries liefern `null` → 404.
 
-➡️ **Immer Bindestriche statt Punkte** verwenden: `legalPage-impressum`,
-`service-video-produktion`, `caseStudy-aldi`. Die Seed-Skripte sind entsprechend
-korrigiert. Migrations-Skript: [`scripts/fix-document-ids.ts`](../scripts/fix-document-ids.ts)
-(idempotent, benötigt `SANITY_API_WRITE_TOKEN`).
+➡️ **Immer Bindestriche statt Punkte** verwenden: `caseStudy-aldi`. Die Case-Seed-Skripte
+sind entsprechend korrigiert. Das idempotente Migrations-Skript `fix-document-ids.ts` ist am
+31.07.2026 entfallen (es migrierte `legalPage`- und `service`-IDs, die es nicht mehr gibt);
+bei Bedarf in der Git-Historie.
 
 ### 3.3 Eingebettetes Studio: kein `appId` / `autoUpdates`
 Das Studio ist als `NextStudio` unter `/studio` eingebettet. Laut Sanity-Docs ist
@@ -90,9 +90,13 @@ klicken (funktioniert, sobald die Project-ID korrekt ist, s. 3.1).
 
 ### 3.5 Fehlertoleranz / Fallbacks
 - [`sanity/lib/fetch.ts`](../sanity/lib/fetch.ts): gibt bei fehlender Config **oder**
-  Query-Fehlern `null` zurück (kein Crash) → Aufrufer rendern Fallback-Inhalte.
-- Die Data-Getter (`getLandingPage`, `getServices`, `getSiteSettings`) haben eingebaute
-  Fallback-Inhalte.
+  Query-Fehlern `null` zurück (kein Crash).
+- **Seit 31.07.2026 hängt daran nur noch der Case-Inhalt.** `getCaseStudies()` liefert dann
+  ein leeres Array → `/work` und das Landing-Grid bleiben leer, der Rest der Seite rendert
+  normal, weil ihr Inhalt im Code liegt (`lib/content/`).
+  Vorher galt: fällt Sanity aus, greifen die `*_FALLBACK`-Konstanten — **außer** auf
+  `/impressum` und `/datenschutz`, die dafür keine hatten und mit **404** antworteten. Genau
+  deshalb liegen die Legal-Texte jetzt im Code.
 - Bilder: [`sanity/lib/image.ts`](../sanity/lib/image.ts) hat `hasImageAsset()`-Guard,
   `urlFor()` wirft nie. Vor dem Rendern eines Sanity-Bildes immer `hasImageAsset()` prüfen
   (sonst Crash, wenn `asset` nach Bildwechsel `null` ist).

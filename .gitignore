@@ -41,3 +41,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Sanity dataset exports (lokale Backups vor größeren Content-Änderungen)
+backup-*.tar.gz

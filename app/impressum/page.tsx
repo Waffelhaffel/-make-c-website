@@ -1,24 +1,24 @@
-import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PortableTextRenderer } from "@/components/ui/PortableTextRenderer";
-import { LEGAL_PAGE_BY_SLUG_QUERY } from "@/sanity/lib/queries";
-import { sanityFetch } from "@/sanity/lib/fetch";
-import type { LegalPage } from "@/sanity/types";
+import { IMPRESSUM } from "@/lib/content/legal";
+import { pageMetadata } from "@/lib/seo";
 
-export const revalidate = 60;
+// Kein `revalidate` und kein `notFound()` mehr: der Text liegt im Code. Bis
+// 07/2026 kam er aus Sanity und die Seite antwortete mit 404, sobald der Fetch
+// `null` lieferte — also auch bei fehlenden Env-Variablen. Für eine Seite mit
+// Impressumspflicht war das kein tragbares Ausfallverhalten.
 
-export default async function ImpressumPage() {
-  const page = await sanityFetch<LegalPage | null>({
-    query: LEGAL_PAGE_BY_SLUG_QUERY,
-    params: { slug: "impressum" },
-    tags: ["legalPage", "legalPage:impressum"],
-  });
+export const metadata: Metadata = pageMetadata({
+  title: "Impressum",
+  description: "Impressum und Anbieterkennzeichnung von make/c.",
+  path: "/impressum",
+});
 
-  if (!page) {
-    notFound();
-  }
+export default function ImpressumPage() {
+  const page = IMPRESSUM;
 
   return (
     <>

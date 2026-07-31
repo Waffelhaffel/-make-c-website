@@ -1,11 +1,10 @@
 import Link from "next/link";
 import { MixedHeadline } from "@/components/ui/MixedHeadline";
-import { getSiteSettings } from "@/sanity/lib/getSiteSettings";
+import { SITE } from "@/lib/content/site";
 
-export async function Footer() {
-  const settings = await getSiteSettings();
-  const lineOne = settings.footerHeadline?.lineOne ?? "Lets";
-  const lineTwo = settings.footerHeadline?.lineTwo ?? "talk";
+export function Footer() {
+  const settings = SITE;
+  const { lineOne, lineTwo } = settings.footerHeadline;
 
   return (
     <footer className="bg-makec-blue pt-14 md:pt-[70px] pb-10 md:pb-12 px-6 md:px-12">
@@ -37,7 +36,7 @@ export async function Footer() {
 
         <div className="border-t border-white pt-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 font-gotham text-meta text-white">
           <div className="flex flex-wrap gap-12 md:gap-[76px]">
-            {(settings.socials ?? []).map((social) => {
+            {settings.socials.map((social) => {
               const className =
                 "hover:text-white/70 transition-colors" + (social.url ? "" : " cursor-default");
               return social.url ? (

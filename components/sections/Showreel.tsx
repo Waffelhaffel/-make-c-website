@@ -6,15 +6,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Play } from "lucide-react";
 import Image from "next/image";
 import { MixedHeadline } from "@/components/ui/MixedHeadline";
-import { urlFor, hasImageAsset } from "@/sanity/lib/image";
-import type { LandingShowreel } from "@/sanity/types";
+import type { LandingShowreel } from "@/lib/content/types";
 
 type ShowreelProps = {
   data: LandingShowreel;
 };
-
-const DEFAULT_VIDEO_SRC = "/Makec_Reel 1.mp4";
-const DEFAULT_THUMBNAIL = "/thumbnail_Showreel.webp";
 
 function detectVideoKind(url: string | undefined): "vimeo" | "youtube" | "file" | null {
   if (!url) return null;
@@ -41,13 +37,8 @@ export function Showreel({ data }: ShowreelProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  const thumbnailSrc = hasImageAsset(data.thumbnail)
-    ? urlFor(data.thumbnail).width(1600).quality(85).auto("format").url()
-    : DEFAULT_THUMBNAIL;
-
   const videoUrl = data.videoUrl;
   const kind = detectVideoKind(videoUrl);
-  const localFileSrc = kind === "file" && videoUrl ? videoUrl : DEFAULT_VIDEO_SRC;
   const isEmbed = kind === "vimeo" || kind === "youtube";
   const embedSrc =
     kind === "vimeo" && videoUrl
@@ -84,11 +75,6 @@ export function Showreel({ data }: ShowreelProps) {
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
           <div className="text-center">
-            {data.kicker && (
-              <span className="block font-gotham text-meta text-white mb-2">
-                {data.kicker}
-              </span>
-            )}
             {/* Headline überlappt wie im Figma die Oberkante des Players */}
             <MixedHeadline
               variant="display"
@@ -113,8 +99,8 @@ export function Showreel({ data }: ShowreelProps) {
                   onClick={handlePlay}
                 >
                   <Image
-                    src={thumbnailSrc}
-                    alt={data.thumbnail?.alt || "Showreel Thumbnail"}
+                    src={data.thumbnail.src}
+                    alt={data.thumbnail.alt}
                     fill
                     className="object-cover"
                     priority
@@ -158,7 +144,7 @@ export function Showreel({ data }: ShowreelProps) {
                   ) : (
                     <video
                       ref={videoRef}
-                      src={localFileSrc}
+                      src={videoUrl}
                       className="w-full h-full object-contain bg-black"
                       controls
                       controlsList="nodownload noremoteplayback"

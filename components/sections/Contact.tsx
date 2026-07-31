@@ -6,17 +6,14 @@ import { ArrowRight } from "lucide-react";
 import { MotionSection } from "@/components/ui/MotionSection";
 import { MixedHeadline } from "@/components/ui/MixedHeadline";
 import { SquiggleUnderline } from "@/components/ui/SquiggleUnderline";
-import { urlFor, hasImageAsset } from "@/sanity/lib/image";
-import type { LandingContact } from "@/sanity/types";
+import type { LandingContact } from "@/lib/content/types";
 
 type ContactProps = {
   data: LandingContact;
 };
 
-const DEFAULT_CONTACT_IMAGE = "/Kontakt_Guy.webp";
-
 // Statische Stadt→Icon-Zuordnung (Assets im "icon /"-Ordner; Trailing-Space im
-// Pfad ist gewollt — bekannter Projekt-Fallstrick). Analog zu SERVICE_LOOP_VIDEOS.
+// Pfad ist gewollt — bekannter Projekt-Fallstrick).
 const LOCATION_ICONS: { match: string; src: string }[] = [
   { match: "koln", src: "/icon /Dom_Icon.png" },
   { match: "essen", src: "/icon /Zeche_Icon.png" },
@@ -34,14 +31,12 @@ function cityName(cityLabel?: string): string {
 }
 
 export function Contact({ data }: ContactProps) {
-  const locations = data.locations ?? [];
-  const email = data.email ?? "";
+  const locations = data.locations;
+  const email = data.email;
   const mailHref = email ? `mailto:${email}` : undefined;
+  // Ohne gepflegte Nummer wird die Telefonzeile weggelassen — kein tel:-Link
+  // auf eine Platzhalter-Nummer.
   const phoneHref = data.phone ? `tel:${data.phone.replace(/[^+\d]/g, "")}` : undefined;
-
-  const contactImageSrc = hasImageAsset(data.contactImage)
-    ? urlFor(data.contactImage).width(480).quality(85).auto("format").url()
-    : DEFAULT_CONTACT_IMAGE;
 
   return (
     <MotionSection
@@ -49,11 +44,6 @@ export function Contact({ data }: ContactProps) {
       className="relative bg-makec-dark text-white py-16 md:py-32 px-6 md:px-12"
     >
       <div className="max-w-[1080px] mx-auto">
-        {/* Kicker */}
-        <p className="font-gotham text-meta uppercase tracking-[0.18em] text-white/70 mb-6 md:mb-7">
-          / Kontakt
-        </p>
-
         {/* Misch-Typo-Headline */}
         <MixedHeadline variant="h2" part1={data.headlineLine1} part2={data.headlineLine2} />
 
@@ -83,8 +73,8 @@ export function Contact({ data }: ContactProps) {
             <div className="flex items-center gap-5 md:gap-6">
               <div className="relative flex-none w-40 h-40 md:w-52 md:h-52">
                 <Image
-                  src={contactImageSrc}
-                  alt={data.contactImage?.alt || data.contactName || "Ansprechpartner make/c"}
+                  src={data.contactImage.src}
+                  alt={data.contactImage.alt || data.contactName}
                   fill
                   sizes="(min-width: 768px) 208px, 160px"
                   className="object-contain"
@@ -149,7 +139,12 @@ export function Contact({ data }: ContactProps) {
               </p>
             )}
 
-            <div className="flex flex-col">
+            {/* md:pt-[9.5px] richtet den Strich unter dem letzten Standort exakt auf
+                den letzten Strich der linken Spalte (E-Mail-Zeile) aus. Die beiden
+                Spalten haben unterschiedliche Zeilen-Rhythmen; die Differenz ist
+                mit 9,5px bei 1280/1440/1920 konstant gemessen. Unter md stehen die
+                Spalten untereinander, dort ist die Ausrichtung irrelevant. */}
+            <div className="flex flex-col md:pt-[9.5px]">
               {locations.map((loc, i) => {
                 const icon = iconForCity(loc.cityLabel);
                 const subtitle = [loc.headlineLineOne, loc.headlineLineTwo]

@@ -1,7 +1,6 @@
 "use client";
 
 import { SELECTED_WORK } from "@/lib/data";
-import { motion } from "framer-motion";
 import Image from "next/image";
 import { Magnetic } from "@/components/ui/Magnetic";
 import { MixedHeadline } from "@/components/ui/MixedHeadline";
@@ -21,8 +20,12 @@ export function SelectedWork({ caseStudies }: SelectedWorkProps) {
 
   return (
     <section id="work" className="relative bg-makec-dark">
-      {/* Blauer Auftakt: läuft nahtlos aus der Insights-Section, Headline überlappt das Grid (Figma 45:14) */}
-      <div className="bg-makec-blue pt-20 md:pt-32 px-6">
+      {/* Swoosh auf der Kante Dunkel → Blau. Vorher übernahm das die Insights-Section,
+          die 07/2026 entfernt wurde — ohne ihn wäre das die einzige unmarkierte Farbkante. */}
+      <Swoosh className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 z-10 w-[clamp(12rem,25vw,30.5rem)] text-white" />
+
+      {/* Blauer Auftakt, Headline überlappt das Grid (Figma 45:14) */}
+      <div className="bg-makec-blue pt-28 md:pt-44 px-6">
         <MixedHeadline
           variant="display"
           part1="Selected"
@@ -35,39 +38,44 @@ export function SelectedWork({ caseStudies }: SelectedWorkProps) {
       {/* Full-bleed Grid ohne Abstände (Figma 45:22–27, Kacheln ~960×538) */}
       <div className="grid grid-cols-1 md:grid-cols-2">
         {SELECTED_WORK.map((project) => {
-          const doc = bySlug.get(project.slug);
-          return (
+          const doc = project.caseSlug ? bySlug.get(project.caseSlug) : undefined;
+
+          const tile = (
+            <div className="w-full overflow-hidden bg-makec-dark relative aspect-[960/538]">
+              <Image
+                src={project.image}
+                alt={project.name}
+                fill
+                className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                sizes="(min-width: 768px) 50vw, 100vw"
+              />
+              <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+                <p className="font-gotham text-meta uppercase tracking-[0.3em] text-white/80 mb-2">
+                  {project.label}
+                </p>
+                <p className="font-gotham text-h4 text-white uppercase">{project.name}</p>
+              </div>
+            </div>
+          );
+
+          // Ohne Sanity-Case gibt es nichts zu öffnen: dann kein Button, kein
+          // data-cursor="VIEW" — sonst verspricht die Kachel eine Case-Ansicht,
+          // die nie aufgeht.
+          return doc ? (
             <button
-              key={project.slug}
+              key={project.name}
               type="button"
-              onClick={() => {
-                if (doc) {
-                  openCase(doc);
-                } else if (process.env.NODE_ENV !== "production") {
-                  console.warn(`[SelectedWork] Kein Sanity-Case für Slug "${project.slug}"`);
-                }
-              }}
+              onClick={() => openCase(doc)}
               className="block w-full text-left group relative"
               data-cursor="VIEW"
             >
-              <motion.div className="w-full overflow-hidden bg-makec-dark relative aspect-[960/538]">
-                <Image
-                  src={project.image}
-                  alt={project.name}
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-                  sizes="(min-width: 768px) 50vw, 100vw"
-                />
-                <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-                  <p className="font-gotham text-meta uppercase tracking-[0.3em] text-white/80 mb-2">
-                    Case Study
-                  </p>
-                  <p className="font-gotham text-h4 text-white uppercase">{project.name}</p>
-                  <span className="font-gotham text-meta text-white/70 mt-2">{project.year}</span>
-                </div>
-              </motion.div>
+              {tile}
             </button>
+          ) : (
+            <div key={project.name} className="block w-full group relative">
+              {tile}
+            </div>
           );
         })}
       </div>

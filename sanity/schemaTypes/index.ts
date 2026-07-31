@@ -1,31 +1,27 @@
 import type { SchemaTypeDefinition } from "sanity";
 
 import { caseStudy } from "./documents/caseStudy";
-import { landingPage } from "./documents/landingPage";
-import { legalPage } from "./documents/legalPage";
-import { service } from "./documents/service";
-import { siteSettings } from "./documents/siteSettings";
 import { ctaSection } from "./objects/ctaSection";
 import { galleryItem } from "./objects/galleryItem";
 import { headline } from "./objects/headline";
-import { location } from "./objects/location";
-import { locationCard } from "./objects/locationCard";
 import { mainMedia } from "./objects/mainMedia";
-import { powerWord } from "./objects/powerWord";
 import { projectMeta } from "./objects/projectMeta";
 import { seo } from "./objects/seo";
-import { socialLink } from "./objects/socialLink";
 import { solutionSection } from "./objects/solutionSection";
-import { statItem } from "./objects/statItem";
-import { testimonial } from "./objects/testimonial";
 
+// Sanity verwaltet seit 07/2026 ausschließlich die Case Studies. Die Typen
+// `landingPage`, `service`, `siteSettings` und `legalPage` (mit den Objekten
+// `location`, `socialLink`, `statItem`, `locationCard`, `testimonial`) sind
+// entfernt — dieser Inhalt liegt hartcodiert in `lib/content/` bzw.
+// `lib/leistungen.ts`.
+//
+// ⚠️ Die zugehörigen Dokumente liegen weiterhin im Dataset (bewusste
+// Entscheidung: ein entferntes Schema löscht keine Daten). Sie tauchen im Studio
+// nicht mehr auf, werden von keiner Query gelesen und kosten zur Laufzeit
+// nichts. Wer sie wirklich loswerden will, muss sie explizit löschen.
 export const schemaTypes: SchemaTypeDefinition[] = [
-  // Documents
+  // Document
   caseStudy,
-  landingPage,
-  siteSettings,
-  legalPage,
-  service,
   // Objects
   headline,
   projectMeta,
@@ -34,10 +30,4 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   ctaSection,
   galleryItem,
   seo,
-  location,
-  socialLink,
-  statItem,
-  locationCard,
-  powerWord,
-  testimonial,
 ];

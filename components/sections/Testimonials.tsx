@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { MotionSection } from "@/components/ui/MotionSection";
 import { MixedHeadline } from "@/components/ui/MixedHeadline";
-import type { LandingTestimonials } from "@/sanity/types";
+import type { LandingTestimonials } from "@/lib/content/types";
 
 type TestimonialsProps = {
   data: LandingTestimonials;
@@ -37,7 +37,7 @@ export function Testimonials({ data }: TestimonialsProps) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-12 lg:gap-16">
           {items.map((item, i) => (
             <motion.figure
-              key={item._key ?? `${item.author}-${i}`}
+              key={`${item.author}-${i}`}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}

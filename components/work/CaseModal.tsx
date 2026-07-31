@@ -42,7 +42,7 @@ export function CaseModal({ caseData, onClose }: CaseModalProps) {
     };
   }, [isOpen]);
 
-  // Escape schließt (nur registriert, solange offen — wie ServiceAccordion).
+  // Escape schließt (nur registriert, solange offen).
   useEffect(() => {
     if (!isOpen) return;
     const onKey = (e: KeyboardEvent) => {
@@ -94,7 +94,7 @@ export function CaseModal({ caseData, onClose }: CaseModalProps) {
             transition={{ type: "spring", damping: 26, stiffness: 260 }}
             className="relative w-full max-w-[960px] max-h-[92vh] sm:max-h-[85vh] overflow-hidden rounded-2xl bg-makec-dark border border-white/10 shadow-[0_30px_80px_rgba(0,0,0,0.6)] focus:outline-none"
           >
-            {/* Schließen — rund, wie im ServiceAccordion */}
+            {/* Schließen — runder Icon-Button, Projekt-Idiom */}
             <button
               type="button"
               onClick={onClose}
@@ -112,7 +112,7 @@ export function CaseModal({ caseData, onClose }: CaseModalProps) {
               {/* 1 · Header */}
               <div className="mb-8 pr-12">
                 {data.kicker && (
-                  <p className="mb-3 font-gotham text-meta uppercase tracking-[0.18em] text-makec-blue">
+                  <p className="mb-3 font-gotham text-meta uppercase tracking-[0.18em] text-white/60">
                     {data.kicker}
                   </p>
                 )}
@@ -174,7 +174,7 @@ export function CaseModal({ caseData, onClose }: CaseModalProps) {
               {/* 5 · Credits (2 Spalten) */}
               {credits.length > 0 && (
                 <div className="mb-12 border-t border-white/15 pt-8">
-                  <p className="mb-4 font-gotham text-meta uppercase tracking-[0.18em] text-makec-blue">
+                  <p className="mb-4 font-gotham text-meta uppercase tracking-[0.18em] text-white/60">
                     Credits
                   </p>
                   <div className="grid grid-cols-1 gap-x-16 md:grid-cols-2">

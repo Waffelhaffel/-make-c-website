@@ -1,7 +1,9 @@
-import { getSiteSettings } from "@/sanity/lib/getSiteSettings";
+import { SITE } from "@/lib/content/site";
 import { HeaderClient } from "./HeaderClient";
 
-export async function Header() {
-  const settings = await getSiteSettings();
-  return <HeaderClient settings={settings} />;
+// Dünner Server-Wrapper um die interaktive Leiste. War bis 07/2026 `async` und
+// holte `siteSettings` aus Sanity — auf jeder Route, zusätzlich zum identischen
+// Aufruf im Footer.
+export function Header() {
+  return <HeaderClient settings={SITE} />;
 }

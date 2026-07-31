@@ -3,7 +3,7 @@
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useRef } from "react";
 import { Swoosh } from "@/components/ui/Swoosh";
-import type { LandingHero } from "@/sanity/types";
+import type { LandingHero } from "@/lib/content/types";
 
 type HeroProps = {
   data: LandingHero;

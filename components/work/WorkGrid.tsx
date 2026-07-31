@@ -65,9 +65,12 @@ export function WorkGrid({ caseStudies }: WorkGridProps) {
                   <p className="font-gotham text-[10px] text-white/70 uppercase tracking-widest mb-1">
                     {item.projectMeta.client} · {item.projectMeta.year}
                   </p>
-                  <h3 className="font-gotham text-xs sm:text-sm uppercase tracking-tight leading-tight">
+                  {/* h2, nicht h3: auf /work stehen die Kacheln direkt unter
+                      der h1 „Referenzen" — es gibt keine Zwischenebene, ein h3
+                      wäre eine Lücke in der Hierarchie. */}
+                  <h2 className="font-gotham text-xs sm:text-sm uppercase tracking-tight leading-tight">
                     {item.project}
-                  </h3>
+                  </h2>
                 </div>
               </button>
             </motion.div>

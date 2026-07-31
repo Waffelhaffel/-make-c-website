@@ -1,5 +1,9 @@
 import { groq } from "next-sanity";
 
+// Sanity liefert seit 07/2026 nur noch Case Studies. Entfernt wurden mit den
+// zugehörigen Schemas: LANDING_PAGE_QUERY, SITE_SETTINGS_QUERY,
+// LEGAL_PAGE_BY_SLUG_QUERY, ALL_SERVICES_QUERY und SERVICE_BY_SLUG_QUERY.
+
 const IMAGE_PROJECTION = `{
   _type,
   asset,
@@ -8,10 +12,9 @@ const IMAGE_PROJECTION = `{
   alt
 }`;
 
-// Volle Projektion aller Cases (für Modal + /work-Grid). Nur 6 Dokumente →
-// einmalig serverseitig laden ist billig; kein Detailseiten-Fetch mehr nötig.
-export const ALL_CASE_STUDIES_QUERY = groq`
-  *[_type == "caseStudy" && (featured == true || !defined(featured))] | order(coalesce(order, 100) asc, _createdAt desc){
+// Volle Case-Projektion — geteilt zwischen Landing/Work-Grid und den
+// Leistungsseiten, damit das Modal überall dieselben Felder bekommt.
+const CASE_STUDY_PROJECTION = `{
     _id,
     title,
     "slug": slug.current,
@@ -47,117 +50,24 @@ export const ALL_CASE_STUDIES_QUERY = groq`
       metaDescription,
       ogImage ${IMAGE_PROJECTION}
     }
-  }
+  }`;
+
+// Volle Projektion aller Cases (für Modal + /work-Grid). 18 Dokumente →
+// einmalig serverseitig laden ist billig; kein Detailseiten-Fetch mehr nötig.
+export const ALL_CASE_STUDIES_QUERY = groq`
+  *[_type == "caseStudy" && (featured == true || !defined(featured))] | order(coalesce(order, 100) asc, _createdAt desc)${CASE_STUDY_PROJECTION}
 `;
 
-export const SITE_SETTINGS_QUERY = groq`
-  *[_type == "siteSettings"][0]{
-    email,
-    phone,
-    locations[]{
-      city,
-      address
-    },
-    socials[]{
-      label,
-      url
-    },
-    footerHeadline{
-      lineOne,
-      lineTwo
-    },
-    copyright
-  }
+// Gezielt die Cases einer Leistungsseite. Bewusst OHNE `featured`-Filter: die
+// Seite kuratiert die Slugs selbst, ein späteres Entfernen des featured-Flags
+// soll die Detailseiten nicht stillschweigend leeren.
+export const CASE_STUDIES_BY_SLUGS_QUERY = groq`
+  *[_type == "caseStudy" && slug.current in $slugs]${CASE_STUDY_PROJECTION}
 `;
 
-export const LEGAL_PAGE_BY_SLUG_QUERY = groq`
-  *[_type == "legalPage" && slug.current == $slug][0]{
-    _id,
-    title,
-    "slug": slug.current,
-    body,
-    effectiveDate
-  }
-`;
-
-export const ALL_SERVICES_QUERY = groq`
-  *[_type == "service"] | order(coalesce(order, 100) asc, _createdAt asc){
-    _id,
-    title,
-    displayTitle,
-    "slug": slug.current,
-    headline,
-    description,
-    detailText,
-    features[]{ _key, title, description },
-    processSteps[]{ _key, title, description },
-    heroImage ${IMAGE_PROJECTION},
-    externalLink,
-    buttonText,
-    order
-  }
-`;
-
-export const LANDING_PAGE_QUERY = groq`
-  *[_type == "landingPage"][0]{
-    hero{
-      headlineLine1, headlineLine2, headlineLine3,
-      subheadline,
-      cornerLeft, cornerCenter, cornerRight
-    },
-    stats{
-      kicker,
-      headlineLine1, headlineLine2,
-      items[]{ icon, number, label, subtext }
-    },
-    showreel{
-      kicker,
-      headlinePart1, headlinePart2,
-      thumbnail ${IMAGE_PROJECTION},
-      videoUrl
-    },
-    approach{
-      headlineLine1, headlineLine2,
-      kicker,
-      paragraphs,
-      closing
-    },
-    insight{
-      headlineLine1, headlineLine2,
-      kicker,
-      body
-    },
-    testimonials{
-      kicker,
-      headlineLine1, headlineLine2,
-      items[]{ _key, quote, author, role, rating }
-    },
-    about{
-      quoteLine1, quoteLine2,
-      powerWords[]{ label },
-      teamTitlePart1, teamTitlePart2,
-      teamImage ${IMAGE_PROJECTION},
-      kicker,
-      paragraphs
-    },
-    questions{
-      headlineLine1, headlineLine2,
-      linkText
-    },
-    contact{
-      kicker,
-      headlineLine1,
-      headlineLine2,
-      introLinkText,
-      ctaButtonText,
-      contactImage ${IMAGE_PROJECTION},
-      contactName,
-      contactRole,
-      phone,
-      email,
-      floatingCtaEnabled,
-      ctaLabel,
-      locations[]{ headlineLineOne, headlineLineTwo, cityLabel, addressLine1, addressLine2, mapsUrl }
-    }
-  }
+// Änderungszeitstempel für app/sitemap.ts. Seit 07/2026 nur noch `/work`: die
+// übrigen Seiten sind hartcodiert und haben damit — wie /leistungen schon vorher —
+// keinen echten Änderungszeitstempel mehr.
+export const NEWEST_CASE_UPDATED_AT_QUERY = groq`
+  *[_type == "caseStudy"] | order(_updatedAt desc)[0]._updatedAt
 `;

@@ -2,6 +2,13 @@ import type { Metadata } from "next";
 import { Montserrat, EB_Garamond } from "next/font/google";
 import "./globals.css";
 import { SiteEffects } from "@/components/layout/SiteEffects";
+import { JsonLd } from "@/components/seo/JsonLd";
+import {
+  IS_INDEXABLE,
+  OG_IMAGE_PATH,
+  SITE_URL,
+  organizationGraph,
+} from "@/lib/seo";
 
 // Kostenloser Gotham-Ersatz (geometrische Grotesk); liefert als Variable Font
 // auch das Book-Gewicht 325 und Italic. Echte Gotham später via next/font/local
@@ -23,21 +30,50 @@ const ebGaramond = EB_Garamond({
 
 
 export const metadata: Metadata = {
-  title: "make/c - Video Marketing & Production",
+  // metadataBase macht relative canonical-/OG-Pfade in den Unterseiten absolut.
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "make/c - Video Marketing & Production",
+    template: "%s | make/c",
+  },
   description: "make/c entwickelt und produziert Bewegtbild für Marken.",
+  alternates: { canonical: "/" },
   icons: {
     icon: "/make:c_logo_icon.png",
     shortcut: "/make:c_logo_icon.png",
     apple: "/make:c_logo_icon.png",
   },
-  robots: {
-    index: false,
-    follow: false,
-    googleBot: {
-      index: false,
-      follow: false,
-    },
+  openGraph: {
+    type: "website",
+    locale: "de_DE",
+    siteName: "make/c",
+    url: SITE_URL,
+    title: "make/c - Video Marketing & Production",
+    description: "make/c entwickelt und produziert Bewegtbild für Marken.",
+    images: [
+      {
+        url: OG_IMAGE_PATH,
+        width: 1200,
+        height: 630,
+        alt: "make/c — Videoproduktion und Video-Marketing",
+      },
+    ],
   },
+  twitter: { card: "summary_large_image" },
+  // ⚠️ Unterseiten setzen ihre Metadata über `pageMetadata()` aus lib/seo.ts.
+  // Wer hier nur `title`/`description` überschreibt, erbt das komplette
+  // `openGraph` dieser Datei — Next merged es nicht feldweise.
+  // Indexierung ist bis zum Go-Live aus. Freischalten über
+  // NEXT_PUBLIC_SEO_INDEX=true (Build-Zeit-Variable → Redeploy nötig).
+  ...(IS_INDEXABLE
+    ? {}
+    : {
+        robots: {
+          index: false,
+          follow: false,
+          googleBot: { index: false, follow: false },
+        },
+      }),
 };
 
 export default function RootLayout({
@@ -54,6 +90,7 @@ export default function RootLayout({
         >
           Zum Inhalt springen
         </a>
+        <JsonLd data={organizationGraph()} />
         <SiteEffects>{children}</SiteEffects>
       </body>
     </html>
