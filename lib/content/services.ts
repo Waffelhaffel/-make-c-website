@@ -1,7 +1,8 @@
 import type { Service } from "./types";
 
-// Die sechs Leistungs-Kacheln auf `/` und `/leistungen` — hartcodiert
-// (siehe CLAUDE.md, Regel 1).
+// Die sechs Leistungs-Kacheln auf der Startseite (Anker `#service`) —
+// hartcodiert (siehe CLAUDE.md, Regel 1). Die frühere Übersichtsseite
+// `/leistungen` ist 08/2026 entfallen.
 //
 // Bis 07/2026 lagen sie als `service`-Dokumente in Sanity. Von den gepflegten
 // Feldern erreichte allerdings nur `heroImage`, `displayTitle`, `slug` und
@@ -25,7 +26,7 @@ export const SERVICES: Service[] = [
     slug: "video-strategie",
     title: "Video Strategie",
     image: {
-      src: "/leistungen/strategie.png",
+      src: "/leistungen/video-strategie.png",
       alt: "Handgezeichnete Illustration: Video Strategie",
     },
   },
@@ -33,7 +34,7 @@ export const SERVICES: Service[] = [
     slug: "video-produktion",
     title: "Video Produktion",
     image: {
-      src: "/leistungen/produktion.png",
+      src: "/leistungen/video-produktion.png",
       alt: "Handgezeichnete Illustration: Video Produktion",
     },
   },
@@ -41,7 +42,7 @@ export const SERVICES: Service[] = [
     slug: "video-motion-design",
     title: "Video Motion Design",
     image: {
-      src: "/leistungen/motion-design.png",
+      src: "/leistungen/video-motion-design.png",
       alt: "Handgezeichnete Illustration: Video Motion Design",
     },
   },
@@ -57,7 +58,7 @@ export const SERVICES: Service[] = [
     slug: "artificial-intelligence",
     title: "Video AI",
     image: {
-      src: "/leistungen/ai.png",
+      src: "/leistungen/artificial-intelligence.png",
       alt: "Handgezeichnete Illustration: Video AI",
     },
   },

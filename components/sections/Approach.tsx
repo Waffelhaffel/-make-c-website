@@ -62,7 +62,7 @@ export function Approach({ data }: ApproachProps) {
         </motion.div>
 
         {/* Wortmarken-Slot: bewusst groß und zentriert unter beiden Spalten.
-            Größe ist so gedeckelt, dass der breiteste Zustand ("make/Communities")
+            Größe ist so gedeckelt, dass der breiteste Zustand ("make/communities")
             auch bei 1920px innerhalb von max-w-7xl bleibt — main hat
             overflow-x-hidden, ein Überlauf würde also still abgeschnitten. */}
         <WordSlot

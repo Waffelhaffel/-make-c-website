@@ -39,9 +39,9 @@ export const metadata: Metadata = {
   description: "make/c entwickelt und produziert Bewegtbild für Marken.",
   alternates: { canonical: "/" },
   icons: {
-    icon: "/make:c_logo_icon.png",
-    shortcut: "/make:c_logo_icon.png",
-    apple: "/make:c_logo_icon.png",
+    icon: "/makec-logo-icon.png",
+    shortcut: "/makec-logo-icon.png",
+    apple: "/makec-logo-icon.png",
   },
   openGraph: {
     type: "website",
@@ -82,7 +82,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="de" className={`scroll-smooth ${ebGaramond.variable} ${montserrat.variable}`}>
+    // `scroll-behavior: smooth` steht nur noch in globals.css (die Klasse
+    // `scroll-smooth` hier war eine Dublette). `data-scroll-behavior` sagt
+    // Next.js, dass es die Eigenschaft bei Routenwechseln weiterhin kurz
+    // abschalten soll — ohne das Attribut warnt Next 15 und stellt es in
+    // Version 16 ein.
+    <html
+      lang="de"
+      data-scroll-behavior="smooth"
+      className={`${ebGaramond.variable} ${montserrat.variable}`}
+    >
       <body className="font-gotham bg-makec-dark text-white antialiased">
         <a
           href="#main-content"

@@ -11,6 +11,8 @@
 // Die Tonalität stammt aus den früher in Sanity gepflegten
 // `description`/`detailText`-Feldern der `service`-Dokumente.
 
+import type { LocalImage } from "./content/types";
+
 export type ServiceFaq = { question: string; answer: string };
 export type ServiceStep = { title: string; body: string };
 export type ServiceFact = { label: string; value: string };
@@ -39,13 +41,42 @@ export type ServicePageContent = {
   faq: ServiceFaq[];
   /** zwei Schwester-Slugs für die interne Verlinkung */
   relatedSlugs: string[];
-  /** genau drei caseStudy-Slugs aus Sanity */
+  /** genau drei Case-Slugs aus `lib/content/cases.ts` */
   caseSlugs: string[];
-  /** Datei in public/ — Namen exakt übernehmen, enthalten Leerzeichen */
+  /**
+   * Loop-Video unter `public/leistungen-loops/`, benannt nach dem Slug.
+   * Ohne Wert zeigt `ServiceBlocks` das Bild aus `SERVICES` (`lib/content/services.ts`).
+   *
+   * ⚠️ Der Dateiname darf **kein Leerzeichen** enthalten. Die alten Loops lagen
+   * mit Leerzeichen direkt in `public/` („Beratung loop.mp4"), was `ServiceBlocks`
+   * zu einem `encodeURI()` zwang.
+   */
   loopVideo?: string;
+  /**
+   * Genau zwei Set-Fotos, gebaut von `scripts/build-service-images.mjs` aus
+   * `assets/masters/unterseite-bilder/`. Reihenfolge ist Platzierung:
+   * `[0]` steht im Medienrahmen von „Was wir konkret machen" (3:2),
+   * `[1]` als Band unter dem Ablauf (`ServiceImageBand`, dort auf 21:9 beschnitten).
+   *
+   * ⚠️ Welches Motiv wohin gehört, steht in der `MAPPING`-Tabelle des Skripts —
+   * die Pfade hier ändern sich beim Tauschen nicht.
+   */
+  images: LocalImage[];
   cta: { headline: string; body: string; buttonText: string };
   seo: { metaTitle: string; metaDescription: string; keywords: string[] };
 };
+
+/**
+ * Zum Loop gehört ein gleichnamiges Poster — beide erzeugt
+ * `scripts/build-service-loops.mjs` im selben Durchlauf. Deshalb abgeleitet
+ * statt als zweites Datenfeld gepflegt: die Kopplung besteht ohnehin, und ein
+ * vergessenes Feld fiele erst im Browser auf.
+ *
+ * Benutzt von `ServiceBlocks` (Detailseite) und `ServiceList` (Startseite).
+ */
+export function loopPoster(loopVideo: string): string {
+  return loopVideo.replace(/\.mp4$/, "-poster.webp");
+}
 
 export const SERVICE_PAGES: ServicePageContent[] = [
   // ---------------------------------------------------------------------
@@ -75,20 +106,14 @@ export const SERVICE_PAGES: ServicePageContent[] = [
         body: "Statt Projekt für Projekt neu anzufangen, entwickeln wir einen Baukasten wiederkehrender Formate mit festem Look, festem Ablauf und klarer Aufgabe. Das senkt die Produktionskosten pro Video deutlich und macht die Marke über alle Kanäle hinweg wiedererkennbar.",
       },
       {
-        title: "Prozesse und Rollen",
-        body: "Eine Strategie funktioniert nur, wenn klar ist, wer briefed, wer freigibt und wer produziert. Wir definieren Freigabewege, Vorlaufzeiten und Schnittstellen zwischen Marketing, Kommunikation und externen Dienstleistern.",
-      },
-      {
-        title: "Messbarkeit",
-        body: "Wir legen pro Format fest, woran sich Erfolg ablesen lässt — Reichweite, Verweildauer, Conversion oder interne Nutzung. So wird aus einem Bauchgefühl eine Entscheidungsgrundlage für das nächste Budget.",
+        title: "Prozesse und Messbarkeit",
+        body: "Eine Strategie funktioniert nur, wenn klar ist, wer briefed, wer freigibt und wer produziert. Wir definieren Freigabewege, Vorlaufzeiten und Schnittstellen — und legen pro Format fest, woran sich Erfolg ablesen lässt: Reichweite, Verweildauer, Conversion oder interne Nutzung. So wird aus einem Bauchgefühl eine Entscheidungsgrundlage für das nächste Budget.",
       },
     ],
     steps: [
-      { title: "Analyse", body: "Bestandsaufnahme der bisherigen Videos, Kanäle, Zielgruppen und Budgets." },
-      { title: "Zieldefinition", body: "Wir klären gemeinsam, was Video konkret leisten soll: Bekanntheit, Recruiting, Vertriebsunterstützung oder interne Kommunikation." },
+      { title: "Analyse und Ziele", body: "Bestandsaufnahme der bisherigen Videos, Kanäle und Budgets — und die Klärung, was Video konkret leisten soll: Bekanntheit, Recruiting, Vertrieb oder interne Kommunikation." },
       { title: "Formatentwicklung", body: "Entwicklung eines Formatbaukastens mit Look, Länge, Frequenz und Kanalzuordnung." },
-      { title: "Prozessdesign", body: "Festlegung von Produktionsworkflow, Rollen, Freigaben und Vorlaufzeiten." },
-      { title: "KPI-Framework", body: "Definition der Kennzahlen je Format und Aufsetzen des Reportings." },
+      { title: "Prozesse und KPIs", body: "Produktionsworkflow, Rollen, Freigaben und Vorlaufzeiten — dazu die Kennzahlen je Format und das passende Reporting." },
       { title: "Umsetzungsbegleitung", body: "Wir begleiten die ersten Produktionen und übergeben auf Wunsch ins Inhouse-Setup." },
     ],
     audience: [
@@ -125,8 +150,26 @@ export const SERVICE_PAGES: ServicePageContent[] = [
       },
     ],
     relatedSlugs: ["video-produktion", "studiobau"],
-    caseSlugs: ["zeitgeist", "kpmg", "referenzprojekt-07"],
-    loopVideo: "/Beratung loop.mp4",
+    // Strategie-lastige Projekte: Format-Entwicklung, Beratung, Bühnenregie.
+    // `dmexco-live-stream` (2020) ist mit dem Schnitt bei 2022 entfallen
+    // (12.08.2026); an seine Stelle rückt der Gründerfonds — eine fortlaufende
+    // Clip-Reihe und damit ein Formatbaukasten, wie ihn diese Seite beschreibt.
+    caseSlugs: [
+      "zurich-strategiegarten-2023",
+      "workshop-selber-drehen-und-schneiden",
+      "high-tech-gruenderfonds",
+    ],
+    loopVideo: "/leistungen-loops/video-strategie.mp4",
+    images: [
+      {
+        src: "/leistungen-bilder/video-strategie-1.webp",
+        alt: "Zwei Personen besprechen an einem Laptop die Planung, im Vordergrund eine Kamera",
+      },
+      {
+        src: "/leistungen-bilder/video-strategie-2.webp",
+        alt: "Mitglied des make/c-Teams stimmt sich am Set über den Kameramonitor ab",
+      },
+    ],
     cta: {
       headline: "Video als System denken",
       body: "Erzähl uns, was Video bei euch leisten soll — wir sagen dir ehrlich, ob eine Strategie der richtige nächste Schritt ist.",
@@ -174,21 +217,15 @@ export const SERVICE_PAGES: ServicePageContent[] = [
         body: "Bewegtbild, das ein konkretes Ziel hat: ein Produkt erklären, eine Kampagne tragen, eine Zielgruppe aktivieren. Wir denken Kampagnen von Anfang an in Varianten, damit aus einem Dreh Material für mehrere Kanäle und Laufzeiten entsteht.",
       },
       {
-        title: "Social-First Content",
-        body: "Vertikale Formate, die für den Feed gebaut sind und nicht nachträglich beschnitten wurden. Kurze Vorlaufzeiten, wiederkehrende Formate und ein Look, der auch ohne Ton funktioniert.",
-      },
-      {
-        title: "Studioproduktionen",
-        body: "Interviews, Testimonials, Produktaufnahmen und Formatstrecken unter kontrollierten Bedingungen. Studioproduktionen sind der günstigste Weg, viele Videos in gleichbleibender Qualität zu produzieren.",
+        title: "Social-First und Studioproduktion",
+        body: "Vertikale Formate, die für den Feed gebaut sind und nicht nachträglich beschnitten wurden: kurze Vorlaufzeiten, wiederkehrende Formate, ein Look, der auch ohne Ton funktioniert. Unter Studiobedingungen entstehen daraus ganze Formatstrecken — Interviews, Testimonials und Produktaufnahmen sind der günstigste Weg zu vielen Videos in gleichbleibender Qualität.",
       },
     ],
     steps: [
-      { title: "Briefing", body: "Wir klären Ziel, Zielgruppe, Kanal und Budget — bevor über Bilder gesprochen wird." },
-      { title: "Konzept", body: "Idee, Erzählform und Drehbuch, inklusive Moodboard und Formatplanung." },
+      { title: "Briefing und Konzept", body: "Ziel, Zielgruppe, Kanal und Budget klären, bevor über Bilder gesprochen wird — daraus entstehen Idee, Erzählform und Drehbuch samt Moodboard." },
       { title: "Vorproduktion", body: "Location-Scouting, Casting, Drehplan, Genehmigungen und Technikdisposition." },
       { title: "Dreh", body: "Produktion vor Ort oder im Studio, mit eingespieltem Team aus Regie, Kamera, Licht und Ton." },
-      { title: "Postproduktion", body: "Schnitt, Farbkorrektur, Motion Design, Sounddesign und Vertonung." },
-      { title: "Ausspielung", body: "Finale Dateien in allen benötigten Seitenverhältnissen, Längen und Untertitelvarianten." },
+      { title: "Postproduktion und Ausspielung", body: "Schnitt, Farbkorrektur, Motion Design und Ton — am Ende finale Dateien in allen benötigten Seitenverhältnissen, Längen und Untertitelvarianten." },
     ],
     audience: [
       "Unternehmen, die ihre Marke über Bewegtbild aufbauen wollen",
@@ -229,8 +266,18 @@ export const SERVICE_PAGES: ServicePageContent[] = [
       },
     ],
     relatedSlugs: ["video-strategie", "video-motion-design"],
-    caseSlugs: ["merkur", "koeln-bonn-airport", "wundholding"],
-    loopVideo: "/Vidoe Produktion Loop.mp4",
+    caseSlugs: ["merkur", "flughafen-koeln-bonn", "wundholding"],
+    loopVideo: "/leistungen-loops/video-produktion.mp4",
+    images: [
+      {
+        src: "/leistungen-bilder/video-produktion-1.webp",
+        alt: "Filmklappe vor einer gestellten Krankenhausszene während des Drehs",
+      },
+      {
+        src: "/leistungen-bilder/video-produktion-2.webp",
+        alt: "Kameramann richtet eine Cinema-Kamera auf dem Stativ ein",
+      },
+    ],
     cta: {
       headline: "Ein Projekt im Kopf?",
       body: "Schick uns dein Briefing oder auch nur die grobe Idee — wir melden uns mit einer ehrlichen Einschätzung zu Aufwand und Budget.",
@@ -275,23 +322,17 @@ export const SERVICE_PAGES: ServicePageContent[] = [
         body: "Wir leiten aus dem Corporate Design ein Bewegungsvokabular ab: wie sich Elemente einblenden, in welchem Tempo, mit welcher Kurve. Daraus entsteht ein Template-Set, mit dem auch das interne Team später konsistente Videos bauen kann.",
       },
       {
-        title: "Erklärvideos",
-        body: "Komplexe Produkte, Prozesse und Dienstleistungen verständlich gemacht. Der Aufwand steckt weniger in der Animation als im Skript — deshalb beginnt jedes Erklärvideo bei uns mit der Frage, was die Zielgruppe am Ende wirklich verstanden haben muss.",
+        title: "Erklärvideos und animierte Spots",
+        body: "Komplexe Produkte, Prozesse und Dienstleistungen verständlich gemacht — der Aufwand steckt weniger in der Animation als im Skript. Vollanimierte Kampagnen-Spots kommen dort dazu, wo ein Realdreh nicht möglich oder nicht sinnvoll ist: bei abstrakten Themen, Software-Produkten oder international ausgespielten Kampagnen mit mehreren Sprachfassungen.",
       },
       {
         title: "Bauchbinden und Grafikpakete",
         body: "Titel, Namenseinblendungen, Zahlenanimationen und Abbinder als sauberes Paket, das über alle Produktionen hinweg gleich aussieht. Das ist der unspektakulärste und gleichzeitig wirksamste Hebel für einen einheitlichen Markenauftritt im Bewegtbild.",
       },
-      {
-        title: "Animierte Kampagnen-Spots",
-        body: "Vollanimierte Spots, wenn ein Realdreh nicht möglich oder nicht sinnvoll ist — etwa bei abstrakten Themen, Software-Produkten oder international ausgespielten Kampagnen mit mehreren Sprachfassungen.",
-      },
     ],
     steps: [
-      { title: "Briefing", body: "Ziel, Zielgruppe und Botschaft klären, bestehendes Corporate Design sichten." },
-      { title: "Skript", body: "Text und Dramaturgie festlegen — bei Erklärvideos der wichtigste Schritt." },
-      { title: "Storyboard", body: "Visuelle Umsetzung als Bildfolge, inklusive Stilrahmen und Farbwelt." },
-      { title: "Design", body: "Ausarbeitung der Einzelbilder und Bausteine im finalen Look." },
+      { title: "Briefing und Skript", body: "Ziel, Zielgruppe und Botschaft klären, bestehendes Corporate Design sichten — dann Text und Dramaturgie festlegen. Bei Erklärvideos der wichtigste Schritt." },
+      { title: "Storyboard und Design", body: "Visuelle Umsetzung als Bildfolge mit Stilrahmen und Farbwelt, danach die Ausarbeitung aller Bausteine im finalen Look." },
       { title: "Animation", body: "Umsetzung der Bewegung, Timing und Übergänge." },
       { title: "Ton und Finalisierung", body: "Voiceover, Sounddesign, Untertitel und Export in alle Zielformate." },
     ],
@@ -329,7 +370,22 @@ export const SERVICE_PAGES: ServicePageContent[] = [
       },
     ],
     relatedSlugs: ["video-produktion", "artificial-intelligence"],
-    caseSlugs: ["aldi", "referenzprojekt-08", "referenzprojekt-09"],
+    caseSlugs: [
+      "format-tools-katalog",
+      "obi-gartenmagazin",
+      "zurich-sicherheit-im-strassenverkehr",
+    ],
+    loopVideo: "/leistungen-loops/video-motion-design.mp4",
+    images: [
+      {
+        src: "/leistungen-bilder/video-motion-design-1.webp",
+        alt: "Ausgeleuchtete Drehsituation auf einem Bahnsteig, Flächenlicht vor Betonwand",
+      },
+      {
+        src: "/leistungen-bilder/video-motion-design-2.webp",
+        alt: "Person in Warnweste blickt über das Vorfeld des Flughafens Köln Bonn",
+      },
+    ],
     cta: {
       headline: "Bewegung mit System",
       body: "Von der einzelnen Logo-Animation bis zum kompletten Grafikpaket — sag uns, wo ihr steht.",
@@ -374,12 +430,8 @@ export const SERVICE_PAGES: ServicePageContent[] = [
         body: "Professionelle Übertragung mit Mehrkamera-Regie, eingespielten Grafiken und Moderationsstrecken. Wer remote zuschaut, soll nicht das Gefühl haben, die zweite Reihe erwischt zu haben — deshalb planen wir digitale Teilnehmende von Anfang an als eigene Zielgruppe mit.",
       },
       {
-        title: "Eventdokumentation",
-        body: "Der Zusammenschnitt, der das Event für alle sichtbar macht, die nicht dabei waren: Atmosphäre, Kernaussagen, Menschen. Nutzbar für die Nachberichterstattung, die Einladung zum nächsten Jahr und den Vertrieb.",
-      },
-      {
-        title: "Highlight-Clips",
-        body: "Kurze, vertikale Schnitte für Social Media und interne Kanäle — idealerweise noch am selben Tag verfügbar, solange das Event Aufmerksamkeit hat. Wir planen die Clip-Auskopplung vorab, statt hinterher im Material danach zu suchen.",
+        title: "Dokumentation und Highlight-Clips",
+        body: "Der Zusammenschnitt, der das Event für alle sichtbar macht, die nicht dabei waren: Atmosphäre, Kernaussagen, Menschen — nutzbar für die Nachberichterstattung, die Einladung zum nächsten Jahr und den Vertrieb. Dazu kurze, vertikale Schnitte für Social Media und interne Kanäle, idealerweise noch am selben Tag, solange das Event Aufmerksamkeit hat.",
       },
       {
         title: "Digitale Bühne",
@@ -388,11 +440,9 @@ export const SERVICE_PAGES: ServicePageContent[] = [
     ],
     steps: [
       { title: "Konzept", body: "Ziel, Zielgruppen vor Ort und remote, Kanäle und gewünschte Ergebnisse klären." },
-      { title: "Technische Planung", body: "Location-Begehung, Strom, Netzwerk, Kamerapositionen, Ton und Streaming-Setup." },
-      { title: "Vorproduktion", body: "Ablaufregie, Grafikpaket, Einspieler und Testlauf mit allen Beteiligten." },
+      { title: "Planung und Vorproduktion", body: "Location-Begehung, Strom, Netzwerk, Kamerapositionen und Streaming-Setup — dazu Ablaufregie, Grafikpaket, Einspieler und ein Testlauf mit allen Beteiligten." },
       { title: "Durchführung", body: "Aufbau, Generalprobe, Live-Regie und Aufzeichnung während des Events." },
-      { title: "Schnelle Auskopplung", body: "Erste Highlight-Clips zeitnah nach dem Event, häufig noch am selben Tag." },
-      { title: "Nachbereitung", body: "Dokumentation, Vortragsmitschnitte und finale Dateien für die Mediathek." },
+      { title: "Auskopplung und Nachbereitung", body: "Erste Highlight-Clips zeitnah nach dem Event, häufig noch am selben Tag. Danach Dokumentation, Vortragsmitschnitte und finale Dateien für die Mediathek." },
     ],
     audience: [
       "Unternehmen mit jährlichen Konferenzen oder Kundenveranstaltungen",
@@ -428,8 +478,18 @@ export const SERVICE_PAGES: ServicePageContent[] = [
       },
     ],
     relatedSlugs: ["video-produktion", "studiobau"],
-    caseSlugs: ["referenzprojekt-10", "referenzprojekt-11", "referenzprojekt-12"],
-    loopVideo: "/Event Loop.mp4",
+    caseSlugs: ["dmexco-2023", "greentech-festival", "anuga-live-stream"],
+    loopVideo: "/leistungen-loops/event-content.mp4",
+    images: [
+      {
+        src: "/leistungen-bilder/event-content-1.webp",
+        alt: "Kamerateam filmt die Beladung eines Eurowings-Flugzeugs auf dem Vorfeld",
+      },
+      {
+        src: "/leistungen-bilder/event-content-2.webp",
+        alt: "Kameramann in Warnweste dreht auf dem Rollfeld vor einem Flugzeug",
+      },
+    ],
     cta: {
       headline: "Euer nächstes Event steht an?",
       body: "Je früher wir dabei sind, desto mehr lässt sich aus dem Event herausholen. Ein Ablaufplan reicht für den Anfang.",
@@ -477,21 +537,15 @@ export const SERVICE_PAGES: ServicePageContent[] = [
         body: "Ein einmal aufgezeichnetes Testimonial in mehreren Sprachen, mit lippensynchroner Übertragung und konsistenter Stimme. Für internationale Kommunikation und für Inhalte, die häufig aktualisiert werden müssen, ist das der wirtschaftlichste Weg.",
       },
       {
-        title: "Skript, Storyboard und Vorvisualisierung",
-        body: "KI beschleunigt vor allem die frühen Phasen: Varianten eines Skripts, visualisierte Storyboards, Stilproben. Entscheidungen fallen dadurch früher und auf besserer Grundlage — was in der teuren Produktionsphase Geld spart.",
-      },
-      {
-        title: "Automatisierung in der Postproduktion",
-        body: "Transkription, Untertitel, Übersetzungen, automatische Rohschnitte und die Auskopplung von Social-Varianten. Das sind die unspektakulären Anwendungen, die im Alltag am meisten Zeit freiräumen.",
+        title: "Vorvisualisierung und Automatisierung",
+        body: "KI beschleunigt vor allem die Ränder der Produktion. Vorne: Varianten eines Skripts, visualisierte Storyboards, Stilproben — Entscheidungen fallen früher und auf besserer Grundlage, was in der teuren Produktionsphase Geld spart. Hinten: Transkription, Untertitel, Übersetzungen und die Auskopplung von Social-Varianten, die unspektakulären Anwendungen, die im Alltag am meisten Zeit freiräumen.",
       },
     ],
     steps: [
-      { title: "Anwendungsfall klären", body: "Wir prüfen ehrlich, wo KI im konkreten Projekt einen Vorteil bringt — und wo nicht." },
-      { title: "Konzept", body: "Auswahl der Verfahren, Definition des Looks und Abstimmung der rechtlichen Rahmenbedingungen." },
+      { title: "Anwendungsfall und Konzept", body: "Wir prüfen ehrlich, wo KI im konkreten Projekt einen Vorteil bringt — und wo nicht. Dann Auswahl der Verfahren, Definition des Looks und Abstimmung der rechtlichen Rahmenbedingungen." },
       { title: "Prototyp", body: "Eine kurze Testsequenz, bevor Budget in die volle Umsetzung fließt." },
       { title: "Produktion", body: "Umsetzung, häufig als Kombination aus gedrehtem Material und generierten Elementen." },
-      { title: "Feinschliff", body: "Nachbearbeitung, damit generierte Anteile nicht als Fremdkörper wirken." },
-      { title: "Varianten", body: "Ausspielung in weiteren Sprachen, Formaten und Fassungen." },
+      { title: "Feinschliff und Varianten", body: "Nachbearbeitung, damit generierte Anteile nicht als Fremdkörper wirken — danach die Ausspielung in weiteren Sprachen, Formaten und Fassungen." },
     ],
     audience: [
       "International kommunizierende Unternehmen mit vielen Sprachfassungen",
@@ -527,8 +581,22 @@ export const SERVICE_PAGES: ServicePageContent[] = [
       },
     ],
     relatedSlugs: ["video-motion-design", "video-produktion"],
-    caseSlugs: ["referenzprojekt-13", "referenzprojekt-14", "referenzprojekt-15"],
-    loopVideo: "/AI Video Loop.mp4",
+    caseSlugs: [
+      "koelnmesse-anuga-pressekonferenz",
+      "buga-2023-ki-chatbot",
+      "koelner-zoo",
+    ],
+    loopVideo: "/leistungen-loops/artificial-intelligence.mp4",
+    images: [
+      {
+        src: "/leistungen-bilder/artificial-intelligence-1.webp",
+        alt: "Dunkles Studio mit großer LED-Wand während einer Produktion",
+      },
+      {
+        src: "/leistungen-bilder/artificial-intelligence-2.webp",
+        alt: "Zwei Personen bauen eine Kamera auf einem Gimbal auf",
+      },
+    ],
     cta: {
       headline: "KI dort, wo sie hilft",
       body: "Erzähl uns von deinem Vorhaben — wir sagen dir, ob KI der richtige Weg ist oder ein klassischer Dreh das bessere Ergebnis liefert.",
@@ -576,20 +644,14 @@ export const SERVICE_PAGES: ServicePageContent[] = [
         body: "Akustik ist der unterschätzte Faktor: Ein Raum mit gutem Ton und einfachem Licht liefert bessere Ergebnisse als ein hallendes Studio mit teuren Kameras. Wir planen Absorption, Lichtpositionen und Stromversorgung gemeinsam mit dem Set-Design.",
       },
       {
-        title: "Set-Design im Corporate Design",
-        body: "Hintergründe, Möblierung und Grafikflächen, die zur Marke passen und mehrere Szenarien zulassen — vom Interview über die Ansprache der Geschäftsführung bis zur Produktvorstellung, ohne jedes Mal umzubauen.",
-      },
-      {
-        title: "Workflows und Schulung",
-        body: "Bedienungsanleitungen, Presets und feste Abläufe, damit das Studio auch ohne Produktionsteam funktioniert. Wir schulen die Personen, die es später täglich nutzen, und stehen für den laufenden Betrieb weiter zur Verfügung.",
+        title: "Set-Design, Workflows und Schulung",
+        body: "Hintergründe, Möblierung und Grafikflächen, die zur Marke passen und mehrere Szenarien zulassen — vom Interview über die Ansprache der Geschäftsführung bis zur Produktvorstellung, ohne jedes Mal umzubauen. Dazu Presets, Bedienungsanleitungen und feste Abläufe, damit das Studio auch ohne Produktionsteam funktioniert. Wir schulen die Personen, die es später täglich nutzen.",
       },
     ],
     steps: [
-      { title: "Analyse", body: "Welche Formate, welche Frequenz, welche Personen bedienen das Studio später?" },
-      { title: "Raumkonzept", body: "Begehung, Bewertung von Raumhöhe, Akustik, Licht und Stromversorgung." },
+      { title: "Analyse und Raumkonzept", body: "Welche Formate, welche Frequenz, welche Personen bedienen das Studio später? Dazu die Begehung mit Bewertung von Raumhöhe, Akustik, Licht und Stromversorgung." },
       { title: "Technikplanung", body: "Auswahl von Kamera, Licht, Ton, Regie und Streaming — abgestimmt auf die Bediener." },
-      { title: "Set-Design", body: "Gestaltung von Hintergründen und Szenarien im Corporate Design." },
-      { title: "Aufbau", body: "Installation, Verkabelung, Einmessung von Licht und Ton, Einrichtung der Presets." },
+      { title: "Set-Design und Aufbau", body: "Gestaltung der Hintergründe und Szenarien im Corporate Design, danach Installation, Verkabelung, Einmessung von Licht und Ton sowie die Einrichtung der Presets." },
       { title: "Schulung und Übergabe", body: "Einweisung des Teams, Dokumentation und begleitete Erstproduktion." },
     ],
     audience: [
@@ -626,8 +688,24 @@ export const SERVICE_PAGES: ServicePageContent[] = [
       },
     ],
     relatedSlugs: ["event-content", "video-strategie"],
-    caseSlugs: ["referenzprojekt-16", "referenzprojekt-17", "referenzprojekt-18"],
-    loopVideo: "/Studio Loop.mp4",
+    // ⚠️ Nur zwei statt drei Kacheln: `shop-apotheke-produktvideos` (2020) und
+    // `zeg-tv-spot` (2021) sind mit dem Schnitt bei 2022 entfallen (12.08.2026),
+    // und unter den verbliebenen Referenzen baut make/c nur in diesen beiden ein
+    // Studio *für den Kunden*. Alles andere wäre bloß „in einem Studio gedreht"
+    // und damit eine andere Leistung. Ein dritter Case gehört hier hin, sobald
+    // es einen echten Studiobau-Case ab 2022 gibt.
+    caseSlugs: ["db-schenker", "fom-studio"],
+    loopVideo: "/leistungen-loops/studiobau.mp4",
+    images: [
+      {
+        src: "/leistungen-bilder/studiobau-1.webp",
+        alt: "Studioaufbau mit heller Hohlkehle, Licht und Kamerateam bei der Produktion",
+      },
+      {
+        src: "/leistungen-bilder/studiobau-2.webp",
+        alt: "Kamera auf einer Fahrt über das Set eines eingerichteten Studios",
+      },
+    ],
     cta: {
       headline: "Ein eigenes Studio?",
       body: "Wir schauen uns den Raum an und sagen dir ehrlich, was darin möglich ist — und was nicht.",

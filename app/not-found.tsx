@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 
 const LINKS = [
   { href: "/", label: "Zur Startseite" },
-  { href: "/leistungen", label: "Leistungen ansehen" },
+  { href: "/#service", label: "Leistungen ansehen" },
   { href: "/work", label: "Referenzen ansehen" },
 ];
 

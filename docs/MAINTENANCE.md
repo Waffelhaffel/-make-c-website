@@ -3,7 +3,7 @@
 Diese Datei hält das operative Projektwissen fest, das **nicht** aus dem Code allein
 ersichtlich ist – damit es bei einem neuen Chat / neuen Entwickler nicht verloren geht.
 
-> Stand: 2026-06-03 · Live: <https://make-c-website.vercel.app> · GitHub:
+> Stand: 2026-08-10 · Live: <https://make-c-website.vercel.app> · GitHub:
 > `Waffelhaffel/-make-c-website`
 
 ---
@@ -13,93 +13,93 @@ ersichtlich ist – damit es bei einem neuen Chat / neuen Entwickler nicht verlo
 | Was | Wert |
 |---|---|
 | Framework | Next.js 15 (App Router), React 19 |
-| CMS | Sanity **v5** (eingebettetes Studio unter `/studio`) |
+| CMS | **keins** – der gesamte Inhalt liegt im Repo (`lib/content/`, `lib/leistungen.ts`, `lib/data.ts`) |
+| Rendering | vollständig statisch, keine Route hat `revalidate`, kein Fetch zur Laufzeit |
 | Hosting | Vercel (Auto-Deploy bei Push auf `main`) |
-| Sanity Project-ID | `ppeo9yox` |
-| Sanity Dataset | `production` (Sichtbarkeit: **public**) |
-| Sanity Org-ID | `oFwy24FBb` |
-| Sanity API-Version | `2024-10-01` |
+
+Sanity wurde am 10.08.2026 entfernt (User-Entscheidung: „lohnt sich nicht, wir pflegen
+manuell"). Was dabei wegfiel: `sanity/`, `app/studio/`, `sanity.config.ts`, `sanity.cli.ts`,
+die Seed-Skripte, `docs/SANITY_CMS.md`, fünf Env-Variablen und die Pakete `sanity`,
+`next-sanity`, `@sanity/vision`, `@sanity/image-url`, `styled-components`.
+
+> Das Sanity-Projekt in der Cloud (`ppeo9yox`, Dataset `production`) besteht unangetastet
+> weiter — es wird nur von nichts mehr gelesen. Wer es endgültig loswerden will, löscht es
+> selbst unter sanity.io/manage. Die Alt-Inhalte sind vollständig ins Repo übernommen.
 
 ---
 
 ## 2. Environment-Variablen (Vercel + lokal)
 
-Vollständig dokumentiert in [`.env.example`](../.env.example). Zentral gelesen/validiert in
-[`sanity/env.ts`](../sanity/env.ts) – diese Datei wirft **nie** beim Import (verhindert
-Build-Crashes) und liefert bei fehlender Konfiguration eine klare Warnung.
-
-**Auf Vercel gesetzt** (Settings → Environment Variables, für **Production + Preview +
-Development**):
+Vollständig dokumentiert in [`.env.example`](../.env.example). Es gibt nur noch zwei, beide
+für SEO – **die Seite rendert auch ganz ohne sie** (dann `noindex` und Fallback-Domain):
 
 ```
-NEXT_PUBLIC_SANITY_PROJECT_ID = ppeo9yox
-NEXT_PUBLIC_SANITY_DATASET    = production
-NEXT_PUBLIC_SANITY_API_VERSION= 2024-10-01
+NEXT_PUBLIC_SITE_URL   = https://<echte-domain>
+NEXT_PUBLIC_SEO_INDEX  = true
 ```
-
-Optional / nur bei Bedarf (nicht gesetzt, da Dataset public):
-- `SANITY_API_READ_TOKEN` bzw. `SANITY_API_TOKEN` – nur bei privatem Dataset / Draft-Preview.
-- `SANITY_API_WRITE_TOKEN` – **nur lokal** für Seed-/Migrations-Skripte, nie in Production.
 
 > ⚠️ `NEXT_PUBLIC_*` werden zur **Build-Zeit** eingebettet. Nach dem Setzen/Ändern auf
 > Vercel **immer neu deployen**, sonst greifen die Werte nicht.
+
+Die fünf `*SANITY*`-Variablen sind am **11.08.2026 aus der lokalen `.env.local`
+entfernt** — sie wurden von nichts mehr gelesen. Die Datei war nie committet, es
+gibt also keinen Token in der git-Historie.
+
+> ⚠️ **Zwei Dinge sind damit noch nicht erledigt** und brauchen dich:
+> 1. **Auf Vercel** stehen die fünf Variablen vermutlich noch → Settings →
+>    Environment Variables löschen.
+> 2. **Die Tokens gelten weiter, bis sie widerrufen sind.** Besonders
+>    `SANITY_API_WRITE_TOKEN` — ein Schreibrecht auf das Dataset, das niemand mehr
+>    braucht. Widerrufen unter sanity.io/manage → Projekt `ppeo9yox` → API → Tokens.
 
 ---
 
 ## 3. Wichtige Lektionen / Stolperfallen (unbedingt beachten)
 
 ### 3.1 `NEXT_PUBLIC_*` nur STATISCH lesen
-In `sanity/env.ts` müssen die öffentlichen Vars als **statische Literale** gelesen werden:
 
 ```ts
-process.env.NEXT_PUBLIC_SANITY_PROJECT_ID   // ✅ wird in den Client-Bundle eingebettet
-process.env[key]                            // ❌ im Browser undefined!
+process.env.NEXT_PUBLIC_SITE_URL   // ✅ wird in den Client-Bundle eingebettet
+process.env[key]                   // ❌ im Browser undefined!
 ```
 
-Grund: Next.js inlined `NEXT_PUBLIC_*` nur bei statischem Zugriff. Dynamischer Zugriff
-(`process.env[key]`) funktioniert nur serverseitig. Das **eingebettete Studio läuft rein
-clientseitig** – mit dynamischem Zugriff fiel es auf den Platzhalter `missing-project-id`
-zurück und zeigte „Connect this studio to your project". (War ein echter Bug, behoben.)
+Next.js inlined `NEXT_PUBLIC_*` nur bei statischem Zugriff; dynamischer Zugriff funktioniert
+nur serverseitig. Das kostete früher einen halben Tag, als das eingebettete Studio deshalb
+auf den Platzhalter `missing-project-id` fiel.
 
-### 3.2 Sanity-Dokument-IDs dürfen KEINEN Punkt enthalten
-Sanity interpretiert den Teil vor dem ersten Punkt einer `_id` als Version/Bundle-Prefix
-(wie `drafts.` / `versions.`). IDs wie `legalPage.impressum` sind dadurch **nicht** im
-öffentlich-veröffentlichten Layer → anonyme Queries liefern `null` → 404.
+### 3.2 Inhalt ändern heißt committen
 
-➡️ **Immer Bindestriche statt Punkte** verwenden: `caseStudy-aldi`. Die Case-Seed-Skripte
-sind entsprechend korrigiert. Das idempotente Migrations-Skript `fix-document-ids.ts` ist am
-31.07.2026 entfallen (es migrierte `legalPage`- und `service`-IDs, die es nicht mehr gibt);
-bei Bedarf in der Git-Historie.
+Es gibt keine Redaktionsoberfläche mehr. Jede Text- oder Bildänderung ist ein Commit und
+ein Deploy — dafür ist sie sofort sichtbar, ohne ISR-Wartezeit.
 
-### 3.3 Eingebettetes Studio: kein `appId` / `autoUpdates`
-Das Studio ist als `NextStudio` unter `/studio` eingebettet. Laut Sanity-Docs ist
-`deployment.appId` / `autoUpdates` **ausschließlich für `sanity deploy` / `sanity build`**
-(Sanity-gehostete Studios) – **nicht** für eingebettete Studios. Diesen Snippet also
-**nicht** in `sanity.cli.ts`/`sanity.config.ts` eintragen.
+- Referenzen: [`lib/content/cases.ts`](../lib/content/cases.ts) (60 Stück, Array-Reihenfolge
+  = Reihenfolge auf `/work`), Bilder unter `public/work/<slug>.webp`.
+- Landing: [`lib/content/landing.ts`](../lib/content/landing.ts) · Leistungsseiten:
+  [`lib/leistungen.ts`](../lib/leistungen.ts) · Header/Footer:
+  [`lib/content/site.ts`](../lib/content/site.ts) · Legal:
+  [`lib/content/legal.ts`](../lib/content/legal.ts) (Portable Text, gerendert über
+  `@portabletext/react` — deshalb bleibt das Paket).
+- NAP-Daten, Telefon und Social-URLs stehen **nur** in `ORG` ([`lib/seo.ts`](../lib/seo.ts))
+  und werden von Footer und JSON-LD abgeleitet.
 
-### 3.4 CORS-Origins fürs Studio
-Damit sich das Studio authentifizieren kann, müssen die Hosts als CORS-Origins (mit
-Credentials) im Sanity-Projekt eingetragen sein (sanity.io/manage → API → CORS Origins).
-**Bereits eingetragen:**
-- `https://make-c-website.vercel.app`
-- `http://localhost:3000`
-- `https://*.vercel.app` (deckt Preview- & Deployment-URLs ab)
+### 3.3 Slug-Referenzen prüft kein Typ
 
-Beim erstmaligen Öffnen zeigt Sanity v5 „Connect this studio" → **„Register this studio"**
-klicken (funktioniert, sobald die Project-ID korrekt ist, s. 3.1).
+`SELECTED_WORK` (`lib/data.ts`) und `SERVICE_PAGES[].caseSlugs` (`lib/leistungen.ts`)
+zeigen per String auf `CASES`. Unbekannte Slugs fallen **still** weg: die Landing-Kachel
+wird dann nicht klickbar, die Leistungsseite zeigt weniger als drei Cases. Beim Umbenennen
+eines Case-Slugs also beide Stellen mitziehen.
 
-### 3.5 Fehlertoleranz / Fallbacks
-- [`sanity/lib/fetch.ts`](../sanity/lib/fetch.ts): gibt bei fehlender Config **oder**
-  Query-Fehlern `null` zurück (kein Crash).
-- **Seit 31.07.2026 hängt daran nur noch der Case-Inhalt.** `getCaseStudies()` liefert dann
-  ein leeres Array → `/work` und das Landing-Grid bleiben leer, der Rest der Seite rendert
-  normal, weil ihr Inhalt im Code liegt (`lib/content/`).
-  Vorher galt: fällt Sanity aus, greifen die `*_FALLBACK`-Konstanten — **außer** auf
-  `/impressum` und `/datenschutz`, die dafür keine hatten und mit **404** antworteten. Genau
-  deshalb liegen die Legal-Texte jetzt im Code.
-- Bilder: [`sanity/lib/image.ts`](../sanity/lib/image.ts) hat `hasImageAsset()`-Guard,
-  `urlFor()` wirft nie. Vor dem Rendern eines Sanity-Bildes immer `hasImageAsset()` prüfen
-  (sonst Crash, wenn `asset` nach Bildwechsel `null` ist).
+### 3.4 Bilder
+
+Alles liegt in `public/`; `next/image` optimiert selbst. `next.config.ts` hat **keine**
+`images.remotePatterns` mehr — ein `<Image src="https://…">` würde zur Laufzeit werfen.
+Erst wieder eintragen, wenn tatsächlich eine externe Quelle dazukommt.
+
+### 3.5 Video-URLs in Cases
+
+`CaseStudy.video` erwartet die **Watch-Form** (`https://vimeo.com/<id>` oder
+`https://www.youtube.com/watch?v=<id>`). `VideoFacade.toEmbedUrl()` erkennt die
+`…/embed/<id>`-Form nicht und öffnet sie stattdessen in einem neuen Tab.
 
 ---
 
@@ -108,31 +108,38 @@ klicken (funktioniert, sobald die Project-ID korrekt ist, s. 3.1).
 1. Änderungen committen und auf `main` pushen → Vercel deployt automatisch.
 2. Lokaler Produktions-Check vor dem Push:
    ```sh
-   npm run build && npm run start
+   npx tsc --noEmit && npm run build && npm run start
    ```
+   `npx tsc --noEmit` ist Pflicht: `next.config.ts` setzt `ignoreBuildErrors` **und**
+   `ignoreDuringBuilds`, der Build ist also auch mit Typfehlern grün.
 3. Env-Var auf Vercel geändert? → **Redeploy** nötig (NEXT_PUBLIC ist build-time).
 4. Status der Deployments: GitHub → Deployments, oder Vercel-Dashboard.
 
 ---
 
-## 5. Changelog dieser Arbeitsphase (Juni 2026)
+## 5. Changelog
 
-- **Code-Cleanup**: ungenutzte Komponenten (VideoEngine/VideoSystem/OperatingModel/
+**08/2026 — Referenzen in den Code, CMS raus**
+- 58 Projekte aus der alten Portfolio-Seite importiert (Texte, Jahre, Videos, Credits von
+  den Detailseiten auf make-c.de), zusammen mit `merkur` und `aldi` aus dem CMS →
+  60 Cases in `lib/content/cases.ts`. Die 12 `referenzprojekt-*`-Platzhalter sind weg.
+- `/work` mit Kategorie-Filterleiste; alle sechs Leistungsseiten zeigen echte Cases.
+- Sanity vollständig entfernt, Build vollständig statisch.
+
+**06/2026 — Aufräumen und Stabilisierung**
+- Code-Cleanup: ungenutzte Komponenten (VideoEngine/VideoSystem/OperatingModel/
   Leadership/LiquidDistortion), tote `lib/data.ts`-Exports und Dependencies (`clsx`,
   `tailwind-merge`) entfernt.
-- **Kontakt-Sektion** neu: Formular ersetzt durch Ansprechpartner-Bild + Telefon + E-Mail,
-  in Sanity editierbar (`landingPage.contact`). Plus **schwebender CTA**
-  ([`FloatingContact`](../components/ui/FloatingContact.tsx)).
-- **404-Fix Impressum/Datenschutz/Services**: Dokument-IDs Punkt → Bindestrich migriert
-  (s. 3.2).
-- **Bild-Null-Checks** projektweit (s. 3.5).
-- **Robuste Env-Config** (s. 2 / 3.1) für stabile Vercel-Builds.
-- **Vercel-Env-Vars gesetzt** + Redeploy → Sanity-Inhalte laden live.
-- **Studio-CORS** eingetragen + **Client-Inlining-Bug** der Project-ID behoben (s. 3.1).
+- Kontakt-Sektion neu: Formular ersetzt durch Ansprechpartner-Bild + Telefon + E-Mail,
+  plus schwebender CTA ([`FloatingContact`](../components/ui/FloatingContact.tsx)).
+- 404-Fix Impressum/Datenschutz/Services: Dokument-IDs Punkt → Bindestrich migriert.
+  (Historisch: Sanity las den Teil vor dem ersten Punkt einer `_id` als Bundle-Prefix,
+  `legalPage.impressum` war dadurch nie im veröffentlichten Layer.)
+- Robuste Env-Config für stabile Vercel-Builds.
 
 ---
 
 ## 6. Verwandte Docs
-- [`PROJECT_OVERVIEW.md`](./PROJECT_OVERVIEW.md)
-- [`SANITY_CMS.md`](./SANITY_CMS.md)
+- [`HANDOVER.md`](./HANDOVER.md)
+- [`PROJECT_OVERVIEW.md`](./PROJECT_OVERVIEW.md) — ⚠️ stark veraltet
 - [`DESIGN_GUIDELINES.md`](./DESIGN_GUIDELINES.md)

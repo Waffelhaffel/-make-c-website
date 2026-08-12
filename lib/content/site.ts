@@ -23,12 +23,13 @@ export const SITE: SiteSettings = {
     address: [loc.street, `${loc.postalCode} ${loc.city}`],
   })),
 
-  // Ohne `url` rendert `Footer.tsx` ein <span> statt eines Links.
-  // ⚠️ Instagram-URL fehlt noch — bis dahin bleibt das Label bewusst
-  // nicht klickbar, statt auf ein Profil zu raten.
+  // Ohne `url` rendert `Footer.tsx` ein <span> statt eines Links — seit alle
+  // drei Profile gepflegt sind, greift das nicht mehr. URLs stehen in `ORG`
+  // (`lib/seo.ts`), damit sie zugleich als `sameAs` in die JSON-LD gehen.
   socials: [
-    { label: "INSTAGRAM" },
     { label: "LINKEDIN", url: ORG.linkedin },
+    { label: "FACEBOOK", url: ORG.facebook },
+    { label: "INSTAGRAM", url: ORG.instagram },
   ],
 
   footerHeadline: {

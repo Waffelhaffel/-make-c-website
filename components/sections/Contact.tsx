@@ -15,8 +15,8 @@ type ContactProps = {
 // Statische Stadt→Icon-Zuordnung (Assets im "icon /"-Ordner; Trailing-Space im
 // Pfad ist gewollt — bekannter Projekt-Fallstrick).
 const LOCATION_ICONS: { match: string; src: string }[] = [
-  { match: "koln", src: "/icon /Dom_Icon.png" },
-  { match: "essen", src: "/icon /Zeche_Icon.png" },
+  { match: "koln", src: "/icons/dom.png" },
+  { match: "essen", src: "/icons/zeche.png" },
 ];
 
 function iconForCity(city?: string): string | null {
@@ -67,18 +67,34 @@ export function Contact({ data }: ContactProps) {
             transition={{ duration: 0.6 }}
           >
             <p className="font-gotham text-meta uppercase tracking-[0.18em] text-white pb-4 border-b border-white/15 mb-7">
-              Dein Ansprechpartner
+              Deine Ansprechpartnerin
             </p>
 
             <div className="flex items-center gap-5 md:gap-6">
+              {/* Eckig + object-cover: seit 08/2026 steht hier ein echtes Portrait,
+                  keine freigestellte Illustration mehr (die lief auf object-contain).
+                  Dahinter der blaue Kasten, nach links unten versetzt — dasselbe
+                  Muster wie beim CEO-Portrait in AboutTeam.tsx.
+                  ⚠️ Die Kantenlänge bleibt bei 160/208px — sie bestimmt die Höhe der
+                  linken Spalte und damit das md:pt-[9.5px] der rechten (Kommentar
+                  weiter unten). Verkleinert auf 128/160px lagen die letzten Striche
+                  der beiden Spalten bei 1280/1440/1920 exakt 48px auseinander.
+                  Der Versatz liegt bewusst am Wrapper, nicht am Bild: er ändert
+                  die Maße nicht und kann die Spaltenhöhe deshalb nicht verschieben. */}
               <div className="relative flex-none w-40 h-40 md:w-52 md:h-52">
-                <Image
-                  src={data.contactImage.src}
-                  alt={data.contactImage.alt || data.contactName}
-                  fill
-                  sizes="(min-width: 768px) 208px, 160px"
-                  className="object-contain"
+                <div
+                  aria-hidden="true"
+                  className="absolute inset-0 -translate-x-3 translate-y-3 bg-makec-blue md:-translate-x-4 md:translate-y-4"
                 />
+                <div className="relative h-full w-full overflow-hidden ring-1 ring-white/15">
+                  <Image
+                    src={data.contactImage.src}
+                    alt={data.contactImage.alt || data.contactName}
+                    fill
+                    sizes="(min-width: 768px) 208px, 160px"
+                    className="object-cover"
+                  />
+                </div>
               </div>
               <div>
                 {data.contactName && (
@@ -92,12 +108,16 @@ export function Contact({ data }: ContactProps) {
               </div>
             </div>
 
-            {/* Telefon / E-Mail */}
+            {/* Telefon / E-Mail
+                ⚠️ Kein `hover:text-makec-blue` (bis 11.08.2026 hier): #2C2CC6 auf
+                #14140F ist ein Kontrast von 1,5:1 — die Zeile verschwand beim
+                Überfahren praktisch im Hintergrund. Der Hover läuft deshalb wie
+                bei „Route anzeigen" weiter unten über die Weiß-Abstufung. */}
             <div className="mt-7 flex flex-col">
               {data.phone && (
                 <a
                   href={phoneHref}
-                  className="flex items-center justify-between gap-4 py-4 border-t border-white/15 font-gotham text-base text-white hover:text-makec-blue transition-colors"
+                  className="flex items-center justify-between gap-4 py-4 border-t border-white/15 font-gotham text-base text-white hover:text-white/60 transition-colors"
                 >
                   <span className="text-[13px] text-white/50">Telefon</span>
                   <span>{data.phone}</span>
@@ -106,7 +126,7 @@ export function Contact({ data }: ContactProps) {
               {email && (
                 <a
                   href={mailHref}
-                  className="flex items-center justify-between gap-4 py-4 border-t border-b border-white/15 font-gotham text-base text-white hover:text-makec-blue transition-colors"
+                  className="flex items-center justify-between gap-4 py-4 border-t border-b border-white/15 font-gotham text-base text-white hover:text-white/60 transition-colors"
                 >
                   <span className="shrink-0 text-[13px] text-white/50">E-Mail</span>
                   <span className="break-all">{email}</span>

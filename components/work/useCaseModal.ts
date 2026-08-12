@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import type { CaseStudy } from "@/sanity/types";
+import type { CaseStudy } from "@/lib/content/types";
 
 // Gemeinsamer Open-State für das Case-Modal — von SelectedWork und WorkGrid genutzt,
 // damit die Öffnen/Schließen-Logik nicht doppelt liegt.

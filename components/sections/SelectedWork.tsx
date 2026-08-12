@@ -8,7 +8,7 @@ import { PillButton } from "@/components/ui/PillButton";
 import { Swoosh } from "@/components/ui/Swoosh";
 import { CaseModal } from "@/components/work/CaseModal";
 import { useCaseModal } from "@/components/work/useCaseModal";
-import type { CaseStudy } from "@/sanity/types";
+import type { CaseStudy } from "@/lib/content/types";
 
 type SelectedWorkProps = {
   caseStudies: CaseStudy[];
@@ -49,9 +49,16 @@ export function SelectedWork({ caseStudies }: SelectedWorkProps) {
                 className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                 sizes="(min-width: 768px) 50vw, 100vw"
               />
-              <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+              {/* Abdunklung auf 55 %: bei 30 % stand das Genre-Label (das kleine
+                  gesperrte Wort) auf hellen Stills praktisch im Bild und war
+                  kaum zu lesen. */}
+              <div className="absolute inset-0 bg-black/55 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
               <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-                <p className="font-gotham text-meta uppercase tracking-[0.3em] text-white/80 mb-2">
+                {/* text-small (18px Bold) statt text-meta (14px Book) und volles
+                    Weiß statt /80. Die Sperrung von 0.3em auf 0.2em zurück:
+                    gesperrte Versalien in 14px waren der eigentliche Grund,
+                    warum das Label schwer zu erfassen war. */}
+                <p className="font-gotham text-small uppercase tracking-[0.2em] text-white mb-3 [text-shadow:0_1px_12px_rgba(0,0,0,0.55)]">
                   {project.label}
                 </p>
                 <p className="font-gotham text-h4 text-white uppercase">{project.name}</p>
@@ -59,7 +66,7 @@ export function SelectedWork({ caseStudies }: SelectedWorkProps) {
             </div>
           );
 
-          // Ohne Sanity-Case gibt es nichts zu öffnen: dann kein Button, kein
+          // Ohne passenden Case gibt es nichts zu öffnen: dann kein Button, kein
           // data-cursor="VIEW" — sonst verspricht die Kachel eine Case-Ansicht,
           // die nie aufgeht.
           return doc ? (

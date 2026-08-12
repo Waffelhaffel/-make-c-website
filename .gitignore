@@ -30,6 +30,11 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
+# Editor-Artefakte (Cursor legte hier ein debug.log ab, das im Repo landete)
+.cursor/
+.idea/
+.vscode/
+
 # env files (can opt-in for committing if needed)
 .env*
 # ...but keep the example template in the repo
@@ -38,9 +43,27 @@ yarn-error.log*
 # vercel
 .vercel
 
+# E2E-Artefakte (Screenshots aus e2e/)
+/e2e/artifacts/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
 
-# Sanity dataset exports (lokale Backups vor größeren Content-Änderungen)
+# Sanity-Dataset-Export vom 30.07.2026 (backup-landing-rebuild-20260730.tar.gz,
+# 16 MB). Das CMS ist raus, die Datei liegt aber noch im Projektordner — die
+# Regel muss bleiben, sonst landet sie beim nächsten `git add .` im Repo.
 backup-*.tar.gz
+
+# Rohmaterial und Ausgemustertes (12.08.2026, ~42 MB). Lag vorher in `public/`
+# und wurde damit ausgeliefert **und** war öffentlich abrufbar:
+#   assets/masters/  — die 1080p-Loops und die Original-Stills, aus denen
+#                      `scripts/build-service-loops.mjs` und
+#                      `scripts/build-case-images.ts` die Webfassungen bauen
+#   assets/_unused/  — Dateien ohne Referenz im Code, u. a. die 33 Case-Bilder
+#                      aus dem 2022-Schnitt. Sicherheitsnetz statt Löschen:
+#                      `public/work/` war nie in git, dort wäre es endgültig.
+# Bewusst nicht committet — 1080p-Master gehören nicht in ein Website-Repo.
+# Wer das Projekt frisch klont, kann die Webfassungen deshalb nicht neu bauen,
+# nur benutzen; sie liegen fertig in `public/`.
+/assets/

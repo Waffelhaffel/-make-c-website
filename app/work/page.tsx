@@ -5,10 +5,8 @@ import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { WorkGrid } from "@/components/work/WorkGrid";
+import { CASES } from "@/lib/content/cases";
 import { breadcrumbGraph, collectionPageGraph, pageMetadata } from "@/lib/seo";
-import { getCaseStudies } from "@/sanity/lib/getCaseStudies";
-
-export const revalidate = 60;
 
 const META_DESCRIPTION =
   "Ausgewählte Video-Projekte von make/c: Imagefilme, Kampagnen, Dokumentationen und Social Content für Marken und Unternehmen.";
@@ -19,8 +17,8 @@ export const metadata: Metadata = pageMetadata({
   path: "/work",
 });
 
-export default async function WorkPage() {
-  const caseStudies = await getCaseStudies();
+export default function WorkPage() {
+  const caseStudies = CASES;
 
   return (
     <>

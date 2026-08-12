@@ -12,25 +12,21 @@ import { AboutTeam } from "@/components/sections/AboutTeam";
 import { VideoCheck } from "@/components/sections/VideoCheck";
 import { Contact } from "@/components/sections/Contact";
 import { FloatingContact } from "@/components/ui/FloatingContact";
-import { getCaseStudies } from "@/sanity/lib/getCaseStudies";
+import { getCasesBySlugs } from "@/lib/content/cases";
 import { LANDING } from "@/lib/content/landing";
 import { SERVICES } from "@/lib/content/services";
 import { SELECTED_WORK } from "@/lib/data";
 
-// Nur noch für die Case Studies — der übrige Seiteninhalt liegt in lib/content/.
-export const revalidate = 60;
-
-export default async function Home() {
+export default function Home() {
   const data = LANDING;
-  const caseStudies = await getCaseStudies();
 
   // Landing zeigt nur die kuratierten Selected-Work-Kacheln — nur deren
-  // Case-Daten ans Modal geben (nicht alle Cases in die Landing-Props serialisieren).
-  // caseSlug ist optional — Kacheln ohne Sanity-Case (noch kein Dokument) fallen hier raus.
-  const selectedSlugs = new Set(
+  // Case-Daten ans Modal geben (nicht alle 60 Cases in die Landing-Props
+  // serialisieren). `caseSlug` ist optional: Kacheln ohne zugehörigen Case
+  // fallen hier raus und werden nicht klickbar gerendert.
+  const landingCases = getCasesBySlugs(
     SELECTED_WORK.flatMap((w) => (w.caseSlug ? [w.caseSlug] : []))
   );
-  const landingCases = caseStudies.filter((c) => selectedSlugs.has(c.slug));
 
   return (
     <>

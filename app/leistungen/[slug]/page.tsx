@@ -4,13 +4,13 @@ import { notFound } from "next/navigation";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { ServiceAudience } from "@/components/services/ServiceAudience";
 import { ServiceBlocks } from "@/components/services/ServiceBlocks";
 import { ServiceCases } from "@/components/services/ServiceCases";
 import { ServiceCta } from "@/components/services/ServiceCta";
 import { ServiceFacts } from "@/components/services/ServiceFacts";
 import { ServiceFaq } from "@/components/services/ServiceFaq";
 import { ServiceHero } from "@/components/services/ServiceHero";
+import { ServiceImageBand } from "@/components/services/ServiceImageBand";
 import { ServiceRelated } from "@/components/services/ServiceRelated";
 import { ServiceSteps } from "@/components/services/ServiceSteps";
 import {
@@ -24,11 +24,7 @@ import {
   pageMetadata,
   serviceGraph,
 } from "@/lib/seo";
-import { getCaseStudiesBySlugs } from "@/sanity/lib/getCaseStudies";
-import { getService } from "@/lib/content/services";
-
-// Nur noch für die drei Case-Kacheln am Seitenende.
-export const revalidate = 60;
+import { getCasesBySlugs } from "@/lib/content/cases";
 
 export function generateStaticParams() {
   return SERVICE_PAGE_SLUGS.map((slug) => ({ slug }));
@@ -61,8 +57,7 @@ export default async function ServiceDetailPage(props: {
   const content = getServicePage(slug);
   if (!content) notFound();
 
-  const service = getService(slug);
-  const caseStudies = await getCaseStudiesBySlugs(content.caseSlugs);
+  const caseStudies = getCasesBySlugs(content.caseSlugs);
 
   const path = servicePagePath(slug);
 
@@ -79,7 +74,10 @@ export default async function ServiceDetailPage(props: {
       <JsonLd
         data={breadcrumbGraph([
           { name: "Startseite", path: "/" },
-          { name: "Leistungen", path: "/leistungen" },
+          // Die Übersichtsseite /leistungen ist 08/2026 entfallen; die Ebene
+          // liegt jetzt als Anker auf der Startseite. Muss zur sichtbaren
+          // Brotkrume in ServiceHero.tsx passen.
+          { name: "Leistungen", path: "/#service" },
           { name: content.h1Plain, path },
         ])}
       />
@@ -90,15 +88,14 @@ export default async function ServiceDetailPage(props: {
         id="main-content"
         className="min-h-screen overflow-x-hidden bg-makec-dark text-white"
       >
+        {/* Reihenfolge seit 12.08.2026: der Loop führt als Header (ServiceHero),
+            „Für wen das passt" sitzt im blauen Eckdaten-Block, und zwischen
+            Ablauf und FAQ steht ein Bildband. Neun Sektionen sind damit acht. */}
         <ServiceHero content={content} />
-        <ServiceFacts facts={content.facts} />
-        <ServiceBlocks
-          blocks={content.blocks}
-          loopVideo={content.loopVideo}
-          image={service?.image}
-        />
+        <ServiceFacts facts={content.facts} audience={content.audience} />
+        <ServiceBlocks blocks={content.blocks} image={content.images[0]} />
         <ServiceSteps steps={content.steps} />
-        <ServiceAudience audience={content.audience} />
+        <ServiceImageBand image={content.images[1]} />
         <ServiceFaq faq={content.faq} />
         <ServiceCases caseStudies={caseStudies} />
         <ServiceRelated slugs={content.relatedSlugs} />

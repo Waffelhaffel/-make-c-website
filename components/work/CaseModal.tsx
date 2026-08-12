@@ -7,8 +7,8 @@ import { X } from "lucide-react";
 import Image from "next/image";
 
 import { VideoFacade } from "@/components/work/VideoFacade";
-import { urlFor, hasImageAsset } from "@/sanity/lib/image";
-import type { CaseStudy, GalleryItem } from "@/sanity/types";
+import { lockScroll, unlockScroll } from "@/lib/scroll";
+import type { CaseGalleryItem, CaseStudy } from "@/lib/content/types";
 import { useFocusTrap } from "./useFocusTrap";
 
 type CaseModalProps = {
@@ -16,7 +16,7 @@ type CaseModalProps = {
   onClose: () => void;
 };
 
-const RATIO_ASPECT: Record<GalleryItem["ratio"], string> = {
+const RATIO_ASPECT: Record<CaseGalleryItem["ratio"], string> = {
   wide: "aspect-[16/9]",
   tall: "aspect-[4/5]",
   standard: "aspect-[4/3]",
@@ -32,15 +32,25 @@ export function CaseModal({ caseData, onClose }: CaseModalProps) {
   useEffect(() => setMounted(true), []);
   useFocusTrap(cardRef, isOpen);
 
-  // Scroll-Lock (Idiom aus HeaderClient); zusammen mit data-lenis-prevent scrollt
-  // nur der Modal-Inhalt, nicht der Hintergrund.
+  // Scroll-Lock (gemeinsamer Zähler mit dem Header-Menü). `body { overflow:
+  // hidden }` allein reichte nicht: Lenis scrollt programmatisch und ignoriert
+  // es — neben der Karte scrollte der Hintergrund weiter (gemessen y 300→2700).
+  // `lockScroll()` stoppt deshalb zusätzlich Lenis; `data-lenis-prevent` am
+  // inneren Scroller hält den Inhalt der Karte weiterhin scrollbar.
+  //
+  // Der Lock hängt an `visible`, nicht an `isOpen`: AnimatePresence lässt
+  // Backdrop und Karte für die Ausblend-Animation noch bis zu 0,6 s im DOM
+  // stehen. An `isOpen` gehängt war der Lock in dieser Zeit schon weg und der
+  // Hintergrund scrollte hinter der noch sichtbaren Karte weg.
+  const [visible, setVisible] = useState(false);
   useEffect(() => {
-    if (!isOpen) return;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = "unset";
-    };
+    if (isOpen) setVisible(true);
   }, [isOpen]);
+  useEffect(() => {
+    if (!visible) return;
+    lockScroll();
+    return unlockScroll;
+  }, [visible]);
 
   // Escape schließt (nur registriert, solange offen).
   useEffect(() => {
@@ -55,19 +65,18 @@ export function CaseModal({ caseData, onClose }: CaseModalProps) {
   if (!mounted) return null;
 
   const data = caseData;
-  const posterUrl =
-    data && hasImageAsset(data.mainMedia.posterImage)
-      ? urlFor(data.mainMedia.posterImage).width(1800).auto("format").quality(80).url()
-      : null;
-  const videoUrl = data?.mainMedia.videoUrl ?? null;
-  const posterAlt = data?.mainMedia.posterImage?.alt || `${data?.project ?? "make/c"} Video`;
+  // Ohne eigenes Poster dient das Kachelbild als Standbild.
+  const poster = data ? data.poster ?? data.image : null;
+  const posterUrl = poster?.src ?? null;
+  const videoUrl = data?.video ?? null;
+  const posterAlt = poster?.alt || `${data?.project ?? "make/c"} Video`;
   const services = data?.services ?? [];
   const credits = data?.credits ?? [];
   const splitAt = Math.ceil(credits.length / 2);
   const gallery = (data?.gallery ?? []).slice(0, 3);
 
   return createPortal(
-    <AnimatePresence>
+    <AnimatePresence onExitComplete={() => setVisible(false)}>
       {isOpen && data && (
         <motion.div
           key="case-backdrop"
@@ -123,9 +132,7 @@ export function CaseModal({ caseData, onClose }: CaseModalProps) {
                   {data.project}
                 </h2>
                 <p className="mt-3 font-gotham text-meta uppercase tracking-[0.18em] text-white/55">
-                  {[data.projectMeta.client, data.projectMeta.year, data.projectMeta.category]
-                    .filter(Boolean)
-                    .join(" · ")}
+                  {[data.client, data.year, data.category].filter(Boolean).join(" · ")}
                 </p>
               </div>
 
@@ -165,8 +172,10 @@ export function CaseModal({ caseData, onClose }: CaseModalProps) {
               )}
 
               {/* 4 · Case-Text */}
+              {/* whitespace-pre-line: die Texte aus dem alten Portfolio haben
+                  teils zwei Absätze, getrennt durch \n\n in `summary`. */}
               {data.summary && (
-                <p className="mb-12 font-gotham font-light leading-[1.62] text-white/80 text-[19px]">
+                <p className="mb-12 whitespace-pre-line font-gotham font-light leading-[1.62] text-white/80 text-[19px]">
                   {data.summary}
                 </p>
               )}
@@ -182,7 +191,7 @@ export function CaseModal({ caseData, onClose }: CaseModalProps) {
                       <div key={ci}>
                         {col.map((c) => (
                           <div
-                            key={c._key}
+                            key={`${c.role}-${c.name}`}
                             className="flex items-baseline justify-between gap-5 border-t border-white/15 py-4"
                           >
                             <span className="font-gotham text-sm text-white/55">{c.role}</span>
@@ -202,20 +211,18 @@ export function CaseModal({ caseData, onClose }: CaseModalProps) {
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   {gallery.map((g, i) => (
                     <div
-                      key={g._key}
+                      key={g.src}
                       className={`relative overflow-hidden rounded-lg bg-white/5 ${
                         RATIO_ASPECT[g.ratio] ?? "aspect-[4/3]"
                       } ${gallery.length === 3 && i === 0 ? "sm:col-span-2" : ""}`}
                     >
-                      {hasImageAsset(g.image) && (
-                        <Image
-                          src={urlFor(g.image).width(1200).auto("format").quality(80).url()}
-                          alt={g.image.alt || `${data.project} Still ${i + 1}`}
-                          fill
-                          className="object-cover"
-                          sizes="(max-width: 640px) 100vw, 480px"
-                        />
-                      )}
+                      <Image
+                        src={g.src}
+                        alt={g.alt || `${data.project} Still ${i + 1}`}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 640px) 100vw, 480px"
+                      />
                     </div>
                   ))}
                 </div>

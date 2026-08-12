@@ -49,8 +49,8 @@ export function Hero({ data }: HeroProps) {
         <div className="absolute inset-0 z-0 overflow-hidden">
           <video
             className="h-full w-full object-cover"
-            src="/Header_video.mp4"
-            poster="/Header_video_poster.jpg"
+            src="/header-video.mp4"
+            poster="/header-video-poster.jpg"
             autoPlay
             muted
             loop

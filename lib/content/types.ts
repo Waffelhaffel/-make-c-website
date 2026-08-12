@@ -6,9 +6,10 @@
 // wie die Komponenten sie schon konsumieren — die Sections mussten dadurch nur die
 // Import-Pfade und die Bildfelder anpassen.
 //
-// Bilder sind jetzt `LocalImage` statt Sanity-Bildobjekte. Dadurch fällt
-// `urlFor()`/`hasImageAsset()` weg (das bleibt nur für Case-Bilder) und
-// `next/image` optimiert die Dateien aus `public/` selbst.
+// Bilder sind `LocalImage` statt Sanity-Bildobjekte: ein Pfad ab Web-Wurzel,
+// `next/image` optimiert die Dateien aus `public/` selbst. Die früheren Helfer
+// `urlFor()`/`hasImageAsset()` gibt es seit dem CMS-Ausbau (08/2026) nirgends
+// mehr — auch nicht für Case-Bilder.
 
 /**
  * Bild in `public/`. `src` ist der Pfad ab Web-Wurzel.
@@ -96,6 +97,8 @@ export type LandingAbout = {
   ceoQuote: string;
   ceoName: string;
   ceoRole: string;
+  /** Optional: mit URL wird der Name in der Bildunterschrift zum LinkedIn-Link. */
+  ceoLinkedin?: string;
   quoteLine1: string;
   quoteLine2: string;
 };
@@ -104,6 +107,22 @@ export type LandingTestimonial = {
   quote: string;
   author: string;
   role: string;
+  /**
+   * Kundenlogo für die Karte, Pfad unter `public/`. Optional: fehlt es, bleibt
+   * die Stelle leer — der Firmenname steht ohnehin in `role`.
+   *
+   * Seit 12.08.2026 dieselben weißen Dateien wie im LogoBanner (`public/logos/`,
+   * gebaut von `scripts/build-logo-banner.mjs`). Vorher lagen hier die dunklen
+   * Graustufen-PNGs der alten weißen Leiste, die `Testimonials.tsx` per
+   * `brightness-0 invert` nach Weiß kippen musste — der Filter ist mit den
+   * weißen Dateien entfallen.
+   *
+   * ⚠️ `width`/`height` sind Pflicht und müssen die **Leinwandmaße der Datei**
+   * sein, nicht die Anzeigegröße: die Karte setzt `h-14 w-auto`, und die Breite
+   * rechnet der Browser aus genau diesem Seitenverhältnis. Ein falscher Wert
+   * verzerrt oder staucht das Logo. Die Höhe ist bei allen Dateien 240.
+   */
+  logo?: { src: string; alt: string; width: number; height: number };
 };
 
 export type LandingTestimonials = {
@@ -133,10 +152,10 @@ export type LandingContact = {
   contactName: string;
   contactRole: string;
   /**
-   * Bis 07/2026 stand hier die Platzhalter-Nummer „+49 123 455667", die live als
-   * `tel:`-Link ausgeliefert wurde. Ohne Wert rendert `Contact.tsx` die
-   * Telefonzeile gar nicht — das ist der gewollte Zustand, solange die echte
-   * Nummer nicht eingetragen ist.
+   * Ohne Wert rendert `Contact.tsx` die Telefonzeile gar nicht (so war es
+   * 07–08/2026, nachdem die Platzhalter-Nummer „+49 123 455667" entfernt war).
+   * Der Wert kommt aus `ORG.telephone` (`lib/seo.ts`) — dort ändern, dann
+   * stimmen Sichtbares und JSON-LD automatisch überein.
    */
   phone?: string;
   email: string;
@@ -155,10 +174,54 @@ export type LandingContent = {
   contact: LandingContact;
 };
 
+// ── Case Studies (Referenzen) ──────────────────────────────────────────────
+//
+// Bis 08/2026 kamen die Cases als einziger Inhalt noch aus Sanity. Seit dem
+// Ausbau des CMS stehen sie in `./cases.ts`. Der Typ ist bewusst schlanker als
+// das frühere Sanity-Schema: `headline`, `intro`, `introHeading`, `solution`,
+// `cta` und `seo` sind ersatzlos entfallen — sie wurden von keiner Komponente
+// gerendert.
+
+export type CaseCredit = {
+  role: string;
+  name: string;
+};
+
+export type CaseGalleryItem = {
+  src: string;
+  alt: string;
+  /** Steuert das Seitenverhältnis der Kachel im Case-Fenster. */
+  ratio: "wide" | "tall" | "standard";
+};
+
+export type CaseStudy = {
+  /** Referenziert aus `SELECTED_WORK` (`lib/data.ts`) und `SERVICE_PAGES[].caseSlugs`. */
+  slug: string;
+  /** Überschrift auf der Kachel und im Case-Fenster, z. B. „Kinospot und Social Media Spot". */
+  project: string;
+  kicker?: string;
+  client: string;
+  year: string;
+  /** Ausgeschriebene Kategorien für die Metazeile, mit „ · " verbunden. */
+  category: string;
+  /** Kategorie-Slugs aus `./workCategories.ts` — steuert die Filterleiste auf /work. */
+  categories: string[];
+  /** Fließtext im Case-Fenster. Absätze mit `\n\n` trennen. */
+  summary: string;
+  services?: string[];
+  credits?: CaseCredit[];
+  /** Kachelbild und, ohne eigenes `poster`, auch das Standbild im Case-Fenster. */
+  image: LocalImage;
+  poster?: LocalImage;
+  /** Vimeo- oder YouTube-URL. Ohne Wert zeigt das Case-Fenster nur das Standbild. */
+  video?: string;
+  gallery?: CaseGalleryItem[];
+};
+
 // ── Leistungen (die 6 Kacheln auf / und /leistungen) ───────────────────────
 
 /**
- * Nur was gerendert wird. Die frühere Sanity-Variante trug zusätzlich
+ * Nur was gerendert wird. Die frühere CMS-Variante trug zusätzlich
  * `description`, `detailText`, `externalLink`, `buttonText` und drei
  * Titel-Varianten (`title`/`displayTitle`/`headline`) — alles ungerendert bzw.
  * redundant. Der Seitentext der Leistungen steht in `lib/leistungen.ts`.
@@ -168,5 +231,12 @@ export type Service = {
   slug: string;
   /** Wird an der ersten Leerstelle für die Misch-Typo-Headline getrennt: „Video / Produktion" */
   title: string;
-  image: LocalImage;
+  /**
+   * Rückfall, wenn die Leistung **kein** `loopVideo` in `SERVICE_PAGES` hat.
+   * Seit 12.08.2026 optional und bei allen sechs Leistungen ungenutzt: Startseite
+   * (`ServiceList`) und Detailseite (`ServiceBlocks`) zeigen beide den Loop.
+   * Die handgezeichneten Platzhalter unter `public/leistungen/` können damit weg
+   * — dann hier auch das Feld am jeweiligen Eintrag löschen.
+   */
+  image?: LocalImage;
 };

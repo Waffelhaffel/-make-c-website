@@ -16,13 +16,23 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "cdn.sanity.io",
-      },
-    ],
+  // Kein `images.remotePatterns` mehr: seit dem CMS-Ausbau (08/2026) liegen alle
+  // Bilder in `public/`, die Seite lädt von keinem fremden Host. Erst wieder
+  // eintragen, wenn tatsächlich eine externe Bildquelle dazukommt — jeder
+  // Eintrag hier ist eine Erlaubnis für Nexts Optimizer-Proxy.
+  // Die Übersichtsseite /leistungen ist 08/2026 entfallen — die sechs
+  // Leistungen stehen auf der Startseite. Der Pfad leitet dorthin weiter,
+  // damit Bookmarks und alte Links nicht auf einer 404 landen. Die
+  // Detailseiten /leistungen/<slug> bleiben unberührt: `source` matcht exakt.
+  //
+  // Bewusst `permanent: false` (307): die Seite war nie indexiert
+  // (NEXT_PUBLIC_SEO_INDEX ist bis zum Go-Live aus), es gibt also keine
+  // Ranking-Signale zu übertragen — und ein 308 brennt sich in den
+  // Browser-Cache ein, was ein späteres Zurückdrehen unnötig zäh macht.
+  async redirects() {
+    return [
+      { source: "/leistungen", destination: "/#service", permanent: false },
+    ];
   },
   webpack: (config, { isServer }) => {
     if (!isServer) {

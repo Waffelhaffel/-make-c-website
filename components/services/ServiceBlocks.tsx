@@ -1,6 +1,5 @@
 import Image from "next/image";
 
-import { LazyVideo } from "@/components/ui/LazyVideo";
 import { MixedHeadline } from "@/components/ui/MixedHeadline";
 import { MotionSection } from "@/components/ui/MotionSection";
 import type { ServiceBlock } from "@/lib/leistungen";
@@ -8,13 +7,20 @@ import type { LocalImage } from "@/lib/content/types";
 
 type ServiceBlocksProps = {
   blocks: ServiceBlock[];
-  /** Datei in public/ — Namen enthalten Leerzeichen, daher encodeURI */
-  loopVideo?: string;
-  /** Fallback, wenn es kein Loop-Video gibt (z. B. Motion Design) */
+  /** Erstes Set-Foto der Leistung, `SERVICE_PAGES[].images[0]` */
   image?: LocalImage;
 };
 
-export function ServiceBlocks({ blocks, loopVideo, image }: ServiceBlocksProps) {
+/**
+ * ⚠️ Hier lief bis 12.08.2026 das Loop-Video. Es führt jetzt als Header die
+ * ganze Seite an (`ServiceHero`); ein zweiter Durchlauf desselben Clips auf
+ * derselben Seite wäre Wiederholung. An seiner Stelle steht ein Set-Foto.
+ *
+ * Der Rahmen ist `aspect-[3/2]` — das native Seitenverhältnis der gelieferten
+ * Bilder (6.800 × 4.500 px). Nur `event-content-2` ist 4:3 und verliert oben
+ * und unten zusammen rund 11 % an `object-cover`; das Motiv ist mittig.
+ */
+export function ServiceBlocks({ blocks, image }: ServiceBlocksProps) {
   if (blocks.length === 0) return null;
 
   return (
@@ -27,33 +33,18 @@ export function ServiceBlocks({ blocks, loopVideo, image }: ServiceBlocksProps) 
         />
 
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
-          {/* Medium: Loop-Video, sonst die Leistungs-Grafik.
-              Vier der fünf Loops in public/ sind 512×512 (nur "AI Video Loop.mp4"
-              ist 1224×752) — deshalb ein quadratischer Rahmen fürs Video und
-              das 3:2-Format der Grafiken nur für den Bild-Fallback. */}
           <div className="lg:col-span-5">
-            <div
-              className={`relative overflow-hidden bg-black/30 ${
-                loopVideo ? "aspect-square" : "aspect-[730/462]"
-              }`}
-            >
-              {loopVideo ? (
-                <LazyVideo
-                  src={encodeURI(loopVideo)}
-                  className="absolute inset-0 h-full w-full object-cover"
+            {image && (
+              <div className="relative aspect-[3/2] overflow-hidden bg-black/30">
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  fill
+                  className="object-cover"
+                  sizes="(min-width: 1024px) 40vw, 100vw"
                 />
-              ) : (
-                image && (
-                  <Image
-                    src={image.src}
-                    alt={image.alt}
-                    fill
-                    className="object-cover"
-                    sizes="(min-width: 1024px) 40vw, 100vw"
-                  />
-                )
-              )}
-            </div>
+              </div>
+            )}
           </div>
 
           <div className="lg:col-span-6 lg:col-start-7 flex flex-col gap-10 md:gap-14">

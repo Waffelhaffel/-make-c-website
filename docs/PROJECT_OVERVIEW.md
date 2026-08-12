@@ -143,9 +143,9 @@
 ### Home sections (`components/sections/`)
 | Component | Used on | Editable via Sanity | Notes |
 |-----------|---------|---------------------|-------|
-| `Hero` | Home | Partial (`landingPage.hero` text) | ⚠️ Background video `/Header_video.mp4` is **hardcoded**. |
+| `Hero` | Home | Partial (`landingPage.hero` text) | ⚠️ Background video `/header-video.mp4` is **hardcoded**. |
 | `Stats` | Home | Yes (`landingPage.stats`) | Icons mapped from `users/play/mapPin` keys. ⚠️ Client-logo grid is **not rendered** (logos exist in `public/Seite Logos Kopie/` but unused). |
-| `Showreel` | Home | Yes (`landingPage.showreel`) | Supports Vimeo/YouTube/MP4. Falls back to `/Makec_Reel 1.mp4` + `/thumbnail_Showreel.png`. |
+| `Showreel` | Home | Yes (`landingPage.showreel`) | Supports Vimeo/YouTube/MP4. Falls back to `/showreel.mp4` + `/thumbnail_Showreel.png`. |
 | `Approach` | Home | Yes (`landingPage.approach`) | Paragraph array + closing line. |
 | `ServiceAccordion` | Home | Yes (`service` docs) | ⚠️ Loop videos hardcoded via `SERVICE_LOOP_VIDEOS` keyed by slug. Section title "UNSERE LEISTUNGEN" hardcoded. **Modified** in current working tree. |
 | `InsightGeneration` | Home | Yes (`landingPage.insight`) | Headline + body. |
@@ -235,7 +235,7 @@ Schema registry: `sanity/schemaTypes/index.ts`. **Documents** (5) + **objects** 
 - [ ] **Resolve the deleted `/services/[slug]` route vs. `service` schema mismatch.** Either rebuild a service detail page or prune the now-unused detail-oriented fields (`headline`, `detailText`, `referenceVideoUrl`) and the slug help text that promises `/services/<slug>`. (git: `D app/services/[slug]/page.tsx`, `D components/sections/VideoProductionPage.tsx`.)
 - [ ] **Connect the home `SelectedWork` grid to Sanity.** Currently `SELECTED_WORK` is `⚠️ HARDCODED` in `lib/data.ts` (6 projects + local images) and must be kept in manual sync with `caseStudy` slugs. Recommended: query featured `caseStudy` docs (reuse `ALL_CASE_STUDIES_QUERY`).
 - [ ] **Move `BudgetTool` content to Sanity** — `⚠️ HARDCODED` `FAQ_DATA`, slider images, headline and disclaimer copy in `components/sections/BudgetTool.tsx`. No schema exists for it.
-- [ ] **Make the Hero background video editable** — `⚠️ HARDCODED` `/Header_video.mp4` in `Hero.tsx`. Add a field to `landingPage.hero`.
+- [ ] **Make the Hero background video editable** — `⚠️ HARDCODED` `/header-video.mp4` in `Hero.tsx`. Add a field to `landingPage.hero`.
 - [ ] **Decide on the client-logo wall.** 18 brand logos exist in `public/Seite Logos Kopie/` but are `⚠️ NOT rendered` anywhere (the previous overview claimed they were in Stats; the current `Stats.tsx` does not render them). Either render + model them in Sanity or remove the assets.
 - [ ] **Hardcoded navigation** — `NAV_LINKS` (`lib/data.ts`) and `LEGAL_LINKS` (`HeaderClient.tsx`) are `⚠️ HARDCODED`. Consider moving to `siteSettings`.
 - [ ] **Add an on-demand revalidation webhook** (`/api/revalidate`) so the cache `tags` already passed in fetches actually invalidate on publish; today only 60s ISR applies.

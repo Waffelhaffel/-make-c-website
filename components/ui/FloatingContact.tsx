@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import type { LandingContact } from "@/lib/content/types";
@@ -61,9 +60,11 @@ export function FloatingContact({ data }: FloatingContactProps) {
           animate={{ x: 0, opacity: 1 }}
           exit={{ x: "110%", opacity: 0 }}
           transition={{ type: "spring", stiffness: 260, damping: 20 }}
-          className="group fixed right-0 top-1/2 -translate-y-1/2 z-40 flex items-center gap-3 rounded-l-full border border-white/10 border-r-0 bg-makec-dark/80 py-2 pl-4 pr-2 shadow-2xl backdrop-blur-md transition-colors hover:bg-makec-dark/95"
+          className="group fixed right-0 top-1/2 -translate-y-1/2 z-40 flex items-center rounded-l-full border border-white/10 border-r-0 bg-makec-dark/80 py-3.5 pl-6 pr-5 shadow-2xl backdrop-blur-md transition-colors hover:bg-makec-dark/95"
         >
-          <span className="hidden sm:flex flex-col leading-tight text-right">
+          {/* Kein Portrait mehr (User-Entscheidung 08/2026) — deshalb ist der
+              Text auch auf Mobile sichtbar, sonst wäre der Button leer. */}
+          <span className="flex flex-col leading-tight text-right">
             <span className="text-sm font-bold uppercase tracking-[0.15em] text-white">
               {label}
             </span>
@@ -72,17 +73,6 @@ export function FloatingContact({ data }: FloatingContactProps) {
               Kontakt
               <ArrowUpRight size={12} />
             </span>
-          </span>
-
-          <span className="relative h-12 w-12 md:h-14 md:w-14 shrink-0 overflow-hidden rounded-full ring-2 ring-white/20">
-            <Image
-              src={data.contactImage.src}
-              alt={data.contactImage.alt || data.contactName}
-              fill
-              sizes="56px"
-              className="object-cover"
-            />
-            <span className="absolute right-0 top-0 h-3 w-3 rounded-full bg-makec-blue ring-2 ring-makec-dark" />
           </span>
         </motion.a>
       )}

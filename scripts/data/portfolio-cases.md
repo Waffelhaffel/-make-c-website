@@ -1,0 +1,854 @@
+# Prüfliste: 54 Cases aus dem alten Portfolio
+
+Automatisch aus make-c.de extrahiert. Bitte Texte, Jahr und Credits gegenlesen —
+korrigiert wird später direkt in `lib/content/cases.ts`.
+
+| # | Kunde | Projekt | Jahr | Video | Credits | Text |
+|---|---|---|---|---|---|---|
+| 1 | Flughafen Köln Bonn | Imagefilm | 2026 | — | 2 | 269 Z. |
+| 2 | Thermengruppe Josef Wund | Imagespot und Erklärvideos | 2025 | ja | 3 | 414 Z. |
+| 3 | Kölner Zoo | Kinospot und Social Media Spot | 2025 | — | 3 | 383 Z. |
+| 4 | Koelnmesse | Interaktive PK mit KI-gesteuerten Avataren | 2023 | — | — | 521 Z. |
+| 5 | DMEXCO 2023 | Video Produktionen und Trailer | 2023 | ja | — | 365 Z. |
+| 6 | DB Schenker | Corporate Studio | 2023 | — | — | 569 Z. |
+| 7 | KPMG | Imagetrailer Insights Center | 2023 | ja | — | 456 Z. |
+| 8 | FORMAT | 3D Animation | 2023 | ja | — | 513 Z. |
+| 9 | Ziegler Zeitgeist | Werbespot | 2023 | — | — | 558 Z. |
+| 10 | Zurich StrategieGarten 2023 | TV-Format „Fernsehgarten“ | 2023 | — | — | 440 Z. |
+| 11 | MVV Energie AG BUGA | Augmented Reality App | 2023 | — | — | 551 Z. |
+| 12 | Bundesgartenschau 2023 KI Chatbot | KI Chatbot | 2023 | — | — | 582 Z. |
+| 13 | OBI Gartenmagazin | Gartenmagazin Motion Graphics Trailer | 2023 | — | — | 532 Z. |
+| 14 | Masco Group | Imagefilm | 2023 | ja | — | 528 Z. |
+| 15 | Workshop | selber drehen und schneiden | 2023 | — | — | 601 Z. |
+| 16 | ZURICH | Erklärfilmreihe | 2023 | ja | — | 517 Z. |
+| 17 | IHK Köln | Rahmenvertragspartner Streaming | 2023 | ja | — | 359 Z. |
+| 18 | ATLANTIK-BRÜCKE e.V. | Jubiläumsfilm 70 Jahre | 2023 | ja | — | 400 Z. |
+| 19 | SIMon Mobile | Instagram & Facebook Kampagne | 2022 | — | — | 338 Z. |
+| 20 | BDSI | Twitter Videos | 2022 | ja | — | 393 Z. |
+| 21 | High-Tech Gründerfonds | High-Tech Gründerfonds Start-Up Stories | 2022 | ja | — | 629 Z. |
+| 22 | Greentech Festival | Live-Streaming und Stage Video Produktionen | 2022 | ja | — | 461 Z. |
+| 23 | GOTHAER Versicherung | Social Media Spot | 2022 | — | — | 428 Z. |
+| 24 | Toyota | Cross & Quer | 2022 | — | — | 498 Z. |
+| 25 | Anuga | Live-Streams und Trailer | 2022 | ja | — | 508 Z. |
+| 26 | HDI | Youtube-Videoserie | 2021 | ja | 1 | 541 Z. |
+| 27 | aquanale | Pressekonferenz Live-Stream | 2021 | ja | 1 | 392 Z. |
+| 28 | FSB | Pressekonferenz Live-Stream | 2021 | ja | 1 | 480 Z. |
+| 29 | Dr. Hans Riegel-Stiftung | PBS Erklärfilm | 2021 | — | 1 | 583 Z. |
+| 30 | IW | E-learning Serie NETZWERK 4.0 | 2021 | — | — | 558 Z. |
+| 31 | BDSI | Erklärfilme | 2021 | ja | — | 360 Z. |
+| 32 | insureNXT | Messe Live-Stream | 2021 | — | 1 | 593 Z. |
+| 33 | Bahlsen | Social Media Storys | 2021 | — | — | 534 Z. |
+| 34 | polisMOBILITY | Pressekonferenz Live-Stream | 2021 | ja | 1 | 524 Z. |
+| 35 | imm cologne | Live-Stream | 2021 | ja | 1 | 445 Z. |
+| 36 | LVR-LandesMuseum Bonn | Dokumentation | 2021 | ja | 1 | 568 Z. |
+| 37 | IDX_FS | Messe Live-Stream | 2021 | — | 1 | 497 Z. |
+| 38 | Zurich | Event Live-Stream | 2021 | — | 1 | 500 Z. |
+| 39 | ZEG | TV Spot | 2021 | ja | 2 | 664 Z. |
+| 40 | SHOP APOTHEKE | 1.500 Produktvideos | 2020 | ja | — | 619 Z. |
+| 41 | AachenMünchener | Social Media Spot zur Altersvorsorge | 2020 | — | 1 | 411 Z. |
+| 42 | Postbank Versicherung | Stock-Footage Videos | 2020 | — | 1 | 426 Z. |
+| 43 | imm cologne | Event-Inszenierung | 2020 | — | — | 664 Z. |
+| 44 | Köln Marathon | Live-Streams | 2020 | — | 1 | 552 Z. |
+| 45 | DMEXCO | Bühnenprogramm Live-Streams | 2020 | ja | 1 | 647 Z. |
+| 46 | Covestro | Circular Economy Live-Stream | 2020 | ja | 1 | 661 Z. |
+| 47 | Ad Alliance | GZSZ Coffee-Break | 2020 | ja | 1 | 476 Z. |
+| 48 | REWE | Rezeptvideos | 2020 | — | — | 540 Z. |
+| 49 | Koelnmesse | 100 Sekunden mit Claire | 2020 | ja | 1 | 663 Z. |
+| 50 | Covestro | K2019 Messe Kommunikation | 2020 | — | — | 587 Z. |
+| 51 | sportwetten.de | Social Media Spots | 2020 | — | — | 514 Z. |
+| 52 | funny-frisch | Insta-Stories | 2020 | — | 1 | 553 Z. |
+| 53 | Uniklinik Köln | Job Portraits | 2020 | — | — | 418 Z. |
+| 54 | Covestro | Concept Car AR App | 2020 | — | — | 558 Z. |
+| 55 | Dr. Hans Riegel-Stiftung | TouchTomorrow Truck VR | 2020 | ja | — | 691 Z. |
+| 56 | Lava-Dome | Museumsexponat | 2020 | — | 1 | 560 Z. |
+| 57 | Pfeifer & Langen | 150-jähriges Jubiläum | 2020 | — | 2 | 566 Z. |
+| 58 | Köln Bonn Airport | Content Timelapse | 2020 | — | 2 | 654 Z. |
+
+---
+
+## 1. Flughafen Köln Bonn — Imagefilm
+
+- Slug: `flughafen-koeln-bonn` · Bild: `Flughafen-Koeln-Bonn_TagundNacht.jpg`
+- Kategorien: Imagefilm · Kreation & Visual Storytelling
+- Jahr: 2026 · Video: —
+- Credits: Postproduktion: Christian Wesner · Konzept und Beratung: Jens Kemper
+
+Der Flughafen Köln Bonn ist mehr als ein Ort für Passagiere – durch seinen 24-Stunden-Betrieb ist er auch ein zentraler Knotenpunkt für die weltweite Luftfracht. Genau diese beiden Geschäftsfelder, Passagier- und Frachtverkehr, stehen im Mittelpunkt unseres Imagefilms.
+
+<details><summary>Weitere Absätze auf der alten Seite</summary>
+
+> In enger Abstimmung mit dem Flughafen haben wir ein Storyboard entwickelt und alle relevanten Stakeholder eingebunden. An mehr als zehn Drehtagen, haben wir beide Bereiche (Passagier und Fracht) bei Tag und Nacht bildgewaltig in Szene gesetzt – auf der Landebahn, im Bauch einer Boeing 747 Cargo und in der Gepäck-Sortieranlage. Entstanden ist ein informativer Film, der bewusst auch nonverbal funktioniert und so vielseitig einsetzbar ist, etwa in POS-Installationen oder auf Messen.
+
+> Ein Flughafen als Drehlocation stellt besondere Anforderungen an die Sicherheit. Drei Mitglieder unseres Teams haben dafür nicht nur eine Sicherheitsschulung durchlaufen, sondern eigens Führerscheine für den Flughafenbereich erworben, um während des Drehs maximal flexibel agieren zu können. Ebenfalls in Abstimmung mit dem Flughafen und der Deutschen Flugsicherung konnten wir zudem einen Drohneneinsatz im laufenden Passagierflugbetrieb realisieren.
+
+> Zusätzlich haben wir für den Flughafen eine umfangreiche Auswahl an hochwertigen Aufnahmen vom allgemeinen Flughafengeschehen erstellt.
+
+> Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+</details>
+
+## 2. Thermengruppe Josef Wund — Imagespot und Erklärvideos
+
+- Slug: `wundholding` · Bild: `Thermengruppe-Josef-Wund.webp`
+- Kategorien: Erklärvideo · Imagefilm
+- Jahr: 2025 · Video: https://www.youtube.com/watch?v=AyIptBu0qG8
+- Credits: Konzept & Regie: Jason Philipp · DOP: Mohamed Bangura · Postproduktion: Jason Philipp
+
+Die Thermengruppe Josef Wund ist ein führender Anbieter von Wellness Einrichtungen in Deutschland.
+
+make/c hat schon mehrere innovative Wellnessangebote für den Kunden in Bewegtbildprojekten festgehalten. Hier geht es um das immersive Erlebnis „Breathing Planet“ der Thermen & Badewelt Sinsheim. In dieser Anwendung verbinden sich Technologie, Kunst und Natur auf eindrucksvolle Weise – Entschleunigung garantiert!
+
+<details><summary>Weitere Absätze auf der alten Seite</summary>
+
+> Als Video Agentur haben wir hier ein umfassende Kreativ- und Beratungsleistung abgeliefert und einen komplexen Produktions- und Postproduktionsprozess intern durchgeführt.
+
+> Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+</details>
+
+## 3. Kölner Zoo — Kinospot und Social Media Spot
+
+- Slug: `koelner-zoo` · Bild: `koelner-zoo.jpg`
+- Kategorien: Imagefilm · Kreation & Visual Storytelling · Künstliche Intelligenz
+- Jahr: 2025 · Video: —
+- Credits: Konzept: Christian Wesner · DOP: Mohamed Bangura · Postproduktion und KI Artist: Christian Wesner
+
+Die Dinos kommen wieder nach Köln – nach 65 Millionen Jahren… Doch auf Ihrem Weg in den Zoo, wo sie in einer Langzeitausstellung zu bewundern sind, müssen sie zuerst durch die Innenstadt…
+
+Was noch vor kurzer Zeit einen großen Aufwand im Bereich VFX und Motion Design nach sich gezogen hätte, geht dank modernster KI Technologie heute einfacher, schneller, günstiger und auch besser.
+
+<details><summary>Weitere Absätze auf der alten Seite</summary>
+
+> Als langjährige Video Agentur und Partner des Kölner Zoos haben wir dieses Pionierprojekt von A-Z inhouse realisiert
+
+> Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+</details>
+
+## 4. Koelnmesse — Interaktive PK mit KI-gesteuerten Avataren
+
+- Slug: `koelnmesse-anuga-pressekonferenz` · Bild: `anuga-foodtech-pressekonferenz.jpg`
+- Kategorien: Künstliche Intelligenz · Live-Streaming · Virtual & Augmented Reality
+- Jahr: 2023 · Video: —
+
+Mit der Anuga FoodTec Pressekonferenz setzt die Koelnmesse ein starkes Zeichen für ihre digitale Innovationsbereitschaft. Die PK richtete sich an ein asiatisches Fachpublikum in China und Japan und fand erstmalig mit KI-gesteuerten Avataren statt.
+
+make/c hat dafür das Tool des „24/7 Beraters“ angepasst. Es wurden Avatare der Protagonisten erstellt, die dann in Echtzeit und interaktiv sowohl chinesisch als auch japanisch mit den Journalisten gesprochen haben, obwohl sie in Wirklichkeit beide Sprachen nicht sprechen.
+
+<details><summary>Weitere Absätze auf der alten Seite</summary>
+
+> Diese „kleine Weltpremiere“ hat auch die Kollegen von RTL begeistert und es war ihnen diesen Beitrag wert, über den wir uns sehr gefreut haben:
+
+> " Many thanks to our partners from make/c - video content marketing GmbH for the creativity and realization.
+
+> Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+</details>
+
+## 5. DMEXCO 2023 — Video Produktionen und Trailer
+
+- Slug: `dmexco-2023` · Bild: `DMEXCO-2023.jpg`
+- Kategorien: Event & Messe Kommunikation · Live-Streaming
+- Jahr: 2023 · Video: https://vimeo.com/882229550
+
+Die DMEXCO öffnet wieder die Pforten in Köln und Marketeers aus der ganzen Welt schauen vorbei. make/c ist seit 2018 durchgehend – ob rein virtuell oder live vor Ort – als Videopartner für die Bühnen dabei.
+
+Diesmal waren es 13 Bühnen parallel. Über 60 makerinnen und maker waren dafür 3 Tage vor Ort. Dazu haben wir fünf, zum Teil tagesaktuelle Trailer produziert.
+
+<details><summary>Weitere Absätze auf der alten Seite</summary>
+
+> Die Messe war ein voller Erfolg, der überall greifbar zur spüren war – auch an unserem make/c Stand, den wir traditionell auf der DMEXCO betreiben.
+
+> Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+</details>
+
+## 6. DB Schenker — Corporate Studio
+
+- Slug: `db-schenker` · Bild: `DB-Schenker.png`
+- Kategorien: Beratung & Strategie
+- Jahr: 2023 · Video: —
+
+DB Schenker ist ein global tätiger Logistik Konzern mit Sitz vor der Haustür unseres Essener Standortes. Wunsch des Kunden war der Bau eines multifunktionsfähigen, hybriden Studios ausgelegt auf Selbstfahrerbetrieb im Alltag.
+
+make/c konnte im Pitch mit seinem hybriden, leanen und ganzheitlichen Ansatz überzeugen. Wir haben das ganze Projekt von der Nutzung her gedacht und mit unserer langjährigen Content- und Technikexpertise aus einer Hand umgesetzt. Unsere 3D Visualisierung aus den frühen Konzepttagen deckt sich mit der späteren Umsetzung bis in viele Details.
+
+<details><summary>Weitere Absätze auf der alten Seite</summary>
+
+> Nach der Fertigstellung haben wir das Schenker-Personal für den Selbstfahrer-Betrieb geschult und helfen bei größeren Produktionen auf Anfrage immer wieder aus. Das Studio erfreut sich im Schenker Universum großer Beliebtheit.
+
+> " Das fertige Studio entspricht genau unseren Erwartungen aus unserem Briefing und der Visualisierung von make/c. Sie haben den Prozess zu unserer vollsten Zufriedenheit gesteuert – immer kreativ, zuverlässig und lösungsorientiert. Wir freuen uns auf die weitere Zusammenarbeit.
+
+> Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+</details>
+
+## 7. KPMG — Imagetrailer Insights Center
+
+- Slug: `kpmg` · Bild: `KPMG-Insights-Center.jpg`
+- Kategorien: Imagefilm · Kreation & Visual Storytelling
+- Jahr: 2023 · Video: https://vimeo.com/859822560
+
+Das Insights Center von KPMG steht für Top Beratung im Bereich KI, Digitalisierung und Advanced Analytics. Doch wie lassen sich diese abstrakten Themen bildstark und dynamisch wie in einem Musikvideo umsetzen? Hier konnten wir unserer Kreativität freien Lauf lassen. Ein Blick in die Umsetzung lohnt sich.
+
+Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+## 8. FORMAT — 3D Animation
+
+- Slug: `format-tools-katalog` · Bild: `FORMAT_tools_header.jpg`
+- Kategorien: Kreation & Visual Storytelling · Produktvideo · Social Media & Influencer Marketing
+- Jahr: 2023 · Video: https://www.youtube.com/watch?v=d9gvWj3kgF0
+
+Unter der Marke „FORMAT Tools for Professionals“ produziert die Wuppertaler Firma E/D/E Werkzeuge für echte Profis. Zur Bewerbung des neuen Katalogs sollten ausgewählte Werkzeuge emotional und hochwertig in Szene gesetzt werden. Das Video wird als Header auf der Website und zur Social Media Bewerbung eingesetzt.
+
+make/c hat im ersten Schritt 3D Modelle der Werkzeuge erstellt und diese im zweiten Schritt emotional in Szene gesetzt – in Verbindung mit dem Katalog. Der Kunde ist happy und wir entsprechend auch!
+
+<details><summary>Weitere Absätze auf der alten Seite</summary>
+
+> Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+</details>
+
+## 9. Ziegler Zeitgeist — Werbespot
+
+- Slug: `zeitgeist` · Bild: `Ziegler-Zeitgeist.jpg`
+- Kategorien: Partner für Agenturen · Produktvideo · Social Media & Influencer Marketing
+- Jahr: 2023 · Video: —
+
+Sommer, Sonne, Zieglers „Zeitgeist“. Ein Getränk, das Lust auf Sommer macht. Wir durften für unseren Partner Storymachine aus Berlin diesen Spot realisieren. Das Timing war wie immer bei Produktionen sportlich, die Anforderungen an den Cast und die Locations ebenso.
+
+Das maker-Team hat sich der Aufgabe gestellt und binnen kürzester Zeit diesen Spot geplant, organisiert, produziert und postproduziert. Die Creation kommt von Storymachine. Neben dem unten verlinkten Spot haben wir natürlich noch cut-downs für alle gängigen Social-Media-Kanäle angefertigt.
+
+<details><summary>Weitere Absätze auf der alten Seite</summary>
+
+> Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+</details>
+
+## 10. Zurich StrategieGarten 2023 — TV-Format „Fernsehgarten“
+
+- Slug: `zurich-strategiegarten-2023` · Bild: `ZURICH-StrategieGarten-2023.jpg`
+- Kategorien: Beratung & Strategie · Distribution & Performance · Event & Messe Kommunikation · Kreation & Visual Storytelling
+- Jahr: 2023 · Video: —
+
+Seit 2020 dürfen wir bereits die jährlichen Kommunikationsformate der ZURICH Versicherung zum „Strategie 2023“ als Content- und Konzept-Partner begleiten.
+
+Nach einer „Late-Night-Show“, einer „digitalen Musical Inszenierung“ war es in diesem Jahr der „ZURICH Strategiegarten“. Angelehnt an den ZDF Fernsehgarten fand die Veranstaltung für über 2.000 Mitarbeiterinnen und Mitarbeiter bei uns gegenüber im legendären Kölner Tanzbrunnen statt.
+
+<details><summary>Weitere Absätze auf der alten Seite</summary>
+
+> Gemeinsam mit dem #love2becomms Team der ZURICH durften wir das Konzept kreativ mitgestalten und den gesamten Videocontent produzieren (über 80 Content Pieces). Dazu haben wir die Veranstaltung mit mehreren Kameras aufgezeichnet und in verschiedenen Versionen postproduziert.
+
+> Die Veranstaltung hat nicht nur den Kunden glücklich gemacht, sondern vor allem auch die Zielgruppe, für die sie stattgefunden hat: die Mitarbeiterinnen und Mitarbeiter der ZURICH Versicherung waren von dem Event begeistert.
+
+> Die interessanten Vorträge des ZURICH Managements wurden begleitet von vielen Künstlern, darunter z. B. Ross Antony, Chris Böhm und der TV Tanzperformance Gruppe „BreakALeg“.
+
+> Wenn Sie auf der Suche nach einer professionellen Videoagentur mit viel Eventerfahrung und einer ausgeprägten Kreativader sind, die Ihr Event oder Ihre Unternehmenskommunikation in unvergesslichen Aufnahmen festhält, sind Sie bei uns genau richtig. Unsere erfahrenen Videografen und Produktionsteams sind darauf spezialisiert, Ihr Unternehmen und Ihre Botschaft mit höchster Qualität und Kreativität in Szene zu setzen.
+
+> Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+</details>
+
+## 11. MVV Energie AG BUGA — Augmented Reality App
+
+- Slug: `mvv-energie-ag-buga-ar-app` · Bild: `BUGA23-Energiefeld.jpg`
+- Kategorien: Event & Messe Kommunikation · Kreation & Visual Storytelling · Virtual & Augmented Reality
+- Jahr: 2023 · Video: —
+
+Durch die Entwickelung einer speziellen Augmented Reality App können die Besucher der diesjährigen BUGA sechs Kunstwerke von Horst Hamann, ausgestellt von der MVV Mannheim, zum Leben erwecken und sehen durch ihr Handykamerabild Tänzer/innen, die innerhalb und außerhalb des Kunstwerkes performen.
+
+Wir haben das künstlerische Konzept dazu entwickelt, die App programmiert und die Aufnahmen mit den Tänzern produziert und choreographiert. Mit Hilfe der App werden die Kunstwerke mit tänzerischen Szenen ergänzt und erwecken die Fotografien „zum Leben“.
+
+<details><summary>Weitere Absätze auf der alten Seite</summary>
+
+> Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+</details>
+
+## 12. Bundesgartenschau 2023 KI Chatbot — KI Chatbot
+
+- Slug: `buga-2023-ki-chatbot` · Bild: `KI-chatbot.png`
+- Kategorien: Event & Messe Kommunikation · Kreation & Visual Storytelling · Virtual & Augmented Reality
+- Jahr: 2023 · Video: —
+
+In Zusammenarbeit mit dem Institut für Künstliche Intelligenz der Uniklinik in Marburg haben wir einen interaktiven, KI-gesteuerten virtuellen Arzt-Avatar entwickelt. Dieser greift auf eine eigens entwickelte künstliche Intelligenz zurück und kann medizinische Fragen fachlich fundiert beantworten und eine Konversation in Echtzeit und in jeder gewünschten Sprache mit den Nutzern führen.
+
+Diese Mechanik ist nach unserem Wissen bisher einzigartig und kann auf alle möglichen Use-Cases auch außerhalb der Medizin übertragen werden. Sprecht uns an. Uns gibt es sogar (noch) in echt ☺
+
+<details><summary>Weitere Absätze auf der alten Seite</summary>
+
+> Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+</details>
+
+## 13. OBI Gartenmagazin — Gartenmagazin Motion Graphics Trailer
+
+- Slug: `obi-gartenmagazin` · Bild: `OBI-Gartenmagazin.jpg`
+- Kategorien: Kreation & Visual Storytelling · Produktvideo
+- Jahr: 2023 · Video: —
+
+Seit einigen Jahren begleiten wir schon mit der Agentur NJU zusammen die Digital Signage Aktivitäten von OBI. In dem Zusammenhang sind schon viele Grafiken und Videos bei uns entstanden. Dazu gehört auch dieser Trailer fürs OBI Gartenmagazin 2022. Hier verbinden wir After Effects mit normalem Bewegtbild und machen aus einem vermeintlich statischen Katalog einen echten Hingucker.
+
+Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+## 14. Masco Group — Imagefilm
+
+- Slug: `masco-group` · Bild: `masco-group.jpg`
+- Kategorien: Imagefilm · Kreation & Visual Storytelling
+- Jahr: 2023 · Video: https://vimeo.com/833481331
+
+Die Masco Group ist ein international tätiges Unternehmen mit Hauptsitz in Italien. In Zusammenarbeit mit unserem langjährigen Technikpartner Qvest Media haben wir diesen Brandfilm umgesetzt. Masco Group hatte sich zuvor einen neuen “look” und eine neue brand identity geschaffen und seinen „purpose“ und seine „mission“ nachgeschärft. All das sollte in dem neuen Film verarbeitet werden.
+
+make/c hat das Konzept und das Storyboard entwickelt sowie das video postproduziert – in enger Abstimmung mit Qvest Media und Masco Group.
+
+<details><summary>Weitere Absätze auf der alten Seite</summary>
+
+> Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+</details>
+
+## 15. Workshop — selber drehen und schneiden
+
+- Slug: `workshop-selber-drehen-und-schneiden` · Bild: `workshop-selber-drehen-und-schneiden.jpg`
+- Kategorien: Beratung & Strategie
+- Jahr: 2023 · Video: —
+
+Manchmal ist es das Budget, manchmal der Zeitdruck: in Unternehmen steigt der Bedarf, selber Video Content produzieren zu können. Was vor einigen Jahren noch undenkbar schien, vermitteln wir heute als Basiswissen in einem eintägigen Workshop.
+
+Die Hürden sind denkbar niedrig, schließlich hat jede/r sein Handy immer dabei. Aber auch wenn das Handy in der Theorie tolle Videos produziert, so sieht es in der Praxis doch oft anders aus. Bildformat, Bildaufbau, Hintergrund, Audio, … Es gibt viele Gründe, die ein Video im Ergebnis schlecht machen können. Und vieles davon ist ganz einfach zu vermeiden.
+
+<details><summary>Weitere Absätze auf der alten Seite</summary>
+
+> Durch unsere langjährige Erfahrung im Bereich Bewegtbildproduktion sind wir euer kompetenter Partner und vermitteln euch zuerst ein theoretisches Grundgerüst von “Worauf muss ich bei der Kamera-Perspektive achten?” über “Welches Format eignet sich für welche social media-Seite?" bis zu “Wie betreibe ich Visual Storytelling?”.
+
+> Der Workshop gliedert sich in einen Theorie- und einen Praxisteil, in dem die Teilnehmer eigene Videos erstellen. Dazu beraten wir auch bei der Auswahl der Technik und wir zeigen die Grenzen des selber erstellbaren Contents.
+
+> " “Ein großes Dankeschön für den tollen Workshop, praxisnah und mit Leidenschaft vermittelt. Wir haben sehr viel mitgenommen und waren alle durchweg begeistert.”
+
+> Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+</details>
+
+## 16. ZURICH — Erklärfilmreihe
+
+- Slug: `zurich-sicherheit-im-strassenverkehr` · Bild: `da-direkt-1.jpg`
+- Kategorien: Erklärvideo · Studio-Produktion
+- Jahr: 2023 · Video: https://www.youtube.com/watch?v=D73J23W1pdM
+
+Für diese Erklärfilm Reihe haben wir eine eigene Handschrift entwickelt, da wir weg wollten von dem 08/15 Erklärfilm Stil. Nach ersten Testläufen in unserem Parkhaus waren der Kunde und wir sofort begeistert.
+
+Am Ende haben wir die fünf Videos in einem Greenscreen Studio mit einem echten Auto und echten Darstellern gedreht und in der Postproduktion entsprechend verfremdet und mit Motion Graphics in eine stilisierte Landschaft versetzt. Die Soundeffekte unterstützen die oft beklemmenden Botschaften eindrucksvoll.
+
+<details><summary>Weitere Absätze auf der alten Seite</summary>
+
+> Die Videoinhalte basieren auf den Ergebnissen einer Studie und dienen der Kommunikation mit Journalisten und natürlich auch für die Social Media Kommunikation.
+
+> Der Kunde schreibt: „Die Videos sind wirklich sehr gelungen. Gute Arbeit!“
+
+> Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+</details>
+
+## 17. IHK Köln — Rahmenvertragspartner Streaming
+
+- Slug: `ihk-koeln` · Bild: `IHK_Streaming.jpg`
+- Kategorien: Event & Messe Kommunikation · Live-Streaming
+- Jahr: 2023 · Video: https://www.youtube.com/watch?v=wwBqU3QcCXU
+
+Seit Frühjahr 2022 sind wir Rahmenvertragspartner der IHK Köln für Streaming Projekte. Auch in der „Post-Corona“ Zeit erweist sich Streaming für die IHK Veranstaltungen als tragende Säule der Kommunikation und des Austauschs.
+
+Seitdem durften wir schon einige Veranstaltungen in die große weite Welt streamen – u.a. den Frauen-Business-Tag 2022. More to come…
+
+<details><summary>Weitere Absätze auf der alten Seite</summary>
+
+> Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+</details>
+
+## 18. ATLANTIK-BRÜCKE e.V. — Jubiläumsfilm 70 Jahre
+
+- Slug: `atlantik-bruecke-70-jahre` · Bild: `Atlantik_Bruecke_70Jahre-1.jpg`
+- Kategorien: Imagefilm · Kreation & Visual Storytelling
+- Jahr: 2023 · Video: https://www.youtube.com/watch?v=J4carNHyMvk
+
+Schon seit 2020 arbeiten wir immer wieder für die renommierte Atlantik-Brücke in Berlin. In 2022 stand der Festakt zum 70jährigen Jubiläum mit vielen Prominenten Weggefährten an.
+
+Wir durften in Form eines Rück- und Ausblicks die Geschichte und Bedeutung der Atlantik-Brücke filmisch in Szene setzen. Dafür standen uns viele renommierte Interviewpartner auf beiden Seiten des Atlantiks zur Verfügung.
+
+<details><summary>Weitere Absätze auf der alten Seite</summary>
+
+> Da die Umsetzung auf Grund dünner Bewegtbildarchiv-Lage nicht so ganz einfach war, haben wir mit After Effects Templates einen einheitlichen, hochwertigen und zeitgemäßen Rahmen entwickelt.
+
+> Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+</details>
+
+## 19. SIMon Mobile — Instagram & Facebook Kampagne
+
+- Slug: `simon-mobile` · Bild: `SIMon_mobile.jpg`
+- Kategorien: Partner für Agenturen · Social Media & Influencer Marketing
+- Jahr: 2022 · Video: —
+
+Der süße Waschbär SIMON ist das Testimonial der jungen Vodafone Marke „SIMon Mobile“. Als Werbepartner der AdAlliance für das „Sommerhaus der Stars“ wollte sich SIMON gerne selber einen Eindruck vom „Sommerhaus“ machen.
+
+Wir haben SIMON dabei mit der Kamera begleitet. Er hat in alle Ecken geschaut und das Haus für die Stars freigegeben…
+
+<details><summary>Weitere Absätze auf der alten Seite</summary>
+
+> Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+</details>
+
+## 20. BDSI — Twitter Videos
+
+- Slug: `bdsi-twitter-videos` · Bild: `BDSI-twitter-videos.jpg`
+- Kategorien: Kreation & Visual Storytelling · Social Media & Influencer Marketing
+- Jahr: 2022 · Video: https://www.youtube.com/watch?v=ql_WuGraClg
+
+Seit einigen Jahren dürfen wir regelmäßig süße Videos machen – für den BDSI. Das aktuellste Projekt sind eine Reihe von Twitter Videos, die der BDSI fortlaufend posted.
+
+Hierfür haben wir auf Basis des Kunden CD ein Motion Graphics Design entwickelt und adaptieren es für die jeweilige kurze Story. So kann der BDSI schnell und wirkungsvoll aktuelle Themen der Branche per Video kommunizieren.
+
+<details><summary>Weitere Absätze auf der alten Seite</summary>
+
+> Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+</details>
+
+## 21. High-Tech Gründerfonds — High-Tech Gründerfonds Start-Up Stories
+
+- Slug: `high-tech-gruenderfonds` · Bild: `High-Tech-Gruenderfonds.jpg`
+- Kategorien: Kreation & Visual Storytelling · Social Media & Influencer Marketing
+- Jahr: 2022 · Video: https://www.youtube.com/watch?v=cuIqtmjkPzQ
+
+Was macht euer Start-Up aus? Warum habt Ihr es gegründet? Welche Tipps könnt Ihr anderen mit auf den Weg geben? Diese Fragen sind für junge Start-Ups, wie sie der High-Tech Gründerfonds berät, essenziell und vielfältig.
+
+Daher produzieren wir eine Reihe kurzer Clips mit erfolgreichen Gründer/innen, die von ihrer Start-Up-Journey berichten. Extra hierfür haben wir ein stark stilisiertes Format mit einer durchgängigen „Dual Tone Beleuchtung“ und eingeblendeten Interviewfragen im „Billboard-Stil“ entwickelt. Die Umsetzung ist eher aus dem Musikvideo-Bereich bekannt und erzeugt visuelle Aufmerksamkeit und einen modernen Look.
+
+<details><summary>Weitere Absätze auf der alten Seite</summary>
+
+> Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+</details>
+
+## 22. Greentech Festival — Live-Streaming und Stage Video Produktionen
+
+- Slug: `greentech-festival` · Bild: `Greentech_Festival.jpg`
+- Kategorien: Event & Messe Kommunikation · Live-Streaming
+- Jahr: 2022 · Video: https://www.youtube.com/watch?v=VcMqbNpX5pk
+
+Das Greentech-Festival von Nico Rosberg feiert 2022 schon 15jähriges Jubiläum. Vieles war in diesem Jahr neu – z.B. die Location auf dem alten Flughafen Gelände in Tegel und auch der Partner für die (Live) Video Produktionen: make/c.
+
+Mit über 30 Personen aus Berlin und Köln waren wir fast eine Woche vor Ort und konnten viele beeindruckende Innovationen aus der Greentech Welt kennenlernen. Höhepunkt war sicher die glamouröse Verleihung der Greentech Awards.
+
+<details><summary>Weitere Absätze auf der alten Seite</summary>
+
+> Für die weiteren Events dieses Jahr in New York, London und Singapur produzieren wir zudem 13 Trailer Videos.
+
+> Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+</details>
+
+## 23. GOTHAER Versicherung — Social Media Spot
+
+- Slug: `gothaer-versicherung` · Bild: `GOTHAER_Versicherung.jpg`
+- Kategorien: Employer Branding · Kreation & Visual Storytelling
+- Jahr: 2022 · Video: —
+
+Ein Job in der Versicherungsbranche? Klingt langweilig, kann aber ganz schön spannend sein. Und viele Vorteile für Arbeitnehmer/innen gibt es auch noch. Aber wir zeigt man das in einem Spot, der Lust auf mehr macht und nicht „more of the same“ ist.
+
+Wir haben eine Kreation entwickelt, die bekannte Elemente der Dating Welt aufgreift, und spielerisch und mit einer Prise Humor auf die Job-Möglichkeiten bei der Gothaer hinweist.
+
+<details><summary>Weitere Absätze auf der alten Seite</summary>
+
+> Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+</details>
+
+## 24. Toyota — Cross & Quer
+
+- Slug: `toyota-cross-und-quer` · Bild: `toyota-cross-und-quer.jpg`
+- Kategorien: Kreation & Visual Storytelling · Produktvideo · Social Media & Influencer Marketing
+- Jahr: 2022 · Video: —
+
+Im September 2021 ging es mit Jan Köppen und seinem filmenden Kumpel „Jimmie“ auf einen Road Trip. „Cross und Quer“ durch Deutschland war die Aufgabenstellung und zeigt, wie schön es vor der eigenen Haustür sein kann.
+
+Wir haben entsprechende Locations in der Eifel, im Weltkulturerbe Mittelrheintal und in Bonn gefunden. Dazu entsprechende Storyboards entwickelt und unser Team mit einer Sony FX6, Sony FX3 und einer Drohne ausgestattet. Die Stimmung war – anders als das Wetter – durchgehend gut.
+
+<details><summary>Weitere Absätze auf der alten Seite</summary>
+
+> Entstanden sind 3 kurzweilige NativeAds, die auf eine Landing Page und mit Cut Downs über Social Media Kanäle ausgespielt wurden.
+
+> Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+</details>
+
+## 25. Anuga — Live-Streams und Trailer
+
+- Slug: `anuga-live-stream` · Bild: `anuga-live-stream-2021.jpg`
+- Kategorien: Event & Messe Kommunikation · Live-Streaming
+- Jahr: 2022 · Video: https://www.youtube.com/watch?v=bhiYsZTc7t4
+
+Als Live-Streaming Partner der Koelnmesse durften wir im Jahr 2021 u.a. die Weltleitmesse für die Lebensmittel- und Getränkeindustrie `Anuga´ produzieren. An 10 Tagen mehr als 100 Speaker von 6 Bühnen mit ca. 74 Stunden Programm.
+
+Außerdem haben wir in Form eines Trailers einen kurzweiligen und informativen Rückblick auf die erfolgreiche und hybride `Anuga´ 2021 hergestellt. Die Messe findet alle zwei Jahre statt und der Trailer sorgt jetzt schon für große Vorfreude auf die nächste `Anuga´ im Jahr 2023.
+
+<details><summary>Weitere Absätze auf der alten Seite</summary>
+
+> Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+</details>
+
+## 26. HDI — Youtube-Videoserie
+
+- Slug: `hdi-youtube` · Bild: `HDI-Youtube.jpg`
+- Kategorien: Erklärvideo · Social Media & Influencer Marketing · Studio-Produktion
+- Jahr: 2021 · Video: https://www.youtube.com/watch?v=-5zcNY1PyhY
+- Credits: Redaktion: Stella Kleinerüschkamp
+
+Was ist eigentlich eine Berufsunfähigkeitsversicherung? Wofür brauchen Unternehmen Cyberversicherungen? In einer Video-Reihe mit mehr als 20 Videos für den HDI YouTube-Kanal wird alles wissenswerte und Hintergründe über Versicherungen einfach erklärt. Die Videos wurden im Studio aufgezeichnet. Parallel zur Ausstrahlung auf YouTube veröffentlicht der HDI Videoausschnitte auf Social Media.
+
+Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+## 27. aquanale — Pressekonferenz Live-Stream
+
+- Slug: `aquanale-live-stream` · Bild: `aquanale-pressekonferenz.jpg`
+- Kategorien: Event & Messe Kommunikation · Live-Streaming · Studio-Produktion
+- Jahr: 2021 · Video: https://www.youtube.com/watch?v=doHKHmF38EA
+- Credits: Regie: Kai Kruse
+
+An der aquanale als internationale Leitmesse der Pool- und Saunabranche führt national und international kein Weg vorbei. Die Pressekonferenz zum weltweit größten Branchenevent haben wir live aus unserem Greenscreen-Studio in Köln gestreamt.
+
+Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+## 28. FSB — Pressekonferenz Live-Stream
+
+- Slug: `fsb-live-stream` · Bild: `FSB-Pressekonferenz.jpg`
+- Kategorien: Event & Messe Kommunikation · Live-Streaming · Studio-Produktion
+- Jahr: 2021 · Video: https://www.youtube.com/watch?v=gfDa3M-eXpA
+- Credits: Regie: Kai Kruse
+
+Die digitale und internationale Pressekonferenz zur FSB 2021 haben wir live aus unserem Greenscreen-Studio in Köln gestreamt. Sowohl Journalisten als auch alle Interessent:Innen der internationale Leitmesse der Sport- und Freizeitbranche konnten live im Stream Fragen stellen. Das 3D Studioset wurde extra für die Messe designed.
+
+Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+## 29. Dr. Hans Riegel-Stiftung — PBS Erklärfilm
+
+- Slug: `dr-hans-riegel-stiftung-pbs-erklaerfilm` · Bild: `dr-hans-riegel-stiftung-pbs.jpg`
+- Kategorien: Erklärvideo · Kreation & Visual Storytelling
+- Jahr: 2021 · Video: —
+- Credits: Redaktion: Christian Wesner
+
+Um den innovativen Ansatz eines Biokunststoffes darzustellen, wurde dieser Erklärfilm vollständig handgezeichnet und daraufhin animiert. Hierdurch lassen sich abstrakte Inhalte wie z.B. die Abbaudauer von Kunststoffen in der Umwelt oder eine nachhaltige Kunststoff-Produktionskette klar und visuell gut verständlich darstellen. Das Farbschema basiert dabei auf dem CI des Kunden und fördert dadurch die Identifikation mit der Marke.
+
+Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+## 30. IW — E-learning Serie NETZWERK 4.0
+
+- Slug: `iw-e-learning` · Bild: `IW-E-Learning.jpg`
+- Kategorien: Erklärvideo · Kreation & Visual Storytelling
+- Jahr: 2021 · Video: —
+
+Im Auftrag des Instituts der deutschen Wirtschaft (IW) entwickelten wir eine Reihe an E-Learnings für die digitale Fortbildung von Ausbildern. Mit Hilfe der E-Learnings können moderne Fach- und Sozialkompetenzen ganz einfach digital vermittelt und entsprechend den Anforderungen des digitalen Wandels (neu) gestaltet werden. Redaktionelle Entwicklung und grafische Visualisierung kamen hier aus einer Hand."
+
+Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+## 31. BDSI — Erklärfilme
+
+- Slug: `bdsi-erklaerfilme` · Bild: `BDSI-Erklaerfilme.jpg`
+- Kategorien: Erklärvideo · Kreation & Visual Storytelling
+- Jahr: 2021 · Video: https://www.youtube.com/watch?v=LhuZjWoVNsA
+
+Süßigkeiten aus aller Welt: für den den Bundesverband der deutschen Süßwarenindustrie haben wir eine Reihe von 2D Animationsfilmen produziert. Dabei erzählt jeder Erklärfilm seine eigene zuckersüße Geschichte.
+
+Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+## 32. insureNXT — Messe Live-Stream
+
+- Slug: `insurenxt` · Bild: `InsureNXT.jpg`
+- Kategorien: Event & Messe Kommunikation · Live-Streaming
+- Jahr: 2021 · Video: —
+- Credits: Regie: Kai Kruse
+
+Zwei Tage Live-Stream, gefüllt mit spannenden Referenten und Themen: die insureNXT ist die neue internationale Kongressmesse für Innovation in der Versicherungswirtschaft. Das brandneue Format hat 2021 erstmals seine digitalen Türen geöffnet – und das live aus unserem Greenboxstudio. Dafür haben wir ein, auf die Messe abgestimmtes, 3D-Studiodesign entwickelt. Bekannte Führungsköpfe der internationalen Versicherungs- und Finanzbranche, sowie ausgewählte Experten der digitalen Szene konnten hier, sowohl live vor Ort als auch via Zuschaltung, exklusive Keynotes und Fireside-Chats abhalten.
+
+## 33. Bahlsen — Social Media Storys
+
+- Slug: `bahlsen-social-media-storys` · Bild: `Bahlsen-Social-Media-Storys.jpg`
+- Kategorien: Partner für Agenturen · Produktvideo · Social Media & Influencer Marketing
+- Jahr: 2021 · Video: —
+
+Für den ganz besonderen Bahlsen-Moment: das deutsche Familienunternehmen hat für seine Instagram-Community Backrezepte mit den neuen Waffel- und Kuchenkreationen von Bahlsen ausprobiert und weil es gemeinsam einfach besser schmeckt, wurde das ein oder andere bekannte Gesicht zu der Produktion eingeladen. Die Kampagne #bahlsenmeetsbaylies wurde im Instagram-Format 09:16 produziert.
+
+Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+## 34. polisMOBILITY — Pressekonferenz Live-Stream
+
+- Slug: `polismobility-live-stream` · Bild: `polisMOBILITY.jpg`
+- Kategorien: Live-Streaming · Studio-Produktion
+- Jahr: 2021 · Video: https://www.youtube.com/watch?v=OzWJ1P99ecg
+- Credits: Regie: Kai Kruse
+
+Die Koelnmesse und die Stadt Köln haben mit der polisMOBILITY ein neues, hybrides Event vorgestellt. Die digitale Pressekonferenz dazu wurde live aus unserem Greenboxstudio in Köln gestreamt. Zu Gast war unter anderem Henriette Reker, die Oberbürgermeisterin der Stadt Köln. Das Besondere hierbei war: die Fragen der Zuschauer, wurden direkt und live im Stream beantwortet.
+
+Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+## 35. imm cologne — Live-Stream
+
+- Slug: `imm-cologne-trend-briefing` · Bild: `imm-cologne-trend-briefing.jpg`
+- Kategorien: Event & Messe Kommunikation · Live-Streaming
+- Jahr: 2021 · Video: https://www.youtube.com/watch?v=Eu1M7j61LO0
+- Credits: Regie: Michael Ramlau
+
+Für die Pressekonferenz zur internationalen Einrichtungs- und Möbelmesse imm cologne 2021 entwickelten wir das Format „TREND.BRIEFING“, welches aus unserem individuell auf die Messe ausgerichteten Studio gesendet wurde. Die Sendung besteht aus einem Mix von Talks, Einspielern und Studiogästen.
+
+Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+## 36. LVR-LandesMuseum Bonn — Dokumentation
+
+- Slug: `lvr-landesmuseum-bonn` · Bild: `LVR-LandesMuseum.jpg`
+- Kategorien: Imagefilm
+- Jahr: 2021 · Video: https://www.youtube.com/watch?v=ymX7_ICWa3c
+- Credits: Regie & Kreation: Mike Krack
+
+Im Rahmen des 200 jährigen Bestehen des LandesMuseum in Bonn wurde die neue Inszenierung des weltberühmten Neandertaler sowie das neugestaltete, barrierefreie Foyer digital Eingeweiht. Hier waren wir neben der filmischen Umsetzung der 40 minütigen Video Dokumentation, außerdem am außergewöhnlichen Storytelling beteiligt, welches die Einweihung des Museums nicht nur Interessant, sondern auch Unterhaltsam gestaltet.
+
+Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+## 37. IDX_FS — Messe Live-Stream
+
+- Slug: `idx_fs` · Bild: `IDX_FS.jpg`
+- Kategorien: Event & Messe Kommunikation · Live-Streaming
+- Jahr: 2021 · Video: —
+- Credits: Regie: Kai Kruse
+
+Ein Mix aus Keynote Vorträgen, Zuschalten, voraufgezeichneten Präsentationen und Panel-Diskussionen: die Digitalmesse IDX_FS ist die erste virtuelle Messe der Foodservice-Industrie. Spannende Vorträge von über 100 globalen Marken und Experten aus der Branche, fünf Kameras, drei verschiedene Sets und ein Moderator – an zwei Tagen live im Stream.
+
+Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+## 38. Zurich — Event Live-Stream
+
+- Slug: `zurich` · Bild: `zurich-strategiewerkstatt.jpg`
+- Kategorien: Event & Messe Kommunikation · Live-Streaming
+- Jahr: 2021 · Video: —
+- Credits: Regie: Kai Kruse
+
+„ Wir wollen weg von den langatmigen Homeoffice-Formaten, bei denen immer derselbe Bügeltisch im Hintergrund zu sehen ist. Wir wollen professionelle Settings. “ erzählt Bernd Engelien, Kommunikationschef von Zurich Deutschland im prmagazin . Gesagt, getan. So entstand in enger Zusammenarbeit ein digitales Live-Event mit Gästen, Einspielern und den Heavytones, bekannt aus TV total – im Netz für 3.000 Mitarbeiter.
+
+Wie wir dieses Projekt umgesetzt haben, erfahrt Ihr hier von unserem Projektleiter.
+
+<details><summary>Weitere Absätze auf der alten Seite</summary>
+
+> Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+</details>
+
+## 39. ZEG — TV Spot
+
+- Slug: `zeg-tv-spot` · Bild: `ZEG-tv-spot.jpg`
+- Kategorien: Produktvideo · Studio-Produktion
+- Jahr: 2021 · Video: https://www.youtube.com/watch?v=6Z1xgOUj8is
+- Credits: Regie: Kai Kruse · DOP und Post-Production: Uwe Komorowski
+
+Ob in der Freizeit, beim Einkaufen, oder auf dem Weg zur Arbeit, make/c zeigt, wie das PEGASUS E-BIKE und die Protagonistin in drei sommerlichen Locations perfekt in Szene gesetzt werden und dass bei eigentlichen Minusgraden. Damit der Spot im Frühling im TV laufen kann, fanden die Dreharbeiten bereits im Februar statt – in der Greenbox.
+
+Der Clou: die einzelnen Sequenzen wurden so gedreht, dass sie im Anschluss perfekt in das zuvor aufgezeichnete Realbild und die Stockfootage Sequenz passen. Mit großer Expertise in der Lichtsetzung und Postproduktion, ist das Ergebnis auf RTL, VOX, SuperRTL, NITRO RTLplus, Vox Up, Ntv sowie im ZDF und in der ARD zu sehen.
+
+<details><summary>Weitere Absätze auf der alten Seite</summary>
+
+> Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+</details>
+
+## 40. SHOP APOTHEKE — 1.500 Produktvideos
+
+- Slug: `shop-apotheke-produktvideos` · Bild: `shop-apotheke-erklaervideos.jpg`
+- Kategorien: Erklärvideo · Produktvideo · Social Media & Influencer Marketing · Studio-Produktion
+- Jahr: 2020 · Video: https://www.youtube.com/watch?v=ggF03y6bVrc
+
+make/c hat für Europas führende Online-Apotheke (www.shop‑apotheke.com) 1.500 Anwendungsvideos von Medikamenten im extra für den Kunden gebrandeten Studioset produziert. Moderiert werden die Clips von make/c geschulten Mitarbeiterinnen des Kunden. Die Videos sind, entsprechend adaptiert, zudem auch auf den Seiten der Europa-Apotheke zu sehen. Der Einsatz der Videos hat nachweislich die Konversionsraten und das Google-Ranking (SEO) des Kunden optimiert. Neben www.shop-apotheke.com sind die Videos auch auf dem YouTube Kanal der Shop-Apotheke eingebunden und bilden hier die größte Video-Datenbank in diesem Bereich.
+
+## 41. AachenMünchener — Social Media Spot zur Altersvorsorge
+
+- Slug: `aachenmuenchener-altersvorsorge` · Bild: `aachenmuenchener-altersvorsorge.jpg`
+- Kategorien: Partner für Agenturen · Produktvideo · Social Media & Influencer Marketing
+- Jahr: 2020 · Video: —
+- Credits: Regie: Irma Brünker
+
+Altersvorsorge? Puh… Oder vielleicht doch interessant? Mit dem eingängigen Produkt und der passgenauen Inszenierung klappt es. Hier war unsere Partner Agentur WANT für die Kreation zuständig und wir für die komplette Umsetzung bis zu After Effects und Grading.
+
+Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+## 42. Postbank Versicherung — Stock-Footage Videos
+
+- Slug: `postbank-versicherung` · Bild: `postbank-versicherung-stock-footage.jpg`
+- Kategorien: Produktvideo
+- Jahr: 2020 · Video: —
+- Credits: Postproduktion & After Effects: Niko Zens
+
+Eine Versicherung ist dröge? Versicherungsthemen sind langweilig und emotionslos? Nicht unbedingt! Mit der richtigen Bildsprache, der richtigen Tonalität und einer guten Balance zwischen Information und Emotion können auch Versicherungsvideos kurzweilig und erfolgreich sein.
+
+Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+## 43. imm cologne — Event-Inszenierung
+
+- Slug: `imm-cologne-event-inszenierung` · Bild: `imm-cologne-event-inszenierung.jpg`
+- Kategorien: Beratung & Strategie · Event & Messe Kommunikation · Kreation & Visual Storytelling
+- Jahr: 2020 · Video: —
+
+Die imm cologne informiert jedes Jahr Journalisten aus ganz Europa über die Trends der kommenden Messe. Seit 2016 begleiten wir die imm dabei, ob in Porto, Salzburg, Athen oder wie hier Madrid. Anspruch ist es dabei immer, keine PK „von der Stange“ zu liefern. Das hören wir natürlich gerne und werden kreativ, technisch anspruchsvoll und innovativ. Wie hier in diesem wunderschönen Theater in Madrid. So konnten per Holografie Experten auf der Bühne „erscheinen“, die gar nicht vor Ort waren. Aber es sah so aus.
+
+Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+## 44. Köln Marathon — Live-Streams
+
+- Slug: `koeln-marathon` · Bild: `koeln-marathon.jpg`
+- Kategorien: Event & Messe Kommunikation · Live-Streaming · Social Media & Influencer Marketing
+- Jahr: 2020 · Video: —
+- Credits: Regie: Kai Kruse
+
+Der Köln Marathon ist ein richtiges Volksfest. Während Tausende sich an das Abenteuer (Halb-)Marathon wagen, stehen Hunderttausende am Streckenrand und feuern die Teilnehmer/innen an. Dabei sind die Grenzen zum Karneval zum Teil fließend. Für diejenigen, die nicht mit dabei sein können, gibt es zum Glück seit 2016 den Live-Stream mit Interaktionsmöglichkeiten zum Anfeuern. Das Signal produzieren wir mit 4 Motorrad Kameras und diversen Kameras im Zieleinlauf, wo Moderator Tobias Ufer als Host der Sendung die ganze Zeit mit Gesprächspartnern steht.
+
+## 45. DMEXCO — Bühnenprogramm Live-Streams
+
+- Slug: `dmexco-live-stream` · Bild: `dmexco-live-stream.jpg`
+- Kategorien: Beratung & Strategie · Event & Messe Kommunikation · Live-Streaming · Studio-Produktion
+- Jahr: 2020 · Video: https://www.youtube.com/watch?v=TRYI-Ap0URc
+- Credits: Regie: Kai Kruse
+
+Die DMEXCO ist der Marktplatz für Marketing Entscheider. Auf über 10 Bühnen sprechen Speaker aus der ganzen Welt über die neuesten Trends der Branche. make/c kümmert sich seit der Neuaufstellung der Messe in 2019 um das reibungslose Streaming und die tagesaktuellen Trailer der Messe. 2019 waren wir mit über 50 Mitarbeitern vor Ort. Und dazu hatten wir noch einen eigenen Messestand. Hinzu kommt: als Bewegtbildpartner der Koelnmesse sind wir mit dem Messe-Geschäft seit Jahren bestens vertraut.
+
+Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+## 46. Covestro — Circular Economy Live-Stream
+
+- Slug: `covestro-circular-economy` · Bild: `covestro-circular-economy.jpg`
+- Kategorien: Live-Streaming · Studio-Produktion
+- Jahr: 2020 · Video: https://www.youtube.com/watch?v=SnAZREzbZyw
+- Credits: Regie: Kai Kruse
+
+Als klar war, dass das geplante Town-Hall-Meeting Corona-bedingt nicht stattfinden konnte, haben wir zusammen mit Covestro eine virtuelle Umsetzung geplant und durchgeführt. CEO Markus Steilemann hat dabei über eine Stunde live durch die neue Unternehmensstrategie der Circular Economy geführt, mit Live-Schalten in die USA und nach England. Die Nutzer – Journalisten, Mitarbeiter und Kunden aus der ganzen Welt konnten live Fragen stellen. Und zwar über: LinkedIn, YouTube, Facebook, Twitter und sogar WeChat.
+
+Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+## 47. Ad Alliance — GZSZ Coffee-Break
+
+- Slug: `tassimo-gzsz-coffee-break` · Bild: `tassimo-gzsz-coffee-break.jpg`
+- Kategorien: Live-Streaming · Partner für Agenturen · Social Media & Influencer Marketing
+- Jahr: 2020 · Video: https://vimeo.com/442633088
+- Credits: Regie: Kai Kruse
+
+GZSZ ist nach wie vor die erfolgreichste Daily Soap im deutschen Fernsehen. Kein Wunder, dass die Plattform auch bei vielen Werbekunden beliebt ist. Unser Partner „RTL Brand Studio“ hat das Konzept von sechs Native Advertisement Formaten mit dem GZSZ Cast entwickelt. Wir durften die Produktion und Postproduktion übernehmen.
+
+Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+## 48. REWE — Rezeptvideos
+
+- Slug: `rewe-deine-kueche` · Bild: `rewe-deine-kueche.jpg`
+- Kategorien: Erklärvideo · Social Media & Influencer Marketing
+- Jahr: 2020 · Video: —
+
+Der YouTube Kanal von „REWE Deine Küche“ gehört zu den Martkführern im Rezeptvideo-Bereich in Deutschland. Wir durften über zwei Jahre hinweg eine dreistellige Anzahl von Rezepten umsetzen – im REWE-Küchenstudio oder auch unter freiem Himmel. Hauptsächlich wurden die Videos für den YouTube Kanal produziert, aber dazu gab es Cut-Downs für weitere Social Media Kanäle, natürlich auch 9:16.
+
+Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+## 49. Koelnmesse — 100 Sekunden mit Claire
+
+- Slug: `koelnmesse-100-sekunden-mit-claire` · Bild: `koelnmesse-100-sekunden-mit-claire.jpg`
+- Kategorien: Event & Messe Kommunikation · Kreation & Visual Storytelling · Social Media & Influencer Marketing
+- Jahr: 2020 · Video: https://www.youtube.com/watch?v=nv5hRtP5LGo
+- Credits: Postproduktion: Marius Wiemann
+
+Ein Newsletter ohne Video? Geht gar nicht mehr. Wir haben diese Interview-Serie für die charmante Direktorin der imm cologne, Claire Steinbrück, passgenau entwickelt. Hier trifft sie Designer, Architekten und andere Multiplikatoren aus der interior-Welt. Im Kopf hat sie dabei immer die Kernfrage der Messe: „How will we live in the future?“. Und dafür hat sie jeweils nur 100 Sekunden Zeit. Mit zwei Kameras produziert und kurzweilig postproduziert, hat das Format schnell viele Fans in der Zielgruppe gefunden.
+
+Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+## 50. Covestro — K2019 Messe Kommunikation
+
+- Slug: `covestro-k2019` · Bild: `covestro-k2019.jpg`
+- Kategorien: Event & Messe Kommunikation · Live-Streaming
+- Jahr: 2020 · Video: —
+
+Die „K“ ist für die Kunststoffbranche weltweit was Olympia für den Sport ist. Alle sind da oder schauen hin. Wir durften wie schon 2016 den Covestro Stand 10 Tage vor Ort mit einem 10-köpfigen Team audiovisuell begleiten. Das fing bei der Produktion von tagesaktuellen Beiträgen in 3 Sprachen an und hörte bei täglichen Live-Streams auf verschiedenen Kanälen auf. Darunter war auch einer der ersten LinkedIn Live-Streams in Deutschland!
+
+Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+## 51. sportwetten.de — Social Media Spots
+
+- Slug: `sportwetten` · Bild: `sportwetten.jpg`
+- Kategorien: Partner für Agenturen · Social Media & Influencer Marketing · Studio-Produktion
+- Jahr: 2020 · Video: —
+
+Auch wer kein Fußballfan ist, kennt Ansgar Brinkmann, den „weißen Brasilianer“, eine Legende auf und neben dem Fußballplatz. Im Umfeld seines Einzugs in das RTL Dschungelcamp haben wir hier zahlreiche kleine Kurz-Spots in unserem Greenbox Studio produziert und später postproduziert. Und weil die erste Staffel so erfolgreich war, kam die zweite gleich hinterher.
+
+Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+## 52. funny-frisch — Insta-Stories
+
+- Slug: `funny-frisch` · Bild: `funny-frisch.jpg`
+- Kategorien: Partner für Agenturen · Produktvideo · Social Media & Influencer Marketing
+- Jahr: 2020 · Video: —
+- Credits: Regie: Christian Wesner
+
+funny-frisch hat eine Reihe von innovativen neuen Produkten auf den Markt gebracht. Unsere Berliner Partner Agentur „Vollpension Medien“ hat dazu reichweitenstarke Influencer und interessante Kreationen entwickelt. Wir durften mal wieder die Produktion und Postproduktion betreuen – 9:16, versteht sich! Unsere große Produktionsexpertise im Bereich Kochen und Küche hat sich hier mal wieder ausgezahlt.
+
+Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+## 53. Uniklinik Köln — Job Portraits
+
+- Slug: `uniklinik-koeln` · Bild: `uniklinik-koeln.jpg`
+- Kategorien: Erklärvideo
+- Jahr: 2020 · Video: —
+
+Die Uniklinik Köln ist ein eigener spannender Kosmos mit zahlreichen beruflichen Entwicklungsmöglichkeiten. Neben der einzigartigen medizinischen Infrastruktur stehen hier insbesondere die Menschen und das Team der Uniklinik im Vordergrund von einfühlsamen Portraits.
+
+Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+## 54. Covestro — Concept Car AR App
+
+- Slug: `covestro-ar` · Bild: `covestro-ar.jpg`
+- Kategorien: Kreation & Visual Storytelling · Produktvideo · Virtual & Augmented Reality
+- Jahr: 2020 · Video: —
+
+Ein Ausstellungs-Highlight des DAX Konzerns Covestro auf der weltgrößten Kunststoffmesse „K“ 2019 in Düsseldorf war das sogenannte „Concept Car“. Doch wie kann ein Auto für ein global agierendes Unternehmen eingesetzt werden? Ganz einfach: mit einer interaktiven Augmented Reality Anwendung, die alle Besonderheiten des Autos im Zusammenhang mit Covestro eindrucksvoll, virtuell und zukunftsweisend erklärt.
+
+Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+## 55. Dr. Hans Riegel-Stiftung — TouchTomorrow Truck VR
+
+- Slug: `dr-hans-riegel-stiftung` · Bild: `touchtomorrow-truck.jpg`
+- Kategorien: Virtual & Augmented Reality
+- Jahr: 2020 · Video: https://vimeo.com/377552032
+
+Der echte „TouchTomorrow Truck“ begeistert seit 2018 Schüler im ganzen Land. Hier können sie sich über Arbeitswelten der Zukunft mit dem Schwerpunkt der MINT-Fächer informieren. Bei der hohen Nachfrage wurde schnell klar, dass ein Truck alleine nicht reicht. Nachdem make/c bereits die Videos, die im echten Truck zu sehen sind, produziert hat, durften wir nun auch die virtuelle, interaktiv erlebbare Anwendung von A-Z in der originalgetreuen Nachbildung des echten Trucks bauen. Sie war auch unser Show-Case auf unserem DMEXCO Stand 2019.
+
+Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.
+
+## 56. Lava-Dome — Museumsexponat
+
+- Slug: `lava-dome` · Bild: `lava-dome.jpg`
+- Kategorien: Event & Messe Kommunikation
+- Jahr: 2020 · Video: —
+- Credits: Regie: Kai Kruse
+
+Ein Ausstellungs-Highlight des Deutschen Vulkanmuseums „Lava-Dome“ in Mendig ist die fiktive Breaking News Sendung über einen erneuten Ausbruchs des Vulkans unter dem Laacher See. Die 9-minütige Sendung zieht die Zuschauer vor Ort direkt in ihren Bann und wirkt „wie im Fernsehen“. Wir konnten für die Produktion das Original ntv Studio in Köln mit der ntv Moderatorin Gesa Eberl gewinnen. In der Sendung gibt es „Live-Schalten“, Social Media Videos, Experten und am Ende sogar einen Sendungsabbruch. Aber am Besten schaut Ihr es Euch einmal selbst vor Ort an!
+
+## 57. Pfeifer & Langen — 150-jähriges Jubiläum
+
+- Slug: `pfeifer-langen` · Bild: `pfeifer-langen.jpg`
+- Kategorien: Imagefilm
+- Jahr: 2020 · Video: —
+- Credits: Regie & Konzept: Jens Kemper · DOP & Postproduktion: Christian Wesner
+
+Wie produziert man einen Film zum 150. Jubiläum eines Familienunternehmens wenn es keine Bilder oder Orte aus der Geschichte gibt? Wir haben uns für einen Kunstgriff entschieden und die drei Firmengründer wieder zum Leben „erweckt“. Die Handlung spielt im Jahr 1870. Location und Darsteller führen die Zuschauer glaubhaft in die Welt der Gründer zurück. Und hier schauen sich die drei einen Imagefilm von heute über „ihre“ Firma an und was daraus geworden ist – einer der führenden Zuckerproduzenten Europas mit einem sehr nachhaltigen Naturprodukt. Schaut mal rein…
+
+## 58. Köln Bonn Airport — Content Timelapse
+
+- Slug: `koeln-bonn-airport` · Bild: `koeln-bonn-airport.jpg`
+- Kategorien: Imagefilm · Kreation & Visual Storytelling
+- Jahr: 2020 · Video: —
+- Credits: Regie & Kreation: Jens Kemper · DOP & Postproduktion: Uwe Komorowski
+
+“Ein unterhaltsamer Blick hinter die Kulissen des Flughafen Köln/Bonn” – das war die Zielvorgabe der Produktion. Eigens hierfür entwickelte make/c das Genre “Content Timelapse”. Zum ersten Mal wird hier im Rahmen einer Timelapse Produktion eine Geschichte erzählt. Ein Fan des 1. FC Köln erlebt den Flughafen, begegnet auf seinem Weg vielen Prominenten und nimmt am Ende neben seinem Jugendidol im Flugzeug Platz – gemeinsam heben sie ab. Die aufwendige Produktion erstreckte sich über eineinhalb Jahre.
+
+Sie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.

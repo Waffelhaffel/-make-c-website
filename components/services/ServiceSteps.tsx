@@ -23,7 +23,10 @@ export function ServiceSteps({ steps }: ServiceStepsProps) {
           className="mb-12 md:mb-20"
         />
 
-        <ol className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        {/* Vier Spalten seit 12.08.2026: der Ablauf ist von sechs auf vier
+            Schritte zusammengefasst und steht damit in einer Reihe statt in
+            zwei angebrochenen. */}
+        <ol className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           {steps.map((step, i) => (
             <li key={step.title} className="border-t border-white/15 pt-6">
               <span

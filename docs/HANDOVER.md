@@ -8,6 +8,67 @@ was gemacht wurde, was verifiziert ist, was noch offen ist.
 
 ---
 
+## 0. Nachtrag: echte Selected-Work-Stills + drei Platzhalter-Cases (11.08.2026)
+
+Der User hat Stills aus den drei Filmen geliefert, die bis dahin handgezeichnete
+Skizzen waren (BarmeniaGothaer, FOM, Telekom), mit dem Auftrag, „schon Platzhalter-Case-
+Kacheln anzulegen wie bei den anderen Cases".
+
+- **Bilder:** 11,1 MB PNG/JPG → 350 kB WebP (q82). Zwei Größen je Motiv, weil es zwei
+  Rahmen gibt: `public/Selected Work/*.webp` (1920 px, Full-Bleed-Kachel der Startseite)
+  und `public/work/<slug>.webp` (max. 1600 px, 4:5-Raster). Die beiden übrig gebliebenen
+  Skizzen `FOM_Bild.png` und `Telekom_Bild.png` sind gelöscht (über git wiederholbar).
+- **Telekom braucht einen Sonderweg:** im 4:5-Raster fiel das „R" von READY weg.
+  `public/work/telekom.webp` ist deshalb vorgeschnitten (614×768, Fenster 30 px nach
+  links → Anschnitt beidseitig gleich; vollständig passt der Schriftzug in kein
+  4:5-Fenster). Das Case-Fenster zeigt Standbilder im `aspect-video`-Rahmen, dort hängt
+  über `poster` das ungeschnittene `telekom-poster.webp`.
+- **Drei Platzhalter-Cases** `telekom`, `fom-studio`, `barmenia-gothaer` — ganz oben in
+  `CASES`, also in der ersten Reihe von `/work`. Damit **63 Referenzen** und alle sechs
+  Landing-Kacheln klickbar.
+- Verifiziert am Production-Build (12/12): 6/6 Kacheln klickbar mit geladenem Bild, alle
+  drei Case-Fenster öffnen, `/work` zeigt 63 Kacheln und „63 Projekte", Filter hin und
+  zurück, Mobile 390 px, 0 Konsolenfehler/-warnungen, keine 4xx/5xx.
+
+🔴 **Zu erledigen:** In den drei Cases steht sichtbar „Platzhalter — Beschreibung folgt."
+Das ist Absicht — erfundene Beschreibungen über echte Kunden wären schlimmer als ein
+sichtbarer Platzhalter. Vor Go-Live `summary` und `year` (ungeprüft auf 2026) ersetzen,
+optional `video`, `credits`, `services` ergänzen. Der Kommentarblock in
+`lib/content/cases.ts` markiert die Stelle.
+
+⚠️ Die Originale liegen noch in `public/Selected Work/` (`BarmeniaGothaer_Bild.png` 7,1 MB,
+`makec_fom_studio_trailer.png` 4,2 MB, `Telekom_Bidl.jpg`) und werden von nichts mehr
+referenziert. Bewusst nicht gelöscht — das sind die Master des Users, und zwei davon sind
+nirgends sonst gesichert. Vor dem Commit entscheiden, ob sie mit ins Repo sollen.
+
+---
+
+## 0a. Nachtrag: 60 Referenzen im Code, Sanity entfernt (10.08.2026)
+
+Basis-Commit inzwischen `c2dfbd0`. Zwei Anliegen: die Referenzen der alten Portfolio-Seite
+sollten auf `/work` erscheinen, und **Sanity fliegt raus** — User-Entscheidung: „lohnt sich
+nicht, wir werden manuell die Pflege betreiben."
+
+- **60 Cases** in `lib/content/cases.ts` (vorher 18 in Sanity): 58 aus dem HTML-Export von
+  `make-c.de/portfolio` samt Texten, Jahren, 26 Videos und 26 Credit-Sätzen von den
+  Detailseiten, plus `merkur` und `aldi` aus dem CMS. Bilder als WebP in `public/work/`
+  (5,9 MB statt 27,7 MB Original).
+- Die 12 `referenzprojekt-*`-Platzhalter sind ersatzlos weg; alle sechs Leistungsseiten
+  zeigen jetzt drei thematisch passende echte Cases.
+- `/work` hat eine Kategorie-Filterleiste (14 Kategorien, clientseitig).
+- Sanity ist vollständig entfernt (Ordner, Studio, Configs, Seeds, Doku, Env, fünf Pakete).
+  Das Cloud-Projekt bleibt unangetastet bestehen — löschen kannst du es selbst.
+- Der Build ist damit **vollständig statisch**: kein `revalidate`, kein Fetch zur Laufzeit.
+
+⚠️ Zu prüfen: die 58 Beschreibungstexte sind maschinell von eurer alten Seite übernommen
+und ungelesen, und `year` ist deren Veröffentlichungsdatum, nicht zwingend das
+Produktionsjahr. Prüfliste: `scripts/data/portfolio-cases.md`.
+
+Details und die gekippte Dubletten-Entscheidung stehen in `CLAUDE.md` unter
+„Erledigt 10.08.2026".
+
+---
+
 ## 0b. Nachtrag: Sanity auf Case Studies reduziert + Bug-Durchgang (31.07.2026)
 
 Zwei Anliegen in einem Durchgang: eine Prüfung auf Fehler/Bugs/Sackgassen, und die

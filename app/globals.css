@@ -10,7 +10,18 @@
 }
 
 html {
+  /* Gilt für Anker-Sprünge auf derselben Seite. Bei Routenwechseln schaltet
+     Next.js die Eigenschaft selbst kurz ab — dafür trägt <html> das Attribut
+     data-scroll-behavior="smooth" (app/layout.tsx), sonst tut Next das ab
+     Version 16 nicht mehr und jeder Seitenwechsel würde zur Gleitfahrt. */
   scroll-behavior: smooth;
+  /* Der Header ist fixed und 70 px hoch. Ohne scroll-padding setzt jeder
+     Anker-Sprung die Sektions-Oberkante exakt an die Viewport-Oberkante und
+     der Header deckt sie zu — auf Mobile traf das die Überschriften von
+     #video-check und #contact.
+     Derselbe Wert steht als HEADER_OFFSET in lib/scroll.ts (für den
+     Deep-Link beim ersten Laden) — beide zusammen ändern. */
+  scroll-padding-top: 84px;
 }
 
 body {
@@ -49,7 +60,11 @@ body {
   }
 }
 
-/* Logo-Banner: Endlos-Marquee + einfarbig blaue Tönung der Logos (Figma 25:55) */
+/* Logo-Banner: Endlos-Marquee.
+   Die Dauer steht am Element (`animate-[marquee_80s_…]` in LogoBanner.tsx) und
+   gehört zur Länge der Liste: sie ergibt zusammen mit der Gesamtbreite die
+   Geschwindigkeit. Wer Logos ergänzt oder entfernt, zieht sie mit, sonst läuft
+   die Leiste schneller bzw. langsamer. */
 @keyframes marquee {
   from {
     transform: translateX(0);
@@ -59,27 +74,39 @@ body {
   }
 }
 
-/* Logos einheitlich blau tönen — funktioniert auch für PNGs OHNE Transparenz:
-   Graustufen + multiply lässt weiße Logo-Hintergründe auf dem weißen Banner
-   verschwinden; die blaue ::after-Fläche färbt per lighten nur dunkle Pixel. */
+/* Weiche Kanten links und rechts: die Leiste läuft endlos, ohne die Blende
+   würden Logos am Viewportrand hart abgeschnitten ein- und ausspringen. Auf der
+   früheren weißen Fläche war diese Kante die Bandgrenze selbst und fiel nicht
+   auf — auf dem dunklen Grund schon.
+   ⚠️ Die Breite MUSS mitwachsen: feste 6rem fressen auf einem 390-px-Schirm
+   192 von 390 px, es blieb anderthalb Logos übrig. `clamp` gibt auf dem Handy
+   2rem und erst ab ~1200 px die vollen 6rem.
+   ⚠️ Zwei Eigenschaften nötig: WebKit braucht bis heute das Präfix. */
 .logo-banner {
-  position: relative;
-  isolation: isolate;
+  --logo-fade: clamp(2rem, 8vw, 6rem);
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 var(--logo-fade),
+    #000 calc(100% - var(--logo-fade)),
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 var(--logo-fade),
+    #000 calc(100% - var(--logo-fade)),
+    transparent
+  );
 }
 
-.logo-banner img {
-  filter: grayscale(1);
-  mix-blend-mode: multiply;
-}
-
-.logo-banner::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: #2c2cc6;
-  mix-blend-mode: lighten;
-  pointer-events: none;
-}
+/* ⚠️ Bis 12.08.2026 stand hier die Blend-Mechanik der Figma-Fassung: die Logos
+   waren dunkle Graustufen-PNGs auf weißer Leiste und wurden über
+   `grayscale(1)` + `mix-blend-mode: multiply` plus eine blaue `::after`-Fläche
+   mit `lighten` einheitlich blau getönt. Mit den weißen Logos auf dunklem Grund
+   ist beides falsch: `multiply` mit Weiß ergibt den Untergrund (unsichtbar),
+   und #2C2CC6 auf #14140F hat 1,5:1 Kontrast. Nicht zurückholen, ohne zugleich
+   die Dateien in `public/logos/` gegen dunkle Fassungen zu tauschen. */
 
 /* Utility classes for mixed typography */
 .font-gotham-bold-italic {

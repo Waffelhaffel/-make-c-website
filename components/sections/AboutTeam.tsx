@@ -1,6 +1,7 @@
 import { MotionSection } from "@/components/ui/MotionSection";
 import { MixedHeadline } from "@/components/ui/MixedHeadline";
 import { Swoosh } from "@/components/ui/Swoosh";
+import { Linkedin } from "lucide-react";
 import Image from "next/image";
 import type { LandingAbout } from "@/lib/content/types";
 
@@ -21,14 +22,24 @@ export function AboutTeam({ data }: AboutTeamProps) {
         {(ceoImage || data.ceoQuote) && (
           <div className="grid grid-cols-1 md:grid-cols-[minmax(0,0.75fr)_minmax(0,1fr)] gap-10 md:gap-16 lg:gap-20 items-center mb-16 md:mb-28">
             {ceoImage && (
-              <div className="group relative aspect-[4/5] w-full max-w-[420px] overflow-hidden">
-                <Image
-                  src={ceoImage.src}
-                  alt={ceoImage.alt || data.ceoName || "Geschäftsführung make/c"}
-                  fill
-                  sizes="(min-width: 768px) 420px, 100vw"
-                  className="object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-105"
+              // Der blaue Kasten liegt als eigene Fläche HINTER dem Bild und ist
+              // nach links unten versetzt. Kein Rahmen und kein Padding am Bild:
+              // die Bildmaße bleiben dadurch unverändert. Der äußere Wrapper darf
+              // kein overflow-hidden haben, sonst wird der Überstand abgeschnitten.
+              <div className="relative w-full max-w-[420px]">
+                <div
+                  aria-hidden="true"
+                  className="absolute inset-0 -translate-x-4 translate-y-4 bg-makec-blue md:-translate-x-6 md:translate-y-6"
                 />
+                <div className="group relative aspect-[4/5] w-full overflow-hidden">
+                  <Image
+                    src={ceoImage.src}
+                    alt={ceoImage.alt || data.ceoName || "Geschäftsführung make/c"}
+                    fill
+                    sizes="(min-width: 768px) 420px, 100vw"
+                    className="object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-105"
+                  />
+                </div>
               </div>
             )}
 
@@ -45,7 +56,21 @@ export function AboutTeam({ data }: AboutTeamProps) {
                 </blockquote>
                 {(data.ceoName || data.ceoRole) && (
                   <figcaption className="mt-6 md:mt-8 font-gotham text-meta text-white/50">
-                    {data.ceoName}
+                    {/* Mit LinkedIn-URL wird der Name zum Link, ohne bleibt er Text. */}
+                    {data.ceoName && data.ceoLinkedin ? (
+                      <a
+                        href={data.ceoLinkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group inline-flex items-center gap-1.5 text-white/70 hover:text-white transition-colors"
+                      >
+                        {data.ceoName}
+                        <Linkedin size={13} aria-hidden="true" />
+                        <span className="sr-only">(LinkedIn-Profil, öffnet in neuem Tab)</span>
+                      </a>
+                    ) : (
+                      data.ceoName
+                    )}
                     {data.ceoRole && (
                       <span className="text-white/35">
                         {data.ceoName ? " · " : ""}

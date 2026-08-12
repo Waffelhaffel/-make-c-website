@@ -1,18 +1,22 @@
 // Sichtbare Links in der Header-Leiste (Figma: Über Uns / Leistungen / Selected Work).
-// "Leistungen" zeigt seit den Detailseiten auf die eigene Route statt auf den
-// Landing-Anker — Anker-Links werden von getNavHref() in HeaderClient.tsx auf
-// Unterseiten automatisch zu "/#anker" umgeschrieben, Routen bleiben unverändert.
+// "Leistungen" zeigt seit 08/2026 wieder auf den Landing-Anker: die Übersichts-
+// seite /leistungen ist entfallen (User-Entscheidung — die sechs Leistungen
+// stehen auf der Startseite, die Zwischenseite war eine Ebene zu viel).
+// Anker-Links werden von getNavHref() in HeaderClient.tsx auf Unterseiten
+// automatisch zu "/#anker" umgeschrieben — von einer Detailseite aus führt der
+// Link also zurück zur Leistungs-Sektion der Startseite.
 export const HEADER_NAV_LINKS = [
   { name: "Über Uns", href: "#team" },
-  { name: "Leistungen", href: "/leistungen" },
+  { name: "Leistungen", href: "#service" },
   { name: "Selected Work", href: "#work" },
 ];
 
 export const NAV_LINKS = [
   { name: "Approach", href: "#approach" },
-  { name: "Leistungen", href: "/leistungen" },
+  { name: "Leistungen", href: "#service" },
   { name: "Selected Work", href: "#work" },
-  { name: "Video-Check", href: "#video-check" },
+  // Die id bleibt `#video-check` — sie ist Ziel im Seitenmenü und in e2e/.
+  { name: "Video-Strategie-Check", href: "#video-check" },
   { name: "Kontakt", href: "#contact" },
 ];
 
@@ -22,8 +26,8 @@ export type SelectedWorkItem = {
   label: string;
   image: string;
   /**
-   * Slug des zugehörigen caseStudy-Dokuments in Sanity. Fehlt der Slug, gibt es
-   * (noch) keinen Case — die Kachel wird dann bewusst nicht klickbar gerendert.
+   * Slug eines Cases aus `lib/content/cases.ts`. Fehlt der Slug, gibt es (noch)
+   * keinen Case — die Kachel wird dann bewusst nicht klickbar gerendert.
    */
   caseSlug?: string;
 };
@@ -32,35 +36,42 @@ export const SELECTED_WORK: SelectedWorkItem[] = [
   {
     name: "Flughafen Köln Bonn",
     label: "Imagefilm",
-    image: "/Selected Work/Flughafen_Bild.webp",
-    caseSlug: "koeln-bonn-airport",
+    image: "/selected-work/flughafen-koeln-bonn.webp",
+    // Bis 12.08.2026 gab es zwei Cases für diesen Kunden: `flughafen-koeln-bonn`
+    // (Imagefilm, 2026) und `koeln-bonn-airport` (Content Timelapse, 2020). Der
+    // zweite ist mit dem Schnitt bei 2022 entfallen; die Kachel heißt ohnehin
+    // „Imagefilm" und zeigte immer auf den ersten.
+    caseSlug: "flughafen-koeln-bonn",
   },
   {
     name: "Wund Holding",
-    label: "SocialSpot",
-    image: "/Selected Work/Wundholding_Bild.webp",
+    label: "Social Spot",
+    image: "/selected-work/wundholding.webp",
     caseSlug: "wundholding",
   },
   {
     name: "BarmeniaGothaer",
     label: "KI Avatar",
-    image: "/Selected Work/BarmeniaGothaer_Bild.png",
+    image: "/selected-work/barmenia-gothaer.webp",
+    caseSlug: "barmenia-gothaer",
   },
   {
     name: "Merkur Lighthouse",
     label: "Doku",
-    image: "/Selected Work/Merkur_Bild.webp",
+    image: "/selected-work/merkur.webp",
     caseSlug: "merkur",
   },
   {
     name: "FOM Video",
     label: "Studio bau und Betrieb",
-    image: "/Selected Work/FOM_Bild.png",
+    image: "/selected-work/fom-studio.webp",
+    caseSlug: "fom-studio",
   },
   {
     name: "TELEKOM",
     label: "Event Content",
-    image: "/Selected Work/Telekom_Bild.png",
+    image: "/selected-work/telekom.webp",
+    caseSlug: "telekom",
   },
 ];
 

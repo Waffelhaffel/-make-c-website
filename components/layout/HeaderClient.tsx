@@ -7,6 +7,7 @@ import { Menu, X } from "lucide-react";
 import { NAV_LINKS, HEADER_NAV_LINKS } from "@/lib/data";
 import { motion, AnimatePresence } from "framer-motion";
 import { Magnetic } from "@/components/ui/Magnetic";
+import { lockScroll, unlockScroll } from "@/lib/scroll";
 import type { SiteSettings } from "@/lib/content/types";
 
 type HeaderClientProps = {
@@ -49,15 +50,13 @@ export function HeaderClient({ settings }: HeaderClientProps) {
     return pathname === "/" ? href : `/${href}`;
   };
 
+  // Gezählter Lock statt direktem body.style.overflow: der schrieb bedingungslos
+  // "unset" und hob damit den Lock eines gleichzeitig offenen Case-Fensters mit
+  // auf. Er stoppt außerdem Lenis — sonst scrollt der Hintergrund weiter.
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-    return () => {
-      document.body.style.overflow = "unset";
-    };
+    if (!isOpen) return;
+    lockScroll();
+    return unlockScroll;
   }, [isOpen]);
 
   return (

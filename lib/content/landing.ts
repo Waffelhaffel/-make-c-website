@@ -1,3 +1,4 @@
+import { ORG } from "@/lib/seo";
 import type { LandingContent } from "./types";
 
 // Inhalte der Startseite — hartcodiert (siehe CLAUDE.md, Regel 1).
@@ -29,22 +30,25 @@ export const LANDING: LandingContent = {
     kicker: "Video ist ein Werkzeug.",
     headlineLine1: "Wir zeigen Unternehmen,",
     headlineLine2: "wie man es richtig einsetzt.",
+    // Das „>" gehört zur Zahl („mehr als 10 Jahre"). Getrennt durch ein
+    // geschütztes Leerzeichen (\u00A0), damit `text-balance` in `Stats.tsx` das
+    // Zeichen nicht allein auf eine Zeile schiebt.
     items: [
       {
         icon: "clock",
-        number: "10",
+        number: ">\u00A010",
         label: "Jahre",
         subtext: "Video Expertise",
       },
       {
         icon: "users",
-        number: "100",
+        number: ">\u00A0100",
         label: "feste Mitarbeiter",
         subtext: "im Firmennetzwerk",
       },
       {
         icon: "play",
-        number: "10.000",
+        number: ">\u00A010.000",
         label: "Videos",
         subtext: "in über 3.000 Projekten",
       },
@@ -55,25 +59,28 @@ export const LANDING: LandingContent = {
     headlinePart1: "SHOW",
     headlinePart2: "REEL",
     thumbnail: {
-      src: "/thumbnail_Showreel.webp",
+      src: "/showreel-thumbnail.webp",
       alt: "make/c Showreel",
     },
     // Lokale Datei. Für einen gehosteten Reel hier stattdessen die Vimeo-/
     // YouTube-URL eintragen — `Showreel.tsx` erkennt beides und bettet dann ein.
-    videoUrl: "/Makec_Reel 1.mp4",
+    videoUrl: "/showreel.mp4",
   },
 
   approach: {
     headlineLine1: "We make video",
     headlineLine2: "that work.",
     italicWord: "make",
+    // Durchgängig klein geschrieben (User-Entscheidung 11.08.2026): der Slot
+    // setzt die Wortmarke `make/` fort, und dort steht das „c" klein. Ein großes
+    // „C" liest sich als zweites Wort statt als Fortsetzung des Lockups.
     wordmarkWords: [
-      "Creative",
-      "Communities",
-      "Channels",
-      "Creator",
-      "Content",
-      "Campaigns",
+      "creative",
+      "communities",
+      "channels",
+      "creator",
+      "content",
+      "campaigns",
     ],
     paragraphs: [
       "Video ist mehr als Produktion. Es braucht eine Strategie.",
@@ -85,44 +92,94 @@ export const LANDING: LandingContent = {
     kicker: "Testimonials",
     headlineLine1: "Das sagen",
     headlineLine2: "unsere Kunden",
-    // ⚠️ TODO: Platzhalter. Echte Kundenzitate ersetzen Autor, Rolle und Text.
-    // Soll die Sektion bis dahin verschwinden: `items: []` — `Testimonials.tsx`
-    // gibt bei leerer Liste `null` zurück. Erst mit echten Bewertungen darf
-    // `AggregateRating`/`Review` in die JSON-LD (`lib/seo.ts`).
+    // Echte Kundenzitate, vom User geliefert (12.08.2026) — ersetzen die
+    // Lorem-ipsum-Platzhalter. Wortlaut unverändert übernommen; geändert wurde
+    // nur „Marketing § Sales" → „Marketing & Sales" (Tippfehler in der Rolle,
+    // nicht im Zitat).
+    //
+    // ⚠️ Der Wortlaut ist Fremdrede — Kürzungen oder „Glättungen" sind hier
+    // nicht dasselbe wie bei eigener Copy. Vor Änderungen rückfragen.
+    //
+    // Vier statt drei Einträge: `Testimonials.tsx` steht deshalb auf
+    // `md:grid-cols-2` (2×2), sonst stünde das vierte Zitat allein in einer
+    // zweiten Reihe. Bei anderer Anzahl dort nachziehen.
+    //
+    // `logo` ist optional; seit 12.08.2026 haben alle vier eins — die
+    // Weiß-Versionen aus `public/logos/`, dieselben Dateien wie im LogoBanner.
+    //
+    // Zur JSON-LD siehe `organizationGraph()` in `lib/seo.ts`: `Review` bleibt
+    // auch mit echten Zitaten draußen — sie enthalten keine Bewertung, und
+    // selbst ausgezeichnete Bewertungen über das eigene Unternehmen sind bei
+    // Google nicht für Rich Results zugelassen.
     items: [
       {
         quote:
-          "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit.",
-        author: "Vorname Nachname",
-        role: "Position, Firma",
+          "Das finale Produkt übertrifft unsere Erwartungen. Danke für die tolle Umsetzung",
+        author: "Tobias Lyssy",
+        role: "Vice President Marketing & Sales, Köln Bonn Airport",
+        logo: {
+          src: "/logos/koeln-bonn-airport.png",
+          alt: "Köln Bonn Airport",
+          width: 453,
+          height: 240,
+        },
       },
       {
-        quote: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit.",
-        author: "Vorname Nachname",
-        role: "Position, Firma",
+        quote: "Great, Greater, make/c! Nothing left to say. Einfach nur top!",
+        author: "Sven Schirmer",
+        role: "Director Communications, shop-apotheke.com",
+        logo: {
+          src: "/logos/shop-apotheke.png",
+          alt: "shop-apotheke.com",
+          width: 240,
+          height: 240,
+        },
       },
       {
         quote:
-          "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet.",
-        author: "Vorname Nachname",
-        role: "Position, Firma",
+          "Ich bin froh, mit Euch einen so zuverlässigen und starken Video-Partner zu haben. Ihr tragt maßgeblich zum Erfolg meiner Video-Themen bei.",
+        author: "Lena Weith",
+        role: "Corporate Channels, Covestro AG",
+        logo: {
+          src: "/logos/covestro.png",
+          alt: "Covestro",
+          width: 240,
+          height: 240,
+        },
+      },
+      {
+        quote:
+          "Wenn make/c involviert ist, gehe ich entspannt in die Produktion.",
+        author: "Sandra Spiecker",
+        role: "Abteilungsleiterin Marktmanagement, ERGO",
+        // Seit 12.08.2026 vorhanden: die Weiß-Versionen vom User brachten das
+        // ERGO-Logo mit, das im alten Ordner fehlte. Damit tragen alle vier
+        // Karten ein Logo.
+        logo: {
+          src: "/logos/ergo.png",
+          alt: "ERGO",
+          width: 441,
+          height: 240,
+        },
       },
     ],
   },
 
   about: {
-    // ⚠️ Bewusst eine abstrakte, gesichtslose Skizze — kein Abbild von Jens Kemper.
-    // Echtes Foto: Datei unter demselben Pfad austauschen.
+    // Echtes Portrait (08/2026). Die frühere Platzhalter-Skizze liegt weiterhin
+    // unter /team/ceo-portrait.png, wird aber nicht mehr referenziert.
     ceoImage: {
-      src: "/team/ceo-portrait.png",
-      alt: "Platzhalter-Illustration: Geschäftsführung make/c",
+      src: "/team/jens-kemper.png",
+      alt: "Jens Kemper, CEO von make/c",
     },
-    // ⚠️ Entwurf, noch nicht gegengelesen.
+    // Vom User freigegebene Fassung (11.08.2026) — ersetzt den Entwurf, der bis
+    // dahin als „noch nicht gegengelesen" markiert war.
     ceoQuote:
-      "Unsere Kunden sind für uns Partner, keine Auftraggeber. Wir hören zu, denken mit und entwickeln Videokommunikation, die zum Unternehmen passt – nicht zum Trend. Genau daraus entstehen Filme, die wirklich etwas bewegen.",
+      "Kunden sind für uns Partner. Wir hören zu, denken mit und entwickeln individuelle Videokommunikation, die hilft, die Unternehmensziele zu erreichen. Kein Werkzeug ist dabei so mächtig wie das richtige Video.",
     ceoName: "Jens Kemper",
     // Bewusst nicht „Gründer" — unverifiziert.
     ceoRole: "CEO · make/c",
+    ceoLinkedin: "https://www.linkedin.com/in/jens-kemper-70758882/",
     quoteLine1: '"WE BELIEVE IN THE',
     quoteLine2: 'POWER OF MOVING IMAGES."',
   },
@@ -133,19 +190,20 @@ export const LANDING: LandingContent = {
     headlineLine2: "sind die richtigen Fragen.",
     introLinkText: "Lass uns über dein Projekt sprechen",
     ctaButtonText: "Gespräch anfragen",
+    // Echtes Portrait (08/2026), quadratisch — `Contact.tsx` zeigt es rund
+    // beschnitten. Die frühere 3D-Illustration /Kontakt_Guy.webp liegt weiter
+    // in public/, wird aber nicht mehr referenziert.
     contactImage: {
-      src: "/Kontakt_Guy.webp",
-      alt: "Ansprechpartner make/c",
+      src: "/team/marie-hill.png",
+      alt: "Marie Hill, Ansprechpartnerin bei make/c",
     },
-    contactName: "Paul Zajonc",
-    contactRole: "Ansprechpartner · make/c",
-    // ⚠️ Absichtlich leer, siehe Kommentar am Feld in `./types`. Die echte
-    // Nummer steht im Impressum (`lib/content/legal.ts`) — sobald sie hier
-    // eintragen wird, gehört sie auch als `telephone` in `ORG` (`lib/seo.ts`).
-    // phone: "+49 …",
-    // Bewusst die persönliche Adresse des Ansprechpartners; der Footer und die
-    // JSON-LD führen weiter info@make-c.de als allgemeinen Kanal.
-    email: "pz@make-c.de",
+    contactName: "Marie Hill",
+    contactRole: "Ansprechpartnerin · make/c",
+    // Zentrale Nummer aus `ORG` — eine Quelle für Sichtbares und JSON-LD.
+    phone: ORG.telephone,
+    // Seit 08/2026 auch hier der allgemeine Kanal (vorher pz@make-c.de als
+    // persönliche Adresse) — Footer und JSON-LD führen dieselbe Adresse.
+    email: ORG.email,
     floatingCtaEnabled: true,
     ctaLabel: "Let's talk",
     locations: [

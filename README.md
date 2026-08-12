@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# make/c — Website
 
-## Getting Started
+Firmenwebsite der Videoproduktions-Agentur **make/c** (Köln & Essen). Landingpage
+als One-Pager, sechs Leistungs-Detailseiten, `/work` mit 63 Referenzen und den
+Legal-Seiten. Dark-Premium-Look nach Figma, Sprache Deutsch.
 
-First, run the development server:
+**Next.js 15 (App Router) · React 19 · TypeScript · Tailwind 3.4 · framer-motion ·
+Lenis · Vercel** (Auto-Deploy bei Push auf `main`).
+
+## Los geht's
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev          # http://localhost:3000 (Turbopack)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+| Command | Zweck |
+|---|---|
+| `npm run dev` | Dev-Server mit Turbopack |
+| `npm run dev:webpack` | Fallback, falls Turbopack zickt |
+| `npm run build` | Production-Build (voll statisch, nutzt webpack) |
+| `npm run start` | Production-Server, Voraussetzung für `npm run e2e` |
+| `npx tsc --noEmit` | **Pflicht-Gate, siehe unten** |
+| `npm run lint` | ESLint (`next/core-web-vitals` + `next/typescript`) |
+| `npm run e2e` | 55 Playwright-Checks gegen den Production-Build → [`e2e/README.md`](e2e/README.md) |
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+⚠️ **Der Build ist kein Gate.** `next.config.ts` setzt `typescript.ignoreBuildErrors`
+und `eslint.ignoreDuringBuilds` auf `true` — ein Typfehler bricht den Build **nicht**
+ab und landet unbemerkt im Deploy. Deshalb vor jedem Commit `npx tsc --noEmit` und
+`npm run lint` von Hand. Bewusst so, damit ein Lint-Fund kein Deploy blockiert; wer
+es hart will, dreht die beiden Flags in `next.config.ts` um.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Nicht `npm run build` bei laufendem Dev-Server — beide schreiben nach `.next/`.
+Sieht die Seite plötzlich ungestylt aus, ist das fast immer diese Kollision:
+Dev stoppen, `rm -rf .next`, neu starten.
 
-## Learn More
+## Wo der Inhalt liegt
 
-To learn more about Next.js, take a look at the following resources:
+**Es gibt kein CMS.** Seit 08/2026 steht der gesamte Seiteninhalt im Repo, der Build
+ist vollständig statisch — keine Route lädt zur Laufzeit etwas nach.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Datei | Inhalt |
+|---|---|
+| `lib/content/landing.ts` | alle Sections der Startseite |
+| `lib/content/cases.ts` | die 63 Referenzen (Array-Reihenfolge = Reihenfolge auf `/work`) |
+| `lib/content/workCategories.ts` | die 14 Filter-Kategorien |
+| `lib/content/services.ts` | die sechs Leistungs-Kacheln |
+| `lib/content/site.ts`, `legal.ts` | Header/Footer, Impressum, Datenschutz |
+| `lib/leistungen.ts` | der komplette Text der sechs Leistungsseiten |
+| `lib/data.ts` | Navigation und das Selected-Work-Raster |
+| `lib/seo.ts` | Basis-URL, NAP-Daten, `pageMetadata()`, JSON-LD |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Bilder liegen in `public/`, Case-Bilder als WebP unter `public/work/<slug>.webp`.
 
-## Deploy on Vercel
+## Vor dem Go-Live
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+`NEXT_PUBLIC_SEO_INDEX=true` **und** `NEXT_PUBLIC_SITE_URL=https://<echte-domain>`
+setzen und **neu deployen** — beide Werte werden zur Build-Zeit eingebettet. Ohne
+sie ist die Seite `noindex` und `robots.txt` sagt `Disallow: /`. Details in
+`.env.example`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Weiterlesen
+
+- **[`CLAUDE.md`](CLAUDE.md)** — Projekt-Gedächtnis: Design-System, Scroll-Architektur,
+  harte Regeln, Fallstricke, offene Punkte. Zuerst lesen.
+- [`docs/MAINTENANCE.md`](docs/MAINTENANCE.md) — Deploy- und Env-Betriebswissen
+- [`docs/HANDOVER.md`](docs/HANDOVER.md) — Chronik der letzten Umbauten
+- [`docs/DESIGN_GUIDELINES.md`](docs/DESIGN_GUIDELINES.md) — Marken-Basics
+  (verbindlich für Tokens ist `tailwind.config.ts`)
+- ⚠️ `docs/PROJECT_OVERVIEW.md` ist stark veraltet und beschreibt entfernte
+  Komponenten als existierend.

@@ -16,8 +16,11 @@ import { ImageResponse } from "next/og";
  * SemiBold Italic und etwas größer.
  */
 
-export const OG_SIZE = { width: 1200, height: 630 };
-export const OG_CONTENT_TYPE = "image/png";
+// Nicht exportiert: die beiden OG-Routen (`app/og`, `app/leistungen/[slug]/og`)
+// rufen nur die Render-Funktionen hier auf. `ImageResponse` setzt den
+// Content-Type selbst — ein `OG_CONTENT_TYPE` stand hier noch aus der Zeit der
+// `opengraph-image.tsx`-Dateikonvention, die 07/2026 aufgegeben wurde.
+const OG_SIZE = { width: 1200, height: 630 };
 export const OG_FOOTER = "Videoproduktion & Video-Marketing · Köln & Essen";
 
 const FONT_DIR = join(process.cwd(), "app/fonts");

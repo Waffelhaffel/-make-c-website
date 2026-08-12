@@ -28,6 +28,8 @@ export type OrgLocation = {
   region: string;
   latitude: number;
   longitude: number;
+  /** Nur für den Standort mit eigener Rufnummer — landet als `telephone` am Place-Knoten. */
+  telephone?: string;
 };
 
 // ⚠️ `ORG` ist seit 31.07.2026 die EINZIGE Quelle der NAP-Daten. `lib/content/site.ts`
@@ -41,8 +43,22 @@ export const ORG = {
   description:
     "make/c ist eine Agentur für Videoproduktion und Video-Marketing mit Standorten in Köln und Essen.",
   email: "info@make-c.de",
-  linkedin:
-    "https://www.linkedin.com/company/make-c-video-content-marketing-gmbh",
+  /**
+   * Zentrale Rufnummer. Wird an drei Stellen ausgegeben: Kontakt-Sektion
+   * (`LANDING.contact.phone`), Organization- und Köln-Place-Knoten der JSON-LD.
+   * Die abweichende Nummer im Impressum (`lib/content/legal.ts`) ist eine andere
+   * Durchwahl und bleibt dort unangetastet.
+   *
+   * 11.08.2026 vom User auf die Mobilnummer umgestellt (vorher die Kölner
+   * Festnetznummer +49 221 45676395).
+   */
+  telephone: "+49 178 8800035",
+  // Aus der vom User gelieferten Admin-URL (…/company/7263738/admin/dashboard/):
+  // die numerische ID ist die stabile öffentliche Form, LinkedIn leitet auf den
+  // Vanity-Namen weiter. Vorher stand hier ein geratener Vanity-Slug.
+  linkedin: "https://www.linkedin.com/company/7263738/",
+  facebook: "https://www.facebook.com/makec.video.content.marketing",
+  instagram: "https://www.instagram.com/makec_agency/",
   locations: [
     {
       city: "Köln",
@@ -51,6 +67,9 @@ export const ORG = {
       region: "Nordrhein-Westfalen",
       latitude: 50.9345,
       longitude: 6.9721,
+      // Dieselbe Nummer wie `ORG.telephone` — die sichtbare Kontaktzeile und die
+      // strukturierten Daten müssen übereinstimmen (NAP-Konsistenz).
+      telephone: "+49 178 8800035",
     },
     {
       city: "Essen",
@@ -147,9 +166,12 @@ export const WEBSITE_ID = `${SITE_URL}/#website`;
  * Wird einmalig im Layout ausgegeben. `ProfessionalService` erbt von
  * `LocalBusiness` und trägt beide Standorte — das ist das lokale Geo-Signal.
  *
- * Bewusst NICHT enthalten: `aggregateRating` / `review`. Die Testimonials auf
- * der Startseite sind aktuell Platzhalter; ausgezeichnete Fantasie-Bewertungen
- * wären ein Richtlinienverstoß.
+ * Bewusst NICHT enthalten: `aggregateRating` / `review` — auch seit die
+ * Testimonials echt sind (12.08.2026). Zwei Gründe: die Zitate tragen gar keine
+ * Bewertung (`aggregateRating` bräuchte Zahlen, die es nicht gibt), und
+ * Bewertungen, die ein Unternehmen über sich selbst ausgibt, sind bei Google
+ * seit 2019 von Review-Rich-Results ausgeschlossen. Das würde sich erst ändern,
+ * wenn Bewertungen mit Skala von einer unabhängigen Plattform kämen.
  */
 export function organizationGraph() {
   return {
@@ -163,11 +185,12 @@ export function organizationGraph() {
         description: ORG.description,
         url: SITE_URL,
         email: ORG.email,
-        sameAs: [ORG.linkedin],
-        image: absoluteUrl("/make:c_logo_icon.png"),
+        telephone: ORG.telephone,
+        sameAs: [ORG.linkedin, ORG.facebook, ORG.instagram],
+        image: absoluteUrl("/makec-logo-icon.png"),
         logo: {
           "@type": "ImageObject",
-          url: absoluteUrl("/make:c_logo_icon.png"),
+          url: absoluteUrl("/makec-logo-icon.png"),
         },
         address: ORG.locations.map((loc) => ({
           "@type": "PostalAddress",
@@ -180,6 +203,9 @@ export function organizationGraph() {
         location: ORG.locations.map((loc) => ({
           "@type": "Place",
           name: `${ORG.name} ${loc.city}`,
+          // Nur der Standort mit eigener Nummer bekommt sie — die Köln-Nummer
+          // am Essener Place-Knoten wäre eine falsche NAP-Angabe.
+          ...(loc.telephone ? { telephone: loc.telephone } : {}),
           address: {
             "@type": "PostalAddress",
             streetAddress: loc.street,

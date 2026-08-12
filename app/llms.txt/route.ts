@@ -28,8 +28,7 @@ ${services}
 
 ## Wichtige Seiten
 
-- [Startseite](${SITE_URL}): Überblick über make/c, Showreel und Referenzen.
-- [Leistungen](${absoluteUrl("/leistungen")}): Einstieg in alle sechs Leistungen.
+- [Startseite](${SITE_URL}): Überblick über make/c, Showreel, alle sechs Leistungen und Referenzen.
 - [Referenzen](${absoluteUrl("/work")}): Case Studies aus bisherigen Projekten.
 - [Impressum](${absoluteUrl("/impressum")})
 - [Datenschutz](${absoluteUrl("/datenschutz")})
