@@ -64,7 +64,8 @@ export function ServiceCases({ caseStudies }: ServiceCasesProps) {
 
         <div className="mt-12 md:mt-16 flex justify-center">
           <Magnetic strength={0.3}>
-            <PillButton href="/work" size="md">
+            {/* Box-Variante wie auf der Startseite (13.08.2026, User-Vorgabe) */}
+            <PillButton href="/work" size="md" variant="box">
               Alle Referenzen anzeigen
             </PillButton>
           </Magnetic>

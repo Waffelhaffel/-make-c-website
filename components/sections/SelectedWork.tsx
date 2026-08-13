@@ -26,11 +26,19 @@ export function SelectedWork({ caseStudies }: SelectedWorkProps) {
 
       {/* Blauer Auftakt, Headline überlappt das Grid (Figma 45:14) */}
       <div className="bg-makec-blue pt-28 md:pt-44 px-6">
+        {/* `stacked="mobile"`: einzeilig passt SELECTED/WORK auf keinem Handy
+            ins Bild — gemessen 459 px Lockup in 342 px Spalte bei 390 px
+            Viewport, „RK" stand komplett außerhalb (User-Meldung 13.08.2026).
+            Kleiner rechnen ist keine Option: nötig wären 38,7 px, also weniger
+            als die 40 px des h2-Tokens — die größte Schrift der Seite wäre
+            kleiner als jede normale Sektions-Überschrift. Ab md wieder eine
+            Zeile wie im Figma. */}
         <MixedHeadline
           variant="display"
           part1="Selected"
           part2="Work"
           slash
+          stacked="mobile"
           className="relative z-10 -mb-3 text-center"
         />
       </div>
@@ -90,10 +98,14 @@ export function SelectedWork({ caseStudies }: SelectedWorkProps) {
       {/* Swoosh auf der Unterkante des Grids (Figma 45:28) */}
       <Swoosh className="relative z-10 mx-auto -mt-7 w-[clamp(12rem,25vw,30.5rem)] text-white" />
 
-      {/* Weißer Pill-Button (Figma 51:4) */}
+      {/* Eckige Box-Variante seit 13.08.2026 (User-Vorgabe) — vorher der weiße
+          Pill-Button aus Figma 51:4. Sitzt auf `bg-makec-dark`, also genau dem
+          Grund, aus dem die Box-Füllung abgeleitet ist. */}
       <div className="mt-12 md:mt-16 pb-20 md:pb-28 flex justify-center px-6">
         <Magnetic strength={0.3}>
-          <PillButton href="/work">Alle Referenzen anzeigen</PillButton>
+          <PillButton href="/work" variant="box">
+            Alle Referenzen anzeigen
+          </PillButton>
         </Magnetic>
       </div>
 

@@ -122,7 +122,16 @@ export function WorkGrid({ caseStudies }: WorkGridProps) {
                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
               />
               <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/80 opacity-80 group-hover:opacity-100 transition-opacity duration-500" />
-              <div className="absolute bottom-0 left-0 p-4 md:p-5">
+              {/* `right-0`: ohne rechte Kante ist der Kasten so breit wie sein
+                  längster Text und schiebt ihn aus der Kachel — bei zwei Spalten
+                  auf 320 px lief „Bundesgartenschau 2023" 20 px über den Rand.
+                  Mit Kante bricht die Zeile stattdessen um. */}
+              {/* `hyphens-auto` (nutzt das lang="de" am <html>): bei zwei Spalten
+                  auf 320 px ist die Textspalte nur 96 px breit, „Bundesgartenschau"
+                  misst dort 141 px und kann als ein Wort nicht umbrechen. Ohne
+                  Trennung stünde es über der Nachbarkachel. Ab sm ist die Spalte
+                  breit genug, dann trennt der Browser von sich aus nichts. */}
+              <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5 hyphens-auto">
                 <p className="font-gotham text-[10px] text-white/70 uppercase tracking-widest mb-1">
                   {item.client} · {item.year}
                 </p>

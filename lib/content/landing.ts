@@ -83,7 +83,12 @@ export const LANDING: LandingContent = {
       "campaigns",
     ],
     paragraphs: [
-      "Video ist mehr als Produktion. Es braucht eine Strategie.",
+      // Zwei Zeilen, bewusst mit hartem Umbruch (User-Vorgabe 13.08.2026): die
+      // beiden Sätze stehen parallel und beginnen beide mit „Video". Der
+      // natürliche Umbruch träfe je nach Breite mitten in den ersten Satz.
+      // Gerendert über `whitespace-pre-line` in `Approach.tsx` — dasselbe Muster
+      // wie `summary` in den Cases.
+      "Video ist mehr als Produktion.\nVideo braucht eine Strategie.",
       "Wir beraten, entwickeln und produzieren Videokommunikation ganzheitlich. Statt isolierter Inhalte schaffen wir strategische Lösungen, die nachhaltig wirken. So holen unsere Kunden das Maximum aus ihrem Video-Budget heraus.",
     ],
   },
@@ -172,10 +177,12 @@ export const LANDING: LandingContent = {
       src: "/team/jens-kemper.png",
       alt: "Jens Kemper, CEO von make/c",
     },
-    // Vom User freigegebene Fassung (11.08.2026) — ersetzt den Entwurf, der bis
-    // dahin als „noch nicht gegengelesen" markiert war.
+    // Vom User gelieferte Fassung (13.08.2026) — ersetzt die Fassung vom
+    // 11.08.2026 („Kunden sind für uns Partner …"). Wortlaut unverändert
+    // übernommen, inklusive des Kommas vor „und angepasst"; ergänzt wurde nur
+    // der Schlusspunkt. Fremdrede — nicht eigenmächtig glätten oder kürzen.
     ceoQuote:
-      "Kunden sind für uns Partner. Wir hören zu, denken mit und entwickeln individuelle Videokommunikation, die hilft, die Unternehmensziele zu erreichen. Kein Werkzeug ist dabei so mächtig wie das richtige Video.",
+      "Wir sehen unsere Kunden als Partner. Wir hören zu, denken mit und entwickeln für sie eine passende Videostrategie. Sie hilft unseren Kunden, ihre Unternehmensziele zu erreichen – individuell, und angepasst auf das jeweilige Budget.",
     ceoName: "Jens Kemper",
     // Bewusst nicht „Gründer" — unverifiziert.
     ceoRole: "CEO · make/c",

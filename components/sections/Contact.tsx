@@ -81,7 +81,11 @@ export function Contact({ data }: ContactProps) {
                   der beiden Spalten bei 1280/1440/1920 exakt 48px auseinander.
                   Der Versatz liegt bewusst am Wrapper, nicht am Bild: er ändert
                   die Maße nicht und kann die Spaltenhöhe deshalb nicht verschieben. */}
-              <div className="relative flex-none w-40 h-40 md:w-52 md:h-52">
+              {/* w-32 unter sm (13.08.2026): 160 px Portrait + 20 px Spalt ließen
+                  auf 320 px nur 92 px für den Namensblock — „Ansprechpartnerin ·
+                  make/c" stand 16 px außerhalb. Ab sm unverändert 160/208 px, die
+                  Spaltenhöhe ab md (siehe oben) bleibt damit unberührt. */}
+              <div className="relative flex-none w-32 h-32 sm:w-40 sm:h-40 md:w-52 md:h-52">
                 <div
                   aria-hidden="true"
                   className="absolute inset-0 -translate-x-3 translate-y-3 bg-makec-blue md:-translate-x-4 md:translate-y-4"
@@ -96,7 +100,10 @@ export function Contact({ data }: ContactProps) {
                   />
                 </div>
               </div>
-              <div>
+              {/* `min-w-0`: Flex-Kinder stehen auf min-width:auto und schrumpfen
+                  sonst nicht unter ihre Textbreite — der Block schöbe über die
+                  Kante statt umzubrechen. */}
+              <div className="min-w-0">
                 {data.contactName && (
                   <p className="font-gotham font-semibold leading-tight text-[clamp(1.5rem,2.6vw,2rem)] text-white">
                     {data.contactName}

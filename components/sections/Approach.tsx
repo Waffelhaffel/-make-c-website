@@ -43,11 +43,14 @@ export function Approach({ data }: ApproachProps) {
           <div className="flex-1 flex flex-col gap-6">
             <div className="flex flex-col gap-6 text-white">
               {paragraphs.map((para, i) => (
+                // `whitespace-pre-line`: der Lead-Absatz trägt seinen Umbruch als
+                // \n im Inhalt (siehe `landing.ts`). Für Absätze ohne \n ändert
+                // die Regel nichts — Leerzeichen werden weiterhin zusammengefasst.
                 <p
                   key={i}
                   className={
                     i === 0
-                      ? "font-gotham text-h4"
+                      ? "font-gotham text-h4 whitespace-pre-line"
                       : "font-gotham text-body-lg"
                   }
                 >

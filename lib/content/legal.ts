@@ -103,7 +103,7 @@ export const IMPRESSUM: LegalPageContent = {
           "_key": "8f1006a1-9ede-4d09-b125-3a7dc317a123",
           "_type": "span",
           "marks": [],
-          "text": "Fon: +49 221 – 4 56 – 7 62 12"
+          "text": "Fon: +49 221 456 76390"
         }
       ],
       "markDefs": [],

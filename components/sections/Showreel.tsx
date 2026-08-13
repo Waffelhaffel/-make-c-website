@@ -109,15 +109,26 @@ export function Showreel({ data }: ShowreelProps) {
                   <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-300" />
 
                   <div className="absolute inset-0 flex flex-col items-center justify-center z-10">
+                    {/* ⚠️ Der Kreis muss mit dem Player mitwachsen, nicht fix
+                        stehen. Bis 13.08.2026 waren es unter md feste 96 px —
+                        in einem Player, der bei 390 px Viewport nur 192 px hoch
+                        ist, also die halbe Bildhöhe (Desktop: 20 %). Der clamp
+                        trifft bei 768 px genau die 10,4vw der md-Regel (79,9 px),
+                        der Übergang an der Kante ist deshalb stufenlos.
+                        Untergrenze 3rem = 48 px: darunter wäre das Ziel für den
+                        Daumen zu klein. */}
                     <motion.div
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.95 }}
-                      className="w-24 h-24 md:w-[10.4vw] md:h-[10.4vw] md:max-w-[200px] md:max-h-[200px] rounded-full bg-white flex items-center justify-center shadow-lg"
+                      className="w-[clamp(3rem,14vw,5rem)] h-[clamp(3rem,14vw,5rem)] md:w-[10.4vw] md:h-[10.4vw] md:max-w-[200px] md:max-h-[200px] rounded-full bg-white flex items-center justify-center shadow-lg"
                     >
-                      <Play className="text-makec-dark ml-1 w-9 h-9 md:w-[3.5vw] md:h-[3.5vw] md:max-w-16 md:max-h-16" fill="currentColor" />
+                      {/* ~35 % des Kreises, wie auf Desktop (3,5 von 10,4vw) */}
+                      <Play className="text-makec-dark ml-1 w-[clamp(1.125rem,4.9vw,1.75rem)] h-[clamp(1.125rem,4.9vw,1.75rem)] md:w-[3.5vw] md:h-[3.5vw] md:max-w-16 md:max-h-16" fill="currentColor" />
                     </motion.div>
 
-                    <span className="mt-5 uppercase text-white text-base md:text-lg">
+                    {/* mt-3 statt mt-5 auf Mobil: Kreis + Abstand + Zeile füllten
+                        vorher 73 % der Playerhöhe, jetzt knapp die Hälfte. */}
+                    <span className="mt-3 md:mt-5 uppercase text-white text-base md:text-lg">
                       <span className="font-garamond font-semibold italic">Play</span>
                       <span className="font-garamond font-semibold italic">/</span>
                       <span className="font-gotham font-bold italic text-[0.875em]">Pause</span>

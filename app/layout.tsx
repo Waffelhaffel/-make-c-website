@@ -38,11 +38,16 @@ export const metadata: Metadata = {
   },
   description: "make/c entwickelt und produziert Bewegtbild für Marken.",
   alternates: { canonical: "/" },
-  icons: {
-    icon: "/makec-logo-icon.png",
-    shortcut: "/makec-logo-icon.png",
-    apple: "/makec-logo-icon.png",
-  },
+  // ⚠️ Hier steht **kein** `icons`-Feld — und das ist Absicht. Die Tab-Icons
+  // laufen seit 13.08.2026 über die Next-Dateikonventionen `app/icon.png`,
+  // `app/apple-icon.png` und `app/favicon.ico`; die verlinkt Next von selbst.
+  // Ein `icons`-Feld in der Metadata hätte Vorrang und würde sie wieder
+  // ausschalten. Vorher zeigten alle drei Einträge auf
+  // `/makec-logo-icon.png` — die **Wortmarke**, 1921×1081 und schwarz auf
+  // Weiß: im Tab ein weißer Balken mit unlesbarem Text. Die drei Dateien
+  // baut `node scripts/build-favicon.mjs` aus genau dieser Wortmarke.
+  // `/makec-logo-icon.png` bleibt richtig als Organisations-Logo in der
+  // JSON-LD (`lib/seo.ts`) — dort will Google die Wortmarke, kein Signet.
   openGraph: {
     type: "website",
     locale: "de_DE",

@@ -45,7 +45,15 @@ export function Stats({ data }: StatsProps) {
       <div className="relative max-w-7xl mx-auto z-10">
         <div className="text-center mb-16 md:mb-32">
           {data.kicker && (
-            <span className="block font-gotham text-small text-white mb-4">
+            // Vergrößert am 13.08.2026 (User-Vorgabe). Vorher `text-small` — das
+            // Token steht fix auf 18 px und wirkte unter der bis zu 76 px großen
+            // H2 zu klein. Eigener clamp statt Token, weil die Skala zwischen
+            // `small` (18) und `h4` (28–40) nichts dazwischen hat: 20 px mobil →
+            // 26 px ab 1445 px. Gemessen durchprobiert — bei 30 px liest sich die
+            // Zeile als zweite Überschrift statt als Kicker.
+            // `font-bold` ist Pflicht: der arbiträre Wert bringt kein Gewicht mit,
+            // sonst erbt die Zeile die 400 des Body.
+            <span className="block font-gotham text-[clamp(1.25rem,1.11rem+0.57vw,1.625rem)] font-bold leading-[1.4] text-white mb-4 md:mb-5">
               {data.kicker}
             </span>
           )}

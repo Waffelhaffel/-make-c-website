@@ -100,14 +100,23 @@ export function ServiceList({ services }: ServiceListProps) {
                         slash
                         part1={titlePart1}
                         part2={titlePart2}
-                        size="text-[clamp(2.75rem,5.5vw,6.5625rem)]"
+                        // Mobil-Deckelung wie beim display-Token, aber schärfer
+                        // (11,5 statt 12,5vw): die Headline startet hier erst bei
+                        // left-[6%] der Bildbreite, ihr fehlen also ~6 % gegenüber
+                        // einer Headline am Spaltenrand. Greift nur unter 383 px —
+                        // dort lief „Produktion" 37 px über den Bildschirmrand.
+                        size="text-[min(11.5vw,clamp(2.75rem,5.5vw,6.5625rem))]"
                         className={imageLeft ? "" : "md:text-right"}
                       />
                       {/* CTA in die Detailseite. PillButton ohne href/onClick
                           rendert ein <span> — die ganze Kachel ist schon der
-                          Link, ein <a> im <a> wäre ungültig. */}
+                          Link, ein <a> im <a> wäre ungültig.
+                          `variant="box"` seit 13.08.2026 (User-Vorgabe): eckig
+                          im Look der Testimonial-Karten statt weißes Pill. */}
                       <span className="hidden md:block">
-                        <PillButton size="md">{SERVICE_CTA_TEXT}</PillButton>
+                        <PillButton size="md" variant="box">
+                          {SERVICE_CTA_TEXT}
+                        </PillButton>
                       </span>
                     </div>
                   </div>
@@ -116,7 +125,9 @@ export function ServiceList({ services }: ServiceListProps) {
                 {/* Mobile: auf dem flachen Bild ist neben der (bei langen Titeln
                     zweizeiligen) Headline kein Platz → Button unter dem Bild. */}
                 <div className="pt-5 pb-10 md:hidden">
-                  <PillButton size="md">{SERVICE_CTA_TEXT}</PillButton>
+                  <PillButton size="md" variant="box">
+                    {SERVICE_CTA_TEXT}
+                  </PillButton>
                 </div>
               </Link>
             );

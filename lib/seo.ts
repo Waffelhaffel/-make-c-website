@@ -46,13 +46,15 @@ export const ORG = {
   /**
    * Zentrale Rufnummer. Wird an drei Stellen ausgegeben: Kontakt-Sektion
    * (`LANDING.contact.phone`), Organization- und Köln-Place-Knoten der JSON-LD.
-   * Die abweichende Nummer im Impressum (`lib/content/legal.ts`) ist eine andere
-   * Durchwahl und bleibt dort unangetastet.
    *
-   * 11.08.2026 vom User auf die Mobilnummer umgestellt (vorher die Kölner
-   * Festnetznummer +49 221 45676395).
+   * 13.08.2026 vom User vereinheitlicht: **eine** Nummer auf der ganzen Seite,
+   * auch im Impressum (`lib/content/legal.ts`, dort mit „Fon: " davor). Damit
+   * ist die NAP-Inkonsistenz erledigt, die hier seit 11.08.2026 vermerkt war —
+   * vorher standen die Mobilnummer +49 178 8800035 (hier) und +49 221 – 4 56 –
+   * 7 62 12 (Impressum) nebeneinander. Wer die Nummer ändert, ändert **beide**
+   * Stellen.
    */
-  telephone: "+49 178 8800035",
+  telephone: "+49 221 456 76390",
   // Aus der vom User gelieferten Admin-URL (…/company/7263738/admin/dashboard/):
   // die numerische ID ist die stabile öffentliche Form, LinkedIn leitet auf den
   // Vanity-Namen weiter. Vorher stand hier ein geratener Vanity-Slug.
@@ -68,8 +70,10 @@ export const ORG = {
       latitude: 50.9345,
       longitude: 6.9721,
       // Dieselbe Nummer wie `ORG.telephone` — die sichtbare Kontaktzeile und die
-      // strukturierten Daten müssen übereinstimmen (NAP-Konsistenz).
-      telephone: "+49 178 8800035",
+      // strukturierten Daten müssen übereinstimmen (NAP-Konsistenz). Seit
+      // 13.08.2026 ist das eine Kölner Festnetznummer, die Ortsvorwahl passt
+      // hier also auch geografisch.
+      telephone: "+49 221 456 76390",
     },
     {
       city: "Essen",
