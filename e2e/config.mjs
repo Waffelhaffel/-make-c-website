@@ -56,7 +56,7 @@ export const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
  */
 export const CONTENT = {
   /** Cases in `CASES` = Kacheln auf /work. */
-  CASES: 30,
+  CASES: 31,
   /** Ein Filter-Chip und seine erwartete Trefferzahl. */
   FILTER: { label: "Video Event Content", treffer: 9 },
   /** Kacheln in `SELECTED_WORK` (`lib/data.ts`). */

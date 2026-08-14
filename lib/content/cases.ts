@@ -80,6 +80,48 @@ export const CASES: CaseStudy[] = [
   },
   // ── Ende Platzhalter ───────────────────────────────────────────────────────
   {
+    slug: "cwh-bih-sbv-wahl",
+    client: "CWH | BIH",
+    project: "Mockumentary zur SBV-Wahl",
+    year: "2026",
+    category: "Video Produktion",
+    categories: ["video-produktion"],
+    kicker: "/ Case Study /",
+    summary:
+      "Inklusion trifft Comedy: Die Schwerbehindertenvertretung übernimmt eine wichtige Aufgabe in Unternehmen und Dienststellen. Um Beschäftigte für dieses Ehrenamt zu gewinnen, braucht es vor allem eines: einen Zugang, der Berührungsängste abbaut und Lust darauf macht, selbst Verantwortung zu übernehmen.\n\nIm Stil einer Mockumentary à la The Office haben wir für die BIH einen Motivationsfilm entwickelt, der das Thema mit trockenem Humor, starken Figuren und viel Gespür für den ganz normalen Büroalltag erzählt. Im Mittelpunkt steht Martin. Seine Kolleginnen und Kollegen halten ihn für genau den Richtigen, um sich als SBV zur Wahl zu stellen. Martin selbst muss sich mit diesem Gedanken allerdings erst einmal anfreunden. Zwischen gut gemeinten Überredungsversuchen, skeptischen Blicken in die Kamera und herrlich unangenehmen Büromomenten erkennt er nach und nach, wie viel er in diesem Amt für andere bewegen kann.\n\nGemeinsam mit unserer Partneragentur CW Haarfeld haben wir das Projekt von der ersten Idee bis zum fertigen Film realisiert. Aus dem inhaltlichen Ansatz entwickelten wir das Drehbuch und übersetzten die Geschichte anschließend in ein detailliertes Shootingboard. Parallel entstand mit dem Casting, der Auswahl der Motive sowie der Gestaltung von Set und Requisite nach und nach Martins Bürowelt.\n\nDie Mockumentary haben wir konsequent wie eine fiktionale Kurzfilmproduktion umgesetzt. Denn hier entscheidet das Timing: ein zu langer Blick, eine kleine Irritation, eine beiläufige Geste oder ein schief hängendes Türschild. Was leicht und spontan wirkt, ist bis ins Detail entwickelt und präzise inszeniert.\n\nEntstanden ist ein unterhaltsamer Kampagnenfilm, der ein komplexes Thema leicht und zugänglich vermittelt und gleichzeitig zeigt, wie wichtig die Schwerbehindertenvertretung ist. Der Film ist Teil des umfangreichen Informationsangebots der BIH zur SBV-Wahl und wurde mit Untertiteln sowie in einer Fassung mit Audiodeskription veröffentlicht.",
+    // Aus der Projektbeschreibung abgeleitet — jeder Punkt steht dort wörtlich.
+    services: [
+      "Konzept & Drehbuch",
+      "Shootingboard",
+      "Casting",
+      "Set & Requisite",
+      "Regie & Produktion",
+      "Postproduktion",
+      "Untertitel & Audiodeskription",
+    ],
+    video: "https://www.youtube.com/watch?v=F2H8z1DMiBk",
+    // Titelbild ist das YouTube-Thumbnail (1280×720). Kein eigenes `poster`
+    // nötig: 16:9 passt im Case-Fenster, und das 4:5-Raster auf /work schneidet
+    // mittig auf den Protagonisten — geprüft.
+    image: { src: "/work/cwh-bih-sbv-wahl.webp", alt: "CWH | BIH — Mockumentary zur SBV-Wahl" },
+    credits: [
+      { role: "Regie, Konzept und Beratung", name: "Marco Gromotka" },
+      { role: "Kamera", name: "Mohamed Bangura" },
+      { role: "Postproduktion", name: "Jennifer Lorej" },
+      { role: "Projektkoordination", name: "Marie Hill, Marco Gromotka" },
+    ],
+    // Reihenfolge ist Layout: Position 1 läuft über die volle Breite (16:9),
+    // 2 und 3 stehen im Case-Fenster nebeneinander (4:5). ⚠️ Das erste Bild ist
+    // deshalb schon als 16:9 abgelegt und **von oben** geschnitten — die Quelle
+    // ist 4:3, und der mittige Beschnitt des `wide`-Rahmens hat beiden Personen
+    // die Gesichter gekappt (geprüft).
+    gallery: [
+      { src: "/work/cwh-bih-sbv-wahl-gallery-1.webp", alt: "Mockumentary zur SBV-Wahl — Team am Set", ratio: "wide" },
+      { src: "/work/cwh-bih-sbv-wahl-gallery-2.webp", alt: "Mockumentary zur SBV-Wahl — Vorbereitung im Büro-Set", ratio: "tall" },
+      { src: "/work/cwh-bih-sbv-wahl-gallery-3.webp", alt: "Mockumentary zur SBV-Wahl — Szene auf dem Kameramonitor", ratio: "tall" },
+    ],
+  },
+  {
     slug: "flughafen-koeln-bonn",
     client: "Flughafen Köln Bonn",
     project: "Imagefilm",

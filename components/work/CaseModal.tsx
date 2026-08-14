@@ -209,22 +209,29 @@ export function CaseModal({ caseData, onClose }: CaseModalProps) {
               {/* 6 · Produktionsbilder (≤3, ratio-aware) */}
               {gallery.length > 0 && (
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                  {gallery.map((g, i) => (
-                    <div
-                      key={g.src}
-                      className={`relative overflow-hidden rounded-lg bg-white/5 ${
-                        RATIO_ASPECT[g.ratio] ?? "aspect-[4/3]"
-                      } ${gallery.length === 3 && i === 0 ? "sm:col-span-2" : ""}`}
-                    >
-                      <Image
-                        src={g.src}
-                        alt={g.alt || `${data.project} Still ${i + 1}`}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 640px) 100vw, 480px"
-                      />
-                    </div>
-                  ))}
+                  {gallery.map((g, i) => {
+                    // Bei drei Bildern läuft das erste über beide Spalten und
+                    // ist dann rund 860 px breit, nicht 480. Mit der schmalen
+                    // Angabe holte next/image die 480-px-Variante und zog sie
+                    // auf die doppelte Breite — auf 1x-Displays sichtbar weich.
+                    const full = gallery.length === 3 && i === 0;
+                    return (
+                      <div
+                        key={g.src}
+                        className={`relative overflow-hidden rounded-lg bg-white/5 ${
+                          RATIO_ASPECT[g.ratio] ?? "aspect-[4/3]"
+                        } ${full ? "sm:col-span-2" : ""}`}
+                      >
+                        <Image
+                          src={g.src}
+                          alt={g.alt || `${data.project} Still ${i + 1}`}
+                          fill
+                          className="object-cover"
+                          sizes={`(max-width: 640px) 100vw, ${full ? "864px" : "480px"}`}
+                        />
+                      </div>
+                    );
+                  })}
                 </div>
               )}
             </div>
