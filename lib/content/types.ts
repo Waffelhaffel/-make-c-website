@@ -215,6 +215,18 @@ export type CaseStudy = {
   poster?: LocalImage;
   /** Vimeo- oder YouTube-URL. Ohne Wert zeigt das Case-Fenster nur das Standbild. */
   video?: string;
+  /**
+   * Weitere Videos zum selben Case, unterhalb der Credits. `video` bleibt das
+   * Hauptvideo ganz oben — diese hier stehen darunter unter „Weitere Videos".
+   * Ohne `video` werden sie **nicht** gerendert (dann fehlt der Hauptfilm).
+   *
+   * ⚠️ `poster` gehört nach `public/work/` und **nicht** als externe URL: das
+   * Standbild lädt beim Öffnen des Case-Fensters, ein Thumbnail von ytimg.com
+   * würde also schon vor dem Play-Klick Daten an Google schicken und die
+   * Zwei-Klick-Lösung in `VideoFacade` aushebeln. Ohne `poster` steht dort ein
+   * schwarzer Rahmen mit Play-Kreis.
+   */
+  secondaryVideos?: { url: string; poster?: LocalImage }[];
   gallery?: CaseGalleryItem[];
 };
 

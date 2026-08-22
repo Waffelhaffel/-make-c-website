@@ -69,6 +69,7 @@ export function CaseModal({ caseData, onClose }: CaseModalProps) {
   const poster = data ? data.poster ?? data.image : null;
   const posterUrl = poster?.src ?? null;
   const videoUrl = data?.video ?? null;
+  const secondaryVideos = data?.secondaryVideos ?? [];
   const posterAlt = poster?.alt || `${data?.project ?? "make/c"} Video`;
   const services = data?.services ?? [];
   const credits = data?.credits ?? [];
@@ -137,12 +138,16 @@ export function CaseModal({ caseData, onClose }: CaseModalProps) {
               </div>
 
               {/* 2 · Video (Play nur wenn URL vorhanden; sonst Poster als Bild) */}
+              {/* ⚠️ Die Rundung sitzt am Rahmen in `VideoFacade`, nicht an einem
+                  Wrapper hier: die Facade rendert unter dem Rahmen den
+                  Datenschutz-Hinweis mit, den ein `overflow-hidden` mit
+                  einschließen würde. */}
               {(videoUrl || posterUrl) && (
-                <div className="mb-10 overflow-hidden rounded-lg">
+                <div className="mb-10">
                   {videoUrl ? (
                     <VideoFacade videoUrl={videoUrl} posterUrl={posterUrl} alt={posterAlt} />
                   ) : (
-                    <div className="relative aspect-video overflow-hidden border border-white/10 bg-black">
+                    <div className="relative aspect-video overflow-hidden rounded-lg border border-white/10 bg-black">
                       {posterUrl && (
                         <Image
                           src={posterUrl}
@@ -178,6 +183,27 @@ export function CaseModal({ caseData, onClose }: CaseModalProps) {
                 <p className="mb-12 whitespace-pre-line font-gotham font-light leading-[1.62] text-white/80 text-[19px]">
                   {data.summary}
                 </p>
+              )}
+
+              {/* 4b · Weitere Videos zum selben Case (z. B. Merkur: Imagefilm
+                  oben, ein Produktvideo hier). Ohne Hauptvideo bewusst nichts —
+                  dann fehlte oben der Film, zu dem diese hier die Ergänzung sind. */}
+              {videoUrl && secondaryVideos.length > 0 && (
+                <div className="mb-12">
+                  <p className="mb-4 font-gotham text-meta uppercase tracking-[0.18em] text-white/60">
+                    {secondaryVideos.length === 1 ? "Weiteres Video" : "Weitere Videos"}
+                  </p>
+                  <div className="flex flex-col gap-8">
+                    {secondaryVideos.map((v, i) => (
+                      <VideoFacade
+                        key={v.url}
+                        videoUrl={v.url}
+                        posterUrl={v.poster?.src ?? null}
+                        alt={v.poster?.alt || `${data.project} — Video ${i + 2}`}
+                      />
+                    ))}
+                  </div>
+                </div>
               )}
 
               {/* 5 · Credits (2 Spalten) */}

@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Swoosh } from "@/components/ui/Swoosh";
 import type { LandingHero } from "@/lib/content/types";
 
@@ -11,7 +11,45 @@ type HeroProps = {
 
 export function Hero({ data }: HeroProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const { scrollY } = useScroll();
+
+  // Das Hero-Video soll in **jedem** Browser laufen, sobald jemand die Seite
+  // öffnet (User-Entscheidung 22.08.2026) — es gibt hier bewusst keine
+  // `prefers-reduced-motion`-Abschaltung wie in `LazyVideo`.
+  //
+  // `autoPlay muted playsInline` trägt das fast überall, und die Autoplay-Sperre
+  // der Browser greift hier ohnehin nicht: die drei Videodateien haben **gar
+  // keine Tonspur** (`-an` in `scripts/build-header-video.mjs`), und stumme
+  // Wiedergabe ist immer erlaubt. Zwei Fälle blocken trotzdem — iOS im
+  // Stromsparmodus und Firefox mit strenger Medien-Einstellung. Für die läuft
+  // der Nachstart unten: die erste Eingabe des Besuchers startet das Video.
+  //
+  // ⚠️ Das hängt bewusst **nichts** vom JavaScript ab, was oberhalb des Falzes
+  // sichtbar wäre: das `<video>` samt `autoPlay` steht vollständig im
+  // ausgelieferten HTML, der Effekt hier ist reine Absicherung obendrauf.
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    // React setzt `muted` als Property, nicht als Attribut — vor dem Abspielen
+    // deshalb noch einmal hart setzen, sonst kann die Sperre doch greifen.
+    video.muted = true;
+
+    const events = ["pointerdown", "touchstart", "keydown", "scroll"] as const;
+    const cleanup = () => {
+      video.removeEventListener("canplay", start);
+      for (const event of events) window.removeEventListener(event, start);
+    };
+    function start() {
+      // Ein abgewiesenes play() wirft — dann bleibt es beim nächsten Ereignis.
+      video!.play().then(cleanup, () => {});
+    }
+
+    video.addEventListener("canplay", start);
+    for (const event of events) window.addEventListener(event, start, { passive: true });
+    start();
+    return cleanup;
+  }, []);
 
   const skewValue = useTransform(scrollY, [0, 1000], [0, -15]);
   const smoothSkew = useSpring(skewValue, { damping: 20, stiffness: 100 });
@@ -47,16 +85,27 @@ export function Hero({ data }: HeroProps) {
     <section ref={containerRef} className="relative">
       <div className="relative min-h-screen flex flex-col pt-[70px] pb-8 px-6 md:px-10 xl:px-[70px] justify-between overflow-hidden">
         <div className="absolute inset-0 z-0 overflow-hidden">
+          {/* Drei Fassungen desselben Videos, geladen wird genau eine: der Browser
+              nimmt die erste Quelle, die er abspielen kann. AV1 (Chrome, Edge,
+              Firefox) ist bei weniger Bytes besser als H.264, HEVC deckt Safari
+              ab, H.264 bleibt der Fallback für alles andere.
+              ⚠️ Die codecs=-Angaben müssen zu den Dateien passen — stimmt eine
+              nicht, überspringt der Browser die Quelle stillschweigend. Gebaut
+              und ausgegeben werden sie von scripts/build-header-video.mjs. */}
           <video
+            ref={videoRef}
             className="h-full w-full object-cover"
-            src="/header-video.mp4"
-            poster="/header-video-poster.jpg"
+            poster="/header-video-poster.webp"
             autoPlay
             muted
             loop
             playsInline
-            preload="metadata"
-          />
+            preload="auto"
+          >
+            <source src="/header-video-av1.mp4" type='video/mp4; codecs="av01.0.08M.08"' />
+            <source src="/header-video-hevc.mp4" type='video/mp4; codecs="hvc1.1.6.L120.B0"' />
+            <source src="/header-video.mp4" type='video/mp4; codecs="avc1.640028"' />
+          </video>
           <div className="pointer-events-none absolute inset-0 bg-black/30" />
         </div>
 

@@ -124,31 +124,44 @@ export const CASES: CaseStudy[] = [
   {
     slug: "flughafen-koeln-bonn",
     client: "Flughafen Köln Bonn",
-    project: "Imagefilm",
+    project: "Imagefilm „Tag und Nacht“",
+    // Veröffentlichung: Frühjahr 2026.
     year: "2026",
     category: "Video Produktion",
     categories: ["video-produktion"],
     kicker: "/ Case Study /",
     summary:
-      "Der Flughafen Köln Bonn ist mehr als ein Ort für Passagiere – durch seinen 24-Stunden-Betrieb ist er auch ein zentraler Knotenpunkt für die weltweite Luftfracht. Genau diese beiden Geschäftsfelder, Passagier- und Frachtverkehr, stehen im Mittelpunkt unseres Imagefilms.",
-    image: { src: "/work/flughafen-koeln-bonn.webp", alt: "Flughafen Köln Bonn — Imagefilm" },
+      "Der Flughafen Köln Bonn ist mehr als ein Ort für Passagiere – durch seinen 24-Stunden-Betrieb ist er auch ein zentraler Knotenpunkt für die weltweite Luftfracht. Genau diese beiden Geschäftsfelder, Passagier- und Frachtverkehr, stehen im Mittelpunkt unseres Imagefilms.\n\n" +
+      "Nach 2017 konnten wir uns auch im Pitch um den neuen Imagefilm 2025 durchsetzen. Im Nachgang haben wir den Flughafen umfassend beraten. Das Ergebnis: die Produktion von zwei Filmen für drei Zielgruppen. Der hier gezeigte Film ist die „informative Basis“ – für Kunden (Passagiere und Fracht) und Besucher des Flughafens. Ein weiterer Film zeigt in einer szenischen und emotionalen Umsetzung die Bedeutung des wichtigen Verkehrsknotenpunkts für die Region.\n\n" +
+      "In enger Abstimmung mit dem Flughafen haben wir ein Storyboard entwickelt und alle relevanten Stakeholder eingebunden. An mehr als zehn Drehtagen haben wir beide Bereiche (Passagier und Fracht) bei Tag und Nacht bildgewaltig in Szene gesetzt – auf der Landebahn, im Bauch einer Boeing 747 Cargo und in der Gepäck-Sortieranlage. Entstanden ist ein informativer Film, der bewusst auch nonverbal funktioniert und so vielseitig einsetzbar ist, etwa in POS-Installationen oder auf Messen.\n\n" +
+      "Ein Flughafen als Drehlocation stellt besondere Anforderungen an die Sicherheit. Drei Mitglieder unseres Teams haben dafür nicht nur eine Sicherheitsschulung durchlaufen, sondern eigens Führerscheine für den Flughafenbereich erworben, um während des Drehs maximal flexibel agieren zu können. Ebenfalls in Abstimmung mit dem Flughafen und der Deutschen Flugsicherung konnten wir zudem einen Drohneneinsatz im laufenden Passagierflugbetrieb realisieren.\n\n" +
+      "Zusätzlich haben wir für den Flughafen eine umfangreiche Auswahl an hochwertigen Aufnahmen vom allgemeinen Flughafengeschehen erstellt.",
+    // ⚠️ Kein Video: der User hat zu diesem Case keinen Link geliefert. Das
+    // Case-Fenster zeigt deshalb nur das Standbild, ohne Play-Button.
+    image: { src: "/work/flughafen-koeln-bonn.webp", alt: "Flughafen Köln Bonn — Imagefilm „Tag und Nacht“" },
     credits: [
+      { role: "Regie, Konzept und Beratung", name: "Mike Krack, Christian Wesner" },
+      { role: "Kamera", name: "Mohamed Bangura, Christian Wesner" },
       { role: "Postproduktion", name: "Christian Wesner" },
+      { role: "Projektkoordination", name: "Eric Nitschke, Mike Krack" },
       { role: "Konzept und Beratung", name: "Jens Kemper" },
     ],
   },
   {
     slug: "wundholding",
     client: "Thermengruppe Josef Wund",
-    project: "Imagespot und Erklärvideos",
+    project: "Imagespot und diverse Erklärvideos",
+    // Veröffentlichung: August 2025.
     year: "2025",
     category: "Video Produktion · Video Motion Design",
     categories: ["video-produktion", "video-motion-design"],
     kicker: "/ Case Study /",
     summary:
-      "Die Thermengruppe Josef Wund ist ein führender Anbieter von Wellness Einrichtungen in Deutschland.\n\nmake/c hat schon mehrere innovative Wellnessangebote für den Kunden in Bewegtbildprojekten festgehalten. Hier geht es um das immersive Erlebnis „Breathing Planet“ der Thermen & Badewelt Sinsheim. In dieser Anwendung verbinden sich Technologie, Kunst und Natur auf eindrucksvolle Weise – Entschleunigung garantiert!",
+      "Die Thermengruppe Josef Wund ist ein führender Anbieter von Wellness Einrichtungen in Deutschland.\n\n" +
+      "make/c hat schon mehrere innovative Wellnessangebote für den Kunden in Bewegtbildprojekten festgehalten. Hier geht es um das immersive Erlebnis „Breathing Planet“ der Thermen & Badewelt Sinsheim. In dieser Anwendung verbinden sich Technologie, Kunst und Natur auf eindrucksvolle Weise – Entschleunigung garantiert!\n\n" +
+      "Als Video Agentur haben wir hier eine umfassende Kreativ- und Beratungsleistung abgeliefert und einen komplexen Produktions- und Postproduktionsprozess intern durchgeführt.",
     video: "https://www.youtube.com/watch?v=AyIptBu0qG8",
-    image: { src: "/work/wundholding.webp", alt: "Thermengruppe Josef Wund — Imagespot und Erklärvideos" },
+    image: { src: "/work/wundholding.webp", alt: "Thermengruppe Josef Wund — Imagespot und diverse Erklärvideos" },
     credits: [
       { role: "Konzept & Regie", name: "Jason Philipp" },
       { role: "DOP", name: "Mohamed Bangura" },
@@ -158,14 +171,20 @@ export const CASES: CaseStudy[] = [
   {
     slug: "koelner-zoo",
     client: "Kölner Zoo",
-    project: "Kinospot und Social Media Spot",
+    project: "Kinospot und Social Media Spot „Dinosaurier in Köln“",
+    // Veröffentlichung: Mai 2025.
     year: "2025",
     category: "Video Produktion · Video AI",
     categories: ["video-produktion", "artificial-intelligence"],
     kicker: "/ Case Study /",
     summary:
-      "Die Dinos kommen wieder nach Köln – nach 65 Millionen Jahren… Doch auf Ihrem Weg in den Zoo, wo sie in einer Langzeitausstellung zu bewundern sind, müssen sie zuerst durch die Innenstadt…\n\nWas noch vor kurzer Zeit einen großen Aufwand im Bereich VFX und Motion Design nach sich gezogen hätte, geht dank modernster KI Technologie heute einfacher, schneller, günstiger und auch besser.",
-    image: { src: "/work/koelner-zoo.webp", alt: "Kölner Zoo — Kinospot und Social Media Spot" },
+      "Die Dinos kommen wieder nach Köln – nach 65 Millionen Jahren… Doch auf ihrem Weg in den Zoo, wo sie in einer Langzeitausstellung zu bewundern sind, müssen sie zuerst durch die Innenstadt…\n\n" +
+      "Was noch vor kurzer Zeit einen großen Aufwand im Bereich VFX und Motion Design nach sich gezogen hätte, geht dank modernster KI Technologie heute einfacher, schneller, günstiger und auch besser.\n\n" +
+      "Als langjährige Video Agentur und Partner des Kölner Zoos haben wir dieses Pionierprojekt von A-Z inhouse realisiert.",
+    // Aus der Projektinfo des Users: „(Hybrides KI-Videoprojekt)“.
+    services: ["Hybrides KI-Videoprojekt"],
+    video: "https://vimeo.com/1082112601",
+    image: { src: "/work/koelner-zoo.webp", alt: "Kölner Zoo — Kinospot und Social Media Spot „Dinosaurier in Köln“" },
     credits: [
       { role: "Konzept", name: "Christian Wesner" },
       { role: "DOP", name: "Mohamed Bangura" },
@@ -174,28 +193,44 @@ export const CASES: CaseStudy[] = [
   },
   {
     slug: "merkur",
-    client: "Merkur",
-    project: "Powerclip Campaign",
-    year: "2024",
+    client: "MERKUR",
+    project: "Imagefilm und 7 Produktvideos „aus einem Guss“",
+    // Veröffentlichung: Juni 2025 (stand vorher auf 2024).
+    year: "2025",
     category: "Video Produktion",
     categories: ["video-produktion"],
     kicker: "/ Case Study /",
     summary:
-      "Die MERKUR Gruppe erneuerte ihren gesamten Außenauftritt grundlegend – und Bewegtbild sollte dabei keine Nebenrolle spielen, sondern das Herzstück sein. Das haben wir wörtlich genommen: MERKUR wurde auch im Video optisch neu erfunden. Die zentrale Herausforderung: sieben optisch sehr unterschiedliche Geschäftsbereiche zu einer visuell kohärenten und gleichzeitig emotional mitreißenden Welt zusammenzuführen.",
+      "Die MERKUR Gruppe hat ihren Außenauftritt grundlegend erneuert. Dabei soll Bewegtbild eine wesentliche Rolle spielen. Das haben wir wörtlich genommen und MERKUR auch im Video optisch „neu erfunden“.\n\n" +
+      "Über ein Jahr hat die Vorbereitung gedauert, angefangen mit einem weißen Blatt Papier und der großen Frage: Wie kann man sieben auch optisch sehr unterschiedliche Geschäftsbereiche visuell attraktiv in Szene setzen? Die Lösung: wir haben einen sehr dynamischen kurzen und emotionalen Imagefilm entwickelt und daraus sieben weitere Produktvideos abgeleitet.\n\n" +
+      "Sie wurden alle im gleichen Studio aber mit unterschiedlichen Setups produziert und zwei Darsteller leiten durch alle Filme. Das Ergebnis ist ein optisches Powerplay und wurde der begeisterten Belegschaft unter anderem in einem Kino präsentiert.\n\n" +
+      "Als Video Agentur haben wir hier eine umfassende Kreativ- und Beratungsleistung abgeliefert und einen komplexen Produktions- und Postproduktionsprozess intern durchgeführt. Dazu gehörten auch KI gesteuerte Prozesse, aufwändige 3D Grafiken und ein professionelles Color Grading.",
     services: ["Creative Direction", "Konzept & Story", "Regie & Produktion", "Postproduktion", "Social Adaptions"],
-    image: { src: "/work/merkur.webp", alt: "Merkur — Powerclip Campaign" },
-    poster: { src: "/work/merkur-poster.webp", alt: "Merkur — Powerclip Campaign" },
+    video: "https://www.youtube.com/watch?v=-kbigMenDpM",
+    // Eines der sieben Produktvideos. Steht im Case-Fenster unter dem Text
+    // als „Weiteres Video“ — siehe `secondaryVideos` in ./types.ts.
+    secondaryVideos: [
+      {
+        url: "https://www.youtube.com/watch?v=jV5H2FSu5Mg",
+        // Standbild ist das YouTube-Thumbnail, aber **lokal** abgelegt — direkt
+        // von ytimg.com geladen ginge sonst schon beim Öffnen des Fensters eine
+        // Anfrage an Google raus.
+        poster: { src: "/work/merkur-video-2.webp", alt: "MERKUR — Produktvideo" },
+      },
+    ],
+    image: { src: "/work/merkur.webp", alt: "MERKUR — Imagefilm und 7 Produktvideos" },
+    poster: { src: "/work/merkur-poster.webp", alt: "MERKUR — Imagefilm und 7 Produktvideos" },
     credits: [
-      { role: "Regie, Konzept & Beratung", name: "Luis Fernandez" },
-      { role: "Director of Photography", name: "Mohamed Bangura" },
-      { role: "Konzept, Kamera & Post Production", name: "Christian Wesner" },
+      { role: "Regie, Konzept und Beratung", name: "Luis Fernandez" },
+      { role: "Konzept, Beratung, Kamera und Postproduktion", name: "Christian Wesner" },
+      { role: "DOP", name: "Mohamed Bangura" },
       { role: "Projektkoordination", name: "Eric Nitschke" },
-      { role: "Konzept & Beratung", name: "Jens Kemper" },
+      { role: "Konzept und Beratung", name: "Jens Kemper" },
     ],
     gallery: [
-      { src: "/work/merkur-gallery-1.webp", alt: "Merkur Powerclip — Behind the Scenes", ratio: "wide" },
-      { src: "/work/merkur-gallery-2.webp", alt: "Merkur Powerclip — Produktion", ratio: "wide" },
-      { src: "/work/merkur-gallery-3.webp", alt: "Merkur Powerclip — Portrait", ratio: "tall" },
+      { src: "/work/merkur-gallery-1.webp", alt: "MERKUR — Behind the Scenes", ratio: "wide" },
+      { src: "/work/merkur-gallery-2.webp", alt: "MERKUR — Produktion", ratio: "wide" },
+      { src: "/work/merkur-gallery-3.webp", alt: "MERKUR — Portrait", ratio: "tall" },
     ],
   },
   {

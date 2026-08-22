@@ -130,8 +130,15 @@ export function WorkGrid({ caseStudies }: WorkGridProps) {
                   auf 320 px ist die Textspalte nur 96 px breit, „Bundesgartenschau"
                   misst dort 141 px und kann als ein Wort nicht umbrechen. Ohne
                   Trennung stünde es über der Nachbarkachel. Ab sm ist die Spalte
-                  breit genug, dann trennt der Browser von sich aus nichts. */}
-              <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5 hyphens-auto">
+                  breit genug, dann trennt der Browser von sich aus nichts.
+                  ⚠️ Dazu `hyphenate-limit-chars: 10 4 4` (22.08.2026): das
+                  `lang="de"` legt **deutsche** Trennregeln auch über englische
+                  Wörter, und die kurzen trifft es am härtesten — „Social Media
+                  Spot" brach als „SOCI-AL". Mit der Untergrenze von zehn Zeichen
+                  bleiben kurze Wörter ganz, „Bundesgartenschau" (17) wird
+                  weiterhin getrennt. Wo die Eigenschaft fehlt (ältere Firefox),
+                  gilt schlicht das bisherige Verhalten. */}
+              <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5 hyphens-auto [hyphenate-limit-chars:10_4_4]">
                 <p className="font-gotham text-[10px] text-white/70 uppercase tracking-widest mb-1">
                   {item.client} · {item.year}
                 </p>

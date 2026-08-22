@@ -1,10 +1,169 @@
-# Handover — Landingpage-Umbau, 30.07.2026
+# Handover — make/c Website
 
-Übergabe an die nächste Session. **Alles ist uncommitted.** Basis-Commit: `b890bf9`.
+Übergabe an die nächste Session. Die dauerhaften Regeln und Fallstricke stehen in
+`CLAUDE.md` — das ist die Quelle der Wahrheit; das Änderungsprotokoll in
+`docs/CHANGELOG.md`. Dieses Dokument beschreibt nur den **Zustand der jeweiligen
+Übergabe**: was gemacht wurde, was verifiziert ist, was noch offen ist.
 
-Die dauerhaften Regeln und Fallstricke stehen in `CLAUDE.md` — das ist aktualisiert und
-die Quelle der Wahrheit. Dieses Dokument beschreibt nur den **Zustand dieser Übergabe**:
-was gemacht wurde, was verifiziert ist, was noch offen ist.
+⚠️ **Der Stand vom 22.08.2026 ist committet und gepusht** — Vercel hat also deployt.
+Die Abschnitte darunter sind chronologisch gewachsen und tragen teils doppelte Nummern
+(zweimal „0", zweimal „0a"); die Datumsangabe in der Überschrift ist verlässlicher als
+die Nummer. Die Zeile „Alles ist uncommitted", die hier bis zum 22.08.2026 stand, galt
+für die Übergabe vom 30.07.2026 und ist überholt.
+
+---
+
+## Nachtrag: Hero-Video, Case-Inhalte, neue Datenschutzerklärung (22.08.2026)
+
+Vier Aufträge des Users in einer Sitzung. Alles committet und gepusht — **Vercel deployt
+bei jedem Push auf `main`**, der Stand ist also live. Indexiert wird er nicht:
+`NEXT_PUBLIC_SEO_INDEX` ist weiterhin aus, die Seite antwortet mit `noindex` und
+`Disallow: /`.
+
+### 1 · Neues Hero-Video, in drei Codecs
+
+Der User hat `Makec_Web_Header.mp4` geliefert (1920×1080, 21,24 s, 6,1 MB, mit Tonspur).
+Es ersetzt das alte `header-video.mp4` (1600×900, 2,75 MB).
+
+Ausgeliefert werden **drei Fassungen, geladen wird genau eine** — der Browser nimmt die
+erste `<source>`, deren `type` er kennt:
+
+| Datei | Auflösung | Größe | Wer |
+|---|---|---|---|
+| `header-video-av1.mp4` | 1920×1080 | 2,20 MB | Chrome, Edge, Firefox |
+| `header-video-hevc.mp4` | 1920×1080 | 2,45 MB | Safari (macOS/iOS) |
+| `header-video.mp4` (H.264) | 1600×900 | 2,73 MB | universeller Fallback |
+
+Gebaut von **`scripts/build-header-video.mjs`** aus `assets/masters/header/` (gitignored).
+Das Skript gibt die `codecs=`-Strings aus, die wörtlich nach `Hero.tsx` gehören.
+
+**Warum nicht CRF wie bei den Loops:** die Lieferdatei ist bereits ein Web-Encode
+(2,4 Mbit/s). Ein CRF-Lauf konserviert deren Artefakte mit und wird **größer als die
+Quelle** — `-crf 26` bei 1920 ergab 7,1 MB aus 6,1 MB. Für H.264 steht deshalb eine
+2-Pass-Zielbitrate im Skript. Neun Kandidaten wurden per SSIM/PSNR gegen eine verlustarme
+Fassung gemessen, alle auf 1920 hochskaliert (das Video läuft bildfüllend):
+H.264 1600 @1100k = 0,9768 · HEVC 1920 crf34 = 0,9811 · **AV1 1920 crf47 = 0,9829 bei
+867 kbit/s**. AV1 liefert bei weniger Bytes die bessere Qualität. VP9 lag pro Byte etwa
+auf H.264-Niveau und ist deshalb nicht dabei.
+
+Tonspur raus (`-an`, die Quelle trug 317 kbit/s AAC), `+faststart` bei allen dreien,
+Poster neu aus dem ersten Bild: `header-video-poster.jpg` (46 kB) → `-poster.webp` (21 kB).
+
+**Seitengewicht der Startseite:** 3,49 → **2,91 MB** auf dem AV1-Pfad (echter Transfer über
+`encodedDataLength`), 3,17 MB via HEVC, 3,44 MB via H.264. Kein Browser bekommt mehr als
+vorher.
+
+### 2 · Autoplay-Konflikt aufgelöst (User-Entscheidung)
+
+**Das Hero-Video spielt in jedem Browser, sobald jemand die Seite öffnet.** Es bekommt
+bewusst **kein** `prefers-reduced-motion`-Gate — das ginge nur nach der Hydration und wäre
+genau der `initial={{opacity:0}}`-Fallstrick aus `CLAUDE.md`. Stattdessen steht in
+`Hero.tsx` ein Nachstarter: ein Effekt setzt `video.muted = true`, ruft `play()` und hängt
+sich bei Abweisung an `canplay` und an die erste Eingabe des Besuchers (iOS-Stromsparmodus,
+strenge Firefox-Einstellung). `preload` von `metadata` auf `auto`.
+
+Gemessen in **Chrome und WebKit**, je mit und ohne `prefers-reduced-motion`: spielt in
+allen vier Fällen (`paused: false`, `currentTime` > 3 s).
+
+### 3 · Vier Case-Inhalte vom User eingepflegt
+
+`flughafen-koeln-bonn` (5 Absätze, Projekt „Tag und Nacht", 5 Credits — **ohne Videolink**,
+den hat der User nicht geliefert) · `wundholding` (3 Absätze) · `koelner-zoo` (3 Absätze,
+Vimeo-Link, Tag „Hybrides KI-Videoprojekt") · `merkur` (4 Absätze, Credits neu, **Jahr
+2024 → 2025**, Kunde `Merkur` → `MERKUR`, zwei YouTube-Links).
+
+Neu im Typ: **`secondaryVideos?: { url, poster? }[]`** — weitere Videos je Case, gerendert
+unter „Weitere Videos" zwischen Text und Credits. In Gebrauch bei `merkur`.
+⚠️ Das `poster` gehört nach `public/work/`; ein Thumbnail direkt von `img.youtube.com`
+würde schon beim Öffnen des Fensters Daten an Google schicken.
+
+Sechs offensichtliche Tippfehler in der gelieferten Copy wurden korrigiert (u. a. „ein
+umfassende" → „eine umfassende", „auf Ihrem Weg" → „auf ihrem Weg", „Bewegbild" →
+„Bewegtbild") — dem User gemeldet.
+
+Nebenbei: `hyphenate-limit-chars: 10 4 4` auf den `/work`-Kacheln. Das `lang="de"` legte
+deutsche Trennregeln über englische Wörter, „Social Media Spot" brach auf Mobil als
+„SOCI-AL".
+
+### 4 · Zwei-Klick-Lösung und neue Datenschutzerklärung
+
+⚠️ **Juristisch nicht geprüft. Das gehört gegengelesen.**
+
+**Unter jedem Play-Button** steht jetzt ein sichtbarer Hinweis auf die Datenübertragung
+samt Link auf `/datenschutz` (User-Vorgabe). Der Anbietername kommt aus der URL. Dazu läuft
+YouTube über `youtube-nocookie.com` und Vimeo mit `dnt=1`. **Der Hinweis ist die Grundlage
+der Einwilligung, nicht Dekoration** — wer ihn entfernt, nimmt der Zwei-Klick-Lösung ihren
+Sinn.
+
+**Die Datenschutzerklärung ist komplett neu** (`lib/content/legal.ts`, 20 Abschnitte). Die
+Fassung von Dezember 2025 kannte weder die eingebetteten Videos noch eine
+Reichweitenmessung. Zuerst gemessen, dann geschrieben — am Production-Build über alle zehn
+Routen, inklusive Scrollen bis zum Seitenende:
+
+> **0 fremde Hosts · 0 Cookies · localStorage und sessionStorage leer · vier Schriftdateien,
+> alle vier von der eigenen Domain**
+
+Damit ist auch die Frage des Users beantwortet: **Google Fonts werden nicht geladen.**
+`next/font/google` holt Montserrat und EB Garamond zur Build-Zeit und legt sie unter
+`/_next/static/media/` ab.
+
+**Kein Cookie-Banner nötig** (Abschnitt 5 begründet es): § 25 TDDDG verlangt eine
+Einwilligung nur für Zugriff auf das Endgerät, und der findet nicht statt. Das gilt, solange
+drei Bedingungen halten — PostHog wirklich cookiefrei, Videos bei der Zwei-Klick-Lösung,
+nichts Neues von fremden Servern.
+
+Der Datenschutztext wird jetzt über **Bauhelfer** (`h2`/`h3`/`p`/`li`) geschrieben statt als
+rohes Portable Text; als Blockliteral wären es rund 2.500 Zeilen und der Rechtstext nicht
+mehr prüfbar. Das Impressum darüber bleibt unverändert roh.
+
+🔴 **Offen an der Datenschutzerklärung:**
+- **PostHog ist noch nicht eingebaut.** Abschnitt 6 beschreibt den geplanten Zustand. Er ist
+  nur richtig mit `persistence: "memory"`, `person_profiles: "never"` und der EU-Instanz.
+  Kommt PostHog nicht, muss der Abschnitt raus — ein ⚠️-Kommentar steht im Code darüber.
+- **AVV müssen tatsächlich bestehen** (Vercel läuft über deren AGB, PostHog aktiv abschließen).
+- **Datenschutzbeauftragter** ist nicht genannt, weil unbekannt. Falls es einen gibt, muss er rein.
+- **Speicherdauer der Server-Protokolle** ist bewusst ohne Zahl formuliert — die hängt vom
+  Vercel-Tarif ab und war nicht belegbar. Sobald sie feststeht, gehört sie in Abschnitt 15.
+
+⚠️ **`Showreel.tsx` kann Vimeo/YouTube einbetten — ohne Hinweis, ohne `nocookie`, ohne
+`dnt`.** Aktuell steht in `LANDING.showreel.videoUrl` die lokale `/showreel.mp4`, es geht
+also nichts nach außen. Trägt dort jemand eine Vimeo-URL ein, stimmt Abschnitt 7 der
+Datenschutzerklärung nicht mehr. Vorher die Anbieter-Logik aus `VideoFacade` nachziehen.
+
+### 5 · Stand der Case-Inhalte
+
+Alle 31 Referenzen wurden maschinell aus `lib/content/cases.ts` ausgewertet. **2 sind
+inhaltlich fertig** (`cwh-bih-sbv-wahl`, `merkur`):
+
+- **16 ohne Videolink**, **26 ohne Credits**, **27 ohne Leistungs-Tags**
+- **3 mit sichtbarem Platzhaltertext** (`telekom`, `fom-studio`, `barmenia-gothaer`) — alle
+  drei auch als Kachel auf der Startseite verlinkt, Jahr 2026 ungeprüft. 🔴 Vor Go-Live weg.
+- **23 Texte sind „Import, ungeprüft"** — maschinell von der alten Portfolio-Seite übernommen
+  und nie redigiert. Nur fünf Texte sind bewusst geschrieben.
+
+Die vollständige Liste nach Dringlichkeit liegt als Artefakt beim User:
+`https://claude.ai/code/artifact/584daaf3-2b3c-4d09-98a2-24de80a49701` (Stand 22.08.2026).
+⚠️ Das ist eine Momentaufnahme — das Auswertungsskript lag nur in `/tmp` und ist **nicht**
+im Repo. Wenn die Zahlen regelmäßig gebraucht werden, gehört es als `scripts/check-cases.mjs`
+dazu; der User hat es bisher nicht angefordert.
+
+### Verifikationsstand dieser Übergabe
+
+`npx tsc --noEmit` grün · `npm run lint` grün · `npm run build` grün · **55/55 e2e** grün.
+
+Im echten Browser gegen den Production-Server nachgemessen (Playwright + System-Chrome,
+Muster in `CLAUDE.md`):
+
+- Hero: `currentSrc` = `/header-video-av1.mp4`, **eine einzige Videoanfrage** statt drei,
+  1920×1080, spielt — auf 1440×900 und 390×844, in Chrome und WebKit, mit und ohne
+  reduced-motion.
+- Alle drei `canPlayType`-Strings liefern `probably`, auch in WebKit; jede der drei Dateien
+  spielt einzeln. Für HEVC zusätzlich über `qlmanage` bestätigt, dass **AVFoundation** sie
+  dekodiert — dieselbe Medienschicht wie Safari.
+- Case-Fenster: **0** Anfragen an youtube/ytimg/google/vimeo vor dem Play-Klick; danach lädt
+  der iframe von `youtube-nocookie.com` bzw. `player.vimeo.com` mit `dnt=1`.
+- `/datenschutz`: alle 20 Abschnitte und alle sechs Links im ausgelieferten HTML.
+- Kacheltexte laufen bei 320 px und 390 px nirgends über ihre Kachel hinaus (Range-Rects).
 
 ---
 

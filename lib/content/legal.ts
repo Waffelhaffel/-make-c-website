@@ -338,736 +338,381 @@ export const IMPRESSUM: LegalPageContent = {
   ],
 };
 
-// Datenschutzerklärung. `effectiveDate` erscheint als „Stand: …" unter dem Text.
+// ── Datenschutzerklärung ────────────────────────────────────────────────────
+//
+// Neu geschrieben am 22.08.2026. Die Fassung davor (Stand Dezember 2025) kannte
+// weder die eingebetteten Videos noch die Reichweitenmessung und beschrieb damit
+// nicht mehr, was auf der Seite passiert. Wer sie braucht: `git show` auf den
+// Stand vom 22.08.2026.
+//
+// ⚠️ **Juristisch nicht geprüft.** Der Text beschreibt exakt das, was die Seite
+// technisch tut (nachgemessen, siehe unten) — die rechtliche Bewertung gehört
+// trotzdem gegengelesen.
+//
+// Nachgemessen am Production-Build über alle zehn Routen, inklusive Scrollen bis
+// zum Seitenende (Playwright + System-Chrome, siehe CLAUDE.md):
+//   • fremde Hosts: **keine**
+//   • Cookies: **keine** · localStorage: leer · sessionStorage: leer
+//   • Schriften: vier `.woff2` von der **eigenen** Domain, keine von Google
+// Wer an der Seite etwas ändert, das eine dieser drei Zeilen umwirft, muss diese
+// Erklärung mitändern. Die Messung lässt sich mit `/tmp/pw/audit-extern.mjs`
+// wiederholen — das Muster steht in CLAUDE.md unter „Visuelle Prüfung / Messen“.
+//
+// Warum Bauhelfer statt roher Portable-Text-Blöcke wie beim Impressum darüber:
+// der Text ist rund viermal so lang. Als Blockliteral wäre er nicht mehr lesbar
+// und damit auch nicht mehr prüfbar. Die Helfer erzeugen genau dieselbe Struktur,
+// die `PortableTextRenderer` ohnehin erwartet (normal/h2/h3, Listen, Links).
+
+/** Ein Textstück: nackter String, oder mit Link und/oder Fettung. */
+type Teil = string | { text: string; href?: string; stark?: boolean };
+
+let lfd = 0;
+const kk = () => `ds-${(++lfd).toString().padStart(3, "0")}`;
+
+function kinder(teile: Teil[]) {
+  const children: PortableTextBlock["children"] = [];
+  const markDefs: { _key: string; _type: string; href: string }[] = [];
+  for (const teil of teile) {
+    if (typeof teil === "string") {
+      children.push({ _key: kk(), _type: "span", marks: [], text: teil });
+      continue;
+    }
+    const marks: string[] = [];
+    if (teil.stark) marks.push("strong");
+    if (teil.href) {
+      const linkKey = kk();
+      markDefs.push({ _key: linkKey, _type: "link", href: teil.href });
+      marks.push(linkKey);
+    }
+    children.push({ _key: kk(), _type: "span", marks, text: teil.text });
+  }
+  return { children, markDefs };
+}
+
+const bl = (
+  style: string,
+  teile: Teil[],
+  extra: Record<string, unknown> = {},
+): PortableTextBlock => ({
+  _key: kk(),
+  _type: "block",
+  style,
+  ...kinder(teile),
+  ...extra,
+});
+
+/** Abschnittsüberschrift („1. Verantwortlicher“). */
+const h2 = (text: string) => bl("h2", [text]);
+/** Zwischenüberschrift innerhalb eines Abschnitts. */
+const h3 = (text: string) => bl("h3", [text]);
+/** Absatz. */
+const p = (...teile: Teil[]) => bl("normal", teile);
+/** Aufzählungspunkt. */
+const li = (...teile: Teil[]) => bl("normal", teile, { level: 1, listItem: "bullet" });
+
 export const DATENSCHUTZ: LegalPageContent = {
   title: "Datenschutz",
-  effectiveDate: "Dezember 2025",
+  effectiveDate: "22. August 2026",
   body: [
-    {
-      "_key": "905c90f6-52a5-46e6-bdc0-c1a1db57a9d3",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "262bb025-5e04-4865-83f5-7311b40d76da",
-          "_type": "span",
-          "marks": [],
-          "text": "1. Verantwortlicher"
-        }
-      ],
-      "markDefs": [],
-      "style": "h2"
-    },
-    {
-      "_key": "a0d83cf2-cf9c-4acc-8dc3-bd9ef772c77a",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "e1660d6f-816d-4a89-b117-b801ca80c3b4",
-          "_type": "span",
-          "marks": [
-            "strong"
-          ],
-          "text": "make/c video content marketing GmbH"
-        }
-      ],
-      "markDefs": [],
-      "style": "normal"
-    },
-    {
-      "_key": "f10b0f3d-6ea7-4531-8d17-6dbdaa6f352b",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "eff48f85-6139-40e1-8326-130378f3f5fc",
-          "_type": "span",
-          "marks": [],
-          "text": "Sigsfeldstraße 5"
-        }
-      ],
-      "markDefs": [],
-      "style": "normal"
-    },
-    {
-      "_key": "5e24a565-634a-496e-8699-50fb88cb88e4",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "9d2fe872-a23c-4df6-b4f0-d1c444e982e9",
-          "_type": "span",
-          "marks": [],
-          "text": "45141 Essen"
-        }
-      ],
-      "markDefs": [],
-      "style": "normal"
-    },
-    {
-      "_key": "dd0d4763-74ce-44b0-822d-6576844796e8",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "e01a6356-5d39-450d-b860-fcb635c65eb3",
-          "_type": "span",
-          "marks": [],
-          "text": "E-Mail: "
-        },
-        {
-          "_key": "83b5c8cd-c451-47bf-99f0-83f5425e0306",
-          "_type": "span",
-          "marks": [
-            "d6bd720f-bc18-45f1-b947-efbcd4f88e6c"
-          ],
-          "text": "datenschutz@make-c.de"
-        }
-      ],
-      "markDefs": [
-        {
-          "_key": "d6bd720f-bc18-45f1-b947-efbcd4f88e6c",
-          "_type": "link",
-          "href": "mailto:datenschutz@make-c.de"
-        }
-      ],
-      "style": "normal"
-    },
-    {
-      "_key": "20324171-cf59-47a5-810b-edcd5c15d7bc",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "7a49c187-14d2-4a51-8010-74a7835df867",
-          "_type": "span",
-          "marks": [],
-          "text": "2. Allgemeine Hinweise zur Datenverarbeitung"
-        }
-      ],
-      "markDefs": [],
-      "style": "h2"
-    },
-    {
-      "_key": "85736288-7037-4768-838e-6ac3c6c3ffd1",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "3e414d29-4182-4c26-8631-5ec2bb5c2472",
-          "_type": "span",
-          "marks": [],
-          "text": "Der Schutz Ihrer persönlichen Daten ist uns ein besonderes Anliegen. Wir verarbeiten Ihre personenbezogenen Daten ausschließlich auf Grundlage der geltenden gesetzlichen Bestimmungen, insbesondere der Datenschutz-Grundverordnung (DSGVO)."
-        }
-      ],
-      "markDefs": [],
-      "style": "normal"
-    },
-    {
-      "_key": "8723168b-5e14-4d51-834e-3f96303b9163",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "e3e77457-34e5-49b0-ba9a-a78ad94d1a33",
-          "_type": "span",
-          "marks": [
-            "strong"
-          ],
-          "text": "Diese Website dient derzeit Informations- und Entwicklungszwecken. Es findet kein Tracking, keine Analyse und keine werbliche Auswertung des Nutzerverhaltens statt."
-        }
-      ],
-      "markDefs": [],
-      "style": "normal"
-    },
-    {
-      "_key": "36a8a684-814a-4562-a2c5-6fd383ca60e2",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "5199a8a1-7e2d-46d8-ad86-54aa59c8c5ac",
-          "_type": "span",
-          "marks": [],
-          "text": "3. Hosting über Vercel"
-        }
-      ],
-      "markDefs": [],
-      "style": "h2"
-    },
-    {
-      "_key": "e267d4fe-8574-4a70-8dd8-d915884e0b23",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "02540ea4-6fe3-4e2a-a9e9-bf0551e704b9",
-          "_type": "span",
-          "marks": [],
-          "text": "Diese Website wird bei Vercel Inc. gehostet."
-        }
-      ],
-      "markDefs": [],
-      "style": "normal"
-    },
-    {
-      "_key": "48095473-fbe6-4ced-8cf2-e35c764fa6e1",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "6863df7f-9543-4715-a95c-3f42e30a18e5",
-          "_type": "span",
-          "marks": [],
-          "text": "Beim Aufruf der Website verarbeitet Vercel personenbezogene Daten, insbesondere sogenannte Server-Logfiles. Diese Daten sind technisch erforderlich, um die Website bereitzustellen und sicher zu betreiben."
-        }
-      ],
-      "markDefs": [],
-      "style": "normal"
-    },
-    {
-      "_key": "27cd39e4-686f-46df-b233-dbbf12a75a42",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "fc95026d-2ca0-4b28-8354-1df6de6e5ec4",
-          "_type": "span",
-          "marks": [],
-          "text": "Verarbeitete Daten können insbesondere sein:"
-        }
-      ],
-      "markDefs": [],
-      "style": "normal"
-    },
-    {
-      "_key": "69a299e6-9ec3-4609-bf21-43230593a35d",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "d703a504-a705-4b10-9151-57881c1cffb0",
-          "_type": "span",
-          "marks": [],
-          "text": "IP-Adresse"
-        }
-      ],
-      "level": 1,
-      "listItem": "bullet",
-      "markDefs": [],
-      "style": "normal"
-    },
-    {
-      "_key": "9d505ccf-bbf9-410d-9056-6e1bbccb0ea3",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "f982a76f-da7b-46b8-bbfe-7dfa25220394",
-          "_type": "span",
-          "marks": [],
-          "text": "Datum und Uhrzeit der Anfrage"
-        }
-      ],
-      "level": 1,
-      "listItem": "bullet",
-      "markDefs": [],
-      "style": "normal"
-    },
-    {
-      "_key": "8fe04810-9b95-40a5-9781-5718820392ea",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "de5fbe6e-3239-483a-8031-96c61b3df5de",
-          "_type": "span",
-          "marks": [],
-          "text": "aufgerufene URL"
-        }
-      ],
-      "level": 1,
-      "listItem": "bullet",
-      "markDefs": [],
-      "style": "normal"
-    },
-    {
-      "_key": "48f58bd4-4b4c-4744-ae44-123a815c66e1",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "16aba740-8aae-4aa2-9914-c032bfa2682b",
-          "_type": "span",
-          "marks": [],
-          "text": "Referrer-URL"
-        }
-      ],
-      "level": 1,
-      "listItem": "bullet",
-      "markDefs": [],
-      "style": "normal"
-    },
-    {
-      "_key": "3e431b04-a65a-4094-9ccc-e8eeb318bbe2",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "8bde652c-775b-41f7-a00d-3c6ab5e0cefc",
-          "_type": "span",
-          "marks": [],
-          "text": "Browsertyp und -version"
-        }
-      ],
-      "level": 1,
-      "listItem": "bullet",
-      "markDefs": [],
-      "style": "normal"
-    },
-    {
-      "_key": "eed25ea1-2e6b-4641-82b9-1b2d60466d16",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "b0a8ed05-e593-4046-88fa-667d29a27bd4",
-          "_type": "span",
-          "marks": [],
-          "text": "Betriebssystem"
-        }
-      ],
-      "level": 1,
-      "listItem": "bullet",
-      "markDefs": [],
-      "style": "normal"
-    },
-    {
-      "_key": "e2762482-1b39-40be-8e43-6a303349f663",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "52966d9a-3456-4ed4-bac8-4f0b7127d405",
-          "_type": "span",
-          "marks": [],
-          "text": "Zweck der Verarbeitung"
-        }
-      ],
-      "markDefs": [],
-      "style": "h3"
-    },
-    {
-      "_key": "eb032f03-d03f-4c5b-b8d3-b5a10629954e",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "7caecc36-b51e-455c-a7ff-005df0b7e37e",
-          "_type": "span",
-          "marks": [],
-          "text": "Auslieferung und Darstellung der Website"
-        }
-      ],
-      "level": 1,
-      "listItem": "bullet",
-      "markDefs": [],
-      "style": "normal"
-    },
-    {
-      "_key": "ecb053e8-ab9c-490e-ba50-adba434c0de7",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "be8160a7-fbd3-4b52-9ea2-32074dbef1e3",
-          "_type": "span",
-          "marks": [],
-          "text": "Gewährleistung von Stabilität und Sicherheit"
-        }
-      ],
-      "level": 1,
-      "listItem": "bullet",
-      "markDefs": [],
-      "style": "normal"
-    },
-    {
-      "_key": "e0c67173-9ca2-4631-a414-9246929398bf",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "5c21fa59-1bb6-4e39-8e7a-c2257e2fc014",
-          "_type": "span",
-          "marks": [],
-          "text": "Schutz vor Missbrauch und Angriffen"
-        }
-      ],
-      "level": 1,
-      "listItem": "bullet",
-      "markDefs": [],
-      "style": "normal"
-    },
-    {
-      "_key": "3c040b02-d80f-4b75-8da0-e53316a5a877",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "aaf922f8-fb6e-4e6a-b0e2-cce8413c90c1",
-          "_type": "span",
-          "marks": [],
-          "text": "Rechtsgrundlage"
-        }
-      ],
-      "markDefs": [],
-      "style": "h3"
-    },
-    {
-      "_key": "2f52bbcb-41a9-473c-971c-93d6a42474bc",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "ddb83178-2e8a-43e2-98cf-27c154481a14",
-          "_type": "span",
-          "marks": [],
-          "text": "Die Verarbeitung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einem sicheren und funktionsfähigen Betrieb der Website)."
-        }
-      ],
-      "markDefs": [],
-      "style": "normal"
-    },
-    {
-      "_key": "ed95cb77-5dcf-46f3-80c6-cf8f947d9e20",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "5b498a3c-a9fa-49c8-a766-7dffae3b2831",
-          "_type": "span",
-          "marks": [],
-          "text": "Datenübermittlung in Drittländer"
-        }
-      ],
-      "markDefs": [],
-      "style": "h3"
-    },
-    {
-      "_key": "1e61292b-4f46-4ac7-a49e-16ab1c14ab18",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "5864c0c5-4a1e-448a-8c21-0a451bffe97b",
-          "_type": "span",
-          "marks": [],
-          "text": "Vercel verarbeitet Daten unter anderem auch in den USA. Die Übermittlung erfolgt auf Grundlage der von der EU-Kommission genehmigten Standardvertragsklauseln (SCCs) gemäß Art. 46 DSGVO."
-        }
-      ],
-      "markDefs": [],
-      "style": "normal"
-    },
-    {
-      "_key": "01da641b-0e77-448f-aa14-e1c04ae94005",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "9fc22db0-d236-4b9c-9b45-9d17db87f854",
-          "_type": "span",
-          "marks": [],
-          "text": "4. Cookies"
-        }
-      ],
-      "markDefs": [],
-      "style": "h2"
-    },
-    {
-      "_key": "c77a005b-58ff-404a-9e3f-4ad242ced08a",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "5bb43db4-b1de-4971-889e-0b6121de0f21",
-          "_type": "span",
-          "marks": [],
-          "text": "Diese Website verwendet keine Cookies, die eine Einwilligung erfordern."
-        }
-      ],
-      "markDefs": [],
-      "style": "normal"
-    },
-    {
-      "_key": "bfcbe5d2-af89-44cb-867d-6ae2152b56ce",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "cd02d516-245b-495a-a0d4-5c3d6a0f12ad",
-          "_type": "span",
-          "marks": [
-            "strong"
-          ],
-          "text": "Es werden keine Tracking-, Analyse- oder Marketing-Cookies eingesetzt."
-        }
-      ],
-      "markDefs": [],
-      "style": "normal"
-    },
-    {
-      "_key": "967cac65-a0d4-4d0f-b426-cceff8c8034e",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "65d0adcf-fdd1-4887-8b86-a2525e3a9290",
-          "_type": "span",
-          "marks": [],
-          "text": "Lediglich technisch notwendige Verarbeitungen im Rahmen des Hostings (z. B. Server-Logs) finden statt. Ein Cookie-Banner ist daher nicht erforderlich."
-        }
-      ],
-      "markDefs": [],
-      "style": "normal"
-    },
-    {
-      "_key": "a5983b5b-67c7-495a-8922-fa4d0b97069e",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "fa97807f-7144-488f-b3bc-753f1094eb33",
-          "_type": "span",
-          "marks": [],
-          "text": "5. Kontaktaufnahme"
-        }
-      ],
-      "markDefs": [],
-      "style": "h2"
-    },
-    {
-      "_key": "f42c29d9-759b-4735-b628-630aed4354fd",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "8d38091f-f6f5-4643-98de-64b1fa2f9bf8",
-          "_type": "span",
-          "marks": [],
-          "text": "Wenn Sie uns per E-Mail kontaktieren, werden die von Ihnen übermittelten personenbezogenen Daten (z. B. E-Mail-Adresse, Inhalt der Nachricht) ausschließlich zum Zweck der Bearbeitung Ihrer Anfrage verarbeitet."
-        }
-      ],
-      "markDefs": [],
-      "style": "normal"
-    },
-    {
-      "_key": "1a7366d7-ea08-4c43-880d-8074f27d3fb1",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "2d0362a1-05a7-4bb6-b112-ac25b368ff28",
-          "_type": "span",
-          "marks": [],
-          "text": "Rechtsgrundlage"
-        }
-      ],
-      "markDefs": [],
-      "style": "h3"
-    },
-    {
-      "_key": "788fd172-d465-4e1d-a71b-2059a5071ad6",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "9b9c9492-b059-4789-ab1c-53a11bb839f7",
-          "_type": "span",
-          "marks": [],
-          "text": "Art. 6 Abs. 1 lit. b DSGVO (vorvertragliche Maßnahmen) oder Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Kommunikation)"
-        }
-      ],
-      "markDefs": [],
-      "style": "normal"
-    },
-    {
-      "_key": "d8d769b4-2027-4ec5-8000-1b439447410f",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "a3adfd77-81cd-40ef-b630-9cda00a5dcfc",
-          "_type": "span",
-          "marks": [],
-          "text": "6. Speicherdauer"
-        }
-      ],
-      "markDefs": [],
-      "style": "h2"
-    },
-    {
-      "_key": "cb5c4b73-d4d2-48fb-85b3-a56abb84547b",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "f52710dd-39d3-4af0-b3df-4da576bac1bd",
-          "_type": "span",
-          "marks": [],
-          "text": "Personenbezogene Daten werden nur so lange gespeichert, wie dies für die jeweiligen Zwecke erforderlich ist oder gesetzliche Aufbewahrungspflichten bestehen."
-        }
-      ],
-      "markDefs": [],
-      "style": "normal"
-    },
-    {
-      "_key": "3e11674b-e52c-4346-8e26-0a58b4c68831",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "f7a3ca3d-6e5a-49bf-9805-f5a9ebd9c485",
-          "_type": "span",
-          "marks": [
-            "strong"
-          ],
-          "text": "Server-Logdaten werden von Vercel nur temporär gespeichert und anschließend gelöscht oder anonymisiert."
-        }
-      ],
-      "markDefs": [],
-      "style": "normal"
-    },
-    {
-      "_key": "487b579b-1729-4041-97c5-0ace3dae8952",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "8a805fbf-978b-4705-b704-464f022a1bb4",
-          "_type": "span",
-          "marks": [],
-          "text": "7. Rechte der betroffenen Personen"
-        }
-      ],
-      "markDefs": [],
-      "style": "h2"
-    },
-    {
-      "_key": "263b8953-843b-4c9c-9725-0dca4b6473b9",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "fd1b05d4-4554-4692-941e-10167683b48c",
-          "_type": "span",
-          "marks": [],
-          "text": "Sie haben jederzeit das Recht auf:"
-        }
-      ],
-      "markDefs": [],
-      "style": "normal"
-    },
-    {
-      "_key": "8933722c-7fc1-4ee6-8bf6-ad0b52ea4f30",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "36b0c483-ed06-4478-8c1b-09104d8d8eaa",
-          "_type": "span",
-          "marks": [],
-          "text": "Auskunft über Ihre gespeicherten Daten (Art. 15 DSGVO)"
-        }
-      ],
-      "level": 1,
-      "listItem": "bullet",
-      "markDefs": [],
-      "style": "normal"
-    },
-    {
-      "_key": "2abc1810-2460-4ba2-81c6-d15ae2f243f0",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "0d11009f-0316-4f99-9b22-f5cf96c1cdc6",
-          "_type": "span",
-          "marks": [],
-          "text": "Berichtigung unrichtiger Daten (Art. 16 DSGVO)"
-        }
-      ],
-      "level": 1,
-      "listItem": "bullet",
-      "markDefs": [],
-      "style": "normal"
-    },
-    {
-      "_key": "32ab1965-2178-49f5-a76a-7eb21cc043b8",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "6871185f-a705-4d90-b44d-31171b617239",
-          "_type": "span",
-          "marks": [],
-          "text": "Löschung Ihrer Daten (Art. 17 DSGVO)"
-        }
-      ],
-      "level": 1,
-      "listItem": "bullet",
-      "markDefs": [],
-      "style": "normal"
-    },
-    {
-      "_key": "51acc49d-5621-4f7d-8ba4-01e413cd19db",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "1555bf3f-f65b-46dc-8fe1-5885edea27ea",
-          "_type": "span",
-          "marks": [],
-          "text": "Einschränkung der Verarbeitung (Art. 18 DSGVO)"
-        }
-      ],
-      "level": 1,
-      "listItem": "bullet",
-      "markDefs": [],
-      "style": "normal"
-    },
-    {
-      "_key": "0f1128b7-08de-49d3-8be8-3beb8f4ffbba",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "cf1d6183-d4a6-41ed-a2f9-89f8d0f6f92f",
-          "_type": "span",
-          "marks": [],
-          "text": "Datenübertragbarkeit (Art. 20 DSGVO)"
-        }
-      ],
-      "level": 1,
-      "listItem": "bullet",
-      "markDefs": [],
-      "style": "normal"
-    },
-    {
-      "_key": "d01a5043-407b-483f-818e-fcf07e247f8a",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "52ee9125-792b-4a38-ae9c-f03fbdaf002c",
-          "_type": "span",
-          "marks": [],
-          "text": "Widerspruch gegen die Verarbeitung (Art. 21 DSGVO)"
-        }
-      ],
-      "level": 1,
-      "listItem": "bullet",
-      "markDefs": [],
-      "style": "normal"
-    },
-    {
-      "_key": "1c0df70e-22ca-4476-9710-29f1ce34e290",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "13807655-8ea2-40ef-a38a-8b25fea850f1",
-          "_type": "span",
-          "marks": [
-            "em"
-          ],
-          "text": "Zur Ausübung Ihrer Rechte genügt eine formlose E-Mail an die oben genannte Adresse."
-        }
-      ],
-      "markDefs": [],
-      "style": "normal"
-    },
-    {
-      "_key": "6be7db3a-fc11-4e0b-a858-c4334057f426",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "dc516f31-234e-4875-981b-d54300618236",
-          "_type": "span",
-          "marks": [],
-          "text": "8. Beschwerderecht"
-        }
-      ],
-      "markDefs": [],
-      "style": "h2"
-    },
-    {
-      "_key": "7fca7d7c-a147-4aed-887d-44a233c1508e",
-      "_type": "block",
-      "children": [
-        {
-          "_key": "4a425173-51ab-4569-afec-6b25447d60a6",
-          "_type": "span",
-          "marks": [],
-          "text": "Sie haben das Recht, sich bei einer Datenschutzaufsichtsbehörde zu beschweren, wenn Sie der Ansicht sind, dass die Verarbeitung Ihrer personenbezogenen Daten gegen die DSGVO verstößt."
-        }
-      ],
-      "markDefs": [],
-      "style": "normal"
-    }
+    p(
+      "Wir freuen uns über Ihr Interesse an make/c. Nachfolgend informieren wir Sie darüber, welche personenbezogenen Daten beim Besuch dieser Website verarbeitet werden, zu welchem Zweck das geschieht und welche Rechte Ihnen zustehen.",
+    ),
+    p(
+      { text: "Kurz vorweg:", stark: true },
+      " Diese Website setzt keine Cookies, lädt weder Schriften noch Karten oder Social-Media-Bausteine von fremden Servern und verwendet keine Werbe- oder Wiedererkennungstechniken. Eine Verbindung zu einem anderen Anbieter entsteht erst, wenn Sie selbst ein eingebettetes Video starten oder einem Link folgen.",
+    ),
+
+    // ── 1 ───────────────────────────────────────────────────────────────────
+    h2("1. Verantwortlicher"),
+    p(
+      "Verantwortlich für die Datenverarbeitung auf dieser Website im Sinne der Datenschutz-Grundverordnung (DSGVO) ist:",
+    ),
+    p("make/c video content marketing GmbH"),
+    p("Sigsfeldstraße 5, 45141 Essen"),
+    p("Vertreten durch die Geschäftsführung: Jens Kemper und Philip Welkisch"),
+    p("Telefon: +49 221 456 76390"),
+    p("E-Mail: ", {
+      text: "datenschutz@make-c.de",
+      href: "mailto:datenschutz@make-c.de",
+    }),
+
+    // ── 2 ───────────────────────────────────────────────────────────────────
+    h2("2. Allgemeines zur Datenverarbeitung"),
+    h3("Personenbezogene Daten"),
+    p(
+      "Personenbezogene Daten sind alle Informationen, die sich auf eine identifizierte oder identifizierbare natürliche Person beziehen — etwa Name, Anschrift, E-Mail-Adresse oder IP-Adresse.",
+    ),
+    h3("Rechtsgrundlagen"),
+    p(
+      "Holen wir für einen Verarbeitungsvorgang Ihre Einwilligung ein, ist Art. 6 Abs. 1 lit. a DSGVO die Rechtsgrundlage. Verarbeiten wir Daten zur Erfüllung eines Vertrags oder für vorvertragliche Maßnahmen, ist es Art. 6 Abs. 1 lit. b DSGVO. Sind wir gesetzlich zur Verarbeitung verpflichtet, gilt Art. 6 Abs. 1 lit. c DSGVO. Ist die Verarbeitung zur Wahrung eines berechtigten Interesses erforderlich und überwiegen Ihre Interessen und Grundrechte nicht, stützen wir uns auf Art. 6 Abs. 1 lit. f DSGVO.",
+    ),
+    h3("Verschlüsselung"),
+    p(
+      "Diese Website wird ausschließlich über eine verschlüsselte Verbindung ausgeliefert (HTTPS/TLS). Sie erkennen das am Schloss-Symbol in der Adresszeile Ihres Browsers.",
+    ),
+    h3("Sie müssen keine Daten angeben"),
+    p(
+      "Sie können diese Website vollständig nutzen, ohne personenbezogene Daten anzugeben. Es gibt kein Kontaktformular, keine Registrierung, kein Benutzerkonto und keinen Newsletter.",
+    ),
+
+    // ── 3 ───────────────────────────────────────────────────────────────────
+    h2("3. Hosting bei Vercel und Server-Protokolle"),
+    p("Diese Website wird bei Vercel gehostet. Anbieter ist:"),
+    p("Vercel Inc., 440 N Barranca Avenue #4133, Covina, CA 91723, USA"),
+    p(
+      "Bei jedem Aufruf einer Seite übermittelt Ihr Browser automatisch Informationen an den Server, die dort in Protokolldateien gespeichert werden:",
+    ),
+    li("die IP-Adresse des anfragenden Geräts"),
+    li("Datum und Uhrzeit der Anfrage"),
+    li("die aufgerufene Adresse (URL)"),
+    li("die zuvor besuchte Seite, sofern Ihr Browser sie übermittelt (Referrer)"),
+    li("Browsertyp, Browserversion und Betriebssystem"),
+    li("Statuscode und übertragene Datenmenge"),
+    p(
+      "Diese Daten sind technisch erforderlich, damit die Seite überhaupt ausgeliefert werden kann. Darüber hinaus nutzen wir sie, um den Betrieb stabil und sicher zu halten und Angriffe abzuwehren. Sie werden nicht mit anderen Datenquellen zusammengeführt, und wir ziehen aus ihnen keine Rückschlüsse auf einzelne Personen.",
+    ),
+    p(
+      "Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Unser berechtigtes Interesse liegt im sicheren und störungsfreien Betrieb dieser Website.",
+    ),
+    p(
+      "Mit Vercel besteht ein Vertrag zur Auftragsverarbeitung nach Art. 28 DSGVO. Vercel hat seinen Sitz in den USA; zu der damit verbundenen Übermittlung siehe Abschnitt 14.",
+    ),
+
+    // ── 4 ───────────────────────────────────────────────────────────────────
+    h2("4. Schriftarten von unserem eigenen Server"),
+    p(
+      "Diese Website verwendet die Schriftarten Montserrat und EB Garamond. Beide werden nicht bei jedem Seitenaufruf von einem fremden Server nachgeladen, sondern bereits bei der Erstellung der Website heruntergeladen und anschließend von unserem eigenen Server ausgeliefert.",
+    ),
+    p({
+      text: "Es wird deshalb keine Verbindung zu Google Fonts aufgebaut, und Ihre IP-Adresse wird zu diesem Zweck nicht an Google übermittelt.",
+      stark: true,
+    }),
+
+    // ── 5 ───────────────────────────────────────────────────────────────────
+    h2("5. Cookies und Speicherung auf Ihrem Endgerät"),
+    p(
+      "Diese Website setzt von sich aus keine Cookies. Es kommen auch keine vergleichbaren Techniken zum Einsatz, die Informationen auf Ihrem Endgerät speichern oder darauf zugreifen — weder Local Storage oder Session Storage noch Zählpixel oder Fingerprinting-Verfahren.",
+    ),
+    p(
+      { text: "Deshalb gibt es hier auch kein Cookie-Banner:", stark: true },
+      " Es gibt nichts, wofür wir Ihre Einwilligung nach § 25 TDDDG einholen müssten.",
+    ),
+    p(
+      "Eine Ausnahme entsteht erst durch Ihr eigenes Zutun: Wenn Sie ein eingebettetes Video starten, können YouTube beziehungsweise Vimeo eigene Cookies setzen. Näheres in Abschnitt 7.",
+    ),
+
+    // ── 6 ───────────────────────────────────────────────────────────────────
+    // ⚠️ Dieser Abschnitt beschreibt PostHog in der **cookiefreien** Betriebsart.
+    // Er ist nur richtig, solange PostHog auch wirklich so eingebunden ist:
+    // `persistence: "memory"` (keine Cookies, kein Local Storage),
+    // `person_profiles: "never"` (keine Profile) und die **EU**-Instanz.
+    // Kommt PostHog doch nicht oder anders — diesen Abschnitt löschen bzw.
+    // anpassen und die folgenden Nummern hochzählen. Eine Datenschutzerklärung
+    // darf keine Verarbeitung beschreiben, die es so nicht gibt.
+    h2("6. Reichweitenmessung mit PostHog (ohne Cookies)"),
+    p(
+      "Um nachvollziehen zu können, welche Inhalte dieser Website genutzt werden, setzen wir PostHog zur Reichweitenmessung ein. Anbieter ist PostHog, Inc., 2261 Market St. #4008, San Francisco, CA 94114, USA.",
+    ),
+    p(
+      { text: "Wir nutzen PostHog ausschließlich in der cookiefreien Betriebsart.", stark: true },
+      " Es werden weder Cookies gesetzt noch Daten in Local Storage oder Session Storage abgelegt. Eine Wiedererkennung über mehrere Besuche, Geräte oder Websites hinweg findet nicht statt, und es werden keine Nutzerprofile gebildet.",
+    ),
+    p("Erfasst werden dabei:"),
+    li("die aufgerufenen Seiten und der Zeitpunkt des Aufrufs"),
+    li("die zuvor besuchte Seite (Referrer)"),
+    li("Browsertyp, Betriebssystem und Gerätekategorie in gröberer Form"),
+    li("das Land, aus dem der Aufruf erfolgt, abgeleitet aus der IP-Adresse"),
+    p(
+      "Die IP-Adresse wird dabei ausschließlich zur Ermittlung des ungefähren Standorts verwendet und nicht gespeichert.",
+    ),
+    p(
+      "Die Verarbeitung findet auf Servern innerhalb der Europäischen Union statt (Standort Deutschland). Mit PostHog besteht ein Vertrag zur Auftragsverarbeitung nach Art. 28 DSGVO.",
+    ),
+    p(
+      "Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Unser berechtigtes Interesse liegt darin, die Nutzung unserer Website in anonymer Form auszuwerten und unser Angebot zu verbessern. Da dabei keine Informationen auf Ihrem Endgerät gespeichert oder ausgelesen werden, ist hierfür keine Einwilligung nach § 25 TDDDG erforderlich.",
+    ),
+    p("Sie können dieser Verarbeitung jederzeit widersprechen — siehe Abschnitt 17."),
+
+    // ── 7 ───────────────────────────────────────────────────────────────────
+    h2("7. Videos von YouTube und Vimeo"),
+    p(
+      "Auf unseren Referenzseiten binden wir Videos ein, die bei YouTube (Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland) und bei Vimeo (Vimeo.com, Inc., 330 West 34th Street, 10th Floor, New York, NY 10001, USA) liegen.",
+    ),
+    p({
+      text: "Beim bloßen Aufruf unserer Seiten werden keine Daten an YouTube oder Vimeo übertragen.",
+      stark: true,
+    }),
+    p(
+      "Statt des Players zeigen wir zunächst nur ein Standbild, das von unserem eigenen Server kommt. Erst wenn Sie auf den Play-Button klicken, wird der Player des Anbieters nachgeladen — und erst in diesem Moment stellt Ihr Browser eine Verbindung dorthin her. Dabei werden unter anderem Ihre IP-Adresse, Angaben zu Browser und Endgerät sowie die aufgerufene Seite an den Anbieter übermittelt. Sind Sie gleichzeitig bei Google beziehungsweise Vimeo angemeldet, kann der Abruf Ihrem dortigen Konto zugeordnet werden.",
+    ),
+    p(
+      "YouTube-Videos binden wir über die Domain youtube-nocookie.com ein, Vimeo-Videos mit dem Parameter „Do Not Track“. Beides verringert die Datenerhebung, schließt sie aber nicht vollständig aus.",
+    ),
+    p(
+      "Rechtsgrundlage ist Ihre Einwilligung nach Art. 6 Abs. 1 lit. a DSGVO in Verbindung mit § 25 Abs. 1 TDDDG, die Sie mit dem Klick auf den Play-Button erteilen. Unmittelbar unterhalb des Play-Buttons weisen wir Sie vorher auf die Datenübertragung hin. Die Einwilligung gilt nur für den jeweiligen Seitenaufruf: Laden Sie die Seite neu, ohne erneut auf Play zu klicken, findet keine Übertragung statt.",
+    ),
+    p(
+      "Näheres zur Datenverarbeitung durch die Anbieter finden Sie in deren Datenschutzhinweisen: ",
+      { text: "policies.google.com/privacy", href: "https://policies.google.com/privacy" },
+      " und ",
+      { text: "vimeo.com/privacy", href: "https://vimeo.com/privacy" },
+      ".",
+    ),
+
+    // ── 8 ───────────────────────────────────────────────────────────────────
+    h2("8. Links zu sozialen Netzwerken"),
+    p(
+      "Im Fußbereich unserer Website verweisen wir auf unsere Profile bei LinkedIn, Facebook und Instagram.",
+    ),
+    p(
+      {
+        text: "Dabei handelt es sich um einfache Verlinkungen, nicht um Social-Media-Bausteine („Plugins“).",
+        stark: true,
+      },
+      " Es sind keine Like- oder Teilen-Schaltflächen eingebunden, es werden keine Zählpixel geladen, und es werden keine Daten an die Netzwerke übertragen, solange Sie die Links nicht anklicken.",
+    ),
+    p(
+      "Erst wenn Sie einem dieser Links folgen, verlassen Sie unsere Website. Ab diesem Moment ist der jeweilige Anbieter für die Datenverarbeitung verantwortlich:",
+    ),
+    li(
+      "LinkedIn: LinkedIn Ireland Unlimited Company, Wilton Plaza, Wilton Place, Dublin 2, Irland — ",
+      {
+        text: "Datenschutzhinweise",
+        href: "https://www.linkedin.com/legal/privacy-policy",
+      },
+    ),
+    li(
+      "Facebook und Instagram: Meta Platforms Ireland Limited, Merrion Road, Dublin 4, D04 X2K5, Irland — ",
+      {
+        text: "Datenschutzhinweise",
+        href: "https://www.facebook.com/privacy/policy",
+      },
+    ),
+
+    // ── 9 ───────────────────────────────────────────────────────────────────
+    h2("9. Kartenlinks zu Google Maps"),
+    p(
+      "Zu beiden Standorten finden Sie auf der Startseite den Verweis „Route anzeigen“. Auch das ist ein einfacher Link — es ist keine Karte eingebettet. Google erfährt von Ihrem Besuch erst, wenn Sie den Link anklicken und damit zu Google Maps wechseln. Dort gelten die Datenschutzhinweise von Google.",
+    ),
+
+    // ── 10 ──────────────────────────────────────────────────────────────────
+    h2("10. Kontaktaufnahme"),
+    p(
+      "Diese Website enthält kein Kontaktformular. Wenn Sie uns per E-Mail oder telefonisch kontaktieren, verarbeiten wir die von Ihnen mitgeteilten Daten — etwa Ihren Namen, Ihre Kontaktdaten und den Inhalt Ihrer Anfrage — ausschließlich zur Bearbeitung dieser Anfrage und für den Fall von Anschlussfragen.",
+    ),
+    p(
+      "Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO, soweit Ihre Anfrage auf den Abschluss oder die Durchführung eines Vertrags gerichtet ist, im Übrigen Art. 6 Abs. 1 lit. f DSGVO aufgrund unseres berechtigten Interesses an der Beantwortung von Anfragen.",
+    ),
+
+    // ── 11 ──────────────────────────────────────────────────────────────────
+    h2("11. Downloads"),
+    p(
+      "Die auf dieser Website angebotenen Leitfäden können Sie ohne Angabe personenbezogener Daten herunterladen. Es ist weder eine Registrierung noch die Angabe einer E-Mail-Adresse erforderlich; die Dateien liegen auf demselben Server wie die Website.",
+    ),
+
+    // ── 12 ──────────────────────────────────────────────────────────────────
+    h2("12. Video-Strategie-Check"),
+    p(
+      "Der „Video-Strategie-Check“ auf der Startseite läuft vollständig in Ihrem Browser ab. Ihre Antworten werden weder an uns noch an Dritte übertragen und nirgends gespeichert — sie sind verloren, sobald Sie die Seite verlassen oder neu laden.",
+    ),
+
+    // ── 13 ──────────────────────────────────────────────────────────────────
+    h2("13. Empfänger Ihrer Daten"),
+    p(
+      "Über die in dieser Erklärung genannten Stellen hinaus geben wir Ihre Daten nicht weiter. Im Überblick:",
+    ),
+    li("Vercel Inc., USA — Hosting und Auslieferung dieser Website (Auftragsverarbeiter)"),
+    li(
+      "PostHog, Inc., USA, Verarbeitung in Deutschland — Reichweitenmessung (Auftragsverarbeiter)",
+    ),
+    li(
+      "Google Ireland Limited und Vimeo.com, Inc. — nur dann, wenn Sie selbst ein eingebettetes Video starten",
+    ),
+    p(
+      "Darüber hinaus geben wir Daten nur weiter, wenn wir dazu gesetzlich verpflichtet sind oder eine behördliche oder gerichtliche Anordnung vorliegt.",
+    ),
+
+    // ── 14 ──────────────────────────────────────────────────────────────────
+    h2("14. Übermittlung in Drittländer"),
+    p(
+      "Unser Hoster Vercel hat seinen Sitz in den USA. Für die damit verbundene Übermittlung haben wir mit Vercel die Standardvertragsklauseln der Europäischen Kommission nach Art. 46 Abs. 2 lit. c DSGVO vereinbart.",
+    ),
+    p(
+      "Starten Sie ein eingebettetes Video, können außerdem Daten an Google und Vimeo und damit in die USA übermittelt werden. Diese Übermittlung stützen wir auf Ihre ausdrückliche Einwilligung nach Art. 49 Abs. 1 lit. a DSGVO, die Sie mit dem Klick auf den Play-Button erteilen. Wir weisen Sie darauf hin, dass in den USA kein dem europäischen Recht gleichwertiges Datenschutzniveau garantiert werden kann und insbesondere ein Zugriff durch dortige Behörden nicht ausgeschlossen ist.",
+    ),
+
+    // ── 15 ──────────────────────────────────────────────────────────────────
+    h2("15. Speicherdauer"),
+    p(
+      "Wir speichern personenbezogene Daten nur so lange, wie es für den jeweiligen Zweck erforderlich ist oder wie es gesetzliche Aufbewahrungsfristen vorschreiben. Im Einzelnen:",
+    ),
+    // ⚠️ Hier stand zwischenzeitlich „längstens 30 Tage". Das war geraten —
+    // wie lange Vercel Zugriffsprotokolle vorhält, hängt vom Tarif ab. Sobald
+    // die tatsächliche Frist feststeht, gehört sie hier als konkrete Zahl hin;
+    // eine erfundene Frist ist in einer Datenschutzerklärung schlimmer als
+    // gar keine.
+    li(
+      "Server-Protokolle: nur so lange, wie es für Betrieb und Sicherheit erforderlich ist; die technische Speicherdauer richtet sich nach den Vorgaben unseres Hosters",
+    ),
+    li(
+      "Reichweitenmessung: in aggregierter, nicht personenbezogener Form; ein Personenbezug entsteht dabei nicht",
+    ),
+    li(
+      "Anfragen per E-Mail oder Telefon: bis Ihr Anliegen abschließend geklärt ist, danach im Rahmen der handels- und steuerrechtlichen Aufbewahrungsfristen",
+    ),
+
+    // ── 16 ──────────────────────────────────────────────────────────────────
+    h2("16. Ihre Rechte"),
+    p("Ihnen stehen gegenüber uns die folgenden Rechte zu:"),
+    li("Auskunft über die zu Ihrer Person gespeicherten Daten (Art. 15 DSGVO)"),
+    li("Berichtigung unrichtiger Daten (Art. 16 DSGVO)"),
+    li("Löschung Ihrer Daten (Art. 17 DSGVO)"),
+    li("Einschränkung der Verarbeitung (Art. 18 DSGVO)"),
+    li("Datenübertragbarkeit (Art. 20 DSGVO)"),
+    li("Widerspruch gegen die Verarbeitung (Art. 21 DSGVO, siehe Abschnitt 17)"),
+    li(
+      "Widerruf einer erteilten Einwilligung mit Wirkung für die Zukunft (Art. 7 Abs. 3 DSGVO)",
+    ),
+    p(
+      "Zur Ausübung genügt eine formlose Nachricht an ",
+      { text: "datenschutz@make-c.de", href: "mailto:datenschutz@make-c.de" },
+      ".",
+    ),
+
+    // ── 17 ──────────────────────────────────────────────────────────────────
+    h2("17. Widerspruchsrecht nach Art. 21 DSGVO"),
+    p({
+      text: "Sie haben das Recht, aus Gründen, die sich aus Ihrer besonderen Situation ergeben, jederzeit gegen die Verarbeitung Sie betreffender personenbezogener Daten Widerspruch einzulegen, die auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO erfolgt.",
+      stark: true,
+    }),
+    p(
+      "Das betrifft auf dieser Website die Server-Protokolle (Abschnitt 3) und die Reichweitenmessung (Abschnitt 6). Legen Sie Widerspruch ein, verarbeiten wir Ihre Daten nicht mehr, es sei denn, wir können zwingende schutzwürdige Gründe nachweisen, die Ihre Interessen, Rechte und Freiheiten überwiegen, oder die Verarbeitung dient der Geltendmachung, Ausübung oder Verteidigung von Rechtsansprüchen.",
+    ),
+    p(
+      "Ein formloser Widerspruch an ",
+      { text: "datenschutz@make-c.de", href: "mailto:datenschutz@make-c.de" },
+      " genügt.",
+    ),
+
+    // ── 18 ──────────────────────────────────────────────────────────────────
+    h2("18. Beschwerderecht bei einer Aufsichtsbehörde"),
+    p(
+      "Unbeschadet anderer Rechtsbehelfe haben Sie das Recht, sich bei einer Datenschutz-Aufsichtsbehörde zu beschweren, wenn Sie der Ansicht sind, dass die Verarbeitung Ihrer Daten gegen die DSGVO verstößt (Art. 77 DSGVO). Die für uns zuständige Behörde ist:",
+    ),
+    p("Landesbeauftragte für Datenschutz und Informationsfreiheit Nordrhein-Westfalen"),
+    p("Kavalleriestraße 2–4, 40213 Düsseldorf"),
+    p({ text: "ldi.nrw.de", href: "https://www.ldi.nrw.de" }),
+
+    // ── 19 ──────────────────────────────────────────────────────────────────
+    h2("19. Keine automatisierte Entscheidungsfindung"),
+    p(
+      "Eine automatisierte Entscheidungsfindung einschließlich Profiling nach Art. 22 DSGVO findet auf dieser Website nicht statt.",
+    ),
+
+    // ── 20 ──────────────────────────────────────────────────────────────────
+    h2("20. Änderungen dieser Datenschutzerklärung"),
+    p(
+      "Wir passen diese Datenschutzerklärung an, sobald sich die Datenverarbeitung auf dieser Website ändert oder die Rechtslage es erfordert. Es gilt jeweils die hier veröffentlichte Fassung; das Datum finden Sie am Ende der Seite.",
+    ),
   ],
 };
