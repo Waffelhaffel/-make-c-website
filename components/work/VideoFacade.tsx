@@ -38,13 +38,23 @@ type Provider = {
 //   - Vimeo bekommt `dnt=1` (Do Not Track): kein Tracking der Sitzung.
 // Beides ersetzt den Hinweis nicht, es verkleinert nur, was übertragen wird.
 function toProvider(url: string): Provider | null {
+  // ⚠️ Der zweite Pfadteil einer Vimeo-URL ist der **Privacy-Hash** eines nicht
+  // gelisteten Videos (`vimeo.com/<id>/<hash>`). Ohne ihn antwortet der Player
+  // mit 403 und zeigt „Aufgrund seiner eigenen Datenschutzeinstellungen kann
+  // dieses Video nicht hier gespielt werden" — nachgemessen am
+  // Flughafen-Köln-Bonn-Video (24.08.2026). Er muss als `h=` mit in die
+  // Embed-URL; bei öffentlichen Videos gibt es ihn nicht und er entfällt.
   const vimeoPlayer = url.match(/player\.vimeo\.com\/video\/(\d+)/);
-  const vimeoId = vimeoPlayer?.[1] ?? url.match(/(?:^|\/\/)(?:www\.)?vimeo\.com\/(\d+)/)?.[1];
+  const vimeoPlayerHash = url.match(/player\.vimeo\.com\/video\/\d+[^\s]*?[?&]h=([0-9a-f]+)/);
+  const vimeoWatch = url.match(/(?:^|\/\/)(?:www\.)?vimeo\.com\/(\d+)(?:\/([0-9a-f]+))?/);
+  const vimeoId = vimeoPlayer?.[1] ?? vimeoWatch?.[1];
+  const vimeoHash = vimeoPlayerHash?.[1] ?? vimeoWatch?.[2];
   if (vimeoId) {
+    const hash = vimeoHash ? `h=${vimeoHash}&` : "";
     return {
       name: "Vimeo",
       operator: "Vimeo",
-      embed: `https://player.vimeo.com/video/${vimeoId}?autoplay=1&dnt=1&title=0&byline=0&portrait=0`,
+      embed: `https://player.vimeo.com/video/${vimeoId}?${hash}autoplay=1&dnt=1&title=0&byline=0&portrait=0`,
     };
   }
   const youtube = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]{6,})/);

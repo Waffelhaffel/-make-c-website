@@ -136,8 +136,18 @@ export const CASES: CaseStudy[] = [
       "In enger Abstimmung mit dem Flughafen haben wir ein Storyboard entwickelt und alle relevanten Stakeholder eingebunden. An mehr als zehn Drehtagen haben wir beide Bereiche (Passagier und Fracht) bei Tag und Nacht bildgewaltig in Szene gesetzt – auf der Landebahn, im Bauch einer Boeing 747 Cargo und in der Gepäck-Sortieranlage. Entstanden ist ein informativer Film, der bewusst auch nonverbal funktioniert und so vielseitig einsetzbar ist, etwa in POS-Installationen oder auf Messen.\n\n" +
       "Ein Flughafen als Drehlocation stellt besondere Anforderungen an die Sicherheit. Drei Mitglieder unseres Teams haben dafür nicht nur eine Sicherheitsschulung durchlaufen, sondern eigens Führerscheine für den Flughafenbereich erworben, um während des Drehs maximal flexibel agieren zu können. Ebenfalls in Abstimmung mit dem Flughafen und der Deutschen Flugsicherung konnten wir zudem einen Drohneneinsatz im laufenden Passagierflugbetrieb realisieren.\n\n" +
       "Zusätzlich haben wir für den Flughafen eine umfangreiche Auswahl an hochwertigen Aufnahmen vom allgemeinen Flughafengeschehen erstellt.",
-    // ⚠️ Kein Video: der User hat zu diesem Case keinen Link geliefert. Das
-    // Case-Fenster zeigt deshalb nur das Standbild, ohne Play-Button.
+    // „Flughafen Köln/Bonn: CGN Tag und Nacht", bei Vimeo hochgeladen am
+    // 12.12.2025, 3:12 — passt zu Titel und `year: "2026"`. ⚠️ Hier stand
+    // kurzzeitig `766440834/75b98ea4b3`: das ist der **Vorgängerfilm** von
+    // 11/2022 („Köln Bonn Flughafen Imagefilm", 3:41). Beim nächsten Linkwechsel
+    // also erst über die Vimeo-oEmbed-API gegenprüfen, welcher Film das ist —
+    // an der URL sieht man es nicht.
+    //
+    // ⚠️ Der zweite Pfadteil `/bcd6146c00` ist der Privacy-Hash des nicht
+    // gelisteten Videos und **muss dranbleiben** — ohne ihn antwortet der Player
+    // mit 403. `VideoFacade.toProvider()` reicht ihn seit 24.08.2026 als `h=`
+    // an die Embed-URL weiter.
+    video: "https://vimeo.com/1145863082/bcd6146c00",
     image: { src: "/work/flughafen-koeln-bonn.webp", alt: "Flughafen Köln Bonn — Imagefilm „Tag und Nacht“" },
     credits: [
       { role: "Regie, Konzept und Beratung", name: "Mike Krack, Christian Wesner" },
@@ -145,6 +155,10 @@ export const CASES: CaseStudy[] = [
       { role: "Postproduktion", name: "Christian Wesner" },
       { role: "Projektkoordination", name: "Eric Nitschke, Mike Krack" },
       { role: "Konzept und Beratung", name: "Jens Kemper" },
+    ],
+    gallery: [
+      { src: "/work/flughafen-koeln-bonn-gallery-1.webp", alt: "Flughafen Köln Bonn — Fluggastbrücke am Vorfeld", ratio: "wide" },
+      { src: "/work/flughafen-koeln-bonn-gallery-2.webp", alt: "Flughafen Köln Bonn — zwei Maschinen aus der Vogelperspektive", ratio: "wide" },
     ],
   },
   {
@@ -248,27 +262,57 @@ export const CASES: CaseStudy[] = [
   {
     slug: "dmexco-2023",
     client: "DMEXCO 2023",
-    project: "Video Produktionen und Trailer",
+    project: "13 Stages: Video Produktionen und Trailer",
+    // Veröffentlichung: 2023.
     year: "2023",
     category: "Video Produktion · Video Event Content",
     categories: ["video-produktion", "event-content"],
     kicker: "/ Case Study /",
     summary:
-      "Die DMEXCO öffnet wieder die Pforten in Köln und Marketeers aus der ganzen Welt schauen vorbei. make/c ist seit 2018 durchgehend – ob rein virtuell oder live vor Ort – als Videopartner für die Bühnen dabei.\n\nDiesmal waren es 13 Bühnen parallel. Über 60 makerinnen und maker waren dafür 3 Tage vor Ort. Dazu haben wir fünf, zum Teil tagesaktuelle Trailer produziert.",
+      "Die DMEXCO öffnet wieder die Pforten in Köln und Marketeers aus der ganzen Welt schauen vorbei. make/c ist seit 2018 durchgehend – ob rein virtuell oder live vor Ort – als Videopartner für die Bühnen dabei.\n\n" +
+      "Diesmal waren es 13 Bühnen parallel. Über 60 makerinnen und maker waren dafür 3 Tage vor Ort. Dazu haben wir fünf, zum Teil tagesaktuelle Trailer produziert.\n\n" +
+      "Die Messe war ein voller Erfolg, der überall greifbar zur spüren war – auch an unserem make/c Stand, den wir traditionell auf der DMEXCO betreiben.",
+    // ⚠️ Der Vimeo-Player antwortet für dieses Video mit **401**, auch mit
+    // Referer make-c.de (geprüft 24.08.2026, im Browser: „We couldn't verify
+    // the security of your connection"). Die anderen Vimeo-Videos der Seite
+    // liefern von derselben Leitung 200 — es liegt also am Video, nicht an der
+    // Verbindung. Der Link stand schon vorher hier; vor dem Go-Live auf der
+    // echten Domain gegenprüfen, sonst zeigt das Case-Fenster nach dem
+    // Play-Klick eine Fehlermeldung von Vimeo.
     video: "https://vimeo.com/882229550",
-    image: { src: "/work/dmexco-2023.webp", alt: "DMEXCO 2023 — Video Produktionen und Trailer" },
+    image: { src: "/work/dmexco-2023.webp", alt: "DMEXCO 2023 — 13 Stages: Video Produktionen und Trailer" },
+    credits: [
+      { role: "Kunde", name: "Koelnmesse, DMEXCO 2023" },
+      { role: "Ort", name: "Köln" },
+      { role: "Steuerung", name: "Philip Welkisch, Mike Krack, Marie Lindner, Eric Nitschke" },
+    ],
   },
   {
     slug: "db-schenker",
     client: "DB Schenker",
-    project: "Corporate Studio",
+    project: "Konzeption und Bau eines Corporate Studios",
+    // Veröffentlichung: 2023.
     year: "2023",
     category: "Video Studiobau",
     categories: ["studiobau"],
     kicker: "/ Case Study /",
+    // ⚠️ Der letzte Absatz ist ein **Kundenzitat**. Der `CaseStudy`-Typ hat kein
+    // Feld dafür, deshalb steht es im Fließtext — es wird also wie normaler
+    // Absatz gesetzt, nicht als hervorgehobenes Zitat. Wortlaut ist Fremdrede:
+    // nicht kürzen oder glätten. Wer es gestaltet haben will, braucht ein
+    // eigenes Feld am Typ und einen Block in `CaseModal.tsx`.
     summary:
-      "DB Schenker ist ein global tätiger Logistik Konzern mit Sitz vor der Haustür unseres Essener Standortes. Wunsch des Kunden war der Bau eines multifunktionsfähigen, hybriden Studios ausgelegt auf Selbstfahrerbetrieb im Alltag.\n\nmake/c konnte im Pitch mit seinem hybriden, leanen und ganzheitlichen Ansatz überzeugen. Wir haben das ganze Projekt von der Nutzung her gedacht und mit unserer langjährigen Content- und Technikexpertise aus einer Hand umgesetzt. Unsere 3D Visualisierung aus den frühen Konzepttagen deckt sich mit der späteren Umsetzung bis in viele Details.",
+      "DB Schenker ist ein global tätiger Logistik Konzern mit Sitz vor der Haustür unseres Essener Standortes. Wunsch des Kunden war der Bau eines multifunktionsfähigen, hybriden Studios ausgelegt auf Selbstfahrerbetrieb im Alltag.\n\n" +
+      "make/c konnte im Pitch mit seinem hybriden, leanen und ganzheitlichen Ansatz überzeugen. Wir haben das ganze Projekt von der Nutzung her gedacht und mit unserer langjährigen Content- und Technikexpertise aus einer Hand umgesetzt. Unsere 3D Visualisierung aus den frühen Konzepttagen deckt sich mit der späteren Umsetzung bis in viele Details.\n\n" +
+      "Nach der Fertigstellung haben wir das Schenker-Personal für den Selbstfahrer-Betrieb geschult und helfen bei größeren Produktionen auf Anfrage immer wieder aus. Das Studio erfreut sich im Schenker Universum großer Beliebtheit.\n\n" +
+      "„Das fertige Studio entspricht genau unseren Erwartungen aus unserem Briefing und der Visualisierung von make/c. Sie haben den Prozess zu unserer vollsten Zufriedenheit gesteuert – immer kreativ, zuverlässig und lösungsorientiert. Wir freuen uns auf die weitere Zusammenarbeit.“\n\n" +
+      "— Christoph Kocher, Head of Competence Center „Content & Internal Communications“, Schenker AG",
     image: { src: "/work/db-schenker.webp", alt: "DB Schenker — Corporate Studio" },
+    credits: [
+      { role: "Kunde", name: "Schenker AG" },
+      { role: "Ort", name: "Essen" },
+      { role: "Steuerung", name: "Philip Welkisch, Malte Hoffmann" },
+    ],
   },
   {
     slug: "kpmg",
@@ -279,46 +323,103 @@ export const CASES: CaseStudy[] = [
     categories: ["video-produktion"],
     kicker: "/ Case Study /",
     summary:
-      "Das Insights Center von KPMG steht für Top Beratung im Bereich KI, Digitalisierung und Advanced Analytics. Doch wie lassen sich diese abstrakten Themen bildstark und dynamisch wie in einem Musikvideo umsetzen? Hier konnten wir unserer Kreativität freien Lauf lassen. Ein Blick in die Umsetzung lohnt sich.\n\nSie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.",
+      // ⚠️ Hier stand bis 24.08.2026 ein zweiter Absatz „Sie müssen den Inhalt
+      // von reCAPTCHA laden, um das Formular abzuschicken…" — Consent-Text der
+      // alten Portfolio-Seite, den der Import 08/2026 mit eingesammelt hat. Er
+      // war sichtbar im Case-Fenster und speiste die `CreativeWork.description`
+      // in der `ItemList` von /work. Entfernt; kein Ersatztext, weil es keinen
+      // gibt.
+      "Das Insights Center von KPMG steht für Top Beratung im Bereich KI, Digitalisierung und Advanced Analytics. Doch wie lassen sich diese abstrakten Themen bildstark und dynamisch wie in einem Musikvideo umsetzen? Hier konnten wir unserer Kreativität freien Lauf lassen. Ein Blick in die Umsetzung lohnt sich.",
     video: "https://vimeo.com/859822560",
     image: { src: "/work/kpmg.webp", alt: "KPMG — Imagetrailer Insights Center" },
   },
   {
     slug: "format-tools-katalog",
     client: "FORMAT",
-    project: "3D Animation",
+    project: "3D Animation „Katalog“",
+    // Veröffentlichung: 2023.
     year: "2023",
     category: "Video Motion Design",
     categories: ["video-motion-design"],
     kicker: "/ Case Study /",
     summary:
       "Unter der Marke „FORMAT Tools for Professionals“ produziert die Wuppertaler Firma E/D/E Werkzeuge für echte Profis. Zur Bewerbung des neuen Katalogs sollten ausgewählte Werkzeuge emotional und hochwertig in Szene gesetzt werden. Das Video wird als Header auf der Website und zur Social Media Bewerbung eingesetzt.\n\nmake/c hat im ersten Schritt 3D Modelle der Werkzeuge erstellt und diese im zweiten Schritt emotional in Szene gesetzt – in Verbindung mit dem Katalog. Der Kunde ist happy und wir entsprechend auch!",
+    services: ["3D Rendering der Werkzeuge", "Animation in 3D"],
     video: "https://www.youtube.com/watch?v=d9gvWj3kgF0",
-    image: { src: "/work/format-tools-katalog.webp", alt: "FORMAT — 3D Animation" },
+    image: { src: "/work/format-tools-katalog.webp", alt: "FORMAT — 3D Animation „Katalog“" },
+    credits: [
+      { role: "Kunde", name: "FORMAT, E/D/E" },
+      { role: "Projektsteuerung und -umsetzung", name: "Uwe Komorowski, Jens Kemper" },
+    ],
   },
   {
     slug: "zeitgeist",
     client: "Ziegler Zeitgeist",
     project: "Werbespot",
+    // Veröffentlichung: Juni 2023.
     year: "2023",
     category: "Video Produktion",
     categories: ["video-produktion"],
     kicker: "/ Case Study /",
     summary:
-      "Sommer, Sonne, Zieglers „Zeitgeist“. Ein Getränk, das Lust auf Sommer macht. Wir durften für unseren Partner Storymachine aus Berlin diesen Spot realisieren. Das Timing war wie immer bei Produktionen sportlich, die Anforderungen an den Cast und die Locations ebenso.\n\nDas maker-Team hat sich der Aufgabe gestellt und binnen kürzester Zeit diesen Spot geplant, organisiert, produziert und postproduziert. Die Creation kommt von Storymachine. Neben dem unten verlinkten Spot haben wir natürlich noch cut-downs für alle gängigen Social-Media-Kanäle angefertigt.",
+      "Sommer, Sonne, Zieglers „Zeitgeist“. Ein Getränk, das Lust auf Sommer macht. Wir durften für unseren Partner Storymachine aus Berlin diesen Spot realisieren. Das Timing war wie immer bei Produktionen sportlich, die Anforderungen an den Cast und die Locations ebenso.\n\n" +
+      "Das maker-Team hat sich der Aufgabe gestellt und binnen kürzester Zeit diesen Spot geplant, organisiert, produziert und postproduziert. Die Creation kommt von Storymachine. Neben dem unten verlinkten Spot haben wir natürlich noch cut-downs für alle gängigen Social-Media-Kanäle angefertigt.\n\n" +
+      "Der Sommer kann also kommen. Wir wissen was zu tun ist.",
+    services: ["Casting", "Location Scouting", "Produktion", "Post-Produktion"],
+    // ⚠️ Watch-Form, **nicht** der Vimeo-Einbettcode: `VideoFacade` baut den
+    // iframe selbst — erst nach dem Klick und mit `dnt=1`. Der gelieferte
+    // <iframe>+player.js würde schon beim Öffnen des Fensters laden und die
+    // Zwei-Klick-Lösung samt Abschnitt 7 der Datenschutzerklärung aushebeln.
+    video: "https://vimeo.com/838986402",
     image: { src: "/work/zeitgeist.webp", alt: "Ziegler Zeitgeist — Werbespot" },
+    credits: [
+      // Der Auftraggeber steht hier statt im `client`-Feld: auf der Kachel und
+      // in der Metazeile soll allein die Marke stehen (User-Entscheidung
+      // 24.08.2026), in der Projektinfo die volle Fassung mit der Agentur.
+      { role: "Kunde", name: "Storymachine (Ziegler Zeitgeist)" },
+      {
+        role: "Projektsteuerung und Umsetzung",
+        name: "Christian Wesner, Mohamed Bangura, Jens Kemper, Philip Welkisch, Marie Lindner, Eric Nitschke, Markus Lompa",
+      },
+    ],
+    // Beide Quellen sind exakt 16:9 — deshalb zweimal `wide` und kein Beschnitt.
+    // Bei zwei Bildern stehen sie im Case-Fenster nebeneinander.
+    gallery: [
+      { src: "/work/zeitgeist-gallery-1.webp", alt: "Ziegler Zeitgeist — Kameramann im Pool beim Nachtdreh", ratio: "wide" },
+      { src: "/work/zeitgeist-gallery-2.webp", alt: "Ziegler Zeitgeist — Set im Park mit Kamerawagen und Cast", ratio: "wide" },
+    ],
   },
   {
     slug: "zurich-strategiegarten-2023",
-    client: "Zurich StrategieGarten 2023",
-    project: "TV-Format „Fernsehgarten“",
+    client: "ZURICH Versicherung",
+    project: "StrategieGarten",
+    // Veröffentlichung: Juni 2023.
     year: "2023",
     category: "Video Strategie · Video Event Content",
     categories: ["video-strategie", "event-content"],
     kicker: "/ Case Study /",
     summary:
-      "Seit 2020 dürfen wir bereits die jährlichen Kommunikationsformate der ZURICH Versicherung zum „Strategie 2023“ als Content- und Konzept-Partner begleiten.\n\nNach einer „Late-Night-Show“, einer „digitalen Musical Inszenierung“ war es in diesem Jahr der „ZURICH Strategiegarten“. Angelehnt an den ZDF Fernsehgarten fand die Veranstaltung für über 2.000 Mitarbeiterinnen und Mitarbeiter bei uns gegenüber im legendären Kölner Tanzbrunnen statt.",
-    image: { src: "/work/zurich-strategiegarten-2023.webp", alt: "Zurich StrategieGarten 2023 — TV-Format „Fernsehgarten“" },
+      "Seit 2020 dürfen wir bereits die jährlichen Kommunikationsformate der ZURICH Versicherung zum „Strategie 2023“ als Content- und Konzept-Partner begleiten.\n\n" +
+      "Nach einer „Late-Night-Show“, einer „digitalen Musical Inszenierung“ war es in diesem Jahr der „ZURICH Strategiegarten“. Angelehnt an den ZDF Fernsehgarten fand die Veranstaltung für über 2.000 Mitarbeiterinnen und Mitarbeiter bei uns gegenüber im legendären Kölner Tanzbrunnen statt.\n\n" +
+      "Gemeinsam mit dem #love2becomms Team der ZURICH durften wir das Konzept kreativ mitgestalten und den gesamten Videocontent produzieren (über 80 Content Pieces). Dazu haben wir die Veranstaltung mit mehreren Kameras aufgezeichnet und in verschiedenen Versionen postproduziert.\n\n" +
+      "Die Veranstaltung hat nicht nur den Kunden glücklich gemacht, sondern vor allem auch die Zielgruppe, für die sie stattgefunden hat: die Mitarbeiterinnen und Mitarbeiter der ZURICH Versicherung waren von dem Event begeistert.\n\n" +
+      "Die interessanten Vorträge des ZURICH Managements wurden begleitet von vielen Künstlern, darunter z. B. Ross Antony, Chris Böhm und der TV Tanzperformance Gruppe „BreakALeg“.\n\n" +
+      // ⚠️ Letzter Absatz: SEO-Text von der alten Portfolio-Seite, in Sie-Form.
+      // Kein anderer der 31 Cases spricht die Leserin direkt an — beim
+      // Gegenlesen bitte entscheiden, ob er bleibt.
+      "Wenn Sie auf der Suche nach einer professionellen Videoagentur mit viel Eventerfahrung und einer ausgeprägten Kreativader sind, die Ihr Event oder Ihre Unternehmenskommunikation in unvergesslichen Aufnahmen festhält, sind Sie bei uns genau richtig. Unsere erfahrenen Videografen und Produktionsteams sind darauf spezialisiert, Ihr Unternehmen und Ihre Botschaft mit höchster Qualität und Kreativität in Szene zu setzen.",
+    // ⚠️ Dieses Video ist bei Vimeo **domain-beschränkt**: der Player antwortet
+    // nur von freigegebenen Domains mit 200, sonst mit 403 („Aufgrund seiner
+    // eigenen Datenschutzeinstellungen…"). make-c.de ist freigegeben, localhost
+    // und Vercel-Preview-URLs sind es nicht — hier also nur live prüfbar
+    // (gemessen 24.08.2026).
+    video: "https://vimeo.com/838328749",
+    image: { src: "/work/zurich-strategiegarten-2023.webp", alt: "ZURICH Versicherung — StrategieGarten" },
+    credits: [{ role: "Umsetzung", name: "Michael Ramlau, Christian Wesner, Mohamed Bangura, Bastian Westholt" }],
+    gallery: [
+      { src: "/work/zurich-strategiegarten-2023-gallery-1.webp", alt: "ZURICH StrategieGarten — Luftaufnahme des Kölner Tanzbrunnens", ratio: "wide" },
+      { src: "/work/zurich-strategiegarten-2023-gallery-2.webp", alt: "ZURICH StrategieGarten — Finale auf der Bühne", ratio: "wide" },
+    ],
   },
   {
     slug: "mvv-energie-ag-buga-ar-app",
@@ -353,7 +454,7 @@ export const CASES: CaseStudy[] = [
     categories: ["video-motion-design"],
     kicker: "/ Case Study /",
     summary:
-      "Seit einigen Jahren begleiten wir schon mit der Agentur NJU zusammen die Digital Signage Aktivitäten von OBI. In dem Zusammenhang sind schon viele Grafiken und Videos bei uns entstanden. Dazu gehört auch dieser Trailer fürs OBI Gartenmagazin 2022. Hier verbinden wir After Effects mit normalem Bewegtbild und machen aus einem vermeintlich statischen Katalog einen echten Hingucker.\n\nSie müssen den Inhalt von reCAPTCHA laden, um das Formular abzuschicken. Bitte beachten Sie, dass dabei Daten mit Drittanbietern ausgetauscht werden.",
+      "Seit einigen Jahren begleiten wir schon mit der Agentur NJU zusammen die Digital Signage Aktivitäten von OBI. In dem Zusammenhang sind schon viele Grafiken und Videos bei uns entstanden. Dazu gehört auch dieser Trailer fürs OBI Gartenmagazin 2022. Hier verbinden wir After Effects mit normalem Bewegtbild und machen aus einem vermeintlich statischen Katalog einen echten Hingucker.",
     image: { src: "/work/obi-gartenmagazin.webp", alt: "OBI Gartenmagazin — Gartenmagazin Motion Graphics Trailer" },
   },
   {
@@ -398,14 +499,19 @@ export const CASES: CaseStudy[] = [
     slug: "ihk-koeln",
     client: "IHK Köln",
     project: "Rahmenvertragspartner Streaming",
-    year: "2023",
+    // ⚠️ Laufender Rahmenvertrag, keine einmalige Veröffentlichung: „seit
+    // Frühjahr 2022" (Projektinfo des Users, 24.08.2026) — stand vorher auf
+    // 2023. Das verlinkte Video ist der Frauen-Business-Tag 2022.
+    year: "2022",
     category: "Video Event Content",
     categories: ["event-content"],
     kicker: "/ Case Study /",
     summary:
       "Seit Frühjahr 2022 sind wir Rahmenvertragspartner der IHK Köln für Streaming Projekte. Auch in der „Post-Corona“ Zeit erweist sich Streaming für die IHK Veranstaltungen als tragende Säule der Kommunikation und des Austauschs.\n\nSeitdem durften wir schon einige Veranstaltungen in die große weite Welt streamen – u.a. den Frauen-Business-Tag 2022. More to come…",
+    services: ["Live-Streaming"],
     video: "https://www.youtube.com/watch?v=wwBqU3QcCXU",
     image: { src: "/work/ihk-koeln.webp", alt: "IHK Köln — Rahmenvertragspartner Streaming" },
+    credits: [{ role: "Projektsteuerung", name: "Marius Wiemann" }],
   },
   {
     slug: "atlantik-bruecke-70-jahre",
