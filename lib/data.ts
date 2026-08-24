@@ -58,8 +58,12 @@ export const SELECTED_WORK: SelectedWorkItem[] = [
   {
     name: "Merkur Lighthouse",
     label: "Doku",
-    image: "/selected-work/merkur.webp",
-    caseSlug: "merkur",
+    // ⚠️ Bis 24.08.2026 zeigte diese Kachel auf `merkur` — das ist aber der
+    // Imagefilm samt sieben Produktvideos (2025), nicht die Doku. Kachelname und
+    // Ziel gingen also auseinander. Beides zeigt jetzt auf `merkur-lighthouse`;
+    // `merkur` steht weiter für sich auf /work.
+    image: "/selected-work/merkur-lighthouse.webp",
+    caseSlug: "merkur-lighthouse",
   },
   {
     name: "FOM Video",

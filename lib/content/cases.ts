@@ -30,55 +30,122 @@ import type { CaseStudy } from "./types";
 // Bilder liegen unter `public/work/<slug>.webp` (max. 1600 px, WebP).
 
 export const CASES: CaseStudy[] = [
-  // ── ⚠️ Platzhalter (11.08.2026) ────────────────────────────────────────────
-  // Die drei folgenden Cases gehören zu den Selected-Work-Kacheln der Startseite
-  // und existieren, damit die Kacheln anklickbar sind. Angelegt sind nur die
-  // Felder, die aus den Kacheln selbst hervorgehen (Kunde, Genre, Bild).
-  //
-  // Zu ersetzen, bevor die Seite live geht:
-  //   `summary` — steht bewusst als sichtbarer Platzhalter da, statt erfundene
-  //               Projektbeschreibungen zu behaupten
-  //   `year`    — auf 2026 gesetzt, nicht verifiziert
-  //   `video`, `credits`, `services` — fehlen ganz; das Case-Fenster lässt die
-  //               Blöcke dann einfach weg (kein Play-Button, keine Credits)
+  // Die ersten Einträge gehören zu den Selected-Work-Kacheln der Startseite und
+  // stehen deshalb bewusst vorn — also in der ersten Reihe von /work.
   {
     slug: "telekom",
     client: "Telekom",
     project: "Event Content",
-    year: "2026",
+    // ⚠️ Jahr **abgeleitet, nicht vom User bestätigt**: der Platzhalter stand auf
+    // 2026, das verlinkte Video heißt bei Vimeo „Telekom: DIGITAL X 2025
+    // (Opener)" und ist am 29.09.2025 hochgeladen — die DIGITAL X 2025 fand im
+    // September 2025 statt. Bitte gegenlesen.
+    year: "2025",
     category: "Video Event Content",
     categories: ["event-content"],
     kicker: "/ Case Study /",
-    summary: "Event Content für die Telekom.\n\nPlatzhalter — Beschreibung folgt.",
+    summary:
+      "Für die DIGITAL X von der Telekom haben wir sämtliche Assets für die Event-Technik entwickelt und produziert. Am wichtigsten war die Entwicklung eines Event-Opening-Clips, welcher zwar auch aus Stock-Footage bestand, aber durch den Einsatz von KI so angepasst wurde, dass die Magenta-Farbe des Kunden immer wieder auftaucht.",
+    // ⚠️ Privacy-Hash `/c758523c3c` muss dranbleiben — ohne ihn 403.
+    video: "https://vimeo.com/1122980838/c758523c3c",
     // 4:5 vorgeschnitten (614×768): im mittigen Beschnitt des Rasters fiel das
     // „R" von READY weg. Das Case-Fenster zeigt das Standbild im 16:9-Rahmen,
     // deshalb dort das ungeschnittene Poster.
     image: { src: "/work/telekom.webp", alt: "Telekom — Event Content" },
     poster: { src: "/work/telekom-poster.webp", alt: "Telekom — Event Content" },
+    credits: [
+      { role: "Projektsteuerung", name: "Paul Zajonc, Michael Ramlau" },
+      { role: "Produktion", name: "Jason Philip, Tobias Mächler, Jennifer Lorey" },
+    ],
   },
   {
     slug: "fom-studio",
     client: "FOM",
     project: "Studiobau und Betrieb",
-    year: "2026",
+    // ⚠️ Jahr **abgeleitet, nicht vom User bestätigt**: der Platzhalter stand auf
+    // 2026, der verlinkte Trailer ist am 02.11.2022 bei Vimeo hochgeladen. Wie
+    // bei `ihk-koeln` ein laufendes Engagement — make/c betreibt das Studio
+    // weiter —, deshalb das **Startjahr**. Bitte gegenlesen.
+    year: "2022",
     category: "Video Studiobau",
     categories: ["studiobau"],
     kicker: "/ Case Study /",
-    summary: "Studiobau und Studiobetrieb für die FOM.\n\nPlatzhalter — Beschreibung folgt.",
+    // ⚠️ Dieser Text ist nach Stichworten des Users formuliert („komplettes
+    // Studio gebaut und betrieben, dort finden sämtliche Produktionen und
+    // Live-Streams statt"), nicht von ihm geliefert. Bewusst kurz gehalten:
+    // alles Weitere wäre erfunden. Gehört gegengelesen.
+    summary:
+      "Für die FOM haben wir ein komplettes Studio gebaut – und betreiben es seitdem auch. Bau und laufender Betrieb kommen damit aus einer Hand.\n\n" +
+      "Dort finden sämtliche Produktionen und Live-Streams der FOM statt.",
+    // ⚠️ Privacy-Hash `/34049b2655` muss dranbleiben — ohne ihn 403.
+    video: "https://vimeo.com/766440947/34049b2655",
     image: { src: "/work/fom-studio.webp", alt: "FOM — Studiobau und Betrieb" },
   },
   {
     slug: "barmenia-gothaer",
     client: "BarmeniaGothaer",
     project: "KI Avatar",
+    // Veröffentlichung: 2026.
     year: "2026",
     category: "Video AI",
     categories: ["artificial-intelligence"],
     kicker: "/ Case Study /",
-    summary: "KI-Avatar für die BarmeniaGothaer.\n\nPlatzhalter — Beschreibung folgt.",
+    summary:
+      "Wie gibt man einem Chatbot ein Gesicht – glaubwürdig, sympathisch, und mit exakt derselben Stimme wie am Telefon?\n\n" +
+      "Für die BarmeniaGothaer haben wir genau das für ihren Chatbot „Stella“ umgesetzt: von der Charakter- und Location-Auswahl über die Feinjustierung von Outfit und Farbkontrast bis zur fertigen KI-Videoproduktion.\n\n" +
+      "Das Ergebnis: ein 2:25-minütiges internes Trainingsvideo mit 25 Szenen, das Stella den Vermittler:innen der BarmeniaGothaer nahbar und hilfreich näherbringt – inklusive Tipps, wie man Stella am schnellsten zur richtigen Antwort bringt.\n\n" +
+      "Technisch entstanden dabei: 5 Charakter-Entwürfe, 6 Locations, 5 Outfit-Alternativen – und für jede finale Szene im Schnitt rund neun verworfene Testläufe. KI-Video ist eben kein Knopfdruck, sondern Prompt für Prompt erarbeitetes Handwerk.",
+    // ⚠️ Privacy-Hash `/7bba868bfd` muss dranbleiben — ohne ihn 403.
+    // Hinweis: das verlinkte Video heißt bei Vimeo „Vorstellungsvideo: KI-Chatbot
+    // „Stella" (BarmeniaGothaer)" und läuft **45 s** — der Text oben beschreibt
+    // das 2:25-minütige **interne** Trainingsvideo. Der Link ist also der
+    // öffentliche Ausschnitt, nicht der Film selbst.
+    video: "https://vimeo.com/1220776527/7bba868bfd",
     image: { src: "/work/barmenia-gothaer.webp", alt: "BarmeniaGothaer — KI Avatar" },
+    credits: [{ role: "Steuerung", name: "Christian Wesner" }],
   },
-  // ── Ende Platzhalter ───────────────────────────────────────────────────────
+  {
+    // ⚠️ Nicht mit `merkur` verwechseln — das ist der Imagefilm samt sieben
+    // Produktvideos (2025). Dieser Case ist die achtteilige Doku (2026); die
+    // Selected-Work-Kachel „Merkur Lighthouse" auf der Startseite zeigte bis
+    // 24.08.2026 auf `merkur` und damit auf den falschen Case.
+    slug: "merkur-lighthouse",
+    client: "MERKUR GROUP",
+    project: "Dokumentation über Change Prozess (8 Folgen)",
+    // Veröffentlichung: Sommer 2026.
+    year: "2026",
+    category: "Video Produktion",
+    categories: ["video-produktion"],
+    kicker: "/ Case Study /",
+    summary:
+      "Die MERKUR GROUP ist ein führender Anbieter im europäischen Glücksspielmarkt und darüber hinaus weltweit tätig.\n\n" +
+      "Seit 2025 vollzieht die Gruppe einen tiefgreifenden Change-Prozess, der sich unter anderem auch auf die interne Spiele-Entwicklung auswirkt. Im Auftrag von Aufsichtsrat und Vorstand haben wir über einen Zeitraum von mehr als zwölf Monaten zwei Entwickler-Teams aus dem österreichischen Graz und dem ostwestfälischen Lübbecke intensiv bei der Entwicklung von zwei neuen Spielen begleitet.\n\n" +
+      "Die Spiele werden intern als „Lighthouse-Spiele“ bezeichnet, da sie die Art und Weise, wie Merkur in dem Bereich arbeitet, grundlegend ändern und zur Blaupause für die verschiedenen weltweiten Entwickler-Studios gelten sollen.\n\n" +
+      "make/c hat die Teams international begleitet – nach Las Vegas, Barcelona und natürlich nach Graz und Lübbecke. Dabei sind acht Doku-Folgen als Heldenreise entstanden, die einen ungewöhnlich ehrlichen und ungeschönten Einblick in den Maschinenraum eines Mittelständlers mit über 15.000 Mitarbeitern liefern.\n\n" +
+      "Als Video Agentur haben wir hier eine umfassende Kreativ- und Beratungsleistung abgeliefert und einen komplexen Produktions- und Postproduktionsprozess intern durchgeführt. Hier zeigt sich die große Bandbreite des make/c Portfolios inklusive anspruchsvoller redaktioneller und dramaturgischer Fähigkeiten. Regisseur der Folgen ist der Gewinner des Bayerischen Fernsehpreises und make/c-Geschäftsführer Jens Kemper.",
+    // ⚠️ **Kein Video, sondern eine Website.** Zu dieser Doku gibt es keinen
+    // Vimeo-/YouTube-Link, nur die Merkur-Microsite. `VideoFacade` erkennt keinen
+    // Anbieter und öffnet die URL deshalb beim Klick in einem neuen Tab, statt
+    // etwas einzubetten — der Datenschutzhinweis entfällt dann bewusst, weil
+    // nichts nachgeladen wird. Der Play-Kreis auf dem Standbild führt also nach
+    // außen. UTM-Parameter der E-Mail-Kampagne (`utm_source=email…`) sind
+    // entfernt: von der Website aus wären sie schlicht falsche Zuordnung.
+    video: "https://lighthouse.merkur.group/",
+    // Die Titelkarte ist 1,88:1. Das /work-Raster ist 4:5 — ein mittiger
+    // Beschnitt macht aus „MERKUR" ein „MER" (geprüft). Deshalb liegt die ganze
+    // Karte auf `makec-dark` (#14140F), nach oben versetzt, damit die
+    // Textauszeichnung der Kachel unten freien Grund hat. Ein echtes Standbild
+    // aus der Doku im Hochformat wäre hier besser.
+    image: { src: "/work/merkur-lighthouse.webp", alt: "MERKUR Lighthouse — Doku über den Change-Prozess" },
+    poster: { src: "/work/merkur-lighthouse-poster.webp", alt: "MERKUR Lighthouse — Titelkarte „Von Lübbecke nach Las Vegas“" },
+    credits: [
+      { role: "Konzept & Regie", name: "Jens Kemper" },
+      { role: "Creative Producer", name: "Daria Semcov" },
+      { role: "Redaktion", name: "Marco Gromotka" },
+      { role: "DOP", name: "Leonard Küper, Christian Wesner, Tommy Zander, Fynn Reifenrath" },
+      { role: "Postproduktion", name: "Santo Kocans, Leonard Küper" },
+    ],
+  },
   {
     slug: "cwh-bih-sbv-wahl",
     client: "CWH | BIH",
@@ -208,7 +275,7 @@ export const CASES: CaseStudy[] = [
   {
     slug: "merkur",
     client: "MERKUR",
-    project: "Imagefilm und 7 Produktvideos „aus einem Guss“",
+    project: "Imagefilm und 7 Produktvideos",
     // Veröffentlichung: Juni 2025 (stand vorher auf 2024).
     year: "2025",
     category: "Video Produktion",
@@ -251,20 +318,42 @@ export const CASES: CaseStudy[] = [
     slug: "koelnmesse-anuga-pressekonferenz",
     client: "Koelnmesse",
     project: "Interaktive PK mit KI-gesteuerten Avataren",
+    // Veröffentlichung: 2023.
     year: "2023",
     category: "Video Event Content · Video AI",
     categories: ["event-content", "artificial-intelligence"],
     kicker: "/ Case Study /",
     summary:
-      "Mit der Anuga FoodTec Pressekonferenz setzt die Koelnmesse ein starkes Zeichen für ihre digitale Innovationsbereitschaft. Die PK richtete sich an ein asiatisches Fachpublikum in China und Japan und fand erstmalig mit KI-gesteuerten Avataren statt.\n\nmake/c hat dafür das Tool des „24/7 Beraters“ angepasst. Es wurden Avatare der Protagonisten erstellt, die dann in Echtzeit und interaktiv sowohl chinesisch als auch japanisch mit den Journalisten gesprochen haben, obwohl sie in Wirklichkeit beide Sprachen nicht sprechen.",
+      "Mit der Anuga FoodTec Pressekonferenz setzt die Koelnmesse ein starkes Zeichen für ihre digitale Innovationsbereitschaft. Die PK richtete sich an ein asiatisches Fachpublikum in China und Japan und fand erstmalig mit KI-gesteuerten Avataren statt.\n\nmake/c hat dafür das Tool des „24/7 Beraters“ angepasst. Es wurden Avatare der Protagonisten erstellt, die dann in Echtzeit und interaktiv sowohl chinesisch als auch japanisch mit den Journalisten gesprochen haben, obwohl sie in Wirklichkeit beide Sprachen nicht sprechen.\n\n" +
+      // ⚠️ Der User schrieb hier „Hier geht es zum Beitrag bei RTL!" mit
+      // Doppelpunkt davor — **ohne URL**. `summary` ist reiner Text und rendert
+      // ohnehin keine Links, deshalb steht hier ein vollständiger Satz statt
+      // eines ins Leere zeigenden Verweises. Wenn die RTL-URL nachkommt, braucht
+      // es ein eigenes Feld am Typ (oder einen `secondaryVideos`-Eintrag).
+      "Diese „kleine Weltpremiere“ hat auch die Kollegen von RTL begeistert – es war ihnen einen eigenen Beitrag wert, über den wir uns sehr gefreut haben.\n\n" +
+      // ⚠️ Kundenzitat, wie bei `db-schenker` mangels eigenem Feld im Fließtext.
+      // Wortlaut ist Fremdrede: nicht kürzen, nicht übersetzen.
+      "„Many thanks to our partners from make/c - video content marketing GmbH for the creativity and realization.“\n\n" +
+      "— Oliver Frese, Geschäftsführer Koelnmesse",
+    services: ["Pressekonferenz mit interaktiven, KI-gesteuerten Avataren auf chinesisch und japanisch"],
     image: { src: "/work/koelnmesse-anuga-pressekonferenz.webp", alt: "Koelnmesse — Interaktive PK mit KI-gesteuerten Avataren" },
+    credits: [
+      { role: "Kunde", name: "Koelnmesse, Anuga FoodTec" },
+      { role: "Projektsteuerung", name: "Michael Ramlau, Melissa Eken, Eric Nitschke" },
+    ],
   },
   {
     slug: "dmexco-2023",
     client: "DMEXCO 2023",
     project: "13 Stages: Video Produktionen und Trailer",
-    // Veröffentlichung: 2023.
-    year: "2023",
+    // ⚠️ **Kein Jahr, sondern eine Dauer** (User-Vorgabe 24.08.2026): make/c ist
+    // seit 2018 durchgehend Videopartner der DMEXCO-Bühnen, und das soll auf der
+    // Kachel stehen — nicht „2023". `year` ist ein freier String und wird nur
+    // angezeigt (`WorkGrid`, `CaseModal`), nie gerechnet, das geht also.
+    // ⚠️ Zwei Nebenwirkungen: die Metazeile liest sich jetzt „DMEXCO 2023 · seit
+    // 2018", und `year` ist zugleich das Kriterium für den 2022-Schnitt — dieser
+    // Case fällt damit aus der Sortierlogik heraus.
+    year: "seit 2018",
     category: "Video Produktion · Video Event Content",
     categories: ["video-produktion", "event-content"],
     kicker: "/ Case Study /",
@@ -318,6 +407,7 @@ export const CASES: CaseStudy[] = [
     slug: "kpmg",
     client: "KPMG",
     project: "Imagetrailer Insights Center",
+    // Veröffentlichung: 2023.
     year: "2023",
     category: "Video Produktion",
     categories: ["video-produktion"],
@@ -330,8 +420,13 @@ export const CASES: CaseStudy[] = [
       // in der `ItemList` von /work. Entfernt; kein Ersatztext, weil es keinen
       // gibt.
       "Das Insights Center von KPMG steht für Top Beratung im Bereich KI, Digitalisierung und Advanced Analytics. Doch wie lassen sich diese abstrakten Themen bildstark und dynamisch wie in einem Musikvideo umsetzen? Hier konnten wir unserer Kreativität freien Lauf lassen. Ein Blick in die Umsetzung lohnt sich.",
+    services: ["Kreation", "Produktion", "Postproduktion"],
     video: "https://vimeo.com/859822560",
     image: { src: "/work/kpmg.webp", alt: "KPMG — Imagetrailer Insights Center" },
+    credits: [
+      { role: "Kunde", name: "KPMG Insights Center" },
+      { role: "Umsetzung", name: "Christian Wesner, Mohamed Bangura" },
+    ],
   },
   {
     slug: "format-tools-katalog",
@@ -423,77 +518,147 @@ export const CASES: CaseStudy[] = [
   },
   {
     slug: "mvv-energie-ag-buga-ar-app",
-    client: "MVV Energie AG BUGA",
+    // Kunde laut Projektinfo des Users „MVV Energie AG" — der Import hatte den
+    // Messeauftritt („BUGA") an den Kundennamen gehängt.
+    client: "MVV Energie AG",
     project: "Augmented Reality App",
+    // Produktionsjahr: 2023.
     year: "2023",
     category: "Video Produktion · Video Event Content",
     categories: ["video-produktion", "event-content"],
     kicker: "/ Case Study /",
     summary:
       "Durch die Entwickelung einer speziellen Augmented Reality App können die Besucher der diesjährigen BUGA sechs Kunstwerke von Horst Hamann, ausgestellt von der MVV Mannheim, zum Leben erwecken und sehen durch ihr Handykamerabild Tänzer/innen, die innerhalb und außerhalb des Kunstwerkes performen.\n\nWir haben das künstlerische Konzept dazu entwickelt, die App programmiert und die Aufnahmen mit den Tänzern produziert und choreographiert. Mit Hilfe der App werden die Kunstwerke mit tänzerischen Szenen ergänzt und erwecken die Fotografien „zum Leben“.",
-    image: { src: "/work/mvv-energie-ag-buga-ar-app.webp", alt: "MVV Energie AG BUGA — Augmented Reality App" },
+    image: { src: "/work/mvv-energie-ag-buga-ar-app.webp", alt: "MVV Energie AG — Augmented Reality App zur BUGA 2023" },
+    credits: [{ role: "Umsetzung", name: "Michael Ramlau, Melissa Eken" }],
   },
   {
     slug: "buga-2023-ki-chatbot",
-    client: "Bundesgartenschau 2023 KI Chatbot",
-    project: "KI Chatbot",
+    // Der Import hatte den Projekttitel an den Kundennamen gehängt
+    // („Bundesgartenschau 2023 KI Chatbot") — die Metazeile las sich dadurch
+    // „… KI Chatbot · 2023 · …" unter der Überschrift „KI Chatbot".
+    client: "Bundesgartenschau 2023",
+    project: "KI Chatbot „Dr. KI“",
+    // Veröffentlichung: 2023.
     year: "2023",
     category: "Video Event Content · Video AI",
     categories: ["event-content", "artificial-intelligence"],
     kicker: "/ Case Study /",
     summary:
       "In Zusammenarbeit mit dem Institut für Künstliche Intelligenz der Uniklinik in Marburg haben wir einen interaktiven, KI-gesteuerten virtuellen Arzt-Avatar entwickelt. Dieser greift auf eine eigens entwickelte künstliche Intelligenz zurück und kann medizinische Fragen fachlich fundiert beantworten und eine Konversation in Echtzeit und in jeder gewünschten Sprache mit den Nutzern führen.\n\nDiese Mechanik ist nach unserem Wissen bisher einzigartig und kann auf alle möglichen Use-Cases auch außerhalb der Medizin übertragen werden. Sprecht uns an. Uns gibt es sogar (noch) in echt ☺",
-    image: { src: "/work/buga-2023-ki-chatbot.webp", alt: "Bundesgartenschau 2023 KI Chatbot — KI Chatbot" },
+    image: { src: "/work/buga-2023-ki-chatbot.webp", alt: "Bundesgartenschau 2023 — KI Chatbot „Dr. KI“" },
+    credits: [
+      { role: "Kunde", name: "Bundesgartenschau 2023, in Kooperation mit der Universitätsklinik Marburg" },
+      { role: "Umsetzung", name: "Michael Ramlau, Melissa Eken" },
+    ],
   },
   {
     slug: "obi-gartenmagazin",
-    client: "OBI Gartenmagazin",
+    client: "OBI",
     project: "Gartenmagazin Motion Graphics Trailer",
-    year: "2023",
+    // ⚠️ 2023 → 2022: Projektinfo des Users sagt „Veröffentlichung: 2022", und
+    // der Text nennt selbst das „OBI Gartenmagazin 2022".
+    year: "2022",
     category: "Video Motion Design",
     categories: ["video-motion-design"],
     kicker: "/ Case Study /",
     summary:
       "Seit einigen Jahren begleiten wir schon mit der Agentur NJU zusammen die Digital Signage Aktivitäten von OBI. In dem Zusammenhang sind schon viele Grafiken und Videos bei uns entstanden. Dazu gehört auch dieser Trailer fürs OBI Gartenmagazin 2022. Hier verbinden wir After Effects mit normalem Bewegtbild und machen aus einem vermeintlich statischen Katalog einen echten Hingucker.",
-    image: { src: "/work/obi-gartenmagazin.webp", alt: "OBI Gartenmagazin — Gartenmagazin Motion Graphics Trailer" },
+    // ⚠️ **Datum prüfen.** Das verlinkte Video heißt bei Vimeo „HEY OBI" und ist
+    // am 12.04.2024 hochgeladen — der Case beschreibt den Trailer zum
+    // Gartenmagazin **2022**. Entweder ein späterer Upload desselben Films oder
+    // ein anderer Trailer (geprüft 24.08.2026 über die Vimeo-oEmbed-API).
+    // ⚠️ Privacy-Hash `/3ec6d0b203` muss dranbleiben — ohne ihn 403.
+    video: "https://vimeo.com/933672329/3ec6d0b203",
+    image: { src: "/work/obi-gartenmagazin.webp", alt: "OBI — Gartenmagazin Motion Graphics Trailer" },
+    credits: [
+      { role: "Kunde", name: "OBI (über Agentur NJU)" },
+      { role: "Umsetzung", name: "Marius Wiemann" },
+    ],
+    gallery: [
+      { src: "/work/obi-gartenmagazin-gallery-1.webp", alt: "OBI Gartenmagazin — Doppelseite „Stufenweise hoch hinaus“", ratio: "wide" },
+      { src: "/work/obi-gartenmagazin-gallery-2.webp", alt: "OBI Gartenmagazin — Titelmotiv „Jetzt im Markt erhältlich“", ratio: "wide" },
+    ],
   },
   {
     slug: "masco-group",
     client: "Masco Group",
     project: "Imagefilm",
+    // Veröffentlichung: 2023.
     year: "2023",
     category: "Video Produktion",
     categories: ["video-produktion"],
     kicker: "/ Case Study /",
     summary:
-      "Die Masco Group ist ein international tätiges Unternehmen mit Hauptsitz in Italien. In Zusammenarbeit mit unserem langjährigen Technikpartner Qvest Media haben wir diesen Brandfilm umgesetzt. Masco Group hatte sich zuvor einen neuen “look” und eine neue brand identity geschaffen und seinen „purpose“ und seine „mission“ nachgeschärft. All das sollte in dem neuen Film verarbeitet werden.\n\nmake/c hat das Konzept und das Storyboard entwickelt sowie das video postproduziert – in enger Abstimmung mit Qvest Media und Masco Group.",
+      "Die Masco Group ist ein international tätiges Unternehmen mit Hauptsitz in Italien. In Zusammenarbeit mit unserem langjährigen Technikpartner Qvest Media haben wir diesen Brandfilm umgesetzt. Masco Group hatte sich zuvor einen neuen „look“ und eine neue brand identity geschaffen und seinen „purpose“ und seine „mission“ nachgeschärft. All das sollte in dem neuen Film verarbeitet werden.\n\n" +
+      "make/c hat das Konzept und das Storyboard entwickelt sowie das Video postproduziert – in enger Abstimmung mit Qvest Media und Masco Group.",
+    services: ["Kreation Storyboard", "Postproduktion"],
+    // ⚠️ Wie beim ZURICH-StrategieGarten ist dieses Video bei Vimeo
+    // **domain-beschränkt**: Player 200 mit Referer make-c.de, 403 von überall
+    // sonst (geprüft 24.08.2026). Läuft live, nicht auf localhost und vermutlich
+    // nicht auf Vercel-Preview-URLs.
     video: "https://vimeo.com/833481331",
     image: { src: "/work/masco-group.webp", alt: "Masco Group — Imagefilm" },
+    credits: [{ role: "Umsetzung", name: "Eric Nitschke, Marius Wiemann" }],
+    gallery: [
+      { src: "/work/masco-group-gallery-1.webp", alt: "Masco Group — Brandfilm, Kapitel „Knowledge“", ratio: "wide" },
+      { src: "/work/masco-group-gallery-2.webp", alt: "Masco Group — Brandfilm, Themenfeld Precision Medicine", ratio: "wide" },
+    ],
   },
   {
     slug: "workshop-selber-drehen-und-schneiden",
-    client: "Workshop",
-    project: "selber drehen und schneiden",
+    // ⚠️ Der Import hatte „Workshop" als Kundennamen übernommen — die Kachel las
+    // sich „WORKSHOP · 2023". Kunde ist laut Projektinfo des Users die
+    // Koelnmesse; „Workshop" steckt jetzt im Projekttitel.
+    client: "Koelnmesse",
+    project: "Workshop „Videos selber drehen und schneiden“",
+    // Durchführung: 2023.
     year: "2023",
     category: "Video Strategie",
     categories: ["video-strategie"],
     kicker: "/ Case Study /",
     summary:
-      "Manchmal ist es das Budget, manchmal der Zeitdruck: in Unternehmen steigt der Bedarf, selber Video Content produzieren zu können. Was vor einigen Jahren noch undenkbar schien, vermitteln wir heute als Basiswissen in einem eintägigen Workshop.\n\nDie Hürden sind denkbar niedrig, schließlich hat jede/r sein Handy immer dabei. Aber auch wenn das Handy in der Theorie tolle Videos produziert, so sieht es in der Praxis doch oft anders aus. Bildformat, Bildaufbau, Hintergrund, Audio, … Es gibt viele Gründe, die ein Video im Ergebnis schlecht machen können. Und vieles davon ist ganz einfach zu vermeiden.",
-    image: { src: "/work/workshop-selber-drehen-und-schneiden.webp", alt: "Workshop — selber drehen und schneiden" },
+      "Manchmal ist es das Budget, manchmal der Zeitdruck: in Unternehmen steigt der Bedarf, selber Video Content produzieren zu können. Was vor einigen Jahren noch undenkbar schien, vermitteln wir heute als Basiswissen in einem eintägigen Workshop.\n\nDie Hürden sind denkbar niedrig, schließlich hat jede/r sein Handy immer dabei. Aber auch wenn das Handy in der Theorie tolle Videos produziert, so sieht es in der Praxis doch oft anders aus. Bildformat, Bildaufbau, Hintergrund, Audio, … Es gibt viele Gründe, die ein Video im Ergebnis schlecht machen können. Und vieles davon ist ganz einfach zu vermeiden.\n\n" +
+      "Durch unsere langjährige Erfahrung im Bereich Bewegtbildproduktion sind wir euer kompetenter Partner und vermitteln euch zuerst ein theoretisches Grundgerüst von „Worauf muss ich bei der Kamera-Perspektive achten?“ über „Welches Format eignet sich für welche social media-Seite?“ bis zu „Wie betreibe ich Visual Storytelling?“.\n\n" +
+      "Der Workshop gliedert sich in einen Theorie- und einen Praxisteil, in dem die Teilnehmer eigene Videos erstellen. Dazu beraten wir auch bei der Auswahl der Technik und wir zeigen die Grenzen des selber erstellbaren Contents.\n\n" +
+      // ⚠️ Kundenzitat, wie bei `db-schenker` und `koelnmesse-anuga-pressekonferenz`
+      // mangels eigenem Feld im Fließtext. Wortlaut ist Fremdrede.
+      "„Ein großes Dankeschön für den tollen Workshop, praxisnah und mit Leidenschaft vermittelt. Wir haben sehr viel mitgenommen und waren alle durchweg begeistert.“\n\n" +
+      "— Miriam de Montigny, Koelnmesse GmbH",
+    image: { src: "/work/workshop-selber-drehen-und-schneiden.webp", alt: "Koelnmesse — Workshop „Videos selber drehen und schneiden“" },
+    credits: [{ role: "Leitung", name: "Christian Wesner, Michael Ramlau" }],
   },
   {
     slug: "zurich-sicherheit-im-strassenverkehr",
     client: "ZURICH",
     project: "Erklärfilmreihe",
+    // Veröffentlichung: 2023.
     year: "2023",
     category: "Video Produktion · Video Motion Design",
     categories: ["video-produktion", "video-motion-design"],
     kicker: "/ Case Study /",
     summary:
-      "Für diese Erklärfilm Reihe haben wir eine eigene Handschrift entwickelt, da wir weg wollten von dem 08/15 Erklärfilm Stil. Nach ersten Testläufen in unserem Parkhaus waren der Kunde und wir sofort begeistert.\n\nAm Ende haben wir die fünf Videos in einem Greenscreen Studio mit einem echten Auto und echten Darstellern gedreht und in der Postproduktion entsprechend verfremdet und mit Motion Graphics in eine stilisierte Landschaft versetzt. Die Soundeffekte unterstützen die oft beklemmenden Botschaften eindrucksvoll.",
+      "Für diese Erklärfilm Reihe haben wir eine eigene Handschrift entwickelt, da wir weg wollten von dem 08/15 Erklärfilm Stil. Nach ersten Testläufen in unserem Parkhaus waren der Kunde und wir sofort begeistert.\n\n" +
+      "Am Ende haben wir die fünf Videos in einem Greenscreen Studio mit einem echten Auto und echten Darstellern gedreht und in der Postproduktion entsprechend verfremdet und mit Motion Graphics in eine stilisierte Landschaft versetzt. Die Soundeffekte unterstützen die oft beklemmenden Botschaften eindrucksvoll.\n\n" +
+      "Die Videoinhalte basieren auf den Ergebnissen einer Studie und dienen der Kommunikation mit Journalisten und natürlich auch für die Social Media Kommunikation.\n\n" +
+      "Der Kunde schreibt: „Die Videos sind wirklich sehr gelungen. Gute Arbeit!“",
+    services: ["Produktion im Greenscreen Studio", "Motion Graphics", "Postproduktion"],
     video: "https://www.youtube.com/watch?v=D73J23W1pdM",
-    image: { src: "/work/zurich-sicherheit-im-strassenverkehr.webp", alt: "ZURICH — Erklärfilmreihe" },
+    // Zweites der fünf Videos, unter dem Text als „Weiteres Video". ⚠️ Das
+    // Standbild ist das YouTube-Thumbnail, aber **lokal** abgelegt — direkt von
+    // img.youtube.com geladen ginge sonst schon beim Öffnen des Fensters eine
+    // Anfrage an Google raus und die Zwei-Klick-Lösung wäre ausgehebelt.
+    secondaryVideos: [
+      {
+        url: "https://youtu.be/3fRAW08NBi8",
+        poster: {
+          src: "/work/zurich-sicherheit-im-strassenverkehr-video-2.webp",
+          alt: "ZURICH — „#BleibFokussiert: Ablenkungsrisiko Schilderwald“",
+        },
+      },
+    ],
+    image: { src: "/work/zurich-sicherheit-im-strassenverkehr.webp", alt: "ZURICH — Erklärfilmreihe „Sicherheit im Straßenverkehr“" },
+    credits: [{ role: "Projektsteuerung", name: "Christian Wesner, Michael Ramlau, Tobias Mächler" }],
   },
   {
     slug: "ihk-koeln",
@@ -517,14 +682,19 @@ export const CASES: CaseStudy[] = [
     slug: "atlantik-bruecke-70-jahre",
     client: "ATLANTIK-BRÜCKE e.V.",
     project: "Jubiläumsfilm 70 Jahre",
-    year: "2023",
+    // ⚠️ 2023 → 2022: Projektinfo des Users sagt „Produktionsjahr: 2022", und
+    // der Text nennt den Festakt selbst „In 2022".
+    year: "2022",
     category: "Video Produktion",
     categories: ["video-produktion"],
     kicker: "/ Case Study /",
     summary:
-      "Schon seit 2020 arbeiten wir immer wieder für die renommierte Atlantik-Brücke in Berlin. In 2022 stand der Festakt zum 70jährigen Jubiläum mit vielen Prominenten Weggefährten an.\n\nWir durften in Form eines Rück- und Ausblicks die Geschichte und Bedeutung der Atlantik-Brücke filmisch in Szene setzen. Dafür standen uns viele renommierte Interviewpartner auf beiden Seiten des Atlantiks zur Verfügung.",
+      "Schon seit 2020 arbeiten wir immer wieder für die renommierte Atlantik-Brücke in Berlin. In 2022 stand der Festakt zum 70jährigen Jubiläum mit vielen Prominenten Weggefährten an.\n\nWir durften in Form eines Rück- und Ausblicks die Geschichte und Bedeutung der Atlantik-Brücke filmisch in Szene setzen. Dafür standen uns viele renommierte Interviewpartner auf beiden Seiten des Atlantiks zur Verfügung.\n\n" +
+      "Da die Umsetzung auf Grund dünner Bewegtbildarchiv-Lage nicht so ganz einfach war, haben wir mit After Effects Templates einen einheitlichen, hochwertigen und zeitgemäßen Rahmen entwickelt.",
+    services: ["Interviews", "Stock Footage", "Dreh", "After Effects"],
     video: "https://www.youtube.com/watch?v=J4carNHyMvk",
     image: { src: "/work/atlantik-bruecke-70-jahre.webp", alt: "ATLANTIK-BRÜCKE e.V. — Jubiläumsfilm 70 Jahre" },
+    credits: [{ role: "Projektsteuerung", name: "Mike Krack" }],
   },
   {
     slug: "simon-mobile",
