@@ -5,11 +5,122 @@
 `docs/CHANGELOG.md`. Dieses Dokument beschreibt nur den **Zustand der jeweiligen
 Übergabe**: was gemacht wurde, was verifiziert ist, was noch offen ist.
 
-⚠️ **Der Stand vom 22.08.2026 ist committet und gepusht** — Vercel hat also deployt.
+⚠️ **Der Stand vom 25.08.2026 ist committet und gepusht** — Vercel hat also deployt.
 Die Abschnitte darunter sind chronologisch gewachsen und tragen teils doppelte Nummern
 (zweimal „0", zweimal „0a"); die Datumsangabe in der Überschrift ist verlässlicher als
 die Nummer. Die Zeile „Alles ist uncommitted", die hier bis zum 22.08.2026 stand, galt
 für die Übergabe vom 30.07.2026 und ist überholt.
+
+---
+
+## Übergabe: Case-Pflege in vier Runden (24./25.08.2026)
+
+Der User hat in mehreren Blöcken Copy, Projektinfos, Videolinks und Bilder geliefert.
+Alles committet und gepusht (`b87ee2d`, `d4680ed`, `085f5d8`), also live. Indexiert wird
+weiter nicht: `NEXT_PUBLIC_SEO_INDEX` ist aus.
+
+### Was inhaltlich passiert ist
+
+- **31 → 32 Referenzen.** Neu: `merkur-lighthouse` (achtteilige Doku für die MERKUR GROUP).
+  ⚠️ **Nicht mit `merkur` verwechseln** — das ist der Imagefilm samt sieben Produktvideos.
+  Die Selected-Work-Kachel „Merkur Lighthouse / Doku" zeigte bis dahin auf `merkur`, also
+  auf den falschen Case; das ist behoben.
+- **Keine Platzhalter-Cases mehr.** `telekom`, `barmenia-gothaer` und `fom-studio` standen
+  seit dem 11.08. mit „Platzhalter — Beschreibung folgt." in der ersten Reihe von `/work`
+  und in den strukturierten Daten. Alle drei haben jetzt Text, Credits und Video.
+- **20 Cases nachgepflegt** — Volltexte, Projektinfos als Credits, Leistungen.
+- **Vier falsche Kundennamen** aus dem Import korrigiert: „Workshop" → Koelnmesse,
+  „Bundesgartenschau 2023 KI Chatbot" → Bundesgartenschau 2023, „MVV Energie AG BUGA" →
+  MVV Energie AG, „OBI Gartenmagazin" → OBI.
+- **Zwei Cases trugen Fremdtext** aus dem Import: in `kpmg` und `obi-gartenmagazin` stand
+  der reCAPTCHA-Consent-Hinweis der alten Portfolio-Seite als zweiter Absatz — sichtbar im
+  Case-Fenster und in der `CreativeWork.description` der `ItemList` von `/work`. Entfernt.
+- **Die beiden Guide-PDFs** sind ausgetauscht (nur die Telefonnummer hatte sich geändert),
+  die Cover-WebPs mussten mit, weil die Nummer auf dem Deckblatt steht.
+
+### Zwei Codeänderungen, die man kennen muss
+
+1. **`VideoFacade.toProvider()` kennt den Vimeo-Privacy-Hash.** Vier der neuen Links sind
+   nicht gelistete Videos in der Form `vimeo.com/<id>/<hash>`. Der Hash wurde vorher
+   verschluckt, der Player antwortete mit **403**. Er wandert jetzt als `h=` in die
+   Embed-URL. Gegen neun URL-Formen geprüft, keine Regression.
+   ⚠️ **An einer Vimeo-URL sieht man nicht, welcher Film dahintersteckt.** Der erste
+   Flughafen-Link zeigte auf den Vorgängerfilm von 2022, während der Case den von 2025
+   beschreibt. Beim nächsten Linkwechsel über die oEmbed-API gegenprüfen:
+   `curl "https://vimeo.com/api/oembed.json?url=<url-encoded>"` liefert Titel, Upload-Datum
+   und Dauer.
+2. **`CaseQuote` am Typ + zentrierte Zitat-Box in `CaseModal`.** Die drei Kundenzitate
+   standen mangels Feld im `summary` und wurden wie normale Absätze gesetzt. Jetzt eigenes
+   Feld, gerendert als Kasten **ohne Radius** (`border-white/10` + `bg-white/[0.035]`) — das
+   Zitat-Idiom aus `Testimonials.tsx`. Das Anführungszeichen darüber ist `&rdquo;`, nicht
+   `&bdquo;`: Dekoration über dem Zitat statt Satzzeichen darin, und eines der drei Zitate
+   ist englisch.
+
+### Neu im Repo: `scripts/check-cases.mjs`
+
+Wertet `lib/content/cases.ts` maschinell aus und speist das Artefakt „Case-Lücken" beim
+User. `node scripts/check-cases.mjs` gibt eine Tabelle, `--json` die Datenblöcke fürs
+Artefakt. **Ich habe das Skript ungefragt angelegt** — es lag zweimal nur in `/tmp` und
+musste jedes Mal neu geschrieben werden; die Übergabe vom 22.08. hatte genau das schon
+vorgeschlagen. Wenn es stört: löschen, es hängt nichts daran.
+
+⚠️ **Eine Angabe darin ist nicht ableitbar und wird von Hand gepflegt:** `IMPORTIERT`.
+Die Ersterhebung hat „Text nie bestätigt" an der Schreibweise im Quelltext erkannt (ein
+String-Literal = Import, per `+` umbrochen = redigiert). Das trägt nicht mehr, seit der
+User Copy geliefert hat, die wortgleich mit dem Importtext ist.
+
+### Stand der Case-Inhalte (aus `scripts/check-cases.mjs`)
+
+**32 Referenzen · 8 vollständig · 9 ohne Video · 9 ohne Credits · 20 ohne Leistungen ·
+0 Platzhalter · 9 Text nie bestätigt.** Am 22.08. waren es 31 / 2 / 16 / 26 / 27 / 3 / 23.
+
+Die neun nie bestätigten Texte: `simon-mobile`, `gothaer-versicherung`,
+`toyota-cross-und-quer`, `bdsi-twitter-videos`, `high-tech-gruenderfonds`,
+`greentech-festival`, `anuga-live-stream`, `aldi` — und `fom-studio`, dessen Text **ich**
+nach Stichworten des Users formuliert habe.
+
+Volle Liste als Artefakt beim User:
+`https://claude.ai/code/artifact/584daaf3-2b3c-4d09-98a2-24de80a49701` (Stand 25.08.2026).
+
+### Offen — was der User noch entscheiden oder liefern muss
+
+- **Drei Videos lassen sich nur live prüfen.** `zurich-strategiegarten-2023` und
+  `masco-group` sind bei Vimeo **domain-beschränkt**: Player 200 mit Referer `make-c.de`,
+  403 von überall sonst — sie laufen also live, aber nicht auf localhost und vermutlich
+  nicht auf Vercel-Preview-URLs. `dmexco-2023` antwortet mit **401**, auch mit Referer
+  `make-c.de`, während andere Vimeo-Videos derselben Seite von derselben Leitung 200 geben;
+  dieser Link stand schon vorher im Code. **Nach dem Deploy einmal draufklicken.**
+- **`fom-studio.summary`** ist von mir formuliert, nicht geliefert. Zwei Absätze, bewusst
+  knapp — mit echten Angaben ließe er sich ausbauen.
+- Die neun nie bestätigten Texte oben.
+
+### Verifikationsstand dieser Übergabe
+
+`npx tsc --noEmit` grün · `npm run lint` grün · `npm run build` grün.
+
+⚠️ **`npm run e2e` ist nicht grün — und war es auch vorher nicht.** Drei Läufe auf dem
+aktuellen Stand: **53/55, 51/55, 52/55**. Die 2–4 Fehlschläge sind **immer** aus derselben
+Familie: ein Ankersprung **beim frischen Laden mit Hash** landet 20–51 px unter dem
+Seitenrand statt auf den geforderten ≥60 (`HEADER_OFFSET` ist 84). Betroffen:
+`A-direkter-load-#contact` (beide Breiten), `6-anker-frei-vom-header`,
+`alte-url-leitet-um@390`.
+
+**Das ist keine Regression aus dieser Sitzung.** Gegengeprüft: auf `d616491` (dem Stand
+vom 22.08., für den die vorige Übergabe „55/55 grün" behauptet) fällt derselbe Check
+**schlechter** aus — `#contact` wird in fünf von sechs Läufen gar nicht gefunden und der
+Sprung passiert überhaupt nicht (`scrollY: 16`). Der heutige Stand verhält sich also
+besser, bleibt aber unter der Toleranz.
+
+**Diagnose für die nächste Sitzung** (gemessen, nicht geraten): die Landeposition ist ab
+500 ms **stabil** und die Seitenhöhe ändert sich danach nicht mehr (12.873 px @390,
+12.799 px @1440) — es ist also **kein** Nachrutschen durch spät ladende Medien. Der Sprung
+landet von Anfang an falsch und streut **zwischen** Ladevorgängen (gemessen: −34 bis +52).
+Das deutet auf ein Rennen zwischen den beiden `springen()`-Aufrufen in
+`components/ui/SmoothScroll.tsx` (Zeile ~92 ff.) und der Lenis-Initialisierung: der zweite
+Aufruf hängt an `document.fonts.ready` und steigt aus, sobald `window.scrollY` mehr als
+4 px vom eigenen Ziel abweicht — genau das tut Lenis in dem Moment.
+⚠️ Vor einem Fix den Abschnitt „Scrollen (Lenis + Next.js)" in `CLAUDE.md` lesen; die
+Zuständigkeiten dort sind teuer erkauft und sollen nicht wieder vermischt werden.
 
 ---
 
