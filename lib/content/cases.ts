@@ -36,10 +36,9 @@ export const CASES: CaseStudy[] = [
     slug: "telekom",
     client: "Telekom",
     project: "Event Content",
-    // ⚠️ Jahr **abgeleitet, nicht vom User bestätigt**: der Platzhalter stand auf
-    // 2026, das verlinkte Video heißt bei Vimeo „Telekom: DIGITAL X 2025
-    // (Opener)" und ist am 29.09.2025 hochgeladen — die DIGITAL X 2025 fand im
-    // September 2025 statt. Bitte gegenlesen.
+    // 2025 statt des ungeprüften Platzhalters 2026 — abgeleitet aus dem
+    // Vimeo-Titel „Telekom: DIGITAL X 2025 (Opener)" und **vom User bestätigt**
+    // (25.08.2026).
     year: "2025",
     category: "Video Event Content",
     categories: ["event-content"],
@@ -55,17 +54,16 @@ export const CASES: CaseStudy[] = [
     poster: { src: "/work/telekom-poster.webp", alt: "Telekom — Event Content" },
     credits: [
       { role: "Projektsteuerung", name: "Paul Zajonc, Michael Ramlau" },
-      { role: "Produktion", name: "Jason Philip, Tobias Mächler, Jennifer Lorey" },
+      { role: "Produktion", name: "Jason Philipp, Tobias Mächler, Jennifer Lorej" },
     ],
   },
   {
     slug: "fom-studio",
     client: "FOM",
     project: "Studiobau und Betrieb",
-    // ⚠️ Jahr **abgeleitet, nicht vom User bestätigt**: der Platzhalter stand auf
-    // 2026, der verlinkte Trailer ist am 02.11.2022 bei Vimeo hochgeladen. Wie
-    // bei `ihk-koeln` ein laufendes Engagement — make/c betreibt das Studio
-    // weiter —, deshalb das **Startjahr**. Bitte gegenlesen.
+    // 2022 statt des ungeprüften Platzhalters 2026 — abgeleitet aus dem Upload
+    // des Trailers (02.11.2022) und **vom User bestätigt** (25.08.2026). Wie bei
+    // `ihk-koeln` ein laufendes Engagement, das Jahr ist also ein Startjahr.
     year: "2022",
     category: "Video Studiobau",
     categories: ["studiobau"],
@@ -73,7 +71,8 @@ export const CASES: CaseStudy[] = [
     // ⚠️ Dieser Text ist nach Stichworten des Users formuliert („komplettes
     // Studio gebaut und betrieben, dort finden sämtliche Produktionen und
     // Live-Streams statt"), nicht von ihm geliefert. Bewusst kurz gehalten:
-    // alles Weitere wäre erfunden. Gehört gegengelesen.
+    // alles Weitere wäre erfunden. Der User hat ihn so stehen lassen
+    // (25.08.2026); wer ihn ausbaut, braucht dafür echte Angaben.
     summary:
       "Für die FOM haben wir ein komplettes Studio gebaut – und betreiben es seitdem auch. Bau und laufender Betrieb kommen damit aus einer Hand.\n\n" +
       "Dort finden sämtliche Produktionen und Live-Streams der FOM statt.",
@@ -324,17 +323,15 @@ export const CASES: CaseStudy[] = [
     categories: ["event-content", "artificial-intelligence"],
     kicker: "/ Case Study /",
     summary:
-      "Mit der Anuga FoodTec Pressekonferenz setzt die Koelnmesse ein starkes Zeichen für ihre digitale Innovationsbereitschaft. Die PK richtete sich an ein asiatisches Fachpublikum in China und Japan und fand erstmalig mit KI-gesteuerten Avataren statt.\n\nmake/c hat dafür das Tool des „24/7 Beraters“ angepasst. Es wurden Avatare der Protagonisten erstellt, die dann in Echtzeit und interaktiv sowohl chinesisch als auch japanisch mit den Journalisten gesprochen haben, obwohl sie in Wirklichkeit beide Sprachen nicht sprechen.\n\n" +
-      // ⚠️ Der User schrieb hier „Hier geht es zum Beitrag bei RTL!" mit
-      // Doppelpunkt davor — **ohne URL**. `summary` ist reiner Text und rendert
-      // ohnehin keine Links, deshalb steht hier ein vollständiger Satz statt
-      // eines ins Leere zeigenden Verweises. Wenn die RTL-URL nachkommt, braucht
-      // es ein eigenes Feld am Typ (oder einen `secondaryVideos`-Eintrag).
-      "Diese „kleine Weltpremiere“ hat auch die Kollegen von RTL begeistert – es war ihnen einen eigenen Beitrag wert, über den wir uns sehr gefreut haben.\n\n" +
-      // ⚠️ Kundenzitat, wie bei `db-schenker` mangels eigenem Feld im Fließtext.
-      // Wortlaut ist Fremdrede: nicht kürzen, nicht übersetzen.
-      "„Many thanks to our partners from make/c - video content marketing GmbH for the creativity and realization.“\n\n" +
-      "— Oliver Frese, Geschäftsführer Koelnmesse",
+      "Mit der Anuga FoodTec Pressekonferenz setzt die Koelnmesse ein starkes Zeichen für ihre digitale Innovationsbereitschaft. Die PK richtete sich an ein asiatisches Fachpublikum in China und Japan und fand erstmalig mit KI-gesteuerten Avataren statt.\n\nmake/c hat dafür das Tool des „24/7 Beraters“ angepasst. Es wurden Avatare der Protagonisten erstellt, die dann in Echtzeit und interaktiv sowohl chinesisch als auch japanisch mit den Journalisten gesprochen haben, obwohl sie in Wirklichkeit beide Sprachen nicht sprechen.",
+    // ⚠️ Hier stand bis 25.08.2026 ein Absatz über einen RTL-Beitrag, der auf
+    // einen Link zeigte, den es nie gab. Auf Wunsch des Users ersatzlos raus.
+    quote: {
+      // Bewusst **nicht** übersetzt — Fremdrede im Original.
+      text: "Many thanks to our partners from make/c - video content marketing GmbH for the creativity and realization.",
+      author: "Oliver Frese",
+      role: "Geschäftsführer Koelnmesse",
+    },
     services: ["Pressekonferenz mit interaktiven, KI-gesteuerten Avataren auf chinesisch und japanisch"],
     image: { src: "/work/koelnmesse-anuga-pressekonferenz.webp", alt: "Koelnmesse — Interaktive PK mit KI-gesteuerten Avataren" },
     credits: [
@@ -385,17 +382,15 @@ export const CASES: CaseStudy[] = [
     category: "Video Studiobau",
     categories: ["studiobau"],
     kicker: "/ Case Study /",
-    // ⚠️ Der letzte Absatz ist ein **Kundenzitat**. Der `CaseStudy`-Typ hat kein
-    // Feld dafür, deshalb steht es im Fließtext — es wird also wie normaler
-    // Absatz gesetzt, nicht als hervorgehobenes Zitat. Wortlaut ist Fremdrede:
-    // nicht kürzen oder glätten. Wer es gestaltet haben will, braucht ein
-    // eigenes Feld am Typ und einen Block in `CaseModal.tsx`.
     summary:
       "DB Schenker ist ein global tätiger Logistik Konzern mit Sitz vor der Haustür unseres Essener Standortes. Wunsch des Kunden war der Bau eines multifunktionsfähigen, hybriden Studios ausgelegt auf Selbstfahrerbetrieb im Alltag.\n\n" +
       "make/c konnte im Pitch mit seinem hybriden, leanen und ganzheitlichen Ansatz überzeugen. Wir haben das ganze Projekt von der Nutzung her gedacht und mit unserer langjährigen Content- und Technikexpertise aus einer Hand umgesetzt. Unsere 3D Visualisierung aus den frühen Konzepttagen deckt sich mit der späteren Umsetzung bis in viele Details.\n\n" +
-      "Nach der Fertigstellung haben wir das Schenker-Personal für den Selbstfahrer-Betrieb geschult und helfen bei größeren Produktionen auf Anfrage immer wieder aus. Das Studio erfreut sich im Schenker Universum großer Beliebtheit.\n\n" +
-      "„Das fertige Studio entspricht genau unseren Erwartungen aus unserem Briefing und der Visualisierung von make/c. Sie haben den Prozess zu unserer vollsten Zufriedenheit gesteuert – immer kreativ, zuverlässig und lösungsorientiert. Wir freuen uns auf die weitere Zusammenarbeit.“\n\n" +
-      "— Christoph Kocher, Head of Competence Center „Content & Internal Communications“, Schenker AG",
+      "Nach der Fertigstellung haben wir das Schenker-Personal für den Selbstfahrer-Betrieb geschult und helfen bei größeren Produktionen auf Anfrage immer wieder aus. Das Studio erfreut sich im Schenker Universum großer Beliebtheit.",
+    quote: {
+      text: "Das fertige Studio entspricht genau unseren Erwartungen aus unserem Briefing und der Visualisierung von make/c. Sie haben den Prozess zu unserer vollsten Zufriedenheit gesteuert – immer kreativ, zuverlässig und lösungsorientiert. Wir freuen uns auf die weitere Zusammenarbeit.",
+      author: "Christoph Kocher",
+      role: "Head of Competence Center „Content & Internal Communications“, Schenker AG",
+    },
     image: { src: "/work/db-schenker.webp", alt: "DB Schenker — Corporate Studio" },
     credits: [
       { role: "Kunde", name: "Schenker AG" },
@@ -499,9 +494,9 @@ export const CASES: CaseStudy[] = [
       "Gemeinsam mit dem #love2becomms Team der ZURICH durften wir das Konzept kreativ mitgestalten und den gesamten Videocontent produzieren (über 80 Content Pieces). Dazu haben wir die Veranstaltung mit mehreren Kameras aufgezeichnet und in verschiedenen Versionen postproduziert.\n\n" +
       "Die Veranstaltung hat nicht nur den Kunden glücklich gemacht, sondern vor allem auch die Zielgruppe, für die sie stattgefunden hat: die Mitarbeiterinnen und Mitarbeiter der ZURICH Versicherung waren von dem Event begeistert.\n\n" +
       "Die interessanten Vorträge des ZURICH Managements wurden begleitet von vielen Künstlern, darunter z. B. Ross Antony, Chris Böhm und der TV Tanzperformance Gruppe „BreakALeg“.\n\n" +
-      // ⚠️ Letzter Absatz: SEO-Text von der alten Portfolio-Seite, in Sie-Form.
-      // Kein anderer der 31 Cases spricht die Leserin direkt an — beim
-      // Gegenlesen bitte entscheiden, ob er bleibt.
+      // Letzter Absatz: SEO-Text von der alten Portfolio-Seite, in Sie-Form.
+      // Kein anderer der 32 Cases spricht die Leserin direkt an — der User hat
+      // ihn am 25.08.2026 gesehen und bewusst behalten. Nicht wegkürzen.
       "Wenn Sie auf der Suche nach einer professionellen Videoagentur mit viel Eventerfahrung und einer ausgeprägten Kreativader sind, die Ihr Event oder Ihre Unternehmenskommunikation in unvergesslichen Aufnahmen festhält, sind Sie bei uns genau richtig. Unsere erfahrenen Videografen und Produktionsteams sind darauf spezialisiert, Ihr Unternehmen und Ihre Botschaft mit höchster Qualität und Kreativität in Szene zu setzen.",
     // ⚠️ Dieses Video ist bei Vimeo **domain-beschränkt**: der Player antwortet
     // nur von freigegebenen Domains mit 200, sonst mit 403 („Aufgrund seiner
@@ -556,18 +551,18 @@ export const CASES: CaseStudy[] = [
     slug: "obi-gartenmagazin",
     client: "OBI",
     project: "Gartenmagazin Motion Graphics Trailer",
-    // ⚠️ 2023 → 2022: Projektinfo des Users sagt „Veröffentlichung: 2022", und
-    // der Text nennt selbst das „OBI Gartenmagazin 2022".
+    // 2023 → 2022, **vom User bestätigt** (25.08.2026). Der Text nennt selbst
+    // das „OBI Gartenmagazin 2022".
     year: "2022",
     category: "Video Motion Design",
     categories: ["video-motion-design"],
     kicker: "/ Case Study /",
     summary:
       "Seit einigen Jahren begleiten wir schon mit der Agentur NJU zusammen die Digital Signage Aktivitäten von OBI. In dem Zusammenhang sind schon viele Grafiken und Videos bei uns entstanden. Dazu gehört auch dieser Trailer fürs OBI Gartenmagazin 2022. Hier verbinden wir After Effects mit normalem Bewegtbild und machen aus einem vermeintlich statischen Katalog einen echten Hingucker.",
-    // ⚠️ **Datum prüfen.** Das verlinkte Video heißt bei Vimeo „HEY OBI" und ist
-    // am 12.04.2024 hochgeladen — der Case beschreibt den Trailer zum
-    // Gartenmagazin **2022**. Entweder ein späterer Upload desselben Films oder
-    // ein anderer Trailer (geprüft 24.08.2026 über die Vimeo-oEmbed-API).
+    // Hinweis: das Video heißt bei Vimeo „HEY OBI" und ist am 12.04.2024
+    // hochgeladen, während der Case das Gartenmagazin **2022** beschreibt. Der
+    // User hat 2022 als Jahr bestätigt (25.08.2026) — der Upload ist also
+    // später als der Film. Kein Fehler, nur nicht aus der URL ablesbar.
     // ⚠️ Privacy-Hash `/3ec6d0b203` muss dranbleiben — ohne ihn 403.
     video: "https://vimeo.com/933672329/3ec6d0b203",
     image: { src: "/work/obi-gartenmagazin.webp", alt: "OBI — Gartenmagazin Motion Graphics Trailer" },
@@ -620,11 +615,12 @@ export const CASES: CaseStudy[] = [
     summary:
       "Manchmal ist es das Budget, manchmal der Zeitdruck: in Unternehmen steigt der Bedarf, selber Video Content produzieren zu können. Was vor einigen Jahren noch undenkbar schien, vermitteln wir heute als Basiswissen in einem eintägigen Workshop.\n\nDie Hürden sind denkbar niedrig, schließlich hat jede/r sein Handy immer dabei. Aber auch wenn das Handy in der Theorie tolle Videos produziert, so sieht es in der Praxis doch oft anders aus. Bildformat, Bildaufbau, Hintergrund, Audio, … Es gibt viele Gründe, die ein Video im Ergebnis schlecht machen können. Und vieles davon ist ganz einfach zu vermeiden.\n\n" +
       "Durch unsere langjährige Erfahrung im Bereich Bewegtbildproduktion sind wir euer kompetenter Partner und vermitteln euch zuerst ein theoretisches Grundgerüst von „Worauf muss ich bei der Kamera-Perspektive achten?“ über „Welches Format eignet sich für welche social media-Seite?“ bis zu „Wie betreibe ich Visual Storytelling?“.\n\n" +
-      "Der Workshop gliedert sich in einen Theorie- und einen Praxisteil, in dem die Teilnehmer eigene Videos erstellen. Dazu beraten wir auch bei der Auswahl der Technik und wir zeigen die Grenzen des selber erstellbaren Contents.\n\n" +
-      // ⚠️ Kundenzitat, wie bei `db-schenker` und `koelnmesse-anuga-pressekonferenz`
-      // mangels eigenem Feld im Fließtext. Wortlaut ist Fremdrede.
-      "„Ein großes Dankeschön für den tollen Workshop, praxisnah und mit Leidenschaft vermittelt. Wir haben sehr viel mitgenommen und waren alle durchweg begeistert.“\n\n" +
-      "— Miriam de Montigny, Koelnmesse GmbH",
+      "Der Workshop gliedert sich in einen Theorie- und einen Praxisteil, in dem die Teilnehmer eigene Videos erstellen. Dazu beraten wir auch bei der Auswahl der Technik und wir zeigen die Grenzen des selber erstellbaren Contents.",
+    quote: {
+      text: "Ein großes Dankeschön für den tollen Workshop, praxisnah und mit Leidenschaft vermittelt. Wir haben sehr viel mitgenommen und waren alle durchweg begeistert.",
+      author: "Miriam de Montigny",
+      role: "Koelnmesse GmbH",
+    },
     image: { src: "/work/workshop-selber-drehen-und-schneiden.webp", alt: "Koelnmesse — Workshop „Videos selber drehen und schneiden“" },
     credits: [{ role: "Leitung", name: "Christian Wesner, Michael Ramlau" }],
   },

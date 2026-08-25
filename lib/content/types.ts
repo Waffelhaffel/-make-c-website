@@ -187,6 +187,23 @@ export type CaseCredit = {
   name: string;
 };
 
+/**
+ * Kundenzitat im Case-Fenster. Bis 25.08.2026 standen die drei vorhandenen
+ * Zitate mangels Feld im `summary` und wurden dadurch wie normale Absätze
+ * gesetzt — als Zitat waren sie nicht zu erkennen (User-Hinweis 25.08.2026).
+ * `CaseModal` rendert sie jetzt als eigene, zentrierte Box.
+ *
+ * ⚠️ Der Wortlaut ist Fremdrede: nicht kürzen, nicht glätten, nicht übersetzen
+ * (das Koelnmesse-Zitat ist bewusst englisch). Dieselbe Regel gilt für die
+ * Zitate in `LandingTestimonials`.
+ */
+export type CaseQuote = {
+  text: string;
+  author: string;
+  /** Funktion und Haus, z. B. „Geschäftsführer Koelnmesse". */
+  role?: string;
+};
+
 export type CaseGalleryItem = {
   src: string;
   alt: string;
@@ -227,6 +244,8 @@ export type CaseStudy = {
    * schwarzer Rahmen mit Play-Kreis.
    */
   secondaryVideos?: { url: string; poster?: LocalImage }[];
+  /** Kundenzitat, unter dem Fließtext als eigene Box. Siehe `CaseQuote`. */
+  quote?: CaseQuote;
   gallery?: CaseGalleryItem[];
 };
 

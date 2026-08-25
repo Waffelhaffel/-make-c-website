@@ -185,6 +185,41 @@ export function CaseModal({ caseData, onClose }: CaseModalProps) {
                 </p>
               )}
 
+              {/* 4a · Kundenzitat (25.08.2026). Bis dahin standen die drei
+                  vorhandenen Zitate im `summary` und waren als Zitat nicht zu
+                  erkennen — User-Vorgabe: „müssen auch als solche zu erkennen
+                  sein, vllt in einer Box zentriert in der Mitte."
+                  ⚠️ Kasten **ohne Radius** und mit `bg-white/[0.035]`: das ist
+                  das Zitat-Idiom der Seite (`Testimonials.tsx`), und außer den
+                  Pill-Buttons ist auf der Seite kein Kasten gerundet. Das
+                  Anführungszeichen ist dekorativ (`aria-hidden`) — der Screen
+                  Reader bekommt die Auszeichnung über `<blockquote>`. */}
+              {data.quote && (
+                <figure className="mb-12 border border-white/10 bg-white/[0.035] px-6 py-10 text-center sm:px-12">
+                  {/* ⚠️ `&rdquo;` (das **hohe** Anführungszeichen), nicht das
+                      deutsche `&bdquo;`: die Marke ist reine Dekoration über dem
+                      Zitat, kein Satzzeichen im Text. Ein tiefstehendes „ säße
+                      dort falsch, und eines der drei Zitate ist englisch —
+                      deutsche Anführungszeichen wären dort auch inhaltlich
+                      daneben. */}
+                  <span
+                    aria-hidden="true"
+                    className="block font-garamond text-[3.5rem] italic leading-none text-white/20"
+                  >
+                    &rdquo;
+                  </span>
+                  <blockquote className="mx-auto mt-4 max-w-[46ch] font-gotham font-light leading-[1.6] text-white/85 text-[19px]">
+                    {data.quote.text}
+                  </blockquote>
+                  <figcaption className="mt-7 font-gotham text-meta">
+                    <span className="block font-semibold text-white/85">{data.quote.author}</span>
+                    {data.quote.role && (
+                      <span className="mt-1 block text-white/45">{data.quote.role}</span>
+                    )}
+                  </figcaption>
+                </figure>
+              )}
+
               {/* 4b · Weitere Videos zum selben Case (z. B. Merkur: Imagefilm
                   oben, ein Produktvideo hier). Ohne Hauptvideo bewusst nichts —
                   dann fehlte oben der Film, zu dem diese hier die Ergänzung sind. */}
