@@ -8,6 +8,17 @@ import type { CaseStudy } from "./types";
 // aufnehmen will, holt es per `git show` aus dem Stand vom 11.08.2026 zurück;
 // die Bilddateien liegen unverändert unter `public/work/`.
 //
+// ⚠️ **31 Cases, Stand 01.09.2026.** `ihk-koeln` („IHK Köln — Rahmenvertrags-
+// partner Streaming", 2022, Kategorie `event-content`) ist auf Wunsch des Users
+// an diesem Tag komplett entfallen; das Bild liegt in `assets/_unused/work/`.
+// Damit fällt „Video Event Content" im Filter von 9 auf 8 Treffer — die Zahl
+// steht als `CONTENT.FILTER.treffer` in `e2e/config.mjs` und muss mitgezogen
+// werden, ebenso `CONTENT.CASES`.
+//
+// ⚠️ **`year` steht seit 01.09.2026 nicht mehr auf der Kachel** (`WorkGrid.tsx`),
+// sondern nur noch in der Metazeile des Case-Fensters (`CaseModal.tsx`). Das
+// Feld bleibt Pflicht: es trägt den 2022-Schnitt.
+//
 // Herkunft (08/2026): die Projekte kommen aus der alten Portfolio-Seite
 // make-c.de/portfolio (Titel, Untertitel und Bilder aus dem HTML-Export,
 // Beschreibungstexte, Jahre, Videos und Credits von den zugehörigen
@@ -62,8 +73,8 @@ export const CASES: CaseStudy[] = [
     client: "FOM",
     project: "Studiobau und Betrieb",
     // 2022 statt des ungeprüften Platzhalters 2026 — abgeleitet aus dem Upload
-    // des Trailers (02.11.2022) und **vom User bestätigt** (25.08.2026). Wie bei
-    // `ihk-koeln` ein laufendes Engagement, das Jahr ist also ein Startjahr.
+    // des Trailers (02.11.2022) und **vom User bestätigt** (25.08.2026). Ein
+    // laufendes Engagement, das Jahr ist also ein Startjahr.
     year: "2022",
     category: "Video Studiobau",
     categories: ["studiobau"],
@@ -655,24 +666,6 @@ export const CASES: CaseStudy[] = [
     ],
     image: { src: "/work/zurich-sicherheit-im-strassenverkehr.webp", alt: "ZURICH — Erklärfilmreihe „Sicherheit im Straßenverkehr“" },
     credits: [{ role: "Projektsteuerung", name: "Christian Wesner, Michael Ramlau, Tobias Mächler" }],
-  },
-  {
-    slug: "ihk-koeln",
-    client: "IHK Köln",
-    project: "Rahmenvertragspartner Streaming",
-    // ⚠️ Laufender Rahmenvertrag, keine einmalige Veröffentlichung: „seit
-    // Frühjahr 2022" (Projektinfo des Users, 24.08.2026) — stand vorher auf
-    // 2023. Das verlinkte Video ist der Frauen-Business-Tag 2022.
-    year: "2022",
-    category: "Video Event Content",
-    categories: ["event-content"],
-    kicker: "/ Case Study /",
-    summary:
-      "Seit Frühjahr 2022 sind wir Rahmenvertragspartner der IHK Köln für Streaming Projekte. Auch in der „Post-Corona“ Zeit erweist sich Streaming für die IHK Veranstaltungen als tragende Säule der Kommunikation und des Austauschs.\n\nSeitdem durften wir schon einige Veranstaltungen in die große weite Welt streamen – u.a. den Frauen-Business-Tag 2022. More to come…",
-    services: ["Live-Streaming"],
-    video: "https://www.youtube.com/watch?v=wwBqU3QcCXU",
-    image: { src: "/work/ihk-koeln.webp", alt: "IHK Köln — Rahmenvertragspartner Streaming" },
-    credits: [{ role: "Projektsteuerung", name: "Marius Wiemann" }],
   },
   {
     slug: "atlantik-bruecke-70-jahre",

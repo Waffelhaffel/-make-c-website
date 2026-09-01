@@ -27,28 +27,42 @@ const H_MIN = 105; // sonst werden 9:1-Wortmarken unlesbar flach
 const W_MAX = 630; // sonst reißen Serviceplan/Vok Dams die Leiste auseinander
 
 // Quelle → Zieldatei + Alt-Text. Reihenfolge = Reihenfolge im Banner.
+//
+// ⚠️ Stand 01.09.2026 (User-Lieferung): **HDI**, **RheinEnergie Marathon Köln**
+// (`Logo-KM.png`) und **funny-frisch** sind aus der Leiste genommen. Ihre
+// Quelldateien liegen weiter in `data/logos-white/` — bitte nicht wieder
+// eintragen, ohne das mit dem User zu klären. `Merkur Logo.png` („MERKUR AG")
+// ist durch `Merkur Group.png` ersetzt: das Unternehmen tritt als MERKUR GROUP
+// auf, das alte Lockup zeigte die frühere Firmierung.
+//
+// Die neun Dateien vom 01.09.2026 sind bereits weiße Motive auf Transparenz und
+// brauchen deshalb — anders als funny-frisch damals — keine Umrechnung.
 const LOGOS = [
   ["Telekom.png", "telekom", "Telekom"],
   ["18d743ee603cc666d83dc5bc6f5b1772822ef426-2560x450.png.avif", "db-schenker", "DB Schenker"],
   ["Covestro_Logo.png", "covestro", "Covestro"],
   ["CGN Logo.png", "koeln-bonn-airport", "Köln Bonn Airport"],
   ["Bayer Logo.png", "bayer", "Bayer"],
+  ["Dräger_Logo.png", "draeger", "Dräger"],
   ["Zurich Logo.png", "zurich", "Zurich"],
   ["Koelnmesse_Logo.png", "koelnmesse", "Koelnmesse"],
   ["Evonik Logo.png", "evonik", "Evonik"],
   ["Rewe-group.png", "rewe-group", "REWE Group"],
   ["ERGO_Claim-DE_Lock-up-centered_Red_RGB.png", "ergo", "ERGO"],
-  ["Merkur Logo.png", "merkur", "Merkur"],
-  ["HDI-Logo.png", "hdi", "HDI"],
+  ["Merkur Group.png", "merkur-group", "MERKUR GROUP"],
+  ["Transgourmet.png", "transgourmet", "Transgourmet"],
   ["shop-com-ueber-uns-section1-logo-rebranding.png", "shop-apotheke", "shop-apotheke.com"],
   ["Logo_UniKoeln.png", "uniklinik-koeln", "Uniklinik Köln"],
+  ["Jülich.png", "forschungszentrum-juelich", "Forschungszentrum Jülich"],
   ["eckes-granini-logo.png", "eckes-granini", "Eckes-Granini"],
   ["TUEV-Rheinland-Logo1.png", "tuev-rheinland", "TÜV Rheinland"],
   ["Adalliance Logo.png", "adalliance", "AdAlliance"],
-  ["Logo-KM.png", "rheinenergie-marathon-koeln", "RheinEnergie Marathon Köln"],
+  ["Bastei_Lübbe.png", "bastei-luebbe", "Bastei Lübbe"],
   ["gerolsteinerlogoohneclaimschwarz72dpi.png", "gerolsteiner", "Gerolsteiner"],
   ["lorenz-logo.png", "lorenz", "Lorenz"],
-  ["funny-frisch-logo-black-and-white.png", "funny-frisch", "funny-frisch"],
+  ["opta-data.png", "opta-data", "opta data"],
+  ["Therme Wund.png", "thermengruppe-josef-wund", "Thermengruppe Josef Wund"],
+  ["Hans Riegel Stiftung.png", "hans-riegel-stiftung", "Dr. Hans Riegel-Stiftung"],
   ["Vok_Dams_Logo.png", "vok-dams", "VOK DAMS"],
   ["serviceplanbanner_EogYfGV.png", "serviceplan", "Serviceplan"],
 ];
@@ -57,7 +71,10 @@ const LOGOS = [
  * funny-frisch liegt als **deckendes** Schwarz-Weiß-Raster vor (kein Alpha-Motiv,
  * 100 % deckend) — auf dunklem Grund wäre das ein weißer Kasten. Deshalb hier
  * umgerechnet: Helligkeit invertiert wird zur Deckkraft, die Farbe wird Weiß.
- * Danach sieht die Datei aus wie die anderen 22: weißes Motiv auf transparent.
+ * Danach sieht die Datei aus wie die anderen: weißes Motiv auf transparent.
+ *
+ * ⚠️ Seit 01.09.2026 **ungenutzt** — funny-frisch steht nicht mehr in `LOGOS`.
+ * Bewusst behalten: die nächste Lieferung ohne Alphakanal braucht genau das.
  */
 async function schwarzweissZuWeissMitAlpha(buf) {
   const { data, info } = await sharp(buf).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
@@ -97,7 +114,8 @@ for (const [datei, slug, alt] of LOGOS) {
   console.log(`${slug.padEnd(28)} ${String(w).padStart(3)}×${CANVAS_H}  Motiv ${String(w)}×${h}  ar ${ar.toFixed(2).padStart(5)}  ${kb.padStart(6)} kB`);
 }
 
-fs.writeFileSync(path.join(OUT, "_manifest.json"), JSON.stringify(manifest, null, 2));
+// Das Manifest gehört **nicht** nach `public/` — dort würde es mit ausgeliefert.
+fs.writeFileSync(new URL("./data/logo-manifest.json", import.meta.url).pathname, JSON.stringify(manifest, null, 2));
 const gesamt = manifest.reduce((s, m) => s + Number(m.kb), 0);
 const breite = manifest.reduce((s, m) => s + m.w, 0);
 console.log(`\n${manifest.length} Logos, ${gesamt.toFixed(0)} kB gesamt`);

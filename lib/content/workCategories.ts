@@ -10,10 +10,16 @@
 // `/work` stattdessen „Event & Messe Kommunikation" und „Live-Streaming".
 //
 // ⚠️ `slug` und Reihenfolge sind bewusst identisch mit `SERVICES`
-// (`./services.ts`) und `SERVICE_PAGES` (`lib/leistungen.ts`). Wer dort einen
-// Slug ändert, muss ihn hier und in `categories[]` aller Cases mitziehen —
-// das prüft kein Typ. `label` trägt hier wie dort das „Video"-Präfix, damit
-// Filterchip und Leistungskachel dasselbe Wort zeigen.
+// (`./services.ts`). Wer dort einen Slug ändert, muss ihn hier und in
+// `categories[]` aller Cases mitziehen — das prüft kein Typ. `label` trägt hier
+// wie dort das „Video"-Präfix, damit Filterchip und Leistungskachel dasselbe
+// Wort zeigen.
+//
+// ⚠️ **Nicht mehr identisch mit `SERVICE_PAGES`** (`lib/leistungen.ts`): dort
+// fehlt seit 01.09.2026 `artificial-intelligence`, weil „Video AI" keine
+// Detailseite mehr hat. Als **Filter-Kategorie** bleibt sie hier — vier Cases
+// tragen sie in `categories[]`, und ein Chip ohne Leistungsseite ist völlig in
+// Ordnung. Diese Liste ist also sechsteilig, `SERVICE_PAGES` fünfteilig.
 
 export type WorkCategory = {
   /** Technischer Schlüssel, steht in `CaseStudy.categories`. Gleich dem Leistungs-Slug. */

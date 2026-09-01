@@ -139,8 +139,14 @@ export function WorkGrid({ caseStudies }: WorkGridProps) {
                   weiterhin getrennt. Wo die Eigenschaft fehlt (ältere Firefox),
                   gilt schlicht das bisherige Verhalten. */}
               <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5 hyphens-auto [hyphenate-limit-chars:10_4_4]">
+                {/* Nur der Kunde — **das Jahr steht seit 01.09.2026 nicht mehr
+                    auf der Kachel** (User-Entscheidung), sondern erst in der
+                    Metazeile des Case-Fensters (`CaseModal.tsx`). `year` bleibt
+                    am Datensatz: es trägt weiter den 2022-Schnitt und die
+                    Sortierung. Wer es hier wieder einsetzt, holt sich auch das
+                    „seit 2018" des Simon-Mobile-Cases in die Kachelzeile. */}
                 <p className="font-gotham text-[10px] text-white/70 uppercase tracking-widest mb-1">
-                  {item.client} · {item.year}
+                  {item.client}
                 </p>
                 {/* h2, nicht h3: auf /work stehen die Kacheln direkt unter
                     der h1 „Referenzen" — es gibt keine Zwischenebene, ein h3

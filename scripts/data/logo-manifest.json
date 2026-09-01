@@ -1,0 +1,245 @@
+[
+  {
+    "slug": "telekom",
+    "alt": "Telekom",
+    "w": 341,
+    "canvasH": 240,
+    "logoH": 168,
+    "ar": "2.03",
+    "kb": "3.4"
+  },
+  {
+    "slug": "db-schenker",
+    "alt": "DB Schenker",
+    "w": 617,
+    "canvasH": 240,
+    "logoH": 105,
+    "ar": "5.88",
+    "kb": "8.6"
+  },
+  {
+    "slug": "covestro",
+    "alt": "Covestro",
+    "w": 240,
+    "canvasH": 240,
+    "logoH": 240,
+    "ar": "1.00",
+    "kb": "9.7"
+  },
+  {
+    "slug": "koeln-bonn-airport",
+    "alt": "Köln Bonn Airport",
+    "w": 453,
+    "canvasH": 240,
+    "logoH": 128,
+    "ar": "3.54",
+    "kb": "11.5"
+  },
+  {
+    "slug": "bayer",
+    "alt": "Bayer",
+    "w": 240,
+    "canvasH": 240,
+    "logoH": 240,
+    "ar": "1.00",
+    "kb": "10.6"
+  },
+  {
+    "slug": "draeger",
+    "alt": "Dräger",
+    "w": 386,
+    "canvasH": 240,
+    "logoH": 150,
+    "ar": "2.57",
+    "kb": "6.8"
+  },
+  {
+    "slug": "zurich",
+    "alt": "Zurich",
+    "w": 303,
+    "canvasH": 240,
+    "logoH": 190,
+    "ar": "1.60",
+    "kb": "7.7"
+  },
+  {
+    "slug": "koelnmesse",
+    "alt": "Koelnmesse",
+    "w": 443,
+    "canvasH": 240,
+    "logoH": 131,
+    "ar": "3.38",
+    "kb": "7.3"
+  },
+  {
+    "slug": "evonik",
+    "alt": "Evonik",
+    "w": 474,
+    "canvasH": 240,
+    "logoH": 122,
+    "ar": "3.88",
+    "kb": "11.5"
+  },
+  {
+    "slug": "rewe-group",
+    "alt": "REWE Group",
+    "w": 435,
+    "canvasH": 240,
+    "logoH": 132,
+    "ar": "3.30",
+    "kb": "7.3"
+  },
+  {
+    "slug": "ergo",
+    "alt": "ERGO",
+    "w": 441,
+    "canvasH": 240,
+    "logoH": 130,
+    "ar": "3.40",
+    "kb": "7.0"
+  },
+  {
+    "slug": "merkur-group",
+    "alt": "MERKUR GROUP",
+    "w": 621,
+    "canvasH": 240,
+    "logoH": 105,
+    "ar": "5.92",
+    "kb": "11.8"
+  },
+  {
+    "slug": "transgourmet",
+    "alt": "Transgourmet",
+    "w": 387,
+    "canvasH": 240,
+    "logoH": 148,
+    "ar": "2.62",
+    "kb": "9.4"
+  },
+  {
+    "slug": "shop-apotheke",
+    "alt": "shop-apotheke.com",
+    "w": 240,
+    "canvasH": 240,
+    "logoH": 240,
+    "ar": "1.00",
+    "kb": "5.5"
+  },
+  {
+    "slug": "uniklinik-koeln",
+    "alt": "Uniklinik Köln",
+    "w": 425,
+    "canvasH": 240,
+    "logoH": 136,
+    "ar": "3.13",
+    "kb": "18.2"
+  },
+  {
+    "slug": "forschungszentrum-juelich",
+    "alt": "Forschungszentrum Jülich",
+    "w": 444,
+    "canvasH": 240,
+    "logoH": 129,
+    "ar": "3.44",
+    "kb": "9.8"
+  },
+  {
+    "slug": "eckes-granini",
+    "alt": "Eckes-Granini",
+    "w": 493,
+    "canvasH": 240,
+    "logoH": 116,
+    "ar": "4.25",
+    "kb": "11.2"
+  },
+  {
+    "slug": "tuev-rheinland",
+    "alt": "TÜV Rheinland",
+    "w": 474,
+    "canvasH": 240,
+    "logoH": 122,
+    "ar": "3.89",
+    "kb": "10.5"
+  },
+  {
+    "slug": "adalliance",
+    "alt": "AdAlliance",
+    "w": 269,
+    "canvasH": 240,
+    "logoH": 214,
+    "ar": "1.26",
+    "kb": "9.2"
+  },
+  {
+    "slug": "bastei-luebbe",
+    "alt": "Bastei Lübbe",
+    "w": 285,
+    "canvasH": 240,
+    "logoH": 202,
+    "ar": "1.41",
+    "kb": "7.1"
+  },
+  {
+    "slug": "gerolsteiner",
+    "alt": "Gerolsteiner",
+    "w": 300,
+    "canvasH": 240,
+    "logoH": 191,
+    "ar": "1.57",
+    "kb": "12.8"
+  },
+  {
+    "slug": "lorenz",
+    "alt": "Lorenz",
+    "w": 358,
+    "canvasH": 240,
+    "logoH": 160,
+    "ar": "2.24",
+    "kb": "11.2"
+  },
+  {
+    "slug": "opta-data",
+    "alt": "opta data",
+    "w": 588,
+    "canvasH": 240,
+    "logoH": 105,
+    "ar": "5.60",
+    "kb": "9.7"
+  },
+  {
+    "slug": "thermengruppe-josef-wund",
+    "alt": "Thermengruppe Josef Wund",
+    "w": 407,
+    "canvasH": 240,
+    "logoH": 141,
+    "ar": "2.88",
+    "kb": "11.2"
+  },
+  {
+    "slug": "hans-riegel-stiftung",
+    "alt": "Dr. Hans Riegel-Stiftung",
+    "w": 403,
+    "canvasH": 240,
+    "logoH": 142,
+    "ar": "2.84",
+    "kb": "11.3"
+  },
+  {
+    "slug": "vok-dams",
+    "alt": "VOK DAMS",
+    "w": 630,
+    "canvasH": 240,
+    "logoH": 75,
+    "ar": "8.43",
+    "kb": "9.6"
+  },
+  {
+    "slug": "serviceplan",
+    "alt": "Serviceplan",
+    "w": 630,
+    "canvasH": 240,
+    "logoH": 64,
+    "ar": "9.91",
+    "kb": "7.9"
+  }
+]

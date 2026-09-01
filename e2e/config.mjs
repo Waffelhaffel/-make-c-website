@@ -55,10 +55,10 @@ export const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
  * `WorkGrid` blendet leere Kategorien aus.
  */
 export const CONTENT = {
-  /** Cases in `CASES` = Kacheln auf /work. */
-  CASES: 32,
-  /** Ein Filter-Chip und seine erwartete Trefferzahl. */
-  FILTER: { label: "Video Event Content", treffer: 9 },
+  /** Cases in `CASES` = Kacheln auf /work. 01.09.2026: 32 → 31, `ihk-koeln` entfallen. */
+  CASES: 31,
+  /** Ein Filter-Chip und seine erwartete Trefferzahl. 01.09.2026: 9 → 8, `ihk-koeln` war `event-content`. */
+  FILTER: { label: "Video Event Content", treffer: 8 },
   /** Kacheln in `SELECTED_WORK` (`lib/data.ts`). */
   SELECTED_WORK: 6,
 };

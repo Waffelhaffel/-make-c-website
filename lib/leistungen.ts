@@ -1,4 +1,8 @@
-// Content der sechs Leistungs-Detailseiten (/leistungen/<slug>).
+// Content der Leistungs-Detailseiten (/leistungen/<slug>).
+//
+// ⚠️ Es sind **fünf**, nicht sechs: `artificial-intelligence` hat seit
+// 01.09.2026 keine eigene Seite mehr (siehe den Block unten, wo sie stand).
+// `SERVICES` in `lib/content/services.ts` führt weiter alle sechs Kacheln.
 //
 // Hartcodiert und so gewollt (CLAUDE.md Regel 1): Content gehört seit 31.07.2026
 // in den Code, Sanity verwaltet nur noch die Case Studies. Die früher hier
@@ -369,7 +373,12 @@ export const SERVICE_PAGES: ServicePageContent[] = [
           "Nicht grundsätzlich. Kurze Animationen sind oft günstiger als ein Drehtag, aufwendig illustrierte Spots können teurer sein als eine Realproduktion. Der eigentliche Vorteil liegt woanders: Animationen lassen sich nachträglich ändern und in andere Sprachen übertragen, ein gedrehtes Bild nicht.",
       },
     ],
-    relatedSlugs: ["video-produktion", "artificial-intelligence"],
+    // ⚠️ Zweiter Slug war bis 01.09.2026 `artificial-intelligence`. Mit dem
+    // Wegfall jener Detailseite hätte `ServiceRelated` den Slug still
+    // fallen gelassen und nur **eine** Karte in ein zweispaltiges Raster
+    // gestellt. `event-content` ist der sachlich nächste Ersatz: Opener,
+    // Lower Thirds und Bumper für Events sind Motion-Design-Arbeit.
+    relatedSlugs: ["video-produktion", "event-content"],
     caseSlugs: [
       "format-tools-katalog",
       "obi-gartenmagazin",
@@ -511,111 +520,23 @@ export const SERVICE_PAGES: ServicePageContent[] = [
   },
 
   // ---------------------------------------------------------------------
-  {
-    slug: "artificial-intelligence",
-    titlePart1: "Video",
-    titlePart2: "AI",
-    h1Plain: "Video AI",
-    subline:
-      "KI-Video und AI-gestützte Produktion — mit make/ai, der eigenen AI-Unit von make/c.",
-    definition:
-      "make/c betreibt mit make/ai eine eigene AI-Unit. Künstliche Intelligenz wird dort entlang der gesamten Videoproduktion eingesetzt: für Skripte und Storyboards, für synthetische Voiceover und Übersetzungen, für KI-Avatare sowie für generierte Bild- und Videosequenzen. Ziel ist nicht, Produktion zu ersetzen, sondern Varianten, Sprachfassungen und Iterationen wirtschaftlich zu machen.",
-    facts: [
-      { label: "Leistungsumfang", value: "KI-Konzeption, generative Bild- und Videosequenzen, KI-Avatare, Voiceover, Lokalisierung" },
-      { label: "Typische Anwendungen", value: "Sprachfassungen, Produktvarianten, Moodfilme, Testimonial-Avatare, Vorvisualisierung" },
-      { label: "Eigene Unit", value: "make/ai — make-ai.de" },
-      { label: "Dauer", value: "Deutlich kürzere Iterationszyklen als in der klassischen Produktion" },
-      { label: "Einsatzgebiet", value: "Standortunabhängig, Beratung in Köln und Essen" },
-    ],
-    blocks: [
-      {
-        title: "Generative Bild- und Videosequenzen",
-        body: "Bildwelten, die sich real nicht oder nur mit erheblichem Aufwand herstellen lassen — abstrakte Konzepte, unmögliche Kamerafahrten, Szenarien ohne verfügbare Location. Wir setzen generative Sequenzen gezielt dort ein, wo sie besser sind als ein Dreh, nicht als billigen Ersatz.",
-      },
-      {
-        title: "KI-Avatare und Sprachfassungen",
-        body: "Ein einmal aufgezeichnetes Testimonial in mehreren Sprachen, mit lippensynchroner Übertragung und konsistenter Stimme. Für internationale Kommunikation und für Inhalte, die häufig aktualisiert werden müssen, ist das der wirtschaftlichste Weg.",
-      },
-      {
-        title: "Vorvisualisierung und Automatisierung",
-        body: "KI beschleunigt vor allem die Ränder der Produktion. Vorne: Varianten eines Skripts, visualisierte Storyboards, Stilproben — Entscheidungen fallen früher und auf besserer Grundlage, was in der teuren Produktionsphase Geld spart. Hinten: Transkription, Untertitel, Übersetzungen und die Auskopplung von Social-Varianten, die unspektakulären Anwendungen, die im Alltag am meisten Zeit freiräumen.",
-      },
-    ],
-    steps: [
-      { title: "Anwendungsfall und Konzept", body: "Wir prüfen ehrlich, wo KI im konkreten Projekt einen Vorteil bringt — und wo nicht. Dann Auswahl der Verfahren, Definition des Looks und Abstimmung der rechtlichen Rahmenbedingungen." },
-      { title: "Prototyp", body: "Eine kurze Testsequenz, bevor Budget in die volle Umsetzung fließt." },
-      { title: "Produktion", body: "Umsetzung, häufig als Kombination aus gedrehtem Material und generierten Elementen." },
-      { title: "Feinschliff und Varianten", body: "Nachbearbeitung, damit generierte Anteile nicht als Fremdkörper wirken — danach die Ausspielung in weiteren Sprachen, Formaten und Fassungen." },
-    ],
-    audience: [
-      "International kommunizierende Unternehmen mit vielen Sprachfassungen",
-      "Marken mit hohem Content-Bedarf und begrenztem Produktionsbudget",
-      "Teams, die Ideen schnell visualisieren müssen, bevor Budget freigegeben wird",
-      "Produkte und Themen, die sich real nur schwer abbilden lassen",
-    ],
-    faq: [
-      {
-        question: "Was ist make/ai?",
-        answer:
-          "make/ai ist die eigene AI-Unit von make/c. Sie bündelt die Arbeit mit generativen Verfahren in der Videoproduktion — von der Konzeption über generierte Bild- und Videosequenzen bis zu Avataren und Lokalisierung. Weitere Informationen stehen unter make-ai.de.",
-      },
-      {
-        question: "Sieht man KI-generiertem Video an, dass es KI ist?",
-        answer:
-          "Bei unbearbeitetem Material meistens ja. Der entscheidende Arbeitsschritt ist die Nachbearbeitung: Farbangleichung, Bewegungsunschärfe, Korngefüge und Schnitt-Rhythmus. make/c setzt generierte Sequenzen deshalb in der Regel als Teil einer Produktion ein, nicht als komplette Filme von der Stange.",
-      },
-      {
-        question: "Wie steht es um Rechte und Rechtssicherheit bei KI-Inhalten?",
-        answer:
-          "Vor der Produktion wird geklärt, welche Modelle und Trainingsgrundlagen zulässig sind, wie mit Persönlichkeitsrechten bei Avataren umgegangen wird und ob eine Kennzeichnungspflicht besteht. Bei Avataren realer Personen liegt immer eine schriftliche Einwilligung vor.",
-      },
-      {
-        question: "Ersetzt KI die klassische Videoproduktion?",
-        answer:
-          "Nein. KI verschiebt, wo Aufwand entsteht: Varianten, Sprachfassungen und Iterationen werden günstiger, das Grundhandwerk aus Konzept, Dramaturgie und Bildgestaltung bleibt. make/c setzt KI dort ein, wo sie ein konkretes Problem löst — nicht als Selbstzweck.",
-      },
-      {
-        question: "Können wir vorab sehen, wie das Ergebnis aussieht?",
-        answer:
-          "Ja. Vor der vollständigen Umsetzung entsteht eine kurze Testsequenz. Weil generative Verfahren im Ergebnis schwerer vorhersagbar sind als ein geplanter Dreh, ist dieser Zwischenschritt bei make/c fester Bestandteil des Ablaufs.",
-      },
-    ],
-    relatedSlugs: ["video-motion-design", "video-produktion"],
-    caseSlugs: [
-      "koelnmesse-anuga-pressekonferenz",
-      "buga-2023-ki-chatbot",
-      "koelner-zoo",
-    ],
-    loopVideo: "/leistungen-loops/artificial-intelligence.mp4",
-    images: [
-      {
-        src: "/leistungen-bilder/artificial-intelligence-1.webp",
-        alt: "Dunkles Studio mit großer LED-Wand während einer Produktion",
-      },
-      {
-        src: "/leistungen-bilder/artificial-intelligence-2.webp",
-        alt: "Zwei Personen bauen eine Kamera auf einem Gimbal auf",
-      },
-    ],
-    cta: {
-      headline: "KI dort, wo sie hilft",
-      body: "Erzähl uns von deinem Vorhaben — wir sagen dir, ob KI der richtige Weg ist oder ein klassischer Dreh das bessere Ergebnis liefert.",
-      buttonText: "Über make/ai sprechen",
-    },
-    seo: {
-      metaTitle: "KI-Video & AI-Produktion | make/ai by make/c",
-      metaDescription:
-        "Mit make/ai setzt make/c KI entlang der gesamten Produktion ein: Skripte, Storyboards, Voiceover und generierte Videos. Schneller produzieren.",
-      keywords: [
-        "KI Video",
-        "AI Video Produktion",
-        "KI-Avatar",
-        "generative Videoproduktion",
-        "KI Voiceover",
-        "make/ai",
-      ],
-    },
-  },
+  // ⚠️ Hier stand bis zum 01.09.2026 die Leistung **`artificial-intelligence`
+  // („Video AI")**. Sie hat auf Wunsch des Users keine Detailseite mehr: die
+  // Kachel auf der Startseite verlinkt direkt nach `make-ai.de`. Der komplette
+  // Text der Seite — Definition, fünf Eckdaten, drei Blöcke, vier Schritte, fünf
+  // FAQ, CTA und SEO-Felder — liegt in der Git-Historie und kommt per
+  // `git show <commit>:lib/leistungen.ts` zurück, falls die Seite je wieder
+  // gewünscht ist.
+  //
+  // Was mit ihr entfallen ist, ohne dass es hier sichtbar wäre: der Eintrag in
+  // `app/sitemap.ts` und `app/llms.txt/route.ts` (beide lesen `SERVICE_PAGES`),
+  // das OG-Bild `/leistungen/artificial-intelligence/og` und der
+  // „Passt dazu"-Verweis von `video-motion-design`.
+  //
+  // ⚠️ **Nicht** entfallen ist die Filter-Kategorie `artificial-intelligence`
+  // auf `/work` (`lib/content/workCategories.ts`) — vier Cases tragen sie. Diese
+  // Liste ist damit fünfteilig, `SERVICES` und `WORK_CATEGORIES` bleiben
+  // sechsteilig. Das ist gewollt.
 
   // ---------------------------------------------------------------------
   {

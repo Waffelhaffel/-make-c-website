@@ -23,6 +23,19 @@ import Image from "next/image";
  * Neues Logo: Datei nach `scripts/data/logos-white/`, Zeile in
  * `LOGOS` von `scripts/build-logo-banner.mjs` ergänzen, Skript laufen lassen,
  * hier eintragen. Reihenfolge = Reihenfolge in der Leiste.
+ *
+ * ⚠️ Stand 01.09.2026 (User-Lieferung): **27 Logos**. Neu sind Dräger,
+ * Transgourmet, Forschungszentrum Jülich, Bastei Lübbe, opta data,
+ * Thermengruppe Josef Wund und Dr. Hans Riegel-Stiftung; „MERKUR AG" ist durch
+ * „MERKUR GROUP" ersetzt. **Herausgenommen** sind HDI, RheinEnergie Marathon
+ * Köln und funny-frisch — nicht ohne Rückfrage wieder eintragen.
+ *
+ * ⚠️ Die **Dauer der Animation gehört zur Länge der Liste** (siehe
+ * `@keyframes marquee` in `globals.css`): 23 Logos liefen in 80 s, 27 brauchen
+ * bei gleicher Geschwindigkeit 97 s. Die Rechnung ist Leinwandbreite × (84/240)
+ * plus 96 px Rand je Logo; sie geht für Mobil (56 px, 64 px Rand) auf denselben
+ * Faktor 1,218 auf. Wer Logos ergänzt oder entfernt, zieht die Sekunden mit,
+ * sonst ändert sich das Tempo der Leiste.
  */
 const LOGOS: { file: string; alt: string; width: number }[] = [
   { file: "telekom.png", alt: "Telekom", width: 341 },
@@ -30,22 +43,26 @@ const LOGOS: { file: string; alt: string; width: number }[] = [
   { file: "covestro.png", alt: "Covestro", width: 240 },
   { file: "koeln-bonn-airport.png", alt: "Köln Bonn Airport", width: 453 },
   { file: "bayer.png", alt: "Bayer", width: 240 },
+  { file: "draeger.png", alt: "Dräger", width: 386 },
   { file: "zurich.png", alt: "Zurich", width: 303 },
   { file: "koelnmesse.png", alt: "Koelnmesse", width: 443 },
   { file: "evonik.png", alt: "Evonik", width: 474 },
   { file: "rewe-group.png", alt: "REWE Group", width: 435 },
   { file: "ergo.png", alt: "ERGO", width: 441 },
-  { file: "merkur.png", alt: "Merkur", width: 257 },
-  { file: "hdi.png", alt: "HDI", width: 379 },
+  { file: "merkur-group.png", alt: "MERKUR GROUP", width: 621 },
+  { file: "transgourmet.png", alt: "Transgourmet", width: 387 },
   { file: "shop-apotheke.png", alt: "shop-apotheke.com", width: 240 },
   { file: "uniklinik-koeln.png", alt: "Uniklinik Köln", width: 425 },
+  { file: "forschungszentrum-juelich.png", alt: "Forschungszentrum Jülich", width: 444 },
   { file: "eckes-granini.png", alt: "Eckes-Granini", width: 493 },
   { file: "tuev-rheinland.png", alt: "TÜV Rheinland", width: 474 },
   { file: "adalliance.png", alt: "AdAlliance", width: 269 },
-  { file: "rheinenergie-marathon-koeln.png", alt: "RheinEnergie Marathon Köln", width: 387 },
+  { file: "bastei-luebbe.png", alt: "Bastei Lübbe", width: 285 },
   { file: "gerolsteiner.png", alt: "Gerolsteiner", width: 300 },
   { file: "lorenz.png", alt: "Lorenz", width: 358 },
-  { file: "funny-frisch.png", alt: "funny-frisch", width: 240 },
+  { file: "opta-data.png", alt: "opta data", width: 588 },
+  { file: "thermengruppe-josef-wund.png", alt: "Thermengruppe Josef Wund", width: 407 },
+  { file: "hans-riegel-stiftung.png", alt: "Dr. Hans Riegel-Stiftung", width: 403 },
   { file: "vok-dams.png", alt: "VOK DAMS", width: 630 },
   { file: "serviceplan.png", alt: "Serviceplan", width: 630 },
 ];
@@ -63,7 +80,7 @@ export function LogoBanner() {
       // Testimonial-Karten.
       className="logo-banner border-y border-white/10 bg-makec-dark overflow-hidden"
     >
-      <div className="flex w-max items-center animate-[marquee_80s_linear_infinite] py-8 md:py-10">
+      <div className="flex w-max items-center animate-[marquee_97s_linear_infinite] py-8 md:py-10">
         {[...LOGOS, ...LOGOS].map(({ file, alt, width }, i) => (
           <Image
             key={`${file}-${i}`}

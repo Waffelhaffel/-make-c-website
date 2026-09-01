@@ -36,6 +36,12 @@ function youtubeEmbedUrl(url: string): string | null {
 export function Showreel({ data }: ShowreelProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  /**
+   * Merker, damit der Autostart **genau einmal je Öffnen** greift. `canplay`
+   * feuert auch nach einem Sprung in der Zeitleiste; ohne den Merker würde ein
+   * pausierter Player nach jedem Spulen von selbst weiterlaufen.
+   */
+  const autostartGenutzt = useRef(false);
 
   const videoUrl = data.videoUrl;
   const kind = detectVideoKind(videoUrl);
@@ -48,16 +54,47 @@ export function Showreel({ data }: ShowreelProps) {
         : null;
 
   const handlePlay = () => {
+    autostartGenutzt.current = false;
     setIsPlaying(true);
-    if (!isEmbed) videoRef.current?.play();
+    // ⚠️ Hier steht bewusst **kein** `videoRef.current.play()` mehr. Bis
+    // 01.09.2026 stand es hier und lief immer ins Leere: das `<video>` existiert
+    // zu diesem Zeitpunkt noch nicht. `AnimatePresence mode="wait"` hängt es
+    // erst ein, wenn das Standbild fertig ausgeblendet ist — gemessen war 200 ms
+    // nach dem Klick kein `<video>` im DOM, der Ref also `null`. Folge: der
+    // Besucher klickte auf Play und bekam einen **pausierten** Player, den er
+    // ein zweites Mal starten musste. Der Start hängt deshalb jetzt am Element
+    // selbst (`autoPlay` + `onCanPlay` unten), nicht an diesem Handler.
   };
 
   const handleClose = () => {
     setIsPlaying(false);
+    autostartGenutzt.current = false;
     if (!isEmbed) {
       videoRef.current?.pause();
       if (videoRef.current) videoRef.current.currentTime = 0;
     }
+  };
+
+  /**
+   * Startet die lokale Datei, sobald sie abspielbar ist.
+   *
+   * Der Klick auf den Play-Kreis ist die Nutzerinteraktion, die unstummes
+   * Abspielen erlaubt — die Autoplay-Sperren der Browser greifen hier also
+   * nicht. Sollte ein Browser es doch abweisen, ist das kein Fehlerfall: die
+   * Steuerleiste steht sichtbar daneben, der Besucher kann selbst starten.
+   * Deshalb ein geschlucktes `catch` und keine Fehlerbehandlung.
+   *
+   * ⚠️ Kein `prefers-reduced-motion`-Gate wie in `LazyVideo`: dort geht es um
+   * Videos, die **von sich aus** loslaufen. Hier hat der Besucher ausdrücklich
+   * auf Play gedrückt — das zu unterdrücken wäre keine Rücksicht, sondern ein
+   * kaputter Button.
+   */
+  const starteAutomatisch = () => {
+    if (autostartGenutzt.current) return;
+    const video = videoRef.current;
+    if (!video) return;
+    autostartGenutzt.current = true;
+    video.play().catch(() => {});
   };
 
   const handleContextMenu = (e: React.MouseEvent) => {
@@ -158,6 +195,11 @@ export function Showreel({ data }: ShowreelProps) {
                       src={videoUrl}
                       className="w-full h-full object-contain bg-black"
                       controls
+                      // Der Regelfall. `onCanPlay` ist der Nachstarter für
+                      // Browser, die das Attribut trotz vorangegangenem Klick
+                      // ignorieren — dasselbe Muster wie in `Hero.tsx`.
+                      autoPlay
+                      onCanPlay={starteAutomatisch}
                       controlsList="nodownload noremoteplayback"
                       disablePictureInPicture
                       playsInline

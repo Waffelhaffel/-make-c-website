@@ -19,9 +19,59 @@ function splitTitle(title: string): [string, string | null] {
   return [title.slice(0, idx), title.slice(idx + 1)];
 }
 
+/**
+ * Der Rahmen einer Kachel.
+ *
+ * Fünf Leistungen verlinken intern auf ihre Detailseite. **Video AI hat seit dem
+ * 01.09.2026 keine** (User-Entscheidung) und trägt stattdessen `externalUrl` —
+ * dann ein normales `<a>` mit `target`/`rel` wie an allen übrigen externen Links
+ * der Seite. `next/link` wäre hier falsch: es würde den Client-Router bemühen
+ * für ein Ziel, das nicht zur App gehört.
+ */
+function KachelLink({
+  service,
+  children,
+}: {
+  service: Service;
+  children: React.ReactNode;
+}) {
+  const klassen = "group relative md:grid md:grid-cols-2";
+
+  if (service.externalUrl) {
+    return (
+      <a
+        href={service.externalUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-cursor="VIEW"
+        className={klassen}
+      >
+        {children}
+      </a>
+    );
+  }
+
+  return (
+    <Link href={servicePagePath(service.slug)} data-cursor="VIEW" className={klassen}>
+      {children}
+    </Link>
+  );
+}
+
+/**
+ * Beschriftung des Kachel-Buttons. Extern steht dort der **Hostname** statt
+ * „Mehr erfahren" — der Besucher soll vor dem Klick sehen, dass er die Seite
+ * verlässt, und wohin (User-Vorgabe 01.09.2026: „das soll auch auf dem Button
+ * stehen"). Abgeleitet aus der URL, damit die Domain nur an einer Stelle steht.
+ */
+function ctaLabel(service: Service): string {
+  return service.externalUrl ? new URL(service.externalUrl).host : SERVICE_CTA_TEXT;
+}
+
 // Statische Leistungs-Liste. Die Kacheln klappten früher auf (ServiceAccordion,
 // bis 07/2026); seit den Detailseiten verlinkt jede Kachel auf
-// /leistungen/<slug>. Bleibt Server-Component — next/link braucht kein "use client".
+// /leistungen/<slug> — Video AI seit 01.09.2026 nach außen, siehe KachelLink.
+// Bleibt Server-Component — next/link braucht kein "use client".
 export function ServiceList({ services }: ServiceListProps) {
   return (
     <MotionSection
@@ -35,17 +85,14 @@ export function ServiceList({ services }: ServiceListProps) {
             const [titlePart1, titlePart2] = splitTitle(service.title);
             // Der Loop kommt aus `SERVICE_PAGES` — dieselbe Datei wie auf der
             // Detailseite, damit Kachel und Seite dasselbe zeigen und der Pfad
-            // nur an einer Stelle steht.
-            const loopVideo = getServicePage(service.slug)?.loopVideo;
+            // nur an einer Stelle steht. Für eine Leistung **ohne** Detailseite
+            // (Video AI) gibt es diese Stelle nicht mehr; die trägt den Pfad
+            // deshalb selbst und hat hier Vorrang.
+            const loopVideo = service.loopVideo ?? getServicePage(service.slug)?.loopVideo;
 
             return (
               // Bild abwechselnd links/rechts, Headline überlappt die Bildkante (Figma 38:184ff)
-              <Link
-                key={service.slug}
-                href={servicePagePath(service.slug)}
-                data-cursor="VIEW"
-                className="group relative md:grid md:grid-cols-2"
-              >
+              <KachelLink key={service.slug} service={service}>
                 {/* Bild + Headline in einem Wrapper: auf Mobile ist er der
                     Positionsanker, damit das Overlay genau die Bildhöhe hat
                     (der Button darunter steht im Fluss und darf es nicht
@@ -115,7 +162,7 @@ export function ServiceList({ services }: ServiceListProps) {
                           im Look der Testimonial-Karten statt weißes Pill. */}
                       <span className="hidden md:block">
                         <PillButton size="md" variant="box">
-                          {SERVICE_CTA_TEXT}
+                          {ctaLabel(service)}
                         </PillButton>
                       </span>
                     </div>
@@ -126,10 +173,10 @@ export function ServiceList({ services }: ServiceListProps) {
                     zweizeiligen) Headline kein Platz → Button unter dem Bild. */}
                 <div className="pt-5 pb-10 md:hidden">
                   <PillButton size="md" variant="box">
-                    {SERVICE_CTA_TEXT}
+                    {ctaLabel(service)}
                   </PillButton>
                 </div>
-              </Link>
+              </KachelLink>
             );
           })}
         </div>

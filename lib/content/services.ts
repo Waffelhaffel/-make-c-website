@@ -15,6 +15,12 @@ import type { Service } from "./types";
 // passen, sonst verlinkt die Kachel auf eine 404. Die drei `video-*`-Präfixe
 // sind gewollt inkonsistent gelassen.
 //
+// ⚠️ **Eine Ausnahme, seit 01.09.2026:** `artificial-intelligence` hat keinen
+// Eintrag in `SERVICE_PAGES` und damit keine Detailseite — die Kachel verlinkt
+// über `externalUrl` nach `make-ai.de`. Die Liste hier bleibt trotzdem
+// sechsteilig, `SERVICE_PAGES` ist fünfteilig. Das ist gewollt und der einzige
+// Punkt, an dem die beiden Listen auseinanderlaufen dürfen.
+//
 // ⚠️ Die Grafiken sind handgezeichnete Platzhalter (Magnific, weiße
 // Marker-Linien auf #14140F). Austauschen = Datei unter demselben Pfad ersetzen.
 
@@ -54,9 +60,17 @@ export const SERVICES: Service[] = [
       alt: "Handgezeichnete Illustration: Video Event Content",
     },
   },
+  // ⚠️ **Die einzige Leistung ohne Detailseite** (User-Entscheidung 01.09.2026):
+  // die Kachel führt nach `make-ai.de`, `/leistungen/artificial-intelligence`
+  // ist entfallen und liefert eine 404. Deshalb steht hier — anders als bei den
+  // fünf anderen — der Loop-Pfad direkt am Eintrag: es gibt keinen Gegenpart in
+  // `SERVICE_PAGES`, aus dem `ServiceList` ihn holen könnte. Den Text der
+  // früheren Seite liefert `git show` auf `lib/leistungen.ts` vom 31.08.2026.
   {
     slug: "artificial-intelligence",
     title: "Video AI",
+    externalUrl: "https://make-ai.de",
+    loopVideo: "/leistungen-loops/artificial-intelligence.mp4",
     image: {
       src: "/leistungen/artificial-intelligence.png",
       alt: "Handgezeichnete Illustration: Video AI",

@@ -258,7 +258,11 @@ export type CaseStudy = {
  * redundant. Der Seitentext der Leistungen steht in `lib/leistungen.ts`.
  */
 export type Service = {
-  /** Muss zu einem `slug` in `lib/leistungen.ts` passen → `/leistungen/<slug>` */
+  /**
+   * Muss zu einem `slug` in `SERVICE_PAGES` (`lib/leistungen.ts`) passen →
+   * `/leistungen/<slug>`. **Ausnahme:** Einträge mit `externalUrl` haben dort
+   * bewusst keinen Gegenpart, weil sie keine Detailseite besitzen.
+   */
   slug: string;
   /** Wird an der ersten Leerstelle für die Misch-Typo-Headline getrennt: „Video / Produktion" */
   title: string;
@@ -270,4 +274,23 @@ export type Service = {
    * — dann hier auch das Feld am jeweiligen Eintrag löschen.
    */
   image?: LocalImage;
+  /**
+   * Ziel des Kachel-Links, wenn diese Leistung **keine** eigene Detailseite hat.
+   * Gesetzt bei `artificial-intelligence` (User-Entscheidung 01.09.2026): die
+   * Kachel führt nach `make-ai.de`, die Unterseite `/leistungen/artificial-intelligence`
+   * ist entfallen. `ServiceList` rendert dann ein externes `<a>` statt eines
+   * `next/link` und beschriftet den Button mit dem Hostnamen der URL.
+   *
+   * ⚠️ Wer hier eine URL einträgt, muss den Eintrag in `SERVICE_PAGES`
+   * (`lib/leistungen.ts`) entfernen — sonst existiert die Detailseite weiter und
+   * steht in Sitemap, `llms.txt` und den „Passt dazu"-Blöcken.
+   */
+  externalUrl?: string;
+  /**
+   * Loop-Video der Kachel, **nur** für Leistungen ohne Detailseite. Alle anderen
+   * holen den Pfad aus `SERVICE_PAGES[].loopVideo`, damit Kachel und Detailseite
+   * dieselbe Datei zeigen und der Pfad nur an einer Stelle steht — für eine
+   * Leistung ohne Seite gibt es diese Stelle nicht mehr.
+   */
+  loopVideo?: string;
 };
