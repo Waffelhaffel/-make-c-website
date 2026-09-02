@@ -5,11 +5,273 @@
 `docs/CHANGELOG.md`. Dieses Dokument beschreibt nur den **Zustand der jeweiligen
 Übergabe**: was gemacht wurde, was verifiziert ist, was noch offen ist.
 
-⚠️ **Der Stand vom 25.08.2026 ist committet und gepusht** — Vercel hat also deployt.
+⚠️ **Der Stand vom 01.09.2026 ist committet und gepusht** (`f0bc710`) — Vercel hat
+deployt, und das Ergebnis ist gegen die Live-Domain nachgeprüft. Indexiert wird weiter
+nicht: `NEXT_PUBLIC_SEO_INDEX` ist aus.
+
+⚠️ **Eine Datei liegt uncommitted im Repo-Wurzelverzeichnis: `AUDIT-REPORT.md`** (72 kB,
+Pre-Launch-Audit vom 31.08.2026, Verdikt **NO-GO**). Sie ist bewusst nicht mitgepusht — der
+User sollte entscheiden, ob sie ins Repo gehört. ⚠️ **Ein `git clean` löscht sie.** Der
+zugehörige Messanhang (90 Screenshots, 13 Evidence-JSONs, 18 Lighthouse-Rohläufe, 243 MB)
+lag im Session-Scratchpad und ist mit dem Sitzungsende **weg**; alle Zahlen daraus stehen
+aber im Report selbst.
+
 Die Abschnitte darunter sind chronologisch gewachsen und tragen teils doppelte Nummern
 (zweimal „0", zweimal „0a"); die Datumsangabe in der Überschrift ist verlässlicher als
 die Nummer. Die Zeile „Alles ist uncommitted", die hier bis zum 22.08.2026 stand, galt
 für die Übergabe vom 30.07.2026 und ist überholt.
+
+---
+
+## Übergabe: Logo-Band, Video AI, Cases, Showreel (01.09.2026) — committet und live
+
+Vier Änderungen aus einer User-Lieferung, dazu ein Fix am Showreel-Player. Alles in
+**einem** Commit (`f0bc710`), gepusht, Vercel war nach rund 40 s durch. Gegen
+`make-c-website.vercel.app` im DOM nachgeprüft, nicht nur im HTML.
+
+### Was passiert ist
+
+- **Logo-Band: 23 → 27 Logos.** Neu: **Dräger, Transgourmet, Forschungszentrum Jülich,
+  Bastei Lübbe, opta data, Thermengruppe Josef Wund, Dr. Hans Riegel-Stiftung**. Heraus:
+  **HDI, RheinEnergie Marathon Köln, funny-frisch**. „MERKUR AG" ist durch **„MERKUR
+  GROUP"** ersetzt — Rebranding, das alte Lockup zeigte die frühere Firmierung. Verteilt
+  eingeordnet, nicht als Block am Ende.
+  - Zwei der zehn gelieferten Dateien waren **Dubletten** und sind nicht eingebaut: `ERGO.png`
+    ist optisch deckungsgleich mit dem ERGO, das schon in der Leiste stand, und `Wund.png`
+    ist **pixelgleich** mit `Therme Wund.png` (3.120.000 Bytes verglichen, 0 abweichend).
+    Beide Kopien wurden aus `scripts/data/logos-white/` wieder entfernt.
+  - ⚠️ **Die Marquee-Dauer ist mitgezogen: 80 s → 97 s.** Das Band ist um Faktor 1,218
+    länger; bei festen 80 s wäre es genau um diesen Faktor schneller gelaufen. Der Faktor
+    geht für Desktop (84 px Höhe, 96 px Rand) und Mobil (56 px, 64 px) gleich auf. Die
+    Kopplung stand schon vorher als Auflage in `globals.css` — wer Logos ändert, zieht die
+    Sekunden mit.
+  - Das Manifest des Build-Skripts liegt jetzt in `scripts/data/logo-manifest.json` statt in
+    `public/logos/`, wo es mit ausgeliefert worden wäre.
+- **Video AI hat keine Unterseite mehr** (User-Entscheidung). Die Kachel verlinkt nach
+  **`make-ai.de`**, der Button trägt den **Hostnamen** statt „Mehr erfahren" — aus der URL
+  abgeleitet, damit die Domain nur an einer Stelle steht. Link öffnet in einem neuen Tab,
+  wie alle anderen externen Links der Seite.
+- **`/work`: das Jahr steht nicht mehr auf der Kachel**, nur noch in der Metazeile des
+  Case-Fensters. `year` bleibt Pflicht am Typ — es trägt den 2022-Schnitt.
+- **Der Case `ihk-koeln` ist komplett entfallen.** **32 → 31 Referenzen**, „Video Event
+  Content" **9 → 8 Treffer**. Bild in `assets/_unused/work/`.
+- **Neues Showreel** (51,6 s statt 40,5 s), dazu 🆕 **`scripts/build-showreel.mjs`**.
+- **Der Play-Kreis des Showreels startet das Video jetzt wirklich.**
+
+### Drei Dinge am Code, die man kennen muss
+
+1. **`SERVICES` (6) und `SERVICE_PAGES` (5) laufen jetzt bewusst auseinander** — die erste
+   dokumentierte Ausnahme von der Slug-Gleichheit, die `CLAUDE.md` sonst verlangt.
+   `artificial-intelligence` steht nur noch in `SERVICES` und trägt dort `externalUrl`
+   **und** `loopVideo` (beide Felder sind für diesen Fall neu am `Service`-Typ).
+   - Was dadurch **automatisch** wegfiel, weil alle vier `SERVICE_PAGES` lesen: die Route
+     (**404** statt Seite), der Sitemap-Eintrag, der Absatz in `llms.txt` und das OG-Bild.
+   - ⚠️ Der `loopVideo`-Pfad am `SERVICES`-Eintrag ist **kein Schmuck**: `ServiceList` holte
+     ihn vorher aus `SERVICE_PAGES`, das es für AI nicht mehr gibt. Ohne ihn stünde in der
+     Kachel der handgezeichnete Platzhalter aus `public/leistungen/`.
+   - ⚠️ **Die Filter-Kategorie `artificial-intelligence` auf `/work` bleibt** — vier Cases
+     tragen sie, ein Chip ohne Leistungsseite ist in Ordnung. `WORK_CATEGORIES` ist damit
+     sechsteilig, `SERVICE_PAGES` fünfteilig.
+   - Der komplette Text der früheren Seite (Definition, fünf Eckdaten, drei Blöcke, vier
+     Schritte, fünf FAQ, CTA, SEO-Felder) liegt in der Historie: `git show eec406b:lib/leistungen.ts`.
+2. **`relatedSlugs` von `video-motion-design` wurde geändert**, ohne dass es jemand
+   angefordert hat: von `artificial-intelligence` auf `event-content`. Grund:
+   `ServiceRelated` lässt unbekannte Slugs **still** fallen und hätte **eine** Karte in ein
+   zweispaltiges Raster gestellt. Die Wahl ist eine Ermessensfrage — Opener, Lower Thirds
+   und Bumper für Events sind Motion-Design-Arbeit — und darf gern anders ausfallen.
+3. **`ServiceList` hat `KachelLink` bekommen.** Extern ein normales `<a>` mit `target`/`rel`,
+   intern weiter `next/link`. Grund für die Trennung: `next/link` würde den Client-Router für
+   ein Ziel bemühen, das nicht zur App gehört.
+
+### Showreel: Zahlen und der CRF-Fallstrick
+
+Die Lieferdatei (`Makec_Showreel_260827.mp4`, in `assets/masters/showreel/`) wog **27,4 MB**
+— 1920×1080, 25 fps, 51,6 s, H.264 Main @ 4,33 Mbit/s. Ausgeliefert werden **13,08 MB** bei
+**SSIM 0,9924** gegen die Quelle. Auflösung und Videobitrate sind absichtlich dieselben wie
+bei der alten Datei (1920×1080, 2,0 Mbit/s); größer ist sie nur, weil der Reel 11 s länger
+ist. Ton per `-c:a copy` übernommen, nicht neu codiert.
+
+Vier Varianten gemessen, alle auf 1920×1080 gebracht, damit die Skalierung nicht als
+Qualitätsverlust mitzählt:
+
+```
+1600×900  @1600k   10,61 MB   SSIM 0,9913
+1920×1080 @2000k   13,08 MB   SSIM 0,9924   ← gewählt
+1920×1080 @2600k   16,74 MB   SSIM 0,9948
+1920×1080 crf23    32,35 MB   SSIM 0,9967   ← größer als die Quelle
+```
+
+⚠️ **Der CRF-Fallstrick vom Hero-Video hat sich bestätigt**, hier noch deutlicher: die
+Quelle ist schon ein Web-Encode, ein CRF-Lauf konserviert deren Artefakte mit und wird
+**größer als die Quelle**. Für H.264 auf vorkomprimiertem Material gehört eine
+2-Pass-Zielbitrate her. Zum Maßstab: die drei Hero-Fassungen liegen bei SSIM 0,977–0,983
+und sind so abgenommen.
+
+⚠️ **`-map 0:v:0 -map 0:a:0` hält die `tmcd`-Spur nicht draußen** — der mp4-Muxer schreibt
+sie von sich aus wieder, sobald der Videostream Timecode-Metadaten trägt. Erst
+`-write_tmcd 0` liefert eine Datei mit genau zwei Spuren.
+
+⚠️ **`public/showreel-thumbnail.webp` bleibt unverändert** (User-Entscheidung 01.09.2026).
+Es zeigt weiter einen Frame der **alten** Fassung; das ist so gewollt, nicht vergessen.
+
+### Der Play-Button: warum er nie funktioniert hat
+
+`handlePlay` rief `videoRef.current.play()` — auf einem `<video>`, das zu diesem Zeitpunkt
+**noch nicht existiert**. `AnimatePresence mode="wait"` hängt es erst ein, wenn das Standbild
+fertig ausgeblendet ist; gemessen war **200 ms nach dem Klick kein `<video>` im DOM**, der Ref
+also `null` und der Aufruf wirkungslos. Folge: der Besucher klickte auf Play und bekam einen
+**pausierten** Player, den er ein zweites Mal starten musste. Das war seit der Einführung des
+Players so und ist niemandem aufgefallen.
+
+Der Start hängt jetzt am Element selbst: `autoPlay` plus `onCanPlay` als Nachstarter, dasselbe
+Muster wie in `Hero.tsx`.
+
+- ⚠️ Der Autostart greift über einen Merker **genau einmal je Öffnen**. Ohne den würde
+  `canplay` — das auch nach jedem Spulen feuert — einem pausierten Player die Pause wegnehmen.
+- ⚠️ Bewusst **kein** `prefers-reduced-motion`-Gate wie in `LazyVideo`: hier hat der Besucher
+  ausdrücklich auf Play gedrückt. Das zu unterdrücken wäre kein Entgegenkommen, sondern ein
+  kaputter Button.
+
+### Loops und Hero-Video: geprüft, kein Fehler in der Seite
+
+Anlass war die Beobachtung eines Kollegen, bei dem „das Ganze nicht richtig läuft". Geprüft in
+**Chromium, WebKit und Firefox**: alle sechs Kachel-Loops, der Loop im Kopf der
+Leistungsseiten und das Hero-Video **spielen und loopen**. Loop belegt durch Sprung auf 0,3 s
+vor Schluss und Warten auf den Umschlag. Codec-Deklarationen gegen die Dateien geprüft:
+`av01` / `hvc1` (nicht `hev1`) / `avc1` passen, keine Tonspuren. Erzwungene Fallbacks
+bestätigt: AV1 blockiert → HEVC 1920×1080, beide blockiert → H.264 1600×900.
+
+**Zwei Zustände, in denen es beim Besucher trotzdem stillsteht — beide nachgestellt, beide im
+Browser des Besuchers begründet:**
+
+1. **`prefers-reduced-motion: reduce`** (macOS „Bewegung reduzieren", Windows „Animationen
+   anzeigen: aus"). `LazyVideo` prüft das selbst (`components/ui/LazyVideo.tsx:31`) und lädt
+   dann **gar nichts** — alle sechs Kachel-Loops und der Loop im Seitenkopf bleiben Standbild,
+   **das Hero-Video läuft weiter**, es hat dieses Gate bewusst nicht. Genau das sieht aus wie
+   „halb kaputt". Beim Betroffenen in einer Zeile prüfbar:
+   `matchMedia('(prefers-reduced-motion: reduce)').matches`
+2. **Firefox mit „Audio und Video blockieren"** (Einstellungen → Datenschutz → Berechtigungen
+   → Automatische Wiedergabe; `media.autoplay.default=5`, blockt auch stumme Videos). Dann
+   steht auch das Hero-Video zunächst, **startet aber nach der ersten Eingabe** — der
+   Nachstarter in `Hero.tsx` tut hier genau seinen Dienst. Die Loops starten **nie**, weil
+   `LazyVideo` keinen solchen Nachstarter hat.
+   Chromium mit `--autoplay-policy=user-gesture-required` ist dagegen unkritisch: stumme
+   Videos fallen nicht darunter.
+
+⚠️ **Die Inkonsequenz ist echt und unentschieden:** das bildschirmfüllende Hero-Video
+ignoriert `prefers-reduced-motion`, die kleinen Loops befolgen es. Entweder beide oder keiner
+wäre stimmiger. Siehe „Offen".
+
+### ⚠️ Drei Messfallen, in die diese Sitzung gelaufen ist
+
+Alle drei hätten als Befund in einem Bericht landen können und waren Fehler der Messung:
+
+1. **Ein 4,8-s-Loop springt während einer 1,5-s-Probe um.** Ein Test auf „`currentTime` ist
+   gestiegen" liest das als Stillstand (gemessen: 4,02 → 0,51 s). Über den **Umschlag** prüfen,
+   nicht über die Differenz. Ebenso irreführend: alle sechs Loops **gleichzeitig** messen —
+   `LazyVideo` pausiert außerhalb des Viewports absichtlich, es laufen nie alle sechs. Der
+   erste Lauf meldete deshalb „1 von 6 läuft".
+2. **Nexts Image-Optimizer (`/_next/image`) beantwortet nur `GET`.** Eine `HEAD`-Anfrage darauf
+   gibt **400** — 27 Logos sahen dadurch kaputt aus, während die echten Browser-Anfragen alle
+   200 lieferten.
+3. **Direkt nach einem Deploy misst man das CDN im Rollover.** `/leistungen/artificial-intelligence`
+   meldete zunächst **200**, die frische Antwort ist **404** (`x-vercel-cache: MISS`, `age: 0`).
+   Nach einem Push kurz warten oder auf `age`/`x-vercel-cache` schauen.
+
+Dazu, aus derselben Familie und in `CLAUDE.md` schon vermerkt: Playwrights `page.evaluate` mit
+einem **String**-Arrow gibt die Funktion zurück, nicht ihr Ergebnis — als IIFE aufrufen.
+
+### Nebenbefund: `CLAUDE.md` behauptete etwas Falsches über git
+
+„`public/work/` war nie in git" stimmt nur für die **33 verwaisten** Bilder vom 12.08.2026 —
+die sind nie committet worden. Die Dateien, die zu einem Case gehören, sind sehr wohl getrackt
+(**53 Stück**, `git ls-files public/work`). Korrigiert. Praktische Folge: das Bild eines
+gestrichenen Cases ist per `git show` wiederherstellbar, `assets/_unused/` ist Bequemlichkeit
+und nicht die letzte Kopie. ⚠️ Der Kommentar in `.gitignore` (Zeile 65) behauptet dasselbe und
+ist genauso zu lesen.
+
+### Das Pre-Launch-Audit vom 31.08.2026 — der wichtigste offene Punkt
+
+`AUDIT-REPORT.md` liegt **uncommitted** im Wurzelverzeichnis (642 Zeilen, 72 kB, deutsch).
+Verdikt **NO-GO**, 41 Findings (4 BLOCKER, 7 HIGH, 19 MEDIUM, 11 LOW), gemessen gegen das
+Preview-Deployment auf Commit `085f5d8`. **Der User hat noch nicht freigegeben, welche Findings
+umgesetzt werden — es ist bewusst keines davon angefasst.**
+
+Die vier Blocker in Kurzform:
+
+- **`DSG-01`** — die veröffentlichte Datenschutzerklärung beschreibt **PostHog als im Einsatz**
+  (`lib/content/legal.ts`, Abschnitt 6 und der Empfänger-Punkt in § 13). Live gegengeprüft:
+  **0 PostHog-Requests** über zehn Routen, 0 Code-Treffer. Der User will PostHog erst **nach**
+  dem Domain-Wechsel einbauen — genau dazwischen liegt das Problem. Empfehlung im Report:
+  Abschnitt 6 für den Launch herausnehmen, mit dem PostHog-Deploy wieder einsetzen.
+- **`IMP-01`** — dem Impressum fehlt die **USt-IdNr.**; ein Zitat nennt noch das TMG statt des DDG.
+- **`SEO-01`** — die beiden Launch-Schalter stehen falsch: `NEXT_PUBLIC_SITE_URL` und
+  `NEXT_PUBLIC_SEO_INDEX`. `vercel.app` steht 22× auf `/`, **98× auf `/work`**, 10× in `/llms.txt`.
+- **`MIG-01`** — **95 indexierte Alt-URLs** der WordPress-Seite, **0 Redirects** konfiguriert.
+  Die vollständige pfadbasierte Karte liegt als Anhang A im Report.
+
+Empfohlene HIGH-Punkte vor dem Launch: `A11Y-01` (weiße Schrift über dem Hero-Video, minimal
+**2,10:1** bei gefordertem 3:1 — am gerenderten Verbund gemessen), `RESP-01` (abgeschnittene
+Schritt-Titel bei 1024–1590 px), `PERF-01` (mobiles LCP 3473 ms, verursacht von `delay: 1` an
+der Hero-Subheadline, per Gegenprobe belegt), `PERF-02` (mobil lädt dieselbe 2,20-MiB-1080p-Datei),
+`SEC-01` (außer HSTS keine Security-Header), `DEP-01` (4 hohe CVEs im Produktionsbaum) und
+`ROB-01` (es gibt **kein** `app/error.tsx` und kein `app/global-error.tsx`, während
+`app/not-found.tsx` vollständig gestaltet ist). Das sind genau die **sieben** HIGH-Punkte:
+`A11Y-01`, `PERF-01`, `PERF-02`, `RESP-01`, `SEC-01`, `DEP-01`, `ROB-01`.
+
+⚠️ **Drei Angaben im Report sind durch die Änderungen vom 01.09. überholt:**
+
+1. Die **Case-Zahl** (32, jetzt 31) — sie speist auch die `ItemList` von `/work`.
+2. Der Umfang von **`RESP-01`** — die AI-Seite war eine der **fünf** betroffenen und ist weg, es
+   sind **vier**. Der schlimmste Fall (Video Strategie, 162 px über die Spalte bei 1024 px) bleibt.
+3. **`A11Y-05`** (MEDIUM) beschreibt die fehlenden Untertitel für `showreel.mp4` und nennt dabei
+   **40,5 s** — das ist die alte Fassung. Der Reel ist jetzt **51,6 s** lang, die Tonspur ist
+   AAC 128 kbit/s stereo. Der Fund selbst gilt unverändert: ob WCAG 1.2.2 Untertitel verlangt,
+   hängt daran, ob dort **Sprache** zu hören ist — und das habe ich nicht geprüft, es geht nur
+   durch Hinhören.
+
+### Offen — was der User noch entscheiden muss
+
+- **Die Freigabe, welche Audit-Findings umgesetzt werden.** Nichts angefasst.
+- **Gehört `AUDIT-REPORT.md` ins Repo?** Wenn ja, eher als `docs/AUDIT-REPORT.md`. Solange sie
+  uncommitted ist, löscht ein `git clean` sie.
+- **Die Loops und `prefers-reduced-motion`** — drei Möglichkeiten standen zur Wahl und keine ist
+  entschieden: (a) so lassen, (b) `LazyVideo` denselben Nachstarter geben wie `Hero.tsx` (rund
+  zehn Zeilen, behebt den Firefox-Fall), (c) das Gate ganz herausnehmen, damit die Loops immer
+  laufen wie das Hero-Video.
+- **Die „Passt dazu"-Karte bei Motion Design** — steht jetzt auf Video Event Content, siehe oben.
+- Aus der vorigen Übergabe unverändert offen: die drei nur live prüfbaren Videos, der
+  `summary` von `fom-studio` und die neun nie bestätigten Case-Texte.
+
+### Verifikationsstand dieser Übergabe
+
+`npx tsc --noEmit` grün · `npm run lint` grün · `npm run build` grün (fünf Leistungsseiten,
+24 statische Routen).
+
+**`npm run e2e`: 54/55** — besser als der in `CLAUDE.md` festgehaltene Normalzustand von
+51–53/55. Der einzige Fehlschlag ist `A-direkter-load-#contact@1440`: der Ankersprung beim
+frischen Laden mit Hash landet **27 px** unter dem Seitenrand statt auf ≥60, also innerhalb der
+dokumentierten Spanne von 20–51 px. **Keine Regression** — am Scroll-Code wurde nichts geändert,
+und die Diagnose aus der Übergabe vom 25.08. gilt unverändert. Die vier anderen Suiten sind
+vollständig grün, inklusive der drei inhaltlichen Konstanten in `CONTENT` (31 Cases, 8 Treffer im
+Filter, 6 Selected-Work-Kacheln).
+
+Gegen die **Live-Domain** im DOM geprüft (nicht per Grep im HTML): 6 Leistungs-Kacheln, davon 5
+intern und 1 nach `make-ai.de` mit `target`/`rel` · Button dort „make-ai.de", die anderen fünf
+„Mehr erfahren" · 54 Logo-Bilder aus 27 Dateien, 27 mit Alt-Text · Marquee 97 s ·
+`/leistungen/artificial-intelligence` **404**, Sitemap mit 5 Leistungen, `llms.txt` mit 5 ·
+31 Kacheln auf `/work`, „IHK" nirgends, Filter 8 Treffer, kein „·" mehr in der Kachelzeile ·
+Jahr im Case-Fenster (`Telekom · 2025 · Video Event Content`) · `showreel.mp4` 13,08 MB, 51,56 s,
+1920×1080 · **0 fehlerhafte Antworten**. Der Play-Klick startet den Reel auch live: Chromium
+`t = 2,93 s`, WebKit `t = 2,11 s`, beide `paused=false`.
+
+Die vier Testimonial-Logos (`koeln-bonn-airport`, `shop-apotheke`, `covestro`, `ergo`) wurden
+gegen die neu gebauten Dateien geprüft — keines der entfernten war betroffen, alle `width`-Werte
+stimmen weiter mit der Leinwandbreite überein.
+
+**Nicht geprüft:** echtes iOS-Safari auf echtem Gerät (WebKit auf dem Mac ist eine Näherung),
+echtes 3G, und ob die Tonspur des neuen Reels Sprache enthält — davon hängt ab, ob WCAG 1.2.2
+Untertitel verlangt. Das lässt sich nur durch Hinhören klären.
 
 ---
 
