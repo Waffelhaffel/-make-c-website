@@ -5,13 +5,42 @@
 import type { Metadata } from "next";
 
 /**
- * Basis-URL für canonical, OpenGraph und JSON-LD.
- * Ohne `NEXT_PUBLIC_SITE_URL` greift die Vercel-Preview-Domain.
- * ACHTUNG: `NEXT_PUBLIC_*` wird zur Build-Zeit inlined — nach dem Setzen auf
- * Vercel muss neu deployed werden (docs/MAINTENANCE.md §3.1).
+ * Basis-URL für canonical, OpenGraph, sitemap.xml, robots.txt, JSON-LD und
+ * llms.txt. Der Wert steht **im Code**, nicht in einer Umgebungsvariable:
+ * die Domain ist kein Geheimnis (sie steht als canonical und og:url in jeder
+ * ausgelieferten Seite) und ändert sich nicht mehr. Das Vercel-Projekt braucht
+ * damit für die Basis-URL gar keine Variable.
+ *
+ * `NEXT_PUBLIC_SITE_URL` bleibt trotzdem auswertbar — etwa um eine Preview
+ * unter einer anderen Domain zu fahren. Wer sie auf Vercel setzt, legt sie als
+ * Typ **Config** an (nicht *Secret*: Vercel lehnt das `NEXT_PUBLIC_`-Präfix
+ * dort ab, weil Next den Wert zur Build-Zeit ins Browser-Bundle inlined) und
+ * muss danach **neu deployen** — build-time inlined, siehe
+ * docs/MAINTENANCE.md §3.1.
+ *
+ * ⚠️ Bewusst **kein** `??` und kein blindes Durchreichen. `??` fängt nur
+ * `null`/`undefined` ab, nicht den leeren String — und genau daran ist am
+ * 11.09.2026 der erste Build im neuen Vercel-Account gestorben: die Variable
+ * war dort *angelegt, aber leer*, `new URL("")` warf `ERR_INVALID_URL` und
+ * riss `metadataBase` in `app/layout.tsx` mit. Der Abbruch kommt in der
+ * *Collecting page data*-Phase, weil `metadata` ein Modul-Top-Level-Objekt
+ * ist und schon beim Import ausgewertet wird. Der Test unten verlangt deshalb
+ * ein absolutes `http(s)://` mit Host; `""`, `"/"`, `" "` und `"make-c.de"`
+ * (ohne Schema) fallen alle auf den Fallback.
+ *
+ * ⚠️ Hier **nie** `process.env.VERCEL_URL` o. Ä. einsetzen. `lib/content/site.ts`
+ * und `lib/content/landing.ts` importieren aus dieser Datei und laufen über
+ * Footer/Contact im Client-Bundle; nicht-`NEXT_PUBLIC_`-Variablen sind dort
+ * `undefined`. Server und Client bekämen verschiedene Werte → Hydration-Mismatch.
+ * Der Ausdruck muss auf beiden Seiten identisch auswerten.
  */
+const SITE_URL_FALLBACK = "https://make-c.de";
+const SITE_URL_ENV = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+
 export const SITE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://make-c-website.vercel.app"
+  SITE_URL_ENV && /^https?:\/\/[^/]/.test(SITE_URL_ENV)
+    ? SITE_URL_ENV
+    : SITE_URL_FALLBACK
 ).replace(/\/$/, "");
 
 /**
