@@ -717,7 +717,12 @@ export const DATENSCHUTZ: LegalPageContent = {
     // ── 14 ──────────────────────────────────────────────────────────────────
     h2("14. Übermittlung in Drittländer"),
     p(
-      "Unser Hoster Vercel hat seinen Sitz in den USA. Als Verarbeitungsregion haben wir Frankfurt am Main und damit einen Standort in der Europäischen Union gewählt (Abschnitt 3). Da ein Zugriff aus den USA — etwa im Rahmen der technischen Betreuung — gleichwohl nicht vollständig auszuschließen ist, haben wir mit Vercel die Standardvertragsklauseln der Europäischen Kommission nach Art. 46 Abs. 2 lit. c DSGVO vereinbart. Für die Reichweitenmessung mit Vercel Web Analytics (Abschnitt 6 b) gilt die gewählte Region nicht: Vercel sichert dafür keinen europäischen Verarbeitungsort zu, die Verarbeitung kann also auch in den USA erfolgen. Sie ist von denselben Standardvertragsklauseln gedeckt.",
+      "Unser Hoster Vercel hat seinen Sitz in den USA. Als Verarbeitungsregion haben wir Frankfurt am Main und damit einen Standort in der Europäischen Union gewählt (Abschnitt 3). Für die Reichweitenmessung mit Vercel Web Analytics (Abschnitt 6 b) gilt diese Wahl allerdings nicht: Vercel behält sich ausdrücklich vor, Daten in den USA und in weiteren Ländern zu verarbeiten, in denen das Unternehmen oder seine Dienstleister tätig sind.",
+    ),
+    p(
+      "Für diese Übermittlungen bestehen zwei Grundlagen nebeneinander: Vercel ist nach dem ",
+      { text: "EU-U.S. Data Privacy Framework", href: "https://www.dataprivacyframework.gov/list" },
+      " zertifiziert, für das die Europäische Kommission einen Angemessenheitsbeschluss nach Art. 45 DSGVO getroffen hat. Ergänzend gelten die Standardvertragsklauseln der Europäischen Kommission nach Art. 46 Abs. 2 lit. c DSGVO, die Vercel in seinem Vertrag zur Auftragsverarbeitung zusagt — sie tragen die Übermittlung auch dann, wenn der Angemessenheitsbeschluss künftig entfallen sollte.",
     ),
     p(
       "Die Daten der Reichweitenmessung mit PostHog werden ausschließlich in Deutschland verarbeitet (Abschnitt 6 a). Da der Anbieter PostHog seinen Sitz in den USA hat und ein Zugriff von dort — etwa im Rahmen der technischen Betreuung — nicht vollständig auszuschließen ist, haben wir auch mit PostHog die Standardvertragsklauseln nach Art. 46 Abs. 2 lit. c DSGVO vereinbart.",
