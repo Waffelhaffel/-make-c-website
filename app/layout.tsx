@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Montserrat, EB_Garamond } from "next/font/google";
 import "./globals.css";
 import { SiteEffects } from "@/components/layout/SiteEffects";
+import { WebAnalytics } from "@/components/layout/WebAnalytics";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
   IS_INDEXABLE,
@@ -106,6 +107,11 @@ export default function RootLayout({
         </a>
         <JsonLd data={organizationGraph()} />
         <SiteEffects>{children}</SiteEffects>
+        {/* Zweite Reichweitenmessung neben PostHog. Zeichnet nichts, haengt nur
+            das Vercel-Skript ein — und nur, wenn kein „Do Not Track" gesetzt
+            ist. Naeheres in der Komponente und in Abschnitt 6 der
+            Datenschutzerklaerung. */}
+        <WebAnalytics />
       </body>
     </html>
   );

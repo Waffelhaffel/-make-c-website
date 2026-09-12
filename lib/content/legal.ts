@@ -541,9 +541,16 @@ export const DATENSCHUTZ: LegalPageContent = {
     // Kommt PostHog doch nicht oder anders — diesen Abschnitt löschen bzw.
     // anpassen und die folgenden Nummern hochzählen. Eine Datenschutzerklärung
     // darf keine Verarbeitung beschreiben, die es so nicht gibt.
-    h2("6. Reichweitenmessung mit PostHog (ohne Cookies)"),
+    h2("6. Reichweitenmessung (ohne Cookies)"),
     p(
-      "Um nachvollziehen zu können, welche Inhalte dieser Website genutzt werden, setzen wir PostHog zur Reichweitenmessung ein. Anbieter ist PostHog, Inc., 2261 Market St. #4008, San Francisco, CA 94114, USA.",
+      "Um nachvollziehen zu können, welche Inhalte dieser Website genutzt werden, setzen wir zwei Dienste zur Reichweitenmessung ein: PostHog für die inhaltliche Auswertung und Vercel Web Analytics als Überblick unseres Hosters. ",
+      { text: "Beide arbeiten ohne Cookies", stark: true },
+      " und ohne jede Speicherung auf Ihrem Endgerät. Was jeder der beiden erfasst, steht unten getrennt; Rechtsgrundlage und Widerspruchsrecht gelten für beide gleichermaßen und stehen am Ende dieses Abschnitts.",
+    ),
+
+    h3("a) PostHog"),
+    p(
+      "Anbieter ist PostHog, Inc., 2261 Market St. #4008, San Francisco, CA 94114, USA.",
     ),
     p(
       { text: "Wir nutzen PostHog ausschließlich in der cookiefreien Betriebsart.", stark: true },
@@ -576,12 +583,34 @@ export const DATENSCHUTZ: LegalPageContent = {
     p(
       "Die Verarbeitung findet auf Servern innerhalb der Europäischen Union statt (Standort Deutschland). Mit PostHog besteht ein Vertrag zur Auftragsverarbeitung nach Art. 28 DSGVO.",
     ),
+
+    h3("b) Vercel Web Analytics"),
+    p(
+      "Diese Auswertung stammt von unserem Hoster Vercel Inc. (Anschrift in Abschnitt 3) und ergänzt PostHog um einen groben Überblick unmittelbar neben dem Betrieb der Website.",
+    ),
+    p(
+      { text: "Auch hier werden keine Cookies gesetzt", stark: true },
+      " und keine Daten auf Ihrem Endgerät abgelegt. Nach Angaben des Anbieters werden die Aufrufe anonym gezählt: Vercel bildet dafür aus Ihrer Anfrage einen Hashwert, der nach 24 Stunden verworfen wird, und erhebt keine Merkmale, mit denen sich Ihr Verhalten über verschiedene Websites hinweg zusammenführen ließe. Auch für diese Messung gilt: Das Skript wird von unserer eigenen Domain ausgeliefert, Ihr Browser baut keine Verbindung zu einem fremden Host auf.",
+    ),
+    p("Erfasst werden dabei:"),
+    li("die aufgerufene Seite und der Zeitpunkt des Aufrufs"),
+    li("die zuvor besuchte Seite (Referrer)"),
+    li("Browser, Betriebssystem und Gerätetyp, jeweils mit Version"),
+    li(
+      "der ungefähre Standort, abgeleitet aus der IP-Adresse — bei diesem Dienst bis auf die Ebene von Region und Stadt und damit genauer als bei PostHog",
+    ),
+    p(
+      { text: "Einen europäischen Verarbeitungsort sichert Vercel für diese Auswertung nicht zu.", stark: true },
+      " Anders als bei PostHog kann die Verarbeitung deshalb auch außerhalb der Europäischen Union stattfinden; die Wahl unserer Hosting-Region aus Abschnitt 3 erstreckt sich nicht darauf. Näheres in Abschnitt 14. Mit Vercel besteht ein Vertrag zur Auftragsverarbeitung nach Art. 28 DSGVO.",
+    ),
+
+    h3("Rechtsgrundlage und Widerspruch — für beide Dienste"),
     p(
       "Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Unser berechtigtes Interesse liegt darin, die Nutzung unserer Website in anonymer Form auszuwerten und unser Angebot zu verbessern. Da dabei keine Informationen auf Ihrem Endgerät gespeichert oder ausgelesen werden, ist hierfür keine Einwilligung nach § 25 TDDDG erforderlich.",
     ),
     p(
       { text: "Sie können der Messung jederzeit widersprechen.", stark: true },
-      " Am einfachsten geht das in Ihrem Browser: Ist dort die Einstellung „Do Not Track“ aktiv, findet für Sie überhaupt keine Messung statt — wir werten dieses Signal aus. Ebenso genügt eine formlose Nachricht an uns, siehe Abschnitt 17.",
+      " Am einfachsten geht das in Ihrem Browser: Ist dort die Einstellung „Do Not Track“ aktiv, findet für Sie überhaupt keine Messung statt — weder durch PostHog noch durch Vercel. Wir werten dieses Signal aus und laden beide Dienste dann gar nicht erst. Ebenso genügt eine formlose Nachricht an uns, siehe Abschnitt 17.",
     ),
 
     // ── 7 ───────────────────────────────────────────────────────────────────
@@ -672,7 +701,9 @@ export const DATENSCHUTZ: LegalPageContent = {
     p(
       "Über die in dieser Erklärung genannten Stellen hinaus geben wir Ihre Daten nicht weiter. Im Überblick:",
     ),
-    li("Vercel Inc., USA — Hosting und Auslieferung dieser Website (Auftragsverarbeiter)"),
+    li(
+      "Vercel Inc., USA — Hosting und Auslieferung dieser Website sowie Reichweitenmessung mit Vercel Web Analytics (Auftragsverarbeiter)",
+    ),
     li(
       "PostHog, Inc., USA, Verarbeitung in Deutschland — Reichweitenmessung (Auftragsverarbeiter)",
     ),
@@ -686,10 +717,10 @@ export const DATENSCHUTZ: LegalPageContent = {
     // ── 14 ──────────────────────────────────────────────────────────────────
     h2("14. Übermittlung in Drittländer"),
     p(
-      "Unser Hoster Vercel hat seinen Sitz in den USA. Als Verarbeitungsregion haben wir Frankfurt am Main und damit einen Standort in der Europäischen Union gewählt (Abschnitt 3). Da ein Zugriff aus den USA — etwa im Rahmen der technischen Betreuung — gleichwohl nicht vollständig auszuschließen ist, haben wir mit Vercel die Standardvertragsklauseln der Europäischen Kommission nach Art. 46 Abs. 2 lit. c DSGVO vereinbart.",
+      "Unser Hoster Vercel hat seinen Sitz in den USA. Als Verarbeitungsregion haben wir Frankfurt am Main und damit einen Standort in der Europäischen Union gewählt (Abschnitt 3). Da ein Zugriff aus den USA — etwa im Rahmen der technischen Betreuung — gleichwohl nicht vollständig auszuschließen ist, haben wir mit Vercel die Standardvertragsklauseln der Europäischen Kommission nach Art. 46 Abs. 2 lit. c DSGVO vereinbart. Für die Reichweitenmessung mit Vercel Web Analytics (Abschnitt 6 b) gilt die gewählte Region nicht: Vercel sichert dafür keinen europäischen Verarbeitungsort zu, die Verarbeitung kann also auch in den USA erfolgen. Sie ist von denselben Standardvertragsklauseln gedeckt.",
     ),
     p(
-      "Die Daten der Reichweitenmessung werden ausschließlich in Deutschland verarbeitet (Abschnitt 6). Da der Anbieter PostHog seinen Sitz in den USA hat und ein Zugriff von dort — etwa im Rahmen der technischen Betreuung — nicht vollständig auszuschließen ist, haben wir auch mit PostHog die Standardvertragsklauseln nach Art. 46 Abs. 2 lit. c DSGVO vereinbart.",
+      "Die Daten der Reichweitenmessung mit PostHog werden ausschließlich in Deutschland verarbeitet (Abschnitt 6 a). Da der Anbieter PostHog seinen Sitz in den USA hat und ein Zugriff von dort — etwa im Rahmen der technischen Betreuung — nicht vollständig auszuschließen ist, haben wir auch mit PostHog die Standardvertragsklauseln nach Art. 46 Abs. 2 lit. c DSGVO vereinbart.",
     ),
     p(
       "Starten Sie ein eingebettetes Video, können außerdem Daten an Google und Vimeo und damit in die USA übermittelt werden. Diese Übermittlung stützen wir auf Ihre ausdrückliche Einwilligung nach Art. 49 Abs. 1 lit. a DSGVO, die Sie mit dem Klick auf den Play-Button erteilen. Wir weisen Sie darauf hin, dass in den USA kein dem europäischen Recht gleichwertiges Datenschutzniveau garantiert werden kann und insbesondere ein Zugriff durch dortige Behörden nicht ausgeschlossen ist.",

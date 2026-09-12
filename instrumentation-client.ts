@@ -19,6 +19,7 @@
  * eigener Chunk, den der Browser nur anfordert, wenn die Prüfung unten
  * durchgeht — ohne Token kostet die Messung null Bytes.
  */
+import { doNotTrack } from "@/lib/doNotTrack";
 
 /**
  * Projekt-Token aus dem PostHog-Projekt (Settings → Project → Project ID).
@@ -45,36 +46,18 @@ const token = process.env.NEXT_PUBLIC_POSTHOG_KEY;
 const PROXY_PATH = "/mc-relay";
 
 /**
- * „Do Not Track" des Besuchers — der technische Widerspruch aus Abschnitt 6
- * der Datenschutzerklärung.
- *
- * ⚠️ Das muss hier von Hand stehen, obwohl posthog-js dafür `respect_dnt`
- * kennt. Nachgemessen am Production-Build (12.09.2026): in der cookiefreien
- * Betriebsart ist die Option **wirkungslos**. `is_capturing()` in posthog-js
- * lautet sinngemäß `cookieless_mode === "always" || …` und steigt damit aus,
- * bevor die Opt-out-Prüfung überhaupt erreicht wird — in der die DNT-Auswertung
- * sitzt. Mit `respect_dnt: true` allein gingen die Ereignisse also trotz
- * gesetztem DNT-Signal raus, und die Datenschutzerklärung behauptete etwas
- * Falsches. Die Prüfung vor `init()` ist zugleich die gründlichere: bei
- * gesetztem Signal wird PostHog nicht einmal heruntergeladen.
- *
- * Die vier abgefragten Signale sind dieselben, die posthog-js selbst prüft.
+ * ⚠️ Die DNT-Prüfung steht in `lib/doNotTrack.ts`, weil sie für **beide**
+ * Messungen gilt (hier und `components/layout/WebAnalytics.tsx`). Sie muss
+ * hier von Hand vor `init()` stehen, obwohl posthog-js dafür `respect_dnt`
+ * kennt: nachgemessen am Production-Build (12.09.2026) ist die Option in der
+ * cookiefreien Betriebsart **wirkungslos**. `is_capturing()` lautet sinngemäß
+ * `cookieless_mode === "always" || …` und steigt damit aus, bevor die
+ * Opt-out-Prüfung erreicht wird — in der die DNT-Auswertung sitzt. Mit
+ * `respect_dnt: true` allein gingen die Ereignisse trotz gesetztem Signal
+ * raus, und die Datenschutzerklärung behauptete etwas Falsches. Die Prüfung
+ * vor `init()` ist zugleich die gründlichere: bei gesetztem Signal wird
+ * PostHog nicht einmal heruntergeladen.
  */
-function doNotTrack(): boolean {
-  if (typeof window === "undefined" || typeof navigator === "undefined") {
-    return false;
-  }
-  const nav = navigator as Navigator & {
-    msDoNotTrack?: unknown;
-    globalPrivacyControl?: unknown;
-  };
-  return [
-    nav.doNotTrack,
-    nav.msDoNotTrack,
-    (window as Window & { doNotTrack?: unknown }).doNotTrack,
-    nav.globalPrivacyControl,
-  ].some((signal) => signal === true || signal === "1" || signal === "yes");
-}
 
 if (
   process.env.NODE_ENV === "production" &&

@@ -161,7 +161,7 @@ Zuständigkeiten, bitte nicht wieder vermischen:
 - `scroll-behavior: smooth` steht **nur** in `globals.css`; `<html>` trägt dazu `data-scroll-behavior="smooth"` — ohne das Attribut warnt Next 15 und hört ab Version 16 auf, die Eigenschaft bei Routenwechseln abzuschalten.
 - `scroll-padding-top: 84px` (globals.css) hält Anker-Ziele unter dem 70 px hohen fixen Header frei. Derselbe Wert nochmal als `HEADER_OFFSET` in `lib/scroll.ts` — beide zusammen ändern.
 
-## Reichweitenmessung (PostHog, cookiefrei) — seit 12.09.2026
+## Reichweitenmessung (cookiefrei) — seit 12.09.2026
 
 Eingebaut, um den Blocker `DSG-01` aus dem Pre-Launch-Audit aufzulösen: die
 Datenschutzerklärung beschrieb PostHog schon seit dem 22.08.2026, eingebaut war
@@ -169,9 +169,11 @@ es nicht. Jetzt sind Text und Code deckungsgleich — **und müssen es bleiben.*
 
 | Wer | Wofür |
 |---|---|
-| **`instrumentation-client.ts`** (Projektwurzel) | die gesamte Konfiguration. Next lädt die Datei vor der Hydration; es gibt bewusst **keine** React-Komponente und keinen Provider |
+| **`instrumentation-client.ts`** (Projektwurzel) | PostHog, die gesamte Konfiguration. Next lädt die Datei vor der Hydration; es gibt bewusst **keine** React-Komponente und keinen Provider |
+| **`components/layout/WebAnalytics.tsx`** | Vercel Web Analytics, eingehängt in `app/layout.tsx`. Zeichnet nichts, lädt nur das Skript |
+| **`lib/doNotTrack.ts`** | die DNT-Prüfung, **gemeinsam** für beide. Wer eine dritte Messung einbaut, hängt sie hier mit ein |
 | **`next.config.ts`** → `rewrites()` | der Reverse Proxy `/mc-relay/*` auf `eu.i.posthog.com` bzw. `eu-assets.i.posthog.com` |
-| **`lib/content/legal.ts`**, Abschnitt 5, 6, 13, 14 | der Text dazu. Abschnitt 6 hat für **jede** Option in `instrumentation-client.ts` einen Satz |
+| **`lib/content/legal.ts`**, Abschnitt 5, 6, 13, 14 | der Text dazu. Abschnitt 6 ist seither zweigeteilt — „a) PostHog" und „b) Vercel Web Analytics" — mit gemeinsamer Rechtsgrundlage und gemeinsamem Widerspruch am Ende. Die Unterteilung als `h3` ist Absicht: so bleibt die Nummerierung, und die Querverweise aus Abschnitt 5, 14 und 17 stimmen weiter |
 | **`NEXT_PUBLIC_POSTHOG_KEY`** | der Projekt-Token. Fehlt er, findet **keine** Messung statt — und dann beschreibt Abschnitt 6 etwas, das es nicht gibt |
 
 - **Cookiefrei heißt `cookieless_mode: "always"`**, nicht nur `persistence: "memory"`. PostHog legt dann nichts auf dem Endgerät ab und zählt wiederkehrende Aufrufe über einen **serverseitigen Tages-Hash** aus IP, User-Agent und einem täglich wechselnden Salt. ⚠️ Dafür muss im PostHog-Projekt **„Cookieless server hash mode"** eingeschaltet sein (Settings → Project → Web analytics) — sonst verwirft PostHog die Ereignisse und es kommen schlicht keine Daten an.
@@ -179,6 +181,8 @@ es nicht. Jetzt sind Text und Code deckungsgleich — **und müssen es bleiben.*
 - ⚠️ **Mit Playwright misst man 0 Ereignisse — und das ist kein Fehler.** posthog-js hält jeden Browser mit `navigator.webdriver === true` **oder** „Headless" im User-Agent für einen Bot und sendet gar nicht erst. Wer die Messung prüfen will, braucht beides: `newContext({ userAgent: <echte Chrome-UA> })` **und** `addInitScript` mit `Object.defineProperty(navigator, "webdriver", { get: () => false })`. Ohne das läuft man einer Fehlersuche hinterher, die keine ist. Nebenbei: Debug-Ausgaben gibt es ohne Neubau über `?__posthog_debug=true`.
 - ⚠️ **Die Aufzählung in Abschnitt 6 ist gemessen, nicht geraten.** Am 12.09.2026 wurden die POST-Bodies an `/mc-relay/e/` entpackt und alle Eigenschaften gelesen. Belegt: `$device_id: null`, `distinct_id` leer, `$process_person_profile: false`, `$cookieless_mode: true`. Mit dabei sind aber auch **Scrolltiefe und Verweildauer** (`$prev_pageview_max_scroll_percentage`, `$prev_pageview_duration`), **Zeitzone, Sprache, Bildschirmgröße** und der **volle User-Agent** — alles einzeln im Text aufgeführt. Wer die Konfiguration ändert, misst neu, statt die Liste zu raten.
 - **Der Reverse Proxy ist Teil der Zusage**, nicht Bequemlichkeit: der Browser kontaktiert beim Seitenaufruf keinen fremden Host, die IP geht nicht unmittelbar an einen Dritten. ⚠️ Dazu gehört `skipTrailingSlashRedirect: true` — PostHogs Endpunkte enden auf `/` (`/e/`), Nexts Normalisierung läuft **vor** dem Rewrite und schöbe sonst eine 308-Umleitung vor jedes Ereignis. Nachgemessen: `/work` und `/work/` liefern beide 200 mit identischem HTML, es entsteht keine tote URL.
+- **Vercel Web Analytics kam am 12.09.2026 auf Wunsch des Users dazu** (`@vercel/analytics`), obwohl PostHog alles misst, was es misst. Zwei Dinge daran sind nicht offensichtlich: (1) Es kennt **keine** DNT-Auswertung — deshalb die Hülle `WebAnalytics.tsx`, die bei gesetztem Signal gar nichts rendert; ohne sie wäre der Satz „findet für Sie überhaupt keine Messung statt" in Abschnitt 6 für die Hälfte der Messungen falsch. (2) Es erfasst den Standort **bis auf Stadtebene** und sichert **keinen** EU-Verarbeitungsort zu — beides steht deshalb ausdrücklich im Text, und die Frankfurt-Wahl aus Abschnitt 3 gilt dafür nicht.
+- ⚠️ **`/_vercel/insights/script.js` liefert die Plattform, nicht Next.** Unter `npm run start` gibt es den Pfad nicht → 404 in der Konsole bei **jedem** Seitenaufruf, und die e2e-Suite fiel prompt von 55/55 auf 49/55 (sechs Konsolen-Checks). `WebAnalytics.tsx` rendert deshalb auf `localhost` nicht. Auf der Live-Domain liefert derselbe Pfad 200 — nachgemessen, Web Analytics ist im Vercel-Projekt aktiv. ⚠️ Wird es dort je abgeschaltet, ist der 404 **in Produktion** da, inklusive Konsolenfehler auf jeder Seite.
 - **`posthog-js` wird dynamisch importiert.** Statisch importiert lag es im gemeinsamen Bundle jeder Route: **First Load JS 196 kB statt 103 kB**. So ist es ein eigener Chunk, den ohne Token (und bei gesetztem DNT) niemand anfordert.
 - **Nicht erfasst und bewusst aus:** Session Recording, Heatmaps, Dead Clicks, Surveys, Web Experiments, Feature Flags. Jedes davon lädt ein weiteres Skript nach **und** bräuchte eine neue Kategorie im Datenschutztext.
 - Am Dev-Server läuft **nichts** (`NODE_ENV`-Prüfung). Zum Testen `npm run build && npm run start`.
