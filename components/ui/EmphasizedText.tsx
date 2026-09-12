@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 
 // Hebt ein einzelnes, per CMS gepflegtes Wort in einer Textzeile hervor —
-// z. B. das „make" in „We make video", damit es wie die Wortmarke im Logo
+// z. B. das „make" in „We make videos", damit es wie die Wortmarke im Logo
 // kursiv steht. Kommt als `part1` in <MixedHeadline> (nimmt ReactNode).
 type EmphasizedTextProps = {
   text?: string;

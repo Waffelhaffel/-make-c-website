@@ -459,6 +459,16 @@ export const DATENSCHUTZ: LegalPageContent = {
     h2("3. Hosting bei Vercel und Server-Protokolle"),
     p("Diese Website wird bei Vercel gehostet. Anbieter ist:"),
     p("Vercel Inc., 440 N Barranca Avenue #4133, Covina, CA 91723, USA"),
+    // ⚠️ Die Region ist eine **Angabe des Betreibers** (12.09.2026), keine
+    // Messung: der Vercel-Account hängt nicht an diesem Arbeitsplatz, die
+    // Einstellung ist von hier aus nicht prüfbar. Wer sie ändert, ändert diesen
+    // Satz mit. Der zweite Satz steht bewusst daneben — die Seite ist voll
+    // statisch und wird über Vercels weltweites CDN verteilt, „die Server
+    // stehen in Frankfurt" allein wäre deshalb zu viel behauptet.
+    p(
+      { text: "Als Verarbeitungsregion haben wir Frankfurt am Main gewählt", stark: true },
+      ", also einen Standort innerhalb der Europäischen Union. Die Seiteninhalte sind darüber hinaus statische Dateien, die Vercel über sein weltweites Auslieferungsnetz (CDN) bereitstellt und vom jeweils nächstgelegenen Standort ausliefert; für Aufrufe aus Deutschland ist das in aller Regel Frankfurt.",
+    ),
     p(
       "Bei jedem Aufruf einer Seite übermittelt Ihr Browser automatisch Informationen an den Server, die dort in Protokolldateien gespeichert werden:",
     ),
@@ -491,11 +501,14 @@ export const DATENSCHUTZ: LegalPageContent = {
     // ── 5 ───────────────────────────────────────────────────────────────────
     h2("5. Cookies und Speicherung auf Ihrem Endgerät"),
     p(
-      "Diese Website setzt von sich aus keine Cookies. Es kommen auch keine vergleichbaren Techniken zum Einsatz, die Informationen auf Ihrem Endgerät speichern oder darauf zugreifen — weder Local Storage oder Session Storage noch Zählpixel oder Fingerprinting-Verfahren.",
+      "Diese Website setzt von sich aus keine Cookies. Es kommen auch keine vergleichbaren Techniken zum Einsatz, die Informationen auf Ihrem Endgerät speichern oder darauf zugreifen — weder Local Storage oder Session Storage noch Zählpixel.",
     ),
     p(
       { text: "Deshalb gibt es hier auch kein Cookie-Banner:", stark: true },
       " Es gibt nichts, wofür wir Ihre Einwilligung nach § 25 TDDDG einholen müssten.",
+    ),
+    p(
+      "Das gilt auch für die Reichweitenmessung: Sie kommt ohne jede Speicherung auf Ihrem Endgerät aus. Näheres dazu in Abschnitt 6.",
     ),
     p(
       "Eine Ausnahme entsteht erst durch Ihr eigenes Zutun: Wenn Sie ein eingebettetes Video starten, können YouTube beziehungsweise Vimeo eigene Cookies setzen. Näheres in Abschnitt 7.",
@@ -503,9 +516,28 @@ export const DATENSCHUTZ: LegalPageContent = {
 
     // ── 6 ───────────────────────────────────────────────────────────────────
     // ⚠️ Dieser Abschnitt beschreibt PostHog in der **cookiefreien** Betriebsart.
-    // Er ist nur richtig, solange PostHog auch wirklich so eingebunden ist:
-    // `persistence: "memory"` (keine Cookies, kein Local Storage),
-    // `person_profiles: "never"` (keine Profile) und die **EU**-Instanz.
+    // Er ist Satz für Satz an `instrumentation-client.ts` gebunden und nur
+    // richtig, solange PostHog genau so eingebunden ist:
+    //   `cookieless_mode: "always"` + `persistence: "memory"` → kein Cookie,
+    //       kein Local/Session Storage, Zählung über den Tages-Hash unten
+    //   `person_profiles: "never"`  → keine Profile
+    //   `autocapture: true`         → deckt den Aufzählungspunkt „Klicks" ab
+    //   `disable_session_recording` / `capture_heatmaps: false` → keine
+    //       Aufzeichnung, keine Mauswege (sonst fehlte hier eine Kategorie)
+    //   `doNotTrack()` vor `init()`  → der technische Widerspruch weiter unten.
+    //       ⚠️ Nicht `respect_dnt`: das ist in der cookiefreien Betriebsart
+    //       wirkungslos, Begründung steht in `instrumentation-client.ts`.
+    //   EU-Instanz + Reverse Proxy in `next.config.ts` → Serverstandort und
+    //       der Satz „nicht unmittelbar an PostHog"
+    //
+    // Die Aufzählung „Erfasst werden dabei" ist **nicht geraten**: sie ist am
+    // 12.09.2026 aus den tatsächlich gesendeten Ereignissen abgelesen (POST an
+    // /mc-relay/e/ entpackt, alle Eigenschaftsnamen und -werte gelesen).
+    // Dabei gemessen: `$device_id: null`, `distinct_id` leer,
+    // `$process_person_profile: false`, `$cookieless_mode: true` — und
+    // Scrolltiefe, Verweildauer, Zeitzone, Sprache, Bildschirmgröße und
+    // User-Agent, die deshalb hier einzeln aufgeführt sind. Wer die
+    // Konfiguration anfasst, misst neu, statt die Liste zu raten.
     // Kommt PostHog doch nicht oder anders — diesen Abschnitt löschen bzw.
     // anpassen und die folgenden Nummern hochzählen. Eine Datenschutzerklärung
     // darf keine Verarbeitung beschreiben, die es so nicht gibt.
@@ -515,15 +547,31 @@ export const DATENSCHUTZ: LegalPageContent = {
     ),
     p(
       { text: "Wir nutzen PostHog ausschließlich in der cookiefreien Betriebsart.", stark: true },
-      " Es werden weder Cookies gesetzt noch Daten in Local Storage oder Session Storage abgelegt. Eine Wiedererkennung über mehrere Besuche, Geräte oder Websites hinweg findet nicht statt, und es werden keine Nutzerprofile gebildet.",
+      " Es werden weder Cookies gesetzt noch Daten in Local Storage oder Session Storage abgelegt. Es werden keine Nutzerprofile gebildet, und eine Wiedererkennung über mehrere Geräte oder über andere Websites hinweg findet nicht statt.",
     ),
     p("Erfasst werden dabei:"),
-    li("die aufgerufenen Seiten und der Zeitpunkt des Aufrufs"),
+    li("die aufgerufene Seite samt Seitentitel und der Zeitpunkt des Aufrufs"),
     li("die zuvor besuchte Seite (Referrer)"),
-    li("Browsertyp, Betriebssystem und Gerätekategorie in gröberer Form"),
+    li(
+      "Browser, Betriebssystem und Gerätetyp einschließlich der Browserkennung (User-Agent), die Ihr Browser bei jedem Seitenaufruf ohnehin mitsendet",
+    ),
+    li("Bildschirm- und Fenstergröße sowie Spracheinstellung und Zeitzone des Browsers"),
     li("das Land, aus dem der Aufruf erfolgt, abgeleitet aus der IP-Adresse"),
+    li("wie lange eine Seite geöffnet war und wie weit auf ihr gescrollt wurde"),
+    li(
+      "Klicks auf Schaltflächen und Links sowie deren Beschriftung — Eingaben in Textfelder werden nicht erfasst",
+    ),
     p(
-      "Die IP-Adresse wird dabei ausschließlich zur Ermittlung des ungefähren Standorts verwendet und nicht gespeichert.",
+      { text: "Den übermittelten Daten ist keine Geräte- oder Nutzerkennung beigefügt.", stark: true },
+      " Nicht erfasst werden außerdem Mausbewegungen; eine Aufzeichnung Ihrer Sitzung oder Ihres Bildschirms findet nicht statt.",
+    ),
+    p(
+      { text: "Zur Unterscheidung einzelner Besuche innerhalb eines Tages", stark: true },
+      " bildet PostHog auf seinem Server einen nicht umkehrbaren Hashwert aus Ihrer IP-Adresse, der Browserkennung und einem Zufallswert, der täglich wechselt. Dadurch lässt sich zählen, wie viele verschiedene Personen die Website besucht haben, ohne dass etwas auf Ihrem Endgerät gespeichert wird. Mit dem Wechsel des Zufallswerts verliert der Hashwert seine Bedeutung: eine Wiedererkennung über den Tag hinaus ist damit ausgeschlossen. Die IP-Adresse selbst wird nicht gespeichert; sie wird darüber hinaus nur zur Ermittlung des ungefähren Standorts auf Länderebene verwendet.",
+    ),
+    p(
+      { text: "Die Daten werden nicht unmittelbar von Ihrem Browser an PostHog gesendet.", stark: true },
+      " Ihr Browser spricht ausschließlich unsere eigene Domain an; die Weiterleitung an PostHog erfolgt auf unserem Server. Beim Aufruf dieser Website baut Ihr Browser also keine Verbindung zu PostHog auf.",
     ),
     p(
       "Die Verarbeitung findet auf Servern innerhalb der Europäischen Union statt (Standort Deutschland). Mit PostHog besteht ein Vertrag zur Auftragsverarbeitung nach Art. 28 DSGVO.",
@@ -531,7 +579,10 @@ export const DATENSCHUTZ: LegalPageContent = {
     p(
       "Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Unser berechtigtes Interesse liegt darin, die Nutzung unserer Website in anonymer Form auszuwerten und unser Angebot zu verbessern. Da dabei keine Informationen auf Ihrem Endgerät gespeichert oder ausgelesen werden, ist hierfür keine Einwilligung nach § 25 TDDDG erforderlich.",
     ),
-    p("Sie können dieser Verarbeitung jederzeit widersprechen — siehe Abschnitt 17."),
+    p(
+      { text: "Sie können der Messung jederzeit widersprechen.", stark: true },
+      " Am einfachsten geht das in Ihrem Browser: Ist dort die Einstellung „Do Not Track“ aktiv, findet für Sie überhaupt keine Messung statt — wir werten dieses Signal aus. Ebenso genügt eine formlose Nachricht an uns, siehe Abschnitt 17.",
+    ),
 
     // ── 7 ───────────────────────────────────────────────────────────────────
     h2("7. Videos von YouTube und Vimeo"),
@@ -635,7 +686,10 @@ export const DATENSCHUTZ: LegalPageContent = {
     // ── 14 ──────────────────────────────────────────────────────────────────
     h2("14. Übermittlung in Drittländer"),
     p(
-      "Unser Hoster Vercel hat seinen Sitz in den USA. Für die damit verbundene Übermittlung haben wir mit Vercel die Standardvertragsklauseln der Europäischen Kommission nach Art. 46 Abs. 2 lit. c DSGVO vereinbart.",
+      "Unser Hoster Vercel hat seinen Sitz in den USA. Als Verarbeitungsregion haben wir Frankfurt am Main und damit einen Standort in der Europäischen Union gewählt (Abschnitt 3). Da ein Zugriff aus den USA — etwa im Rahmen der technischen Betreuung — gleichwohl nicht vollständig auszuschließen ist, haben wir mit Vercel die Standardvertragsklauseln der Europäischen Kommission nach Art. 46 Abs. 2 lit. c DSGVO vereinbart.",
+    ),
+    p(
+      "Die Daten der Reichweitenmessung werden ausschließlich in Deutschland verarbeitet (Abschnitt 6). Da der Anbieter PostHog seinen Sitz in den USA hat und ein Zugriff von dort — etwa im Rahmen der technischen Betreuung — nicht vollständig auszuschließen ist, haben wir auch mit PostHog die Standardvertragsklauseln nach Art. 46 Abs. 2 lit. c DSGVO vereinbart.",
     ),
     p(
       "Starten Sie ein eingebettetes Video, können außerdem Daten an Google und Vimeo und damit in die USA übermittelt werden. Diese Übermittlung stützen wir auf Ihre ausdrückliche Einwilligung nach Art. 49 Abs. 1 lit. a DSGVO, die Sie mit dem Klick auf den Play-Button erteilen. Wir weisen Sie darauf hin, dass in den USA kein dem europäischen Recht gleichwertiges Datenschutzniveau garantiert werden kann und insbesondere ein Zugriff durch dortige Behörden nicht ausgeschlossen ist.",

@@ -103,7 +103,7 @@ export const SERVICE_PAGES: ServicePageContent[] = [
     blocks: [
       {
         title: "Standortbestimmung",
-        body: "Wir sehen uns an, was bereits produziert wird, wie es performt und wo Budget versickert. Aus Bestandsanalyse, Zielgruppen und Wettbewerbsumfeld entsteht ein ehrliches Bild davon, was Video in deinem Unternehmen heute leistet — und was nicht.",
+        body: "Wir sehen uns an, was bereits produziert wird, wie es performt und wo Budget versickert. Aus Bestandsanalyse, Zielgruppen und Wettbewerbsumfeld entsteht ein ehrliches Bild davon, was Video in Deinem Unternehmen heute leistet — und was nicht.",
       },
       {
         title: "Formate statt Einzelvideos",
@@ -284,7 +284,7 @@ export const SERVICE_PAGES: ServicePageContent[] = [
     ],
     cta: {
       headline: "Ein Projekt im Kopf?",
-      body: "Schick uns dein Briefing oder auch nur die grobe Idee — wir melden uns mit einer ehrlichen Einschätzung zu Aufwand und Budget.",
+      body: "Schick uns Dein Briefing oder auch nur die grobe Idee — wir melden uns mit einer ehrlichen Einschätzung zu Aufwand und Budget.",
       buttonText: "Projekt anfragen",
     },
     seo: {

@@ -41,7 +41,7 @@ type OgImageParams = {
   footer: string;
   /**
    * Trennstrich zwischen den Teilen. Gehört zu Wortpaaren (VIDEO/Strategie,
-   * SHOW/REEL), **nicht** zu durchlaufenden Sätzen wie „We make video that
+   * SHOW/REEL), **nicht** zu durchlaufenden Sätzen wie „We make videos that
    * work." — dort ergäbe er ein „VIDEO/" mitten im Satz.
    */
   slash?: boolean;
@@ -147,11 +147,11 @@ export function ogImage({ part1, part2, footer, slash = true }: OgImageParams) {
 
 /**
  * Markenvariante — Default für alle Routen ohne eigenes Motiv. Ohne Slash:
- * „We make video that work." ist ein Satz, kein Wortpaar.
+ * „We make videos that work." ist ein Satz, kein Wortpaar.
  */
 export function brandOgImage() {
   return ogImage({
-    part1: "We make video",
+    part1: "We make videos",
     part2: "that work.",
     footer: OG_FOOTER,
     slash: false,

@@ -68,7 +68,7 @@ export const LANDING: LandingContent = {
   },
 
   approach: {
-    headlineLine1: "We make video",
+    headlineLine1: "We make videos",
     headlineLine2: "that work.",
     italicWord: "make",
     // Durchgängig klein geschrieben (User-Entscheidung 11.08.2026): der Slot
@@ -195,7 +195,7 @@ export const LANDING: LandingContent = {
     kicker: "Unsere 2 Standorte von make/c",
     headlineLine1: "Der richtige Startpunkt",
     headlineLine2: "sind die richtigen Fragen.",
-    introLinkText: "Lass uns über dein Projekt sprechen",
+    introLinkText: "Lass uns über Dein Projekt sprechen",
     ctaButtonText: "Gespräch anfragen",
     // Echtes Portrait (08/2026), quadratisch — `Contact.tsx` zeigt es rund
     // beschnitten. Die frühere 3D-Illustration /Kontakt_Guy.webp liegt weiter
@@ -216,7 +216,7 @@ export const LANDING: LandingContent = {
     locations: [
       {
         headlineLineOne: "Im Herzen",
-        headlineLineTwo: "der Dom Stadt.",
+        headlineLineTwo: "der Domstadt.",
         cityLabel: "Köln /",
         addressLine1: "Picassoplatz 1",
         addressLine2: "50679 Köln",
