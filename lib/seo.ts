@@ -34,7 +34,20 @@ import type { Metadata } from "next";
  * `undefined`. Server und Client bekämen verschiedene Werte → Hydration-Mismatch.
  * Der Ausdruck muss auf beiden Seiten identisch auswerten.
  */
-const SITE_URL_FALLBACK = "https://make-c.de";
+/**
+ * ⚠️ **Mit `www.`, und das ist kein Schreibfehler.** Vercel liefert die Seite
+ * unter `www.make-c.de` aus; `make-c.de` antwortet mit einer 308-Umleitung
+ * dorthin (gemessen 12.09.2026). Stand hier die Apex-Domain, zeigten Canonical,
+ * og:url, sämtliche Sitemap-Einträge, die JSON-LD und `llms.txt` auf eine
+ * Adresse, die sofort auf einen anderen Host umleitet — 22 solcher
+ * Selbstauskünfte allein auf der Startseite. Für Besucher folgenlos, für
+ * Suchmaschinen eine Ungereimtheit, die man vor dem Freischalten der
+ * Indexierung nicht stehen lassen will.
+ *
+ * Wer die Hauptdomain in Vercel umdreht (Settings → Domains), ändert diese
+ * Zeile mit. Beides zusammen, das prüft kein Typ.
+ */
+const SITE_URL_FALLBACK = "https://www.make-c.de";
 const SITE_URL_ENV = process.env.NEXT_PUBLIC_SITE_URL?.trim();
 
 export const SITE_URL = (

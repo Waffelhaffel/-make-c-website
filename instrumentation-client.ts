@@ -36,7 +36,7 @@ const token = process.env.NEXT_PUBLIC_POSTHOG_KEY;
 
 /**
  * Pfad des eigenen Reverse Proxy (die Gegenstelle steht in `next.config.ts`).
- * Der Browser spricht damit ausschließlich `make-c.de` an; die Weiterleitung
+ * Der Browser spricht damit ausschließlich die eigene Domain an; die Weiterleitung
  * an PostHog EU passiert serverseitig. Das hält die Zusage aus Abschnitt 5 und
  * 6 der Datenschutzerklärung — beim Seitenaufruf wird **kein fremder Host**
  * kontaktiert — und nebenbei zählen auch Besucher mit Adblocker mit.
