@@ -43,9 +43,17 @@ import { doNotTrack } from "@/lib/doNotTrack";
  * prüfen zu Recht auf eine fehlerfreie Konsole; eine Suite, deren Fehlschläge
  * man wegerklären muss, ist keine mehr.
  *
- * Auf der Live-Domain liefert derselbe Pfad 200 (nachgemessen) — dort ändert
- * diese Prüfung nichts. Nebenbei bleiben lokale Testläufe aus der Statistik,
- * dieselbe Linie wie bei PostHog, das am Dev-Server gar nicht erst startet.
+ * Auf der Live-Domain ändert diese Prüfung nichts. Nebenbei bleiben lokale
+ * Testläufe aus der Statistik, dieselbe Linie wie bei PostHog, das am
+ * Dev-Server gar nicht erst startet.
+ *
+ * ⚠️ Der feste Pfad `/_vercel/insights/…` gilt **nur lokal**. Live vergibt
+ * Vercel („Resilient Intake", seit Paketversion 2) beim Build einen Zufallspfad
+ * — am 12.09.2026 `/30d60ee71070b59b/script.js` samt `/30d60ee71070b59b/view`.
+ * Er wechselt mit jedem Deployment. Wer im Netzwerk-Protokoll nach
+ * „_vercel/insights" sucht, findet nichts und hält die Messung für kaputt;
+ * sie läuft. Verlässlich ist `window.va` (eine Funktion, wenn geladen) oder
+ * der einzige `<script src>` außerhalb von `/_next/`.
  */
 const NUR_LOKAL = /^(localhost|127\.0\.0\.1|\[::1\])$/;
 
