@@ -233,9 +233,14 @@ export const CASES: CaseStudy[] = [
       { role: "Projektkoordination", name: "Eric Nitschke, Mike Krack" },
       { role: "Konzept und Beratung", name: "Jens Kemper" },
     ],
+    // Making-of-Fotos vom Dreh (User-Lieferung 14.09.2026). Sie haben die zwei
+    // Filmstills mit Grafik-Overlays ersetzt: das Modal zeigt höchstens drei
+    // Bilder, und der Film selbst steht ohnehin als Video darüber. Die alten
+    // Dateien liegen im Commit davor — `git show <commit>:public/work/…`.
     gallery: [
-      { src: "/work/flughafen-koeln-bonn-gallery-1.webp", alt: "Flughafen Köln Bonn — Fluggastbrücke am Vorfeld", ratio: "wide" },
-      { src: "/work/flughafen-koeln-bonn-gallery-2.webp", alt: "Flughafen Köln Bonn — zwei Maschinen aus der Vogelperspektive", ratio: "wide" },
+      { src: "/work/flughafen-koeln-bonn-gallery-1.webp", alt: "Flughafen Köln Bonn — Drehteam mit Licht und Kamera am Check-in-Automaten im Terminal", ratio: "wide" },
+      { src: "/work/flughafen-koeln-bonn-gallery-2.webp", alt: "Flughafen Köln Bonn — Kameramonitor zeigt eine landende Eurowings-Maschine im Abendlicht", ratio: "tall" },
+      { src: "/work/flughafen-koeln-bonn-gallery-3.webp", alt: "Flughafen Köln Bonn — zwei Kameraleute beim Dreh in der Fluggastbrücke", ratio: "tall" },
     ],
   },
   {
@@ -257,6 +262,14 @@ export const CASES: CaseStudy[] = [
       { role: "Konzept & Regie", name: "Jason Philipp" },
       { role: "DOP", name: "Mohamed Bangura" },
       { role: "Postproduktion", name: "Jason Philipp" },
+    ],
+    // Making-of-Fotos vom Dreh (User-Lieferung 14.09.2026). Reihenfolge zählt:
+    // bei drei Bildern läuft das erste über beide Spalten (`CaseModal`), also
+    // steht dort das Querformat.
+    gallery: [
+      { src: "/work/wundholding-gallery-1.webp", alt: "Thermengruppe Josef Wund — Kamera vor der raumhohen Erdprojektion des „Breathing Planet“", ratio: "wide" },
+      { src: "/work/wundholding-gallery-2.webp", alt: "Thermengruppe Josef Wund — Kameramann richtet die Kamera in der Therme ein", ratio: "standard" },
+      { src: "/work/wundholding-gallery-3.webp", alt: "Thermengruppe Josef Wund — letzte Abstimmung mit der Darstellerin vor dem Dreh", ratio: "standard" },
     ],
   },
   {
