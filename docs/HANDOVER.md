@@ -5,10 +5,11 @@
 `docs/CHANGELOG.md`. Dieses Dokument beschreibt nur den **Zustand der jeweiligen
 Übergabe**: was gemacht wurde, was verifiziert ist, was noch offen ist.
 
-⚠️ **Der Stand vom 14.09.2026 ist committet und gepusht** (vier Commits, siehe unten) —
-Vercel deployt automatisch. **Der Betreiber hat `NEXT_PUBLIC_SEO_INDEX=true` unmittelbar
-vor diesem Push in Vercel angelegt**; ob es greift, ist die erste Prüfung nach dem Deploy
-(`curl https://www.make-c.de/robots.txt` muss `Allow: /` zeigen, nicht `Disallow: /`).
+✅ **Der Stand vom 14.09.2026 ist committet, gepusht, deployt und live nachgeprüft.**
+**Die Seite ist seit dem 14.09.2026 erstmals indexierbar**: der Betreiber hat
+`NEXT_PUBLIC_SEO_INDEX=true` gesetzt, `robots.txt` liefert live `Allow: /` samt
+`Sitemap:`-Zeile, keine Route trägt mehr ein `robots`-Meta. Damit ist der letzte der vier
+Audit-Blocker weg.
 
 ⚠️ **Eine Datei liegt uncommitted im Repo-Wurzelverzeichnis: `AUDIT-REPORT.md`** (72 kB,
 Pre-Launch-Audit vom 31.08.2026, Verdikt **NO-GO**). Sie ist bewusst nicht mitgepusht — der
@@ -84,7 +85,7 @@ an der Stelle ein Kommentar statt der Regel.
 
 ### 4 · Offen — was der User noch entscheiden oder liefern muss
 
-- 🔴 **`NEXT_PUBLIC_SEO_INDEX` gegenprüfen** (siehe 1). Ohne das ist der Rest wirkungslos.
+- ~~🔴 `NEXT_PUBLIC_SEO_INDEX` gegenprüfen~~ **erledigt am 14.09.2026, live bestätigt.** Nächster Schritt: **Search-Console-Property anlegen und die Sitemap einreichen** — erst dann crawlt Google zügig, und erst der Bericht „Seiten“ zeigt, welche Alt-URLs wirklich im Index stehen.
 - 🔴 **Der Tippfehler „Artificial Itelligence" ist weiter drin.** Die neue Loop-Fassung vom
   14.09.2026 hat ihn unverändert — getauscht wurde nur die Realaufnahme in der Mitte. Der
   User hat es notiert, eine korrigierte Quelle kommt nach. Dann Datei nach
@@ -132,8 +133,17 @@ an der Stelle ein Kommentar statt der Regel.
 - Hero-Video: Chrome lädt **genau eine** Datei (AV1, 1920×1080, 21,24 s) und spielt
 - Agenturseite: 0 px Textüberlauf bei 320/360/375/390/430/768/1440 px, alle Bilder laden,
   keine Konsolenfehler, keine 4xx
-- ⚠️ **Alles gegen `localhost:3000` aus einem Production-Build gemessen.** Gegen die
-  Live-Domain ist nach dem Deploy nichts davon nachgeprüft.
+
+**Nach dem Deploy gegen `https://www.make-c.de` gegengeprüft — alles grün:**
+
+- `robots.txt` = `Allow: /` + Sitemap-Zeile, **kein** `robots`-Meta auf den zehn Routen
+- **Redirect-Matrix live 254/254** ohne Problem, dieselben Zahlen wie lokal
+- `/portfolio/merkur/` → **ein** Sprung → `/work?case=merkur`, Merkur-Fenster offen
+- Hero-Video: **genau eine** Datei (AV1, 1920 px, 21,24 s), spielt
+- Agenturseite: H1 steht, 5/5 Bilder, Button auf `/work` sichtbar
+- beide neuen Galerien 3/3 Bilder
+- **Die Datenschutz-Zusage hält: 0 fremde Hosts, 0 Cookies, 0 Konsolenfehler, keine 4xx**
+  auf Startseite und Agenturseite
 
 ---
 
