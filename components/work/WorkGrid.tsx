@@ -28,7 +28,10 @@ const ALL = "*";
 const ABOVE_THE_FOLD = 12;
 
 export function WorkGrid({ caseStudies }: WorkGridProps) {
-  const { activeCase, openCase, closeCase } = useCaseModal();
+  // `caseStudies` mitgeben schaltet den Deep-Link `?case=<slug>` frei — die
+  // alten `/portfolio/<slug>/`-Adressen leiten hierher um. Nur hier, nicht in
+  // SelectedWork/ServiceCases.
+  const { activeCase, openCase, closeCase } = useCaseModal(caseStudies);
   const [active, setActive] = useState<string>(ALL);
 
   // Nur Kategorien anbieten, die tatsächlich belegt sind — ein Filter, der auf
