@@ -5,9 +5,10 @@
 `docs/CHANGELOG.md`. Dieses Dokument beschreibt nur den **Zustand der jeweiligen
 Übergabe**: was gemacht wurde, was verifiziert ist, was noch offen ist.
 
-⚠️ **Der Stand vom 01.09.2026 ist committet und gepusht** (`f0bc710`) — Vercel hat
-deployt, und das Ergebnis ist gegen die Live-Domain nachgeprüft. Indexiert wird weiter
-nicht: `NEXT_PUBLIC_SEO_INDEX` ist aus.
+⚠️ **Der Stand vom 14.09.2026 ist committet und gepusht** (vier Commits, siehe unten) —
+Vercel deployt automatisch. **Der Betreiber hat `NEXT_PUBLIC_SEO_INDEX=true` unmittelbar
+vor diesem Push in Vercel angelegt**; ob es greift, ist die erste Prüfung nach dem Deploy
+(`curl https://www.make-c.de/robots.txt` muss `Allow: /` zeigen, nicht `Disallow: /`).
 
 ⚠️ **Eine Datei liegt uncommitted im Repo-Wurzelverzeichnis: `AUDIT-REPORT.md`** (72 kB,
 Pre-Launch-Audit vom 31.08.2026, Verdikt **NO-GO**). Sie ist bewusst nicht mitgepusht — der
@@ -20,6 +21,119 @@ Die Abschnitte darunter sind chronologisch gewachsen und tragen teils doppelte N
 (zweimal „0", zweimal „0a"); die Datumsangabe in der Überschrift ist verlässlicher als
 die Nummer. Die Zeile „Alles ist uncommitted", die hier bis zum 22.08.2026 stand, galt
 für die Übergabe vom 30.07.2026 und ist überholt.
+
+---
+
+## Übergabe: Alt-URLs, Agenturseite, neue Medien (14.09.2026) — committet und gepusht
+
+Ausgelöst durch eine Beobachtung des Users: in den Analytics tauchten Aufrufe auf
+`/portfolio/dmexco-live-stream/` und ähnliche Adressen auf. Vier Commits.
+
+| Commit | Inhalt |
+|---|---|
+| `f4374c7` | 35 Redirect-Regeln für rund 120 Alt-URLs + Deep-Link `?case=<slug>` |
+| `4fd4220` | Unterseite `/partner-fuer-agenturen`, verlinkt von `/work` |
+| `f657f4d` | neues Hero-Video, neuer Strategie-Loop, sechs Making-of-Fotos |
+| _(dieser)_ | `CLAUDE.md`, `CHANGELOG.md`, `HANDOVER.md` |
+
+### 1 · Der eigentliche Fund: die Seite war für Suchmaschinen gesperrt
+
+Gemessen am 14.09.2026 auf der Live-Domain: `robots.txt` lieferte `Disallow: /`, jede
+Route trug `<meta name="robots" content="noindex, nofollow">`. Das ist Blocker `SEO-01`
+aus dem Audit, seit dem Go-Live offen.
+
+**Das ist wichtiger als die 404.** Google durfte die neue Seite nicht crawlen — deshalb
+standen beim Googeln noch die alten Treffer, **und deshalb hätte Google die Redirects gar
+nicht zu sehen bekommen**: einen 308 liest ein Crawler nur, wenn er die URL abrufen darf.
+Der Betreiber hat die Variable daraufhin angelegt (Typ Config, Production). ⚠️ **Nicht
+nachgeprüft** — der Vercel-Account hängt nicht an diesem Arbeitsplatz. Erste Aufgabe nach
+dem Deploy.
+
+### 2 · Alt-URLs: wie die Liste entstanden ist
+
+Der alte Host ist weg, das Repo kennt die URLs nur halb. Rekonstruiert aus drei Quellen:
+die Yoast-Sitemaps im **Webarchiv** (`portfolio-sitemap.xml`, `page-sitemap.xml`,
+`project-type-sitemap.xml`, Snapshot 02.02.2023), dem **CDX-Crawl-Index** desselben
+Archivs für alles nach Februar 2023, und den `sourceSlug`-Feldern in
+`scripts/data/portfolio-cases.json`.
+
+Ergebnis: 60 × `/portfolio/<slug>/`, 21 Seiten, 14 × `/project-type/<slug>/` samt
+Paginierung, 17 × `/portfolio-item/<slug>/` aus einer älteren Generation, dazu
+WordPress-Systempfade. **Anhang A des `AUDIT-REPORT.md` war an vier Stellen überholt oder
+falsch** — die Belege stehen im Changelog-Eintrag. Verbindlich ist seither
+`next.config.ts`.
+
+⚠️ **Die Liste ist sitemap- und archivvollständig, nicht indexvollständig.** Was fehlen
+kann: Attachment-Seiten, `?p=`-Altformen, alles was indexiert war ohne je in der Sitemap
+zu stehen. Die einzige vollständige Quelle ist der Bericht „Seiten" in der **Google Search
+Console** — Property anlegen, Sitemap einreichen, und was dort als 404 auftaucht und in
+`next.config.ts` fehlt, ergänzen. Zweite Quelle mit weniger Aufwand: die tatsächlich
+aufgerufenen 404-Pfade aus PostHog.
+
+### 3 · Zwei Dinge am Code, die man kennen muss
+
+**`?case=<slug>` ist ein optionales Argument**, kein Automatismus. `useCaseModal()` wertet
+den Parameter nur aus, wenn ein Aufrufer `caseStudies` übergibt — und das tut allein
+`WorkGrid.tsx`. Auf der Startseite und den Leistungsseiten soll `?case=` bewusst nichts
+öffnen. Gelesen wird über `window.location.search`, nicht `useSearchParams()`: Letzteres
+zöge `/work` in eine `<Suspense>`-Grenze oder ins Client-Rendering.
+
+**Für `/partner-fuer-agenturen` darf nie ein Redirect eingetragen werden.** `redirects()`
+läuft vor dem Routing; eine Regel dort macht die eigene Seite unerreichbar. Im Code steht
+an der Stelle ein Kommentar statt der Regel.
+
+### 4 · Offen — was der User noch entscheiden oder liefern muss
+
+- 🔴 **`NEXT_PUBLIC_SEO_INDEX` gegenprüfen** (siehe 1). Ohne das ist der Rest wirkungslos.
+- 🔴 **Der Tippfehler „Artificial Itelligence" ist weiter drin.** Die neue Loop-Fassung vom
+  14.09.2026 hat ihn unverändert — getauscht wurde nur die Realaufnahme in der Mitte. Der
+  User hat es notiert, eine korrigierte Quelle kommt nach. Dann Datei nach
+  `assets/masters/leistungen-loops/Makec_Web_Loop_Strategie.mp4` und
+  `node scripts/build-service-loops.mjs`.
+- 🟡 **Drei Angaben auf der Agenturseite sind unbestätigt** (`lib/content/agenturen.ts`, je
+  mit ⚠️): Vorlaufzeit „7 bis 14 Tage", „eigenes Greenbox-Studio", Retainer und
+  Rahmenverträge. Vor dem Freischalten der Indexierung gegenlesen — zusammen mit
+  `telekom.year`, `fom-studio.year` und `fom-studio.summary`.
+- 🟡 **Die Agenturseite hat keine eigenen Fotos** — beide sind aus
+  `public/leistungen-bilder/` wiederverwendet. Zwei frische Aufnahmen wären ein Zweizeiler.
+- 🟡 **Die zwei Filmstills von `flughafen-koeln-bonn` sind aus der Galerie verdrängt.** Das
+  Modal zeigt höchstens drei Bilder. Die Dateien sind getrackt, `git show f657f4d^:…` holt
+  sie zurück.
+- ⚠️ **`AUDIT-REPORT.md` liegt weiter uncommitted im Wurzelverzeichnis.** `CLAUDE.md`
+  verweist inzwischen darauf. Wer es nicht mitcheckt, hinterlässt einen toten Verweis für
+  jeden, der das Repo frisch klont. Ein `git clean` löscht die Datei.
+
+### 5 · Vier Messfallen, in die diese Sitzung gelaufen ist
+
+1. **Der Scroll-Container des Case-Fensters ist `[data-lenis-prevent]`, nicht
+   `[role="dialog"]`.** Wer den Dialog scrollt, bewegt nichts; die Galeriebilder kommen nie
+   in den Viewport, `naturalWidth` bleibt 0 — das liest sich wie ein fehlendes Bild und ist
+   keins.
+2. **Ein `fullPage`-Screenshot einer Seite mit `MotionSection` sieht halb leer aus.** Die
+   Abschnitte stehen bis zum Hereinscrollen auf `opacity: 0`, und `fullPage` löst das nicht
+   aus. In Schritten durchscrollen und je Abschnitt schießen.
+3. **Der Skip-Link (`a[href="#main-content"]`) liegt absichtlich außerhalb des Viewports**
+   und meldet bei einer Range-Rect-Messung auf **jeder** Breite 1 px Überlauf. Ausschließen,
+   sonst jagt man ein Phantom.
+4. **Eine `.JPG`-Endung sagt nichts über das Format.** Eine gelieferte Datei war HEIC vom
+   iPhone. `file -b` entlarvt sie, `sips -s format jpeg` löst es. Dazu EXIF-Orientierung
+   beachten (`.rotate()` vor dem Skalieren) und daran denken, dass iPhone-Fotos
+   **GPS-Koordinaten** tragen.
+
+### 6 · Verifikationsstand dieser Übergabe
+
+- `npx tsc --noEmit` und `npm run lint` grün
+- `npm run build` grün, alles statisch, First Load JS unverändert 103 kB
+- **Redirect-Matrix: 254/254** (127 Alt-Pfade × mit und ohne Schrägstrich) — kein 404,
+  genau ein Sprung, keine Kette, keine Schleife
+- Vollständige Kette im echten Chrome: `/portfolio/merkur/` → 308 → `/work?case=merkur` →
+  Merkur-Fenster offen, Hintergrund gesperrt, Parameter beim Schließen weg
+- `npm run e2e` **55/55** (ein Lauf dazwischen 54/55, der bekannte Anker-Flatterer)
+- Hero-Video: Chrome lädt **genau eine** Datei (AV1, 1920×1080, 21,24 s) und spielt
+- Agenturseite: 0 px Textüberlauf bei 320/360/375/390/430/768/1440 px, alle Bilder laden,
+  keine Konsolenfehler, keine 4xx
+- ⚠️ **Alles gegen `localhost:3000` aus einem Production-Build gemessen.** Gegen die
+  Live-Domain ist nach dem Deploy nichts davon nachgeprüft.
 
 ---
 
