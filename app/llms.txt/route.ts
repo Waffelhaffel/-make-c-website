@@ -30,6 +30,7 @@ ${services}
 
 - [Startseite](${SITE_URL}): Überblick über make/c, Showreel, alle sechs Leistungen und Referenzen.
 - [Referenzen](${absoluteUrl("/work")}): Case Studies aus bisherigen Projekten.
+- [Partner für Agenturen](${absoluteUrl("/partner-fuer-agenturen")}): make/c als Produktionspartner für Kreativ-, Werbe- und Eventagenturen — als verlängerte Werkbank oder als Ergänzung des eigenen Teams, auf Wunsch ohne eigene Sichtbarkeit beim Endkunden.
 - [Impressum](${absoluteUrl("/impressum")})
 - [Datenschutz](${absoluteUrl("/datenschutz")})
 

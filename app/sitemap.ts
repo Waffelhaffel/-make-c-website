@@ -25,6 +25,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     },
     {
+      // Eigene Seite seit 14.09.2026, unter derselben Adresse wie auf der alten
+      // WordPress-Seite — deshalb kein Redirect in next.config.ts.
+      url: absoluteUrl("/partner-fuer-agenturen"),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
       url: absoluteUrl("/impressum"),
       changeFrequency: "yearly",
       priority: 0.2,
