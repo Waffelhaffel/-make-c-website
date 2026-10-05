@@ -501,14 +501,14 @@ export const DATENSCHUTZ: LegalPageContent = {
     // ── 5 ───────────────────────────────────────────────────────────────────
     h2("5. Cookies und Speicherung auf Ihrem Endgerät"),
     p(
-      "Diese Website setzt von sich aus keine Cookies. Es kommen auch keine vergleichbaren Techniken zum Einsatz, die Informationen auf Ihrem Endgerät speichern oder darauf zugreifen — weder Local Storage oder Session Storage noch Zählpixel.",
+      "Diese Website setzt von sich aus keine Cookies. Es werden auch auf andere Weise keine Informationen auf Ihrem Endgerät abgelegt — weder in Local Storage oder Session Storage noch über Zählpixel.",
     ),
     p(
       { text: "Deshalb gibt es hier auch kein Cookie-Banner:", stark: true },
       " Es gibt nichts, wofür wir Ihre Einwilligung nach § 25 TDDDG einholen müssten.",
     ),
     p(
-      "Das gilt auch für die Reichweitenmessung: Sie kommt ohne jede Speicherung auf Ihrem Endgerät aus. Näheres dazu in Abschnitt 6.",
+      "Das gilt auch für die Reichweitenmessung: Sie kommt ohne jede Speicherung auf Ihrem Endgerät aus und übermittelt nur Angaben, die Ihr Browser beim Seitenaufruf ohnehin sendet. Näheres dazu in Abschnitt 6.",
     ),
     p(
       "Eine Ausnahme entsteht erst durch Ihr eigenes Zutun: Wenn Sie ein eingebettetes Video starten, können YouTube beziehungsweise Vimeo eigene Cookies setzen. Näheres in Abschnitt 7.",
@@ -521,7 +521,11 @@ export const DATENSCHUTZ: LegalPageContent = {
     //   `cookieless_mode: "always"` + `persistence: "memory"` → kein Cookie,
     //       kein Local/Session Storage, Zählung über den Tages-Hash unten
     //   `person_profiles: "never"`  → keine Profile
-    //   `autocapture: true`         → deckt den Aufzählungspunkt „Klicks" ab
+    //   `before_send` (NICHT_SENDEN) → keine Bildschirm-/Fenstergröße, Zeitzone,
+    //       Sprache, Verweildauer, Scrolltiefe — Grundlage des Satzes zu
+    //       § 25 TDDDG am Ende dieses Abschnitts
+    //   `autocapture: false`, `capture_pageleave: false`,
+    //   `disable_scroll_properties: true` → „nicht erfasst: Klicks … Verweildauer"
     //   `disable_session_recording` / `capture_heatmaps: false` → keine
     //       Aufzeichnung, keine Mauswege (sonst fehlte hier eine Kategorie)
     //   `doNotTrack()` vor `init()`  → der technische Widerspruch weiter unten.
@@ -530,14 +534,18 @@ export const DATENSCHUTZ: LegalPageContent = {
     //   EU-Instanz + Reverse Proxy in `next.config.ts` → Serverstandort und
     //       der Satz „nicht unmittelbar an PostHog"
     //
-    // Die Aufzählung „Erfasst werden dabei" ist **nicht geraten**: sie ist am
-    // 12.09.2026 aus den tatsächlich gesendeten Ereignissen abgelesen (POST an
-    // /mc-relay/e/ entpackt, alle Eigenschaftsnamen und -werte gelesen).
-    // Dabei gemessen: `$device_id: null`, `distinct_id` leer,
-    // `$process_person_profile: false`, `$cookieless_mode: true` — und
-    // Scrolltiefe, Verweildauer, Zeitzone, Sprache, Bildschirmgröße und
-    // User-Agent, die deshalb hier einzeln aufgeführt sind. Wer die
+    // Die Aufzählung „Erfasst werden dabei" ist **nicht geraten**: sie ist aus
+    // den tatsächlich gesendeten Ereignissen abgelesen (POST an /mc-relay/e/
+    // entpackt, alle Eigenschaftsnamen gelesen) — zuletzt am 05.10.2026 nach
+    // dem Abspecken: nur noch `$pageview`, mit Adresse, Seitentitel, Referrer,
+    // Browser/OS/Gerätetyp aus dem User-Agent, `$device_id: null`,
+    // `$cookieless_mode: true`; **keine** `$screen_*`, `$viewport_*`,
+    // `$timezone*`, `$browser_language*`, `$prev_pageview_*`. Wer die
     // Konfiguration anfasst, misst neu, statt die Liste zu raten.
+    //
+    // ⚠️ Ein Land steht bewusst **nicht** in der Liste: im cookiefreien Modus
+    // entfernt PostHog die IP vor der GeoIP-Anreicherung (Hinweis in den
+    // Projekt-Einstellungen, vom User am 05.10.2026 per Screenshot belegt).
     // Kommt PostHog doch nicht oder anders — diesen Abschnitt löschen bzw.
     // anpassen und die folgenden Nummern hochzählen. Eine Datenschutzerklärung
     // darf keine Verarbeitung beschreiben, die es so nicht gibt.
@@ -545,7 +553,7 @@ export const DATENSCHUTZ: LegalPageContent = {
     p(
       "Um nachvollziehen zu können, welche Inhalte dieser Website genutzt werden, setzen wir zwei Dienste zur Reichweitenmessung ein: PostHog für die inhaltliche Auswertung und Vercel Web Analytics als Überblick unseres Hosters. ",
       { text: "Beide arbeiten ohne Cookies", stark: true },
-      " und ohne jede Speicherung auf Ihrem Endgerät. Was jeder der beiden erfasst, steht unten getrennt; Rechtsgrundlage und Widerspruchsrecht gelten für beide gleichermaßen und stehen am Ende dieses Abschnitts.",
+      " und ohne jede Speicherung auf Ihrem Endgerät, und beide übermitteln nur Angaben, die Ihr Browser bei jedem Seitenaufruf ohnehin mitsendet. Was jeder der beiden erfasst, steht unten getrennt; Rechtsgrundlage und Widerspruchsrecht gelten für beide gleichermaßen und stehen am Ende dieses Abschnitts.",
     ),
 
     h3("a) PostHog"),
@@ -562,19 +570,13 @@ export const DATENSCHUTZ: LegalPageContent = {
     li(
       "Browser, Betriebssystem und Gerätetyp einschließlich der Browserkennung (User-Agent), die Ihr Browser bei jedem Seitenaufruf ohnehin mitsendet",
     ),
-    li("Bildschirm- und Fenstergröße sowie Spracheinstellung und Zeitzone des Browsers"),
-    li("das Land, aus dem der Aufruf erfolgt, abgeleitet aus der IP-Adresse"),
-    li("wie lange eine Seite geöffnet war und wie weit auf ihr gescrollt wurde"),
-    li(
-      "Klicks auf Schaltflächen und Links sowie deren Beschriftung — Eingaben in Textfelder werden nicht erfasst",
-    ),
     p(
       { text: "Den übermittelten Daten ist keine Geräte- oder Nutzerkennung beigefügt.", stark: true },
-      " Nicht erfasst werden außerdem Mausbewegungen; eine Aufzeichnung Ihrer Sitzung oder Ihres Bildschirms findet nicht statt.",
+      " Eigenschaften Ihres Geräts wie Bildschirmgröße, Spracheinstellung oder Zeitzone werden nicht übermittelt. Nicht erfasst werden außerdem Klicks, Mausbewegungen, Scrollverhalten und Verweildauer; eine Aufzeichnung Ihrer Sitzung oder Ihres Bildschirms findet nicht statt.",
     ),
     p(
       { text: "Zur Unterscheidung einzelner Besuche innerhalb eines Tages", stark: true },
-      " bildet PostHog auf seinem Server einen nicht umkehrbaren Hashwert aus Ihrer IP-Adresse, der Browserkennung und einem Zufallswert, der täglich wechselt. Dadurch lässt sich zählen, wie viele verschiedene Personen die Website besucht haben, ohne dass etwas auf Ihrem Endgerät gespeichert wird. Mit dem Wechsel des Zufallswerts verliert der Hashwert seine Bedeutung: eine Wiedererkennung über den Tag hinaus ist damit ausgeschlossen. Die IP-Adresse selbst wird nicht gespeichert; sie wird darüber hinaus nur zur Ermittlung des ungefähren Standorts auf Länderebene verwendet.",
+      " bildet PostHog auf seinem Server einen nicht umkehrbaren Hashwert aus Ihrer IP-Adresse, der Browserkennung und einem Zufallswert, der täglich wechselt. Dadurch lässt sich zählen, wie viele verschiedene Personen die Website besucht haben, ohne dass etwas auf Ihrem Endgerät gespeichert wird. Mit dem Wechsel des Zufallswerts verliert der Hashwert seine Bedeutung: eine Wiedererkennung über den Tag hinaus ist damit ausgeschlossen. Die IP-Adresse selbst wird nicht gespeichert und auch nicht zur Bestimmung Ihres Standorts verwendet.",
     ),
     p(
       { text: "Die Daten werden nicht unmittelbar von Ihrem Browser an PostHog gesendet.", stark: true },
@@ -606,7 +608,7 @@ export const DATENSCHUTZ: LegalPageContent = {
 
     h3("Rechtsgrundlage und Widerspruch — für beide Dienste"),
     p(
-      "Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Unser berechtigtes Interesse liegt darin, die Nutzung unserer Website in anonymer Form auszuwerten und unser Angebot zu verbessern. Da dabei keine Informationen auf Ihrem Endgerät gespeichert oder ausgelesen werden, ist hierfür keine Einwilligung nach § 25 TDDDG erforderlich.",
+      "Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Unser berechtigtes Interesse liegt darin, die Nutzung unserer Website in anonymer Form auszuwerten und unser Angebot zu verbessern. Beide Dienste speichern nichts auf Ihrem Endgerät und übermitteln keine Eigenschaften Ihres Geräts, sondern nur Angaben, die Ihr Browser bei jedem Seitenaufruf ohnehin an unseren Server sendet. Eine Einwilligung nach § 25 TDDDG ist hierfür deshalb nicht erforderlich.",
     ),
     p(
       { text: "Sie können der Messung jederzeit widersprechen.", stark: true },
@@ -728,7 +730,13 @@ export const DATENSCHUTZ: LegalPageContent = {
       "Die Daten der Reichweitenmessung mit PostHog werden ausschließlich in Deutschland verarbeitet (Abschnitt 6 a). Da der Anbieter PostHog seinen Sitz in den USA hat und ein Zugriff von dort — etwa im Rahmen der technischen Betreuung — nicht vollständig auszuschließen ist, haben wir auch mit PostHog die Standardvertragsklauseln nach Art. 46 Abs. 2 lit. c DSGVO vereinbart.",
     ),
     p(
-      "Starten Sie ein eingebettetes Video, können außerdem Daten an Google und Vimeo und damit in die USA übermittelt werden. Diese Übermittlung stützen wir auf Ihre ausdrückliche Einwilligung nach Art. 49 Abs. 1 lit. a DSGVO, die Sie mit dem Klick auf den Play-Button erteilen. Wir weisen Sie darauf hin, dass in den USA kein dem europäischen Recht gleichwertiges Datenschutzniveau garantiert werden kann und insbesondere ein Zugriff durch dortige Behörden nicht ausgeschlossen ist.",
+      // ⚠️ Bis 05.10.2026 stand hier Art. 49 Abs. 1 lit. a (Einwilligung als
+      // Ausnahme). Die DSK hält das für wiederkehrende Übermittlungen nicht für
+      // tragfähig (OH Digitale Dienste, Rn. 114) — und es ist unnötig: Google LLC
+      // und Vimeo.com, Inc. sind aktiv DPF-zertifiziert (am 05.10.2026 in der
+      // offiziellen Liste geprüft). Fällt eine der Zertifizierungen weg, muss
+      // dieser Absatz neu gefasst werden.
+      "Starten Sie ein eingebettetes Video, können außerdem Daten an Google und Vimeo und damit in die USA übermittelt werden. Google LLC und Vimeo.com, Inc. sind ebenfalls nach dem EU-U.S. Data Privacy Framework zertifiziert; die Übermittlung stützt sich damit auf den Angemessenheitsbeschluss der Europäischen Kommission nach Art. 45 DSGVO.",
     ),
 
     // ── 15 ──────────────────────────────────────────────────────────────────

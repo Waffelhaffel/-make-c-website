@@ -45,6 +45,9 @@ const token = process.env.NEXT_PUBLIC_POSTHOG_KEY;
  */
 const PROXY_PATH = "/mc-relay";
 
+/** Eigenschaften, die nie gesendet werden — Begründung an `before_send`. */
+const NICHT_SENDEN = /^\$(screen_|viewport_|timezone|browser_language|prev_pageview_)/;
+
 /**
  * ⚠️ Die DNT-Prüfung steht in `lib/doNotTrack.ts`, weil sie für **beide**
  * Messungen gilt (hier und `components/layout/WebAnalytics.tsx`). Sie muss
@@ -108,15 +111,39 @@ if (
       mask_personal_data_properties: true,
 
       // ── Was erfasst wird (Datenschutzerklärung Abschnitt 6, Aufzählung) ───
-      // Seitenaufrufe inkl. der Navigation innerhalb der App: die Seite
+      // Nur Seitenaufrufe, inkl. der Navigation innerhalb der App: die Seite
       // wechselt Routen über den Next-Router, ein klassisches `load` gibt es
       // dabei nicht.
       capture_pageview: "history_change",
-      capture_pageleave: true,
-      // Klicks auf Schaltflächen und Links samt deren Beschriftung. Eingaben
-      // in Textfelder erfasst PostHog dabei nicht — und Formulare hat diese
-      // Seite ohnehin keine.
-      autocapture: true,
+      // ⚠️ Seit 05.10.2026 aus: Verweildauer, Scrolltiefe und Klicks. Grund
+      // steht an `before_send` unten — wer eins davon wieder einschaltet,
+      // braucht dafür eine Einwilligung, also ein Banner.
+      capture_pageleave: false,
+      disable_scroll_properties: true,
+      autocapture: false,
+      // Ohne diese beiden Schalter entscheidet die Projekt-Einstellung bei
+      // PostHog (Remote Config), ob Web Vitals bzw. Fehler erfasst werden —
+      // ein Klick im Dashboard würde sonst die Zusage aus Abschnitt 6 brechen.
+      capture_performance: false,
+      capture_exceptions: false,
+      // ⚠️ Cookiefrei heißt nicht einwilligungsfrei. § 25 TDDDG erfasst auch
+      // das **Auslesen** von Informationen aus dem Endgerät, und die
+      // Aufsichtsbehörden werten es ausdrücklich als Zugriff, wenn per
+      // JavaScript Geräteeigenschaften gelesen und an einen Server übermittelt
+      // werden (DSK, OH Digitale Dienste v1.2, Rn. 24). posthog-js hängt
+      // Bildschirm- und Fenstergröße, Zeitzone und Browsersprache an jedes
+      // Ereignis — live mitgeschnitten am 05.10.2026. Diese Werte werden hier
+      // vor dem Senden entfernt; übrig bleibt, was der Browser beim
+      // Seitenaufruf ohnehin mitschickt (Adresse, Referrer, User-Agent).
+      // `$prev_pageview_*` sind Verweildauer und Scrolltiefe der Vorseite.
+      before_send: (event) => {
+        if (event) {
+          for (const key of Object.keys(event.properties)) {
+            if (NICHT_SENDEN.test(key)) delete event.properties[key];
+          }
+        }
+        return event;
+      },
 
       // ── Was ausdrücklich nicht erfasst wird ───────────────────────────────
       // Sitzungsaufzeichnung wäre eine Aufzeichnung des Bildschirms und damit
