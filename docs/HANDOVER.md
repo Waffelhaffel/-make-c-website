@@ -5,11 +5,13 @@
 `docs/CHANGELOG.md`. Dieses Dokument beschreibt nur den **Zustand der jeweiligen
 Übergabe**: was gemacht wurde, was verifiziert ist, was noch offen ist.
 
-✅ **Der Stand vom 14.09.2026 ist committet, gepusht, deployt und live nachgeprüft.**
-**Die Seite ist seit dem 14.09.2026 erstmals indexierbar**: der Betreiber hat
-`NEXT_PUBLIC_SEO_INDEX=true` gesetzt, `robots.txt` liefert live `Allow: /` samt
-`Sitemap:`-Zeile, keine Route trägt mehr ein `robots`-Meta. Damit ist der letzte der vier
-Audit-Blocker weg.
+⚠️ **Der Stand vom 05.10.2026 ist NICHT committet** (zwei Cases, ein Hinweis in
+`VideoFacade`, siehe erster Abschnitt unten). Davor gilt: der Stand vom 14.09.2026 ist
+committet, gepusht, deployt und live nachgeprüft, und **die Seite ist seit dem 14.09.2026
+erstmals indexierbar** (`NEXT_PUBLIC_SEO_INDEX=true`, `robots.txt` liefert live `Allow: /`
+samt `Sitemap:`-Zeile, keine Route trägt mehr ein `robots`-Meta). ⚠️ Weil Vercel bei jedem
+Push auf `main` deployt und die Seite indexiert wird, geht mit dem nächsten Push alles
+unten Beschriebene sofort live.
 
 ⚠️ **Eine Datei liegt uncommitted im Repo-Wurzelverzeichnis: `AUDIT-REPORT.md`** (72 kB,
 Pre-Launch-Audit vom 31.08.2026, Verdikt **NO-GO**). Sie ist bewusst nicht mitgepusht — der
@@ -22,6 +24,87 @@ Die Abschnitte darunter sind chronologisch gewachsen und tragen teils doppelte N
 (zweimal „0", zweimal „0a"); die Datumsangabe in der Überschrift ist verlässlicher als
 die Nummer. Die Zeile „Alles ist uncommitted", die hier bis zum 22.08.2026 stand, galt
 für die Übergabe vom 30.07.2026 und ist überholt.
+
+---
+
+## Übergabe: DMEXCO 2026 + Generali Köln Marathon 2026 (05.10.2026) — nicht committet
+
+User-Lieferung: Texte, Projektinfos, vier DMEXCO-Fotos, ein Marathon-Thumbnail, ein
+YouTube- und ein Instagram-Link. Danach eine Abnahmerunde am lokalen Production-Build mit
+drei Korrekturen, alle eingearbeitet.
+
+### 1 · Was sich geändert hat
+
+| Datei | Inhalt |
+|---|---|
+| `lib/content/cases.ts` | `dmexco-2023` auf 2026 umgeschrieben und nach vorn zu den 2026er-Cases gezogen · neuer Case `koeln-marathon` direkt dahinter |
+| `components/work/VideoFacade.tsx` | Hinweis auch unter **extern geöffneten** Videos (neu: `externalName()`) |
+| `public/work/` | `dmexco-2023-gallery-1..3`, `koeln-marathon`, `-poster`, `-video-2` (alle WebP q82) |
+| `e2e/config.mjs` | `CONTENT`: 31 → **32** Cases, „Video Event Content" 8 → **9** Treffer |
+| `CLAUDE.md`, `docs/CHANGELOG.md` | Zahlen nachgezogen, Changelog-Eintrag 05.10.2026 |
+
+- **DMEXCO: ein Case für alle Jahre** (User-Entscheidung), kein zweiter. Text, Leistungen und
+  Galerie sind von 2026; das **Video ist weiter das von 2023** — ein neues gibt es nicht, der
+  letzte Absatz sagt das ausdrücklich. Der erste Absatz beginnt auf Wunsch des Users mit
+  „Seit 2018 betreuen wir die DMEXCO jedes Jahr …". `client` ist „DMEXCO 2026", `year` bleibt
+  „seit 2018".
+- **Kachelbild der DMEXCO ist das alte** (`dmexco-2023.webp`, unverändert gegenüber git) —
+  der User fand das 2026er-Kamerafoto als Kachel unpassend. Das Kamerafoto steht stattdessen
+  in der Galerie unten rechts und hat dort das Foto mit vier Personen am Tisch ersetzt.
+- **Marathon-Kachel ist beschnitten:** das gelieferte Thumbnail trägt unten ein rotes Band
+  „LIVE-STREAM · 4. OKTOBER 2026 AB 8:25 UHR", dessen Datum im 4:5-Raster abgeschnitten
+  war. Die Kachel zeigt nur die Läufer, das Standbild vor dem Video das volle Thumbnail.
+- **Instagram-Reel als „Weiteres Video":** `toProvider()` kennt Instagram nicht, der Klick
+  öffnet also einen neuen Tab, eingebettet wird nichts. Das Standbild ist das
+  `og:image` des Reels (nur 360×640), **lokal** auf einen unscharfen 16:9-Grund gesetzt.
+  Darunter steht jetzt der Hinweis „… öffnet sich das Video in einem neuen Tab auf
+  Instagram. Das ist eine externe Plattform …" (User-Vorgabe).
+
+### 2 · Zwei Dinge am Code, die man kennen muss
+
+- **Der Slug `dmexco-2023` ist absichtlich nicht umbenannt**, obwohl der Case 2026 zeigt:
+  die Alt-URL `/portfolio/dmexco-2023/` läuft über den Auffang-Eintrag `/portfolio/:slug` in
+  `next.config.ts` auf `?case=dmexco-2023`, und `SERVICE_PAGES` (Event Content) verweist
+  darauf. Umbenennen heißt: beides mitziehen, sonst fällt die Alt-Adresse still auf `/work`.
+- **`koeln-marathon` heißt so wie auf der alten WordPress-Seite** — damit öffnet
+  `/portfolio/koeln-marathon/` den neuen Case ohne eigene Regel. Bis heute lief die Adresse
+  ins Leere.
+- Der neue Hinweis in `VideoFacade` greift für **jede** URL, die kein YouTube/Vimeo ist. Er
+  nennt Instagram beim Namen, alles andere mit dem Hostnamen. Die Zwei-Klick-Logik für
+  YouTube/Vimeo ist unverändert.
+
+### 3 · Inhaltliche Entscheidungen, die nicht vom User bestätigt sind
+
+- **Reichweite des Marathons weggelassen.** Die Lieferung fragte selbst „Mehr als 100.000
+  Zuschauer online (oder sollen wir die Reichweite rauslassen?)" — ohne Antwort bleibt sie
+  draußen. Ein Satz in `summary`, falls gewünscht.
+- **Teamgröße Marathon „knapp 30"** statt der „über 40" im Fließtext der Lieferung — so vom
+  Absender selbst korrigiert („inkl. Fahrern, Maske usw.").
+- **DMEXCO-Aufbau:** formuliert als „drei Tage vor Ort, mit dem Aufbau haben wir schon am
+  Montag begonnen" — die Lieferung bot alternativ „vier Tage" an.
+- Tippfehler „greifbar zur spüren" → „zu spüren" mitkorrigiert (eigene Copy, keine Fremdrede).
+
+### 4 · Offen
+
+- ✅ **Foto mit Besucherin** (`dmexco-2023-gallery-2.webp`, Namensschild lesbar): laut User
+  **genehmigt** (05.10.2026).
+- ✅ **Das DMEXCO-Video (`vimeo.com/882229550`)**, das am 24.08.2026 mit 401 antwortete,
+  läuft laut User **auf der Live-Seite** — ebenso die übrigen Videos. Der Warnkommentar im
+  Code ist entfernt. (Angabe des Users, nicht von hier gemessen.)
+- **Commit + Push** stehen aus.
+
+### 5 · Verifikationsstand
+
+- `npx tsc --noEmit` und `npm run lint`: sauber.
+- Production-Build (`rm -rf .next && npm run build && npm run start`), **e2e 55/55** nach
+  der letzten Änderung.
+- Beide Case-Fenster in Playwright + System-Chrome geöffnet und angesehen: Galerie,
+  Standbilder und Hinweis stehen wie beschrieben; **0 fremde Hosts** beim Öffnen beider
+  Fenster.
+- `node scripts/check-cases.mjs`: 32 Referenzen, 10 vollständig, 9 ohne Video, 9 ohne
+  Credits, 19 ohne Leistungen, 0 Platzhalter.
+- Die Originale der Lieferung liegen in `assets/masters/work/` (gitignored) — aus
+  `~/Pictures` auf Wunsch des Users **verschoben**, nicht kopiert.
 
 ---
 

@@ -68,6 +68,17 @@ function toProvider(url: string): Provider | null {
   return null;
 }
 
+// Name der Plattform für Videos, die nicht eingebettet, sondern extern geöffnet
+// werden (z. B. ein Instagram-Reel).
+function externalName(url: string): string {
+  try {
+    const host = new URL(url).hostname.replace(/^www\./, "");
+    return host === "instagram.com" ? "Instagram" : host;
+  } catch {
+    return "einer externen Plattform";
+  }
+}
+
 export function VideoFacade({ videoUrl, posterUrl, alt }: VideoFacadeProps) {
   const [embedSrc, setEmbedSrc] = useState<string | null>(null);
   const provider = videoUrl ? toProvider(videoUrl) : null;
@@ -97,6 +108,14 @@ export function VideoFacade({ videoUrl, posterUrl, alt }: VideoFacadeProps) {
         Datenschutzerklärung
       </Link>
       .
+    </p>
+  ) : videoUrl ? (
+    // Externe Videos werden nicht eingebettet — vor dem Klick geht nichts raus.
+    // Der Hinweis sagt nur, dass der Klick die Seite verlässt (User-Vorgabe
+    // 05.10.2026).
+    <p className="mt-3 font-gotham text-sm font-light leading-relaxed text-white/50">
+      Mit dem Klick öffnet sich das Video in einem neuen Tab auf {externalName(videoUrl)}.
+      Das ist eine externe Plattform, dort gelten die Datenschutzbestimmungen des Anbieters.
     </p>
   ) : null;
 
@@ -153,7 +172,7 @@ export function VideoFacade({ videoUrl, posterUrl, alt }: VideoFacadeProps) {
           aria-label={
             provider
               ? `Video abspielen — wird von ${provider.name} geladen`
-              : "Video abspielen"
+              : `Video auf ${externalName(videoUrl)} öffnen (neuer Tab)`
           }
           className={`${frameClass} cursor-pointer`}
         >

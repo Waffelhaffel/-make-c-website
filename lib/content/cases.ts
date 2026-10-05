@@ -8,9 +8,10 @@ import type { CaseStudy } from "./types";
 // aufnehmen will, holt es per `git show` aus dem Stand vom 11.08.2026 zurück;
 // die Bilddateien liegen unverändert unter `public/work/`.
 //
-// ⚠️ **31 Cases, Stand 01.09.2026.** `ihk-koeln` („IHK Köln — Rahmenvertrags-
-// partner Streaming", 2022, Kategorie `event-content`) ist auf Wunsch des Users
-// an diesem Tag komplett entfallen; das Bild liegt in `assets/_unused/work/`.
+// ⚠️ **32 Cases, Stand 05.10.2026** (`koeln-marathon` neu, „Video Event
+// Content" damit 9 Treffer). Davor 31 seit 01.09.2026: `ihk-koeln` („IHK Köln —
+// Rahmenvertragspartner Streaming", 2022, Kategorie `event-content`) ist auf
+// Wunsch des Users an diesem Tag komplett entfallen; das Bild liegt in `assets/_unused/work/`.
 // Damit fällt „Video Event Content" im Filter von 9 auf 8 Treffer — die Zahl
 // steht als `CONTENT.FILTER.treffer` in `e2e/config.mjs` und muss mitgezogen
 // werden, ebenso `CONTENT.CASES`.
@@ -244,6 +245,94 @@ export const CASES: CaseStudy[] = [
     ],
   },
   {
+    // ⚠️ Slug bleibt `dmexco-2023`, obwohl der Case seit 05.10.2026 die DMEXCO
+    // 2026 zeigt: die Alt-URL `/portfolio/dmexco-2023/` der WordPress-Seite
+    // läuft über den Auffang-Eintrag in `next.config.ts` auf `?case=<slug>`,
+    // und `SERVICE_PAGES` (Event Content) verweist ebenfalls darauf.
+    // Ein Case für alle Jahre (User-Entscheidung 05.10.2026): Text und Fotos
+    // sind von 2026, das Video ist das von 2023 — ein neues gibt es nicht.
+    slug: "dmexco-2023",
+    client: "DMEXCO 2026",
+    project: "17 Stages, 1.100 Speaker: Video Produktion aller Vorträge",
+    // ⚠️ **Kein Jahr, sondern eine Dauer** (User-Vorgabe 24.08.2026): make/c ist
+    // seit 2018 durchgehend Videopartner der DMEXCO-Bühnen. `year` ist ein
+    // freier String und wird nur angezeigt, nie gerechnet. Die Metazeile liest
+    // sich damit „DMEXCO 2026 · seit 2018".
+    year: "seit 2018",
+    category: "Video Produktion · Video Event Content",
+    categories: ["video-produktion", "event-content"],
+    kicker: "/ Case Study /",
+    summary:
+      "Die DMEXCO öffnet wieder die Pforten in Köln und Marketeers aus der ganzen Welt schauen vorbei. Seit 2018 betreuen wir die DMEXCO jedes Jahr als Videopartner für die Bühnen – ob rein virtuell oder live vor Ort.\n\n" +
+      "Diesmal waren es rekordverdächtige 17 Bühnen parallel mit mehr als 1.100 Speakern, aufgezeichnet an zwei Messetagen. Das Material steht schon unmittelbar nach Messeende den Nutzern zur Verfügung. Über 65 makerinnen und maker waren dafür drei Tage vor Ort, mit dem Aufbau haben wir schon am Montag begonnen.\n\n" +
+      "Dazu haben wir die Technik für Lead Scanning und Session-Check-ins bereitgestellt und live Content für die Social-Media-Kanäle geclippt.\n\n" +
+      "Die Messe war ein voller Erfolg, der überall greifbar zu spüren war – auch an unserem make/c Stand, den wir traditionell auf der DMEXCO betreiben.\n\n" +
+      "Das Video zeigt die DMEXCO 2023: damals 13 Bühnen parallel, über 60 makerinnen und maker vor Ort und fünf, zum Teil tagesaktuelle Trailer.",
+    services: [
+      "Videotechnik & Aufzeichnung von 17 Bühnen parallel",
+      "Technik für Lead Scanning & Session-Check-ins",
+      "Live Content-Clipping für Social Media",
+    ],
+    // Lokal antwortete der Vimeo-Player am 24.08.2026 mit 401; auf der
+    // Live-Domain spielt das Video (vom User bestätigt 05.10.2026).
+    video: "https://vimeo.com/882229550",
+    // Kachel und Standbild vor dem Video bleiben das Bild aus dem 2023er-Video
+    // (User-Entscheidung 05.10.2026); die 2026er-Fotos stehen in der Galerie.
+    image: { src: "/work/dmexco-2023.webp", alt: "DMEXCO — Hauptbühne mit Publikum" },
+    credits: [
+      { role: "Kunde", name: "Koelnmesse, DMEXCO 2026 (seit 2018)" },
+      { role: "Ort", name: "Köln" },
+      { role: "Steuerung", name: "Philip Welkisch, Mike Krack, Marie Lindner, Eric Nitschke" },
+    ],
+    // User-Lieferung 05.10.2026, Originale in `assets/masters/work/`.
+    gallery: [
+      { src: "/work/dmexco-2023-gallery-1.webp", alt: "DMEXCO 2026 — make/c-Regie hinter der Bühne mit Bildmischern und Monitorwänden", ratio: "wide" },
+      { src: "/work/dmexco-2023-gallery-2.webp", alt: "DMEXCO 2026 — Begegnung am make/c Stand", ratio: "tall" },
+      { src: "/work/dmexco-2023-gallery-3.webp", alt: "DMEXCO 2026 — make/c-Kameramann vor einer der 17 Bühnen", ratio: "tall" },
+    ],
+  },
+  {
+    // Slug wie auf der alten WordPress-Seite (`/portfolio/koeln-marathon/`) —
+    // so öffnet die Alt-URL über den Auffang-Eintrag in `next.config.ts`
+    // direkt diesen Case.
+    slug: "koeln-marathon",
+    client: "Generali Köln Marathon 2026",
+    project: "Live-Streaming (seit 2014)",
+    year: "2026",
+    category: "Video Event Content",
+    categories: ["event-content"],
+    kicker: "/ Case Study /",
+    // ⚠️ „über 40 Kolleginnen und Kollegen" aus der Lieferung ist auf Hinweis
+    // des Users korrigiert: knapp 30, inklusive Fahrern und Maske. Die Reichweite
+    // („mehr als 100.000 Zuschauer online") ist **bewusst draußen** — in der
+    // Lieferung selbst als offene Frage markiert.
+    summary:
+      "Der diesjährige Generali Köln Marathon konnte mit vielen Rekorden aufwarten: ein Besucherrekord mit 41.500 Läuferinnen und Läufern, dazu neue Streckenrekorde bei den Männern und Frauen.\n\n" +
+      "Bei traumhaftem Laufwetter zeigten sich Läufer, Publikum und Stadt von ihrer besten Seite. make/c hat sich wie jedes Jahr seit 2014 um den reibungslosen Live-Stream gekümmert – mehr als acht Stunden am Stück. Vier Motorrad-Kameras, eine Drohne, eine mobile Field-Reporter-Kamera, zwei Kameras für das Moderatoren-Duo und zwei Kameras im Zieleinlauf: knapp 30 Kolleginnen und Kollegen waren im Einsatz, um den Marathon für alle einzufangen, die nicht vor Ort sein konnten.\n\n" +
+      "Dazu sind zwei Staffeln von make/c mitgelaufen – das Video dazu steht unten.",
+    services: ["Live-Stream über mehr als 8 Stunden", "4 Motorrad-Kameras, Drohne & Field-Reporter"],
+    video: "https://www.youtube.com/watch?v=aX50wDkfBLM",
+    // Instagram kennt `VideoFacade.toProvider()` nicht → der Klick öffnet das
+    // Reel in einem neuen Tab, es wird nichts eingebettet. Das Standbild ist das
+    // Vorschaubild des Reels (9:16, nur 360×640 geliefert), **lokal** auf einen
+    // unscharfen 16:9-Grund gesetzt; Original in `assets/masters/work/`.
+    secondaryVideos: [
+      {
+        url: "https://www.instagram.com/reel/DeHQUHzovv-/",
+        poster: { src: "/work/koeln-marathon-video-2.webp", alt: "Köln Marathon 2026 — die make/c-Staffel am Start" },
+      },
+    ],
+    // Kachel ohne das rote Ankündigungsband (im 4:5-Beschnitt war das Datum
+    // abgeschnitten); das Standbild vor dem Video ist das volle Thumbnail.
+    image: { src: "/work/koeln-marathon.webp", alt: "Generali Köln Marathon 2026 — Start des Läuferfelds" },
+    poster: { src: "/work/koeln-marathon-poster.webp", alt: "Generali Köln Marathon 2026 — Live-Stream" },
+    credits: [
+      { role: "Kunde", name: "Kölner Ausdauersport GmbH" },
+      { role: "Ort", name: "Köln" },
+      { role: "Steuerung", name: "Mike Krack, Philip Welkisch" },
+    ],
+  },
+  {
     slug: "wundholding",
     client: "Thermengruppe Josef Wund",
     project: "Imagespot und diverse Erklärvideos",
@@ -361,40 +450,6 @@ export const CASES: CaseStudy[] = [
     credits: [
       { role: "Kunde", name: "Koelnmesse, Anuga FoodTec" },
       { role: "Projektsteuerung", name: "Michael Ramlau, Melissa Eken, Eric Nitschke" },
-    ],
-  },
-  {
-    slug: "dmexco-2023",
-    client: "DMEXCO 2023",
-    project: "13 Stages: Video Produktionen und Trailer",
-    // ⚠️ **Kein Jahr, sondern eine Dauer** (User-Vorgabe 24.08.2026): make/c ist
-    // seit 2018 durchgehend Videopartner der DMEXCO-Bühnen, und das soll auf der
-    // Kachel stehen — nicht „2023". `year` ist ein freier String und wird nur
-    // angezeigt (`WorkGrid`, `CaseModal`), nie gerechnet, das geht also.
-    // ⚠️ Zwei Nebenwirkungen: die Metazeile liest sich jetzt „DMEXCO 2023 · seit
-    // 2018", und `year` ist zugleich das Kriterium für den 2022-Schnitt — dieser
-    // Case fällt damit aus der Sortierlogik heraus.
-    year: "seit 2018",
-    category: "Video Produktion · Video Event Content",
-    categories: ["video-produktion", "event-content"],
-    kicker: "/ Case Study /",
-    summary:
-      "Die DMEXCO öffnet wieder die Pforten in Köln und Marketeers aus der ganzen Welt schauen vorbei. make/c ist seit 2018 durchgehend – ob rein virtuell oder live vor Ort – als Videopartner für die Bühnen dabei.\n\n" +
-      "Diesmal waren es 13 Bühnen parallel. Über 60 makerinnen und maker waren dafür 3 Tage vor Ort. Dazu haben wir fünf, zum Teil tagesaktuelle Trailer produziert.\n\n" +
-      "Die Messe war ein voller Erfolg, der überall greifbar zur spüren war – auch an unserem make/c Stand, den wir traditionell auf der DMEXCO betreiben.",
-    // ⚠️ Der Vimeo-Player antwortet für dieses Video mit **401**, auch mit
-    // Referer make-c.de (geprüft 24.08.2026, im Browser: „We couldn't verify
-    // the security of your connection"). Die anderen Vimeo-Videos der Seite
-    // liefern von derselben Leitung 200 — es liegt also am Video, nicht an der
-    // Verbindung. Der Link stand schon vorher hier; vor dem Go-Live auf der
-    // echten Domain gegenprüfen, sonst zeigt das Case-Fenster nach dem
-    // Play-Klick eine Fehlermeldung von Vimeo.
-    video: "https://vimeo.com/882229550",
-    image: { src: "/work/dmexco-2023.webp", alt: "DMEXCO 2023 — 13 Stages: Video Produktionen und Trailer" },
-    credits: [
-      { role: "Kunde", name: "Koelnmesse, DMEXCO 2023" },
-      { role: "Ort", name: "Köln" },
-      { role: "Steuerung", name: "Philip Welkisch, Mike Krack, Marie Lindner, Eric Nitschke" },
     ],
   },
   {
