@@ -487,7 +487,7 @@ export const SERVICE_PAGES: ServicePageContent[] = [
       },
     ],
     relatedSlugs: ["video-produktion", "studiobau"],
-    caseSlugs: ["dmexco-2023", "greentech-festival", "anuga-live-stream"],
+    caseSlugs: ["dmexco-2023", "greentech-festival", "koeln-marathon"],
     loopVideo: "/leistungen-loops/event-content.mp4",
     images: [
       {

@@ -11,6 +11,8 @@ zum Nachschlagen, nicht als Arbeitsanweisung.
 
 ---
 
+- **Erledigt 06.10.2026:** Leistungsseite `event-content` zeigt `koeln-marathon` statt `anuga-live-stream` (User-Wunsch). Der Anuga-Case bleibt auf `/work`.
+
 - **Erledigt 05.10.2026, Nachtrag (DSGVO-Check, PostHog abgespeckt):**
   - **Live gemessen auf www.make-c.de:** vor dem Klick auf Play 0 fremde Hosts, Hinweis unter dem Button vorhanden; 0 Cookies, leerer Storage; PostHog und Vercel Analytics liefern 200; mit „Do Not Track" keine Messung. Antwort aus `fra1`.
   - **Befund:** Vercel Web Analytics schickt nur Adresse, Route, Referrer, Zeitstempel. PostHog schickte zusätzlich Bildschirm-/Fenstergröße, Zeitzone, Sprache, Klicks samt Elementkette, Scrolltiefe, Verweildauer — per JavaScript ausgelesene Geräteeigenschaften, die die DSK als Zugriff nach § 25 TDDDG wertet (OH Digitale Dienste, Rn. 24). Abschnitt 5/6 behaupteten das Gegenteil, und das „Land" in 6a gab es nie (Cookieless-Modus streicht die IP vor GeoIP).
