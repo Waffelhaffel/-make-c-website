@@ -5,7 +5,9 @@ const components: PortableTextComponents = {
   block: {
     normal: ({ children }) => <p className="mt-4 first:mt-0">{children}</p>,
     h2: ({ children }) => (
-      <h2 className="text-white font-gotham text-small uppercase tracking-widest mt-12 mb-6 pb-2 border-b border-white/10">
+      // `hyphens-auto`: „DATENSCHUTZERKLÄRUNG" ist in Versalien mit
+      // `tracking-widest` breiter als ein 320-px-Handy (1 px Querscrollen).
+      <h2 className="text-white font-gotham text-small uppercase tracking-widest hyphens-auto mt-12 mb-6 pb-2 border-b border-white/10">
         {children}
       </h2>
     ),

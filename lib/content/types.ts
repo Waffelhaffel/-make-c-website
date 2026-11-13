@@ -49,6 +49,12 @@ export type SiteSettings = {
 export type LandingHero = {
   headlineLine1: string;
   headlineLine2: string;
+  /**
+   * Weitere Wörter, mit denen Zeile 2 nach dem Intro abwechselt
+   * (`headlineLine2` → diese → wieder von vorn). Leer oder weggelassen: Zeile 2
+   * steht still. Seit 13.11.2026: „Video &" ↔ „Gen AI".
+   */
+  headlineLine2Cycle?: string[];
   headlineLine3: string;
   subheadline: string;
   cornerLeft: string;
@@ -268,7 +274,7 @@ export type Service = {
   title: string;
   /**
    * Rückfall, wenn die Leistung **kein** `loopVideo` in `SERVICE_PAGES` hat.
-   * Seit 12.08.2026 optional und bei allen sechs Leistungen ungenutzt: Startseite
+   * Seit 12.08.2026 optional und bei allen Leistungen ungenutzt: Startseite
    * (`ServiceList`) und Detailseite (`ServiceBlocks`) zeigen beide den Loop.
    * Die handgezeichneten Platzhalter unter `public/leistungen/` können damit weg
    * — dann hier auch das Feld am jeweiligen Eintrag löschen.

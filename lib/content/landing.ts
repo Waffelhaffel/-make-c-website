@@ -17,9 +17,15 @@ import type { LandingContent } from "./types";
 
 export const LANDING: LandingContent = {
   hero: {
-    headlineLine1: "DIE",
-    headlineLine2: "VIDEO",
-    headlineLine3: "AGENTUR",
+    // Sichtbar immer in Versalien (`uppercase` an der H1). Geschrieben in
+    // normaler Schreibung, weil derselbe Text als ganzer Satz für Screenreader
+    // und Suchmaschinen in der H1 steht: „Die Video & Gen AI Agentur".
+    headlineLine1: "Die",
+    // Wechselt seit 13.11.2026 mit „Gen AI" (User-Wunsch) — erst „Video &",
+    // dann „Gen AI", immer im Wechsel. Takt: `CYCLE_MS` in `Hero.tsx`.
+    headlineLine2: "Video &",
+    headlineLine2Cycle: ["Gen AI"],
+    headlineLine3: "Agentur",
     subheadline: "Mehr Impact für Dein Videobudget.",
     cornerLeft: "Köln, Essen /",
     cornerCenter: "SCROLL DOWN",
@@ -187,8 +193,8 @@ export const LANDING: LandingContent = {
     // Bewusst nicht „Gründer" — unverifiziert.
     ceoRole: "CEO · make/c",
     ceoLinkedin: "https://www.linkedin.com/in/jens-kemper-70758882/",
-    quoteLine1: '"WE BELIEVE IN THE',
-    quoteLine2: 'POWER OF MOVING IMAGES."',
+    quoteLine1: '“WE BELIEVE IN THE',
+    quoteLine2: 'POWER OF MOVING IMAGES.”',
   },
 
   contact: {
@@ -216,7 +222,7 @@ export const LANDING: LandingContent = {
     locations: [
       {
         headlineLineOne: "Im Herzen",
-        headlineLineTwo: "der Domstadt.",
+        headlineLineTwo: "der Domstadt",
         cityLabel: "Köln /",
         addressLine1: "Picassoplatz 1",
         addressLine2: "50679 Köln",

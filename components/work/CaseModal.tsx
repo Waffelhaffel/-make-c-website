@@ -196,17 +196,20 @@ export function CaseModal({ caseData, onClose }: CaseModalProps) {
                   Reader bekommt die Auszeichnung über `<blockquote>`. */}
               {data.quote && (
                 <figure className="mb-12 border border-white/10 bg-white/[0.035] px-6 py-10 text-center sm:px-12">
-                  {/* ⚠️ `&rdquo;` (das **hohe** Anführungszeichen), nicht das
-                      deutsche `&bdquo;`: die Marke ist reine Dekoration über dem
-                      Zitat, kein Satzzeichen im Text. Ein tiefstehendes „ säße
-                      dort falsch, und eines der drei Zitate ist englisch —
-                      deutsche Anführungszeichen wären dort auch inhaltlich
-                      daneben. */}
+                  {/* ⚠️ Ein **hohes** Anführungszeichen, nicht das deutsche
+                      `&bdquo;`: die Marke ist reine Dekoration über dem Zitat,
+                      kein Satzzeichen im Text. Ein tiefstehendes „ säße dort
+                      falsch, und eines der drei Zitate ist englisch — deutsche
+                      Anführungszeichen wären dort auch inhaltlich daneben.
+                      Seit 13.11.2026 **genau wie in `Testimonials.tsx` und
+                      `AboutTeam.tsx`**: `&ldquo;`, aufrecht. Vorher stand hier
+                      ein kursives `&rdquo;` — dieselbe Schrift, aber sichtbar
+                      ein anderes Zeichen als auf der Startseite. */}
                   <span
                     aria-hidden="true"
-                    className="block font-garamond text-[3.5rem] italic leading-none text-white/20"
+                    className="block font-garamond text-[3.5rem] leading-none text-white/20"
                   >
-                    &rdquo;
+                    &ldquo;
                   </span>
                   <blockquote className="mx-auto mt-4 max-w-[46ch] font-gotham font-light leading-[1.6] text-white/85 text-[19px]">
                     {data.quote.text}

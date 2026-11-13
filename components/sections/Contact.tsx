@@ -50,7 +50,10 @@ export function Contact({ data }: ContactProps) {
         {/* Intro-Link mit handgezeichneter Unterstreichung */}
         {mailHref && data.introLinkText && (
           <a href={mailHref} className="group inline-block mt-7 md:mt-8">
-            <span className="font-garamond italic font-medium text-[clamp(1.25rem,2.2vw,1.625rem)] text-white group-hover:text-white/80 transition-colors">
+            {/* SemiBold wie jede Garamond-Kursive der Seite — bis 13.11.2026
+                stand hier Medium (500), das fiel neben den Headlines als
+                „andere Schrift" auf. */}
+            <span className="font-garamond font-semibold italic text-[clamp(1.25rem,2.2vw,1.625rem)] text-white group-hover:text-white/80 transition-colors">
               {data.introLinkText}
             </span>
             <SquiggleUnderline className="block w-full mt-1.5 text-makec-blue" />
@@ -199,7 +202,7 @@ export function Contact({ data }: ContactProps) {
                           {cityName(loc.cityLabel)}
                         </span>
                         {subtitle && (
-                          <span className="font-garamond italic text-base text-white/55">
+                          <span className="font-garamond font-semibold italic text-base text-white/55">
                             {subtitle}
                           </span>
                         )}

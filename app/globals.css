@@ -108,15 +108,3 @@ body {
    und #2C2CC6 auf #14140F hat 1,5:1 Kontrast. Nicht zurückholen, ohne zugleich
    die Dateien in `public/logos/` gegen dunkle Fassungen zu tauschen. */
 
-/* Utility classes for mixed typography */
-.font-gotham-bold-italic {
-  font-family: var(--font-gotham), system-ui, -apple-system, "Helvetica Neue", sans-serif;
-  font-weight: 700;
-  font-style: italic;
-}
-
-.font-garamond-semibold-italic {
-  font-family: var(--font-garamond), "EB Garamond", Georgia, serif;
-  font-weight: 600;
-  font-style: italic;
-}

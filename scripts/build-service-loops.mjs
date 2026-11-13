@@ -46,6 +46,9 @@ const CRF = 28;
 const MAPPING = {
   "Makec_Web_Loop_Strategie.mp4": "video-strategie",
   "Makec_Web_Loop_Produktion.mp4": "video-produktion",
+  // Lieferdatei hieß „Sequence 10.mp4" (13.11.2026): Las-Vegas-Material aus der
+  // MERKUR-Lighthouse-Doku. Der umbenannte Master liegt unter dem Namen links.
+  "Makec_Web_Loop_BrandedEntertainment.mp4": "branded-entertainment",
   "Makec_Web_Loop_MotionDesign.mp4": "video-motion-design",
   "Makec_Web_Loop_Event.mp4": "event-content",
   "Makec_Web_Loop_AI.mp4": "artificial-intelligence",

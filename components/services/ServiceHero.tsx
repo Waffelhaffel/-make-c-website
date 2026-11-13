@@ -41,6 +41,13 @@ type ServiceHeroProps = {
  */
 export function ServiceHero({ content }: ServiceHeroProps) {
   const { loopVideo } = content;
+  // Der `display`-Token mit 9,5 statt 12,5vw — nur für Titel mit einem Wort,
+  // das breiter ist als „Produktion" (`compactTitle`, lib/leistungen.ts).
+  // Greift nur unter 547 px; darüber gewinnt die clamp()-Kurve, Desktop ist
+  // identisch mit allen anderen Leistungsseiten.
+  const titleSize = content.compactTitle
+    ? "text-[min(9.5vw,clamp(3.25rem,5.5vw,6.5625rem))]"
+    : undefined;
 
   return (
     <section className="relative bg-makec-dark pt-[70px]">
@@ -94,6 +101,7 @@ export function ServiceHero({ content }: ServiceHeroProps) {
               slash
               part1={content.titlePart1}
               part2={content.titlePart2}
+              size={titleSize}
               className="pr-[0.15em]"
             />
           </div>
@@ -124,6 +132,7 @@ export function ServiceHero({ content }: ServiceHeroProps) {
             slash
             part1={content.titlePart1}
             part2={content.titlePart2}
+            size={titleSize}
             className="pr-[0.15em]"
           />
         </div>

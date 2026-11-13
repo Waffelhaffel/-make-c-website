@@ -273,7 +273,7 @@ export const IMPRESSUM: LegalPageContent = {
           "_key": "e3fcdddf-cd64-4b25-b722-a515c441f97e",
           "_type": "span",
           "marks": [],
-          "text": "Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen. Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen. Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt. Eine diesbezügliche Haftung ist jedoch erst ab dem Zeitpunkt der Kenntnis einer konkreten Rechtsverletzung möglich. Bei Bekanntwerden von entsprechenden Rechtsverletzungen werden wir diese Inhalte umgehend entfernen."
+          "text": "Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen. Als Diensteanbieter sind wir gemäß § 7 Abs. 1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen. Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt. Eine diesbezügliche Haftung ist jedoch erst ab dem Zeitpunkt der Kenntnis einer konkreten Rechtsverletzung möglich. Bei Bekanntwerden von entsprechenden Rechtsverletzungen werden wir diese Inhalte umgehend entfernen."
         }
       ],
       "markDefs": [],
@@ -576,7 +576,7 @@ export const DATENSCHUTZ: LegalPageContent = {
     ),
     p(
       { text: "Zur Unterscheidung einzelner Besuche innerhalb eines Tages", stark: true },
-      " bildet PostHog auf seinem Server einen nicht umkehrbaren Hashwert aus Ihrer IP-Adresse, der Browserkennung und einem Zufallswert, der täglich wechselt. Dadurch lässt sich zählen, wie viele verschiedene Personen die Website besucht haben, ohne dass etwas auf Ihrem Endgerät gespeichert wird. Mit dem Wechsel des Zufallswerts verliert der Hashwert seine Bedeutung: eine Wiedererkennung über den Tag hinaus ist damit ausgeschlossen. Die IP-Adresse selbst wird nicht gespeichert und auch nicht zur Bestimmung Ihres Standorts verwendet.",
+      " bildet PostHog auf seinem Server einen nicht umkehrbaren Hashwert aus Ihrer IP-Adresse, der Browserkennung und einem Zufallswert, der täglich wechselt. Dadurch lässt sich zählen, wie viele verschiedene Personen die Website besucht haben, ohne dass etwas auf Ihrem Endgerät gespeichert wird. Mit dem Wechsel des Zufallswerts verliert der Hashwert seine Bedeutung: Eine Wiedererkennung über den Tag hinaus ist damit ausgeschlossen. Die IP-Adresse selbst wird nicht gespeichert und auch nicht zur Bestimmung Ihres Standorts verwendet.",
     ),
     p(
       { text: "Die Daten werden nicht unmittelbar von Ihrem Browser an PostHog gesendet.", stark: true },

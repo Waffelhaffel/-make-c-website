@@ -59,11 +59,18 @@ text-makec-blue → #2C2CC6
 --font-gotham    → Gotham (lokal, mit System-Fallback)
 ```
 
-### Utility-Klassen
-```css
-.font-gotham-bold-italic       → Gotham, weight 700, italic
-.font-garamond-semibold-italic → EB Garamond, weight 600, italic
-```
+### Die Schnörkelschrift: nur ein Schnitt
+Die Garamond-Kursive ist **immer EB Garamond SemiBold Italic** —
+`font-garamond font-semibold italic`. Kein Medium, kein Regular, auch nicht für
+kleine Nebenzeilen: verschiedene Schnitte derselben Kursiven lesen sich wie
+verschiedene Schriften (aufgefallen 13.11.2026 — der Kontakt-Link stand in
+Medium, die Städte-Unterzeilen in Regular). Einzige Ausnahme sind die großen
+dekorativen Anführungszeichen über Zitaten: `font-garamond`, aufrecht,
+`&ldquo;`, bei 20–25 % Deckkraft — an allen drei Stellen gleich.
+
+Die früheren Utility-Klassen `.font-gotham-bold-italic` und
+`.font-garamond-semibold-italic` sind am 13.11.2026 entfallen: die erste war
+unbenutzt, die zweite eine doppelte Definition derselben Tailwind-Kombination.
 
 ---
 

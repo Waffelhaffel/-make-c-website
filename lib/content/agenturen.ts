@@ -34,7 +34,7 @@ export const AGENTUR_PAGE = {
   h1Plain: "Partner für Agenturen",
 
   intro:
-    "Warum sind wir der optimale Video-Partner für Eure Agentur? Wir haben schon für und mit vielen Agenturen zusammengearbeitet. Viele Agenturen stehen vor der Frage, inwieweit sie sich eine eigene Video-Unit aufbauen sollen — und kommen dabei zu den unterschiedlichsten Ergebnissen. Wie das Ergebnis auch aussieht: früher oder später könnt Ihr uns gebrauchen.",
+    "Warum sind wir der optimale Video-Partner für Eure Agentur? Wir haben schon für und mit vielen Agenturen zusammengearbeitet. Viele Agenturen stehen vor der Frage, inwieweit sie sich eine eigene Video-Unit aufbauen sollen — und kommen dabei zu den unterschiedlichsten Ergebnissen. Wie das Ergebnis auch aussieht: Früher oder später könnt Ihr uns gebrauchen.",
 
   facts: [
     {

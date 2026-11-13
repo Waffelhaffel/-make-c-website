@@ -28,7 +28,7 @@ import type { CaseStudy } from "./types";
 // Die Reihenfolge hier ist die Reihenfolge auf /work — grob neu → alt. Es gibt
 // kein `featured`-Flag mehr: was hier steht, wird gezeigt.
 //
-// ⚠️ `categories` sind seit 12.08.2026 **die sechs Leistungs-Slugs** aus
+// ⚠️ `categories` sind seit 12.08.2026 **die Leistungs-Slugs** (seit 13.11.2026 sieben) aus
 // `./workCategories.ts`, nicht mehr die 14 Genre-Kategorien der alten
 // Portfolio-Seite. `category` ist dieselbe Information ausgeschrieben, mit
 // „ · " verbunden — beides zusammen ändern.
@@ -37,7 +37,10 @@ import type { CaseStudy } from "./types";
 // Produktionsjahr abweichen. Es ist zugleich das Kriterium für den Schnitt bei
 // 2022 — wo Veröffentlichung und Produktion auseinanderfallen, kann ein Projekt
 // also knapp falsch einsortiert sein. `summary` ist die Original-Copy von
-// make-c.de, maschinell übernommen und nicht redigiert.
+// make-c.de, maschinell übernommen und inhaltlich nicht redigiert. Am 13.11.2026
+// nur orthografisch korrigiert (Tippfehler, Grammatik, Kommas, Komposita im
+// Fließtext) — Projekttitel und Schlagwörter stehen bewusst weiter in der
+// offenen Label-Schreibung wie „Video Produktion" („KI Avatar", „Social Media Spot").
 //
 // Bilder liegen unter `public/work/<slug>.webp` (max. 1600 px, WebP).
 
@@ -122,18 +125,20 @@ export const CASES: CaseStudy[] = [
     // 24.08.2026 auf `merkur` und damit auf den falschen Case.
     slug: "merkur-lighthouse",
     client: "MERKUR GROUP",
-    project: "Dokumentation über Change Prozess (8 Folgen)",
+    project: "Dokumentation über Change-Prozess (8 Folgen)",
     // Veröffentlichung: Sommer 2026.
     year: "2026",
-    category: "Video Produktion",
-    categories: ["video-produktion"],
+    // `branded-entertainment` seit 13.11.2026: der Rohtext der neuen
+    // Leistungsseite nennt diese Doku als ihr Beispiel.
+    category: "Video Produktion · Video Branded Entertainment",
+    categories: ["video-produktion", "branded-entertainment"],
     kicker: "/ Case Study /",
     summary:
       "Die MERKUR GROUP ist ein führender Anbieter im europäischen Glücksspielmarkt und darüber hinaus weltweit tätig.\n\n" +
       "Seit 2025 vollzieht die Gruppe einen tiefgreifenden Change-Prozess, der sich unter anderem auch auf die interne Spiele-Entwicklung auswirkt. Im Auftrag von Aufsichtsrat und Vorstand haben wir über einen Zeitraum von mehr als zwölf Monaten zwei Entwickler-Teams aus dem österreichischen Graz und dem ostwestfälischen Lübbecke intensiv bei der Entwicklung von zwei neuen Spielen begleitet.\n\n" +
-      "Die Spiele werden intern als „Lighthouse-Spiele“ bezeichnet, da sie die Art und Weise, wie Merkur in dem Bereich arbeitet, grundlegend ändern und zur Blaupause für die verschiedenen weltweiten Entwickler-Studios gelten sollen.\n\n" +
+      "Die Spiele werden intern als „Lighthouse-Spiele“ bezeichnet, da sie die Art und Weise, wie Merkur in dem Bereich arbeitet, grundlegend ändern und als Blaupause für die verschiedenen weltweiten Entwickler-Studios gelten sollen.\n\n" +
       "make/c hat die Teams international begleitet – nach Las Vegas, Barcelona und natürlich nach Graz und Lübbecke. Dabei sind acht Doku-Folgen als Heldenreise entstanden, die einen ungewöhnlich ehrlichen und ungeschönten Einblick in den Maschinenraum eines Mittelständlers mit über 15.000 Mitarbeitern liefern.\n\n" +
-      "Als Video Agentur haben wir hier eine umfassende Kreativ- und Beratungsleistung abgeliefert und einen komplexen Produktions- und Postproduktionsprozess intern durchgeführt. Hier zeigt sich die große Bandbreite des make/c Portfolios inklusive anspruchsvoller redaktioneller und dramaturgischer Fähigkeiten. Regisseur der Folgen ist der Gewinner des Bayerischen Fernsehpreises und make/c-Geschäftsführer Jens Kemper.",
+      "Als Videoagentur haben wir hier eine umfassende Kreativ- und Beratungsleistung abgeliefert und einen komplexen Produktions- und Postproduktionsprozess intern durchgeführt. Hier zeigt sich die große Bandbreite des make/c-Portfolios inklusive anspruchsvoller redaktioneller und dramaturgischer Fähigkeiten. Regisseur der Folgen ist der Gewinner des Bayerischen Fernsehpreises und make/c-Geschäftsführer Jens Kemper.",
     // ⚠️ **Kein Video, sondern eine Website.** Zu dieser Doku gibt es keinen
     // Vimeo-/YouTube-Link, nur die Merkur-Microsite. `VideoFacade` erkennt keinen
     // Anbieter und öffnet die URL deshalb beim Klick in einem neuen Tab, statt
@@ -142,13 +147,14 @@ export const CASES: CaseStudy[] = [
     // außen. UTM-Parameter der E-Mail-Kampagne (`utm_source=email…`) sind
     // entfernt: von der Website aus wären sie schlicht falsche Zuordnung.
     video: "https://lighthouse.merkur.group/",
-    // Die Titelkarte ist 1,88:1. Das /work-Raster ist 4:5 — ein mittiger
-    // Beschnitt macht aus „MERKUR" ein „MER" (geprüft). Deshalb liegt die ganze
-    // Karte auf `makec-dark` (#14140F), nach oben versetzt, damit die
-    // Textauszeichnung der Kachel unten freien Grund hat. Ein echtes Standbild
-    // aus der Doku im Hochformat wäre hier besser.
+    // Seit 13.11.2026 ein Standbild aus der Doku (Roulettekessel, 16:9, vom
+    // User geliefert) statt der Titelkarte „Von Lübbecke nach Las Vegas" — an
+    // allen drei Stellen, also auch auf der Startseite
+    // (`/selected-work/merkur-lighthouse.webp`). Kein Text im Bild: das
+    // 4:5-Raster auf /work schneidet mittig auf Kessel und Kugel, die
+    // Leistungsseite und das Case-Fenster zeigen es ungeschnitten. Ein eigenes
+    // `poster` gibt es deshalb nicht mehr. Original: `assets/masters/work/`.
     image: { src: "/work/merkur-lighthouse.webp", alt: "MERKUR Lighthouse — Doku über den Change-Prozess" },
-    poster: { src: "/work/merkur-lighthouse-poster.webp", alt: "MERKUR Lighthouse — Titelkarte „Von Lübbecke nach Las Vegas“" },
     credits: [
       { role: "Konzept & Regie", name: "Jens Kemper" },
       { role: "Creative Producer", name: "Daria Semcov" },
@@ -162,8 +168,9 @@ export const CASES: CaseStudy[] = [
     client: "CWH | BIH",
     project: "Mockumentary zur SBV-Wahl",
     year: "2026",
-    category: "Video Produktion",
-    categories: ["video-produktion"],
+    // `branded-entertainment` seit 13.11.2026, wie `merkur-lighthouse`.
+    category: "Video Produktion · Video Branded Entertainment",
+    categories: ["video-produktion", "branded-entertainment"],
     kicker: "/ Case Study /",
     summary:
       "Inklusion trifft Comedy: Die Schwerbehindertenvertretung übernimmt eine wichtige Aufgabe in Unternehmen und Dienststellen. Um Beschäftigte für dieses Ehrenamt zu gewinnen, braucht es vor allem eines: einen Zugang, der Berührungsängste abbaut und Lust darauf macht, selbst Verantwortung zu übernehmen.\n\nIm Stil einer Mockumentary à la The Office haben wir für die BIH einen Motivationsfilm entwickelt, der das Thema mit trockenem Humor, starken Figuren und viel Gespür für den ganz normalen Büroalltag erzählt. Im Mittelpunkt steht Martin. Seine Kolleginnen und Kollegen halten ihn für genau den Richtigen, um sich als SBV zur Wahl zu stellen. Martin selbst muss sich mit diesem Gedanken allerdings erst einmal anfreunden. Zwischen gut gemeinten Überredungsversuchen, skeptischen Blicken in die Kamera und herrlich unangenehmen Büromomenten erkennt er nach und nach, wie viel er in diesem Amt für andere bewegen kann.\n\nGemeinsam mit unserer Partneragentur CW Haarfeld haben wir das Projekt von der ersten Idee bis zum fertigen Film realisiert. Aus dem inhaltlichen Ansatz entwickelten wir das Drehbuch und übersetzten die Geschichte anschließend in ein detailliertes Shootingboard. Parallel entstand mit dem Casting, der Auswahl der Motive sowie der Gestaltung von Set und Requisite nach und nach Martins Bürowelt.\n\nDie Mockumentary haben wir konsequent wie eine fiktionale Kurzfilmproduktion umgesetzt. Denn hier entscheidet das Timing: ein zu langer Blick, eine kleine Irritation, eine beiläufige Geste oder ein schief hängendes Türschild. Was leicht und spontan wirkt, ist bis ins Detail entwickelt und präzise inszeniert.\n\nEntstanden ist ein unterhaltsamer Kampagnenfilm, der ein komplexes Thema leicht und zugänglich vermittelt und gleichzeitig zeigt, wie wichtig die Schwerbehindertenvertretung ist. Der Film ist Teil des umfangreichen Informationsangebots der BIH zur SBV-Wahl und wurde mit Untertiteln sowie in einer Fassung mit Audiodeskription veröffentlicht.",
@@ -265,13 +272,13 @@ export const CASES: CaseStudy[] = [
     summary:
       "Die DMEXCO öffnet wieder die Pforten in Köln und Marketeers aus der ganzen Welt schauen vorbei. Seit 2018 betreuen wir die DMEXCO jedes Jahr als Videopartner für die Bühnen – ob rein virtuell oder live vor Ort.\n\n" +
       "Diesmal waren es rekordverdächtige 17 Bühnen parallel mit mehr als 1.100 Speakern, aufgezeichnet an zwei Messetagen. Das Material steht schon unmittelbar nach Messeende den Nutzern zur Verfügung. Über 65 makerinnen und maker waren dafür drei Tage vor Ort, mit dem Aufbau haben wir schon am Montag begonnen.\n\n" +
-      "Dazu haben wir die Technik für Lead Scanning und Session-Check-ins bereitgestellt und live Content für die Social-Media-Kanäle geclippt.\n\n" +
-      "Die Messe war ein voller Erfolg, der überall greifbar zu spüren war – auch an unserem make/c Stand, den wir traditionell auf der DMEXCO betreiben.\n\n" +
+      "Dazu haben wir die Technik für Lead-Scanning und Session-Check-ins bereitgestellt und Live-Content für die Social-Media-Kanäle geclippt.\n\n" +
+      "Die Messe war ein voller Erfolg, der überall greifbar zu spüren war – auch an unserem make/c-Stand, den wir traditionell auf der DMEXCO betreiben.\n\n" +
       "Das Video zeigt die DMEXCO 2023: damals 13 Bühnen parallel, über 60 makerinnen und maker vor Ort und fünf, zum Teil tagesaktuelle Trailer.",
     services: [
       "Videotechnik & Aufzeichnung von 17 Bühnen parallel",
-      "Technik für Lead Scanning & Session-Check-ins",
-      "Live Content-Clipping für Social Media",
+      "Technik für Lead-Scanning & Session-Check-ins",
+      "Live-Content-Clipping für Social Media",
     ],
     // Lokal antwortete der Vimeo-Player am 24.08.2026 mit 401; auf der
     // Live-Domain spielt das Video (vom User bestätigt 05.10.2026).
@@ -287,7 +294,7 @@ export const CASES: CaseStudy[] = [
     // User-Lieferung 05.10.2026, Originale in `assets/masters/work/`.
     gallery: [
       { src: "/work/dmexco-2023-gallery-1.webp", alt: "DMEXCO 2026 — make/c-Regie hinter der Bühne mit Bildmischern und Monitorwänden", ratio: "wide" },
-      { src: "/work/dmexco-2023-gallery-2.webp", alt: "DMEXCO 2026 — Begegnung am make/c Stand", ratio: "tall" },
+      { src: "/work/dmexco-2023-gallery-2.webp", alt: "DMEXCO 2026 — Begegnung am make/c-Stand", ratio: "tall" },
       { src: "/work/dmexco-2023-gallery-3.webp", alt: "DMEXCO 2026 — make/c-Kameramann vor einer der 17 Bühnen", ratio: "tall" },
     ],
   },
@@ -308,7 +315,7 @@ export const CASES: CaseStudy[] = [
     // Lieferung selbst als offene Frage markiert.
     summary:
       "Der diesjährige Generali Köln Marathon konnte mit vielen Rekorden aufwarten: ein Besucherrekord mit 41.500 Läuferinnen und Läufern, dazu neue Streckenrekorde bei den Männern und Frauen.\n\n" +
-      "Bei traumhaftem Laufwetter zeigten sich Läufer, Publikum und Stadt von ihrer besten Seite. make/c hat sich wie jedes Jahr seit 2014 um den reibungslosen Live-Stream gekümmert – mehr als acht Stunden am Stück. Vier Motorrad-Kameras, eine Drohne, eine mobile Field-Reporter-Kamera, zwei Kameras für das Moderatoren-Duo und zwei Kameras im Zieleinlauf: knapp 30 Kolleginnen und Kollegen waren im Einsatz, um den Marathon für alle einzufangen, die nicht vor Ort sein konnten.\n\n" +
+      "Bei traumhaftem Laufwetter zeigten sich Läufer, Publikum und Stadt von ihrer besten Seite. make/c hat sich wie jedes Jahr seit 2014 um den reibungslosen Live-Stream gekümmert – mehr als acht Stunden am Stück. Vier Motorrad-Kameras, eine Drohne, eine mobile Field-Reporter-Kamera, zwei Kameras für das Moderatoren-Duo und zwei Kameras im Zieleinlauf: Knapp 30 Kolleginnen und Kollegen waren im Einsatz, um den Marathon für alle einzufangen, die nicht vor Ort sein konnten.\n\n" +
       "Dazu sind zwei Staffeln von make/c mitgelaufen – das Video dazu steht unten.",
     services: ["Live-Stream über mehr als 8 Stunden", "4 Motorrad-Kameras, Drohne & Field-Reporter"],
     video: "https://www.youtube.com/watch?v=aX50wDkfBLM",
@@ -342,9 +349,9 @@ export const CASES: CaseStudy[] = [
     categories: ["video-produktion", "video-motion-design"],
     kicker: "/ Case Study /",
     summary:
-      "Die Thermengruppe Josef Wund ist ein führender Anbieter von Wellness Einrichtungen in Deutschland.\n\n" +
+      "Die Thermengruppe Josef Wund ist ein führender Anbieter von Wellness-Einrichtungen in Deutschland.\n\n" +
       "make/c hat schon mehrere innovative Wellnessangebote für den Kunden in Bewegtbildprojekten festgehalten. Hier geht es um das immersive Erlebnis „Breathing Planet“ der Thermen & Badewelt Sinsheim. In dieser Anwendung verbinden sich Technologie, Kunst und Natur auf eindrucksvolle Weise – Entschleunigung garantiert!\n\n" +
-      "Als Video Agentur haben wir hier eine umfassende Kreativ- und Beratungsleistung abgeliefert und einen komplexen Produktions- und Postproduktionsprozess intern durchgeführt.",
+      "Als Videoagentur haben wir hier eine umfassende Kreativ- und Beratungsleistung abgeliefert und einen komplexen Produktions- und Postproduktionsprozess intern durchgeführt.",
     video: "https://www.youtube.com/watch?v=AyIptBu0qG8",
     image: { src: "/work/wundholding.webp", alt: "Thermengruppe Josef Wund — Imagespot und diverse Erklärvideos" },
     credits: [
@@ -372,8 +379,8 @@ export const CASES: CaseStudy[] = [
     kicker: "/ Case Study /",
     summary:
       "Die Dinos kommen wieder nach Köln – nach 65 Millionen Jahren… Doch auf ihrem Weg in den Zoo, wo sie in einer Langzeitausstellung zu bewundern sind, müssen sie zuerst durch die Innenstadt…\n\n" +
-      "Was noch vor kurzer Zeit einen großen Aufwand im Bereich VFX und Motion Design nach sich gezogen hätte, geht dank modernster KI Technologie heute einfacher, schneller, günstiger und auch besser.\n\n" +
-      "Als langjährige Video Agentur und Partner des Kölner Zoos haben wir dieses Pionierprojekt von A-Z inhouse realisiert.",
+      "Was noch vor kurzer Zeit einen großen Aufwand im Bereich VFX und Motion Design nach sich gezogen hätte, geht dank modernster KI-Technologie heute einfacher, schneller, günstiger und auch besser.\n\n" +
+      "Als langjährige Videoagentur und Partner des Kölner Zoos haben wir dieses Pionierprojekt von A-Z inhouse realisiert.",
     // Aus der Projektinfo des Users: „(Hybrides KI-Videoprojekt)“.
     services: ["Hybrides KI-Videoprojekt"],
     video: "https://vimeo.com/1082112601",
@@ -395,9 +402,9 @@ export const CASES: CaseStudy[] = [
     kicker: "/ Case Study /",
     summary:
       "Die MERKUR Gruppe hat ihren Außenauftritt grundlegend erneuert. Dabei soll Bewegtbild eine wesentliche Rolle spielen. Das haben wir wörtlich genommen und MERKUR auch im Video optisch „neu erfunden“.\n\n" +
-      "Über ein Jahr hat die Vorbereitung gedauert, angefangen mit einem weißen Blatt Papier und der großen Frage: Wie kann man sieben auch optisch sehr unterschiedliche Geschäftsbereiche visuell attraktiv in Szene setzen? Die Lösung: wir haben einen sehr dynamischen kurzen und emotionalen Imagefilm entwickelt und daraus sieben weitere Produktvideos abgeleitet.\n\n" +
-      "Sie wurden alle im gleichen Studio aber mit unterschiedlichen Setups produziert und zwei Darsteller leiten durch alle Filme. Das Ergebnis ist ein optisches Powerplay und wurde der begeisterten Belegschaft unter anderem in einem Kino präsentiert.\n\n" +
-      "Als Video Agentur haben wir hier eine umfassende Kreativ- und Beratungsleistung abgeliefert und einen komplexen Produktions- und Postproduktionsprozess intern durchgeführt. Dazu gehörten auch KI gesteuerte Prozesse, aufwändige 3D Grafiken und ein professionelles Color Grading.",
+      "Über ein Jahr hat die Vorbereitung gedauert, angefangen mit einem weißen Blatt Papier und der großen Frage: Wie kann man sieben auch optisch sehr unterschiedliche Geschäftsbereiche visuell attraktiv in Szene setzen? Die Lösung: Wir haben einen sehr dynamischen, kurzen und emotionalen Imagefilm entwickelt und daraus sieben weitere Produktvideos abgeleitet.\n\n" +
+      "Sie wurden alle im gleichen Studio, aber mit unterschiedlichen Setups produziert und zwei Darsteller leiten durch alle Filme. Das Ergebnis ist ein optisches Powerplay und wurde der begeisterten Belegschaft unter anderem in einem Kino präsentiert.\n\n" +
+      "Als Videoagentur haben wir hier eine umfassende Kreativ- und Beratungsleistung abgeliefert und einen komplexen Produktions- und Postproduktionsprozess intern durchgeführt. Dazu gehörten auch KI-gesteuerte Prozesse, aufwändige 3D-Grafiken und ein professionelles Color Grading.",
     services: ["Creative Direction", "Konzept & Story", "Regie & Produktion", "Postproduktion", "Social Adaptions"],
     video: "https://www.youtube.com/watch?v=-kbigMenDpM",
     // Eines der sieben Produktvideos. Steht im Case-Fenster unter dem Text
@@ -436,7 +443,7 @@ export const CASES: CaseStudy[] = [
     categories: ["event-content", "artificial-intelligence"],
     kicker: "/ Case Study /",
     summary:
-      "Mit der Anuga FoodTec Pressekonferenz setzt die Koelnmesse ein starkes Zeichen für ihre digitale Innovationsbereitschaft. Die PK richtete sich an ein asiatisches Fachpublikum in China und Japan und fand erstmalig mit KI-gesteuerten Avataren statt.\n\nmake/c hat dafür das Tool des „24/7 Beraters“ angepasst. Es wurden Avatare der Protagonisten erstellt, die dann in Echtzeit und interaktiv sowohl chinesisch als auch japanisch mit den Journalisten gesprochen haben, obwohl sie in Wirklichkeit beide Sprachen nicht sprechen.",
+      "Mit der Anuga-FoodTec-Pressekonferenz setzt die Koelnmesse ein starkes Zeichen für ihre digitale Innovationsbereitschaft. Die PK richtete sich an ein asiatisches Fachpublikum in China und Japan und fand erstmalig mit KI-gesteuerten Avataren statt.\n\nmake/c hat dafür das Tool des „24/7-Beraters“ angepasst. Es wurden Avatare der Protagonisten erstellt, die dann in Echtzeit und interaktiv sowohl chinesisch als auch japanisch mit den Journalisten gesprochen haben, obwohl sie in Wirklichkeit beide Sprachen nicht sprechen.",
     // ⚠️ Hier stand bis 25.08.2026 ein Absatz über einen RTL-Beitrag, der auf
     // einen Link zeigte, den es nie gab. Auf Wunsch des Users ersatzlos raus.
     quote: {
@@ -445,7 +452,7 @@ export const CASES: CaseStudy[] = [
       author: "Oliver Frese",
       role: "Geschäftsführer Koelnmesse",
     },
-    services: ["Pressekonferenz mit interaktiven, KI-gesteuerten Avataren auf chinesisch und japanisch"],
+    services: ["Pressekonferenz mit interaktiven, KI-gesteuerten Avataren auf Chinesisch und Japanisch"],
     image: { src: "/work/koelnmesse-anuga-pressekonferenz.webp", alt: "Koelnmesse — Interaktive PK mit KI-gesteuerten Avataren" },
     credits: [
       { role: "Kunde", name: "Koelnmesse, Anuga FoodTec" },
@@ -462,9 +469,9 @@ export const CASES: CaseStudy[] = [
     categories: ["studiobau"],
     kicker: "/ Case Study /",
     summary:
-      "DB Schenker ist ein global tätiger Logistik Konzern mit Sitz vor der Haustür unseres Essener Standortes. Wunsch des Kunden war der Bau eines multifunktionsfähigen, hybriden Studios ausgelegt auf Selbstfahrerbetrieb im Alltag.\n\n" +
-      "make/c konnte im Pitch mit seinem hybriden, leanen und ganzheitlichen Ansatz überzeugen. Wir haben das ganze Projekt von der Nutzung her gedacht und mit unserer langjährigen Content- und Technikexpertise aus einer Hand umgesetzt. Unsere 3D Visualisierung aus den frühen Konzepttagen deckt sich mit der späteren Umsetzung bis in viele Details.\n\n" +
-      "Nach der Fertigstellung haben wir das Schenker-Personal für den Selbstfahrer-Betrieb geschult und helfen bei größeren Produktionen auf Anfrage immer wieder aus. Das Studio erfreut sich im Schenker Universum großer Beliebtheit.",
+      "DB Schenker ist ein global tätiger Logistikkonzern mit Sitz vor der Haustür unseres Essener Standortes. Wunsch des Kunden war der Bau eines multifunktionsfähigen, hybriden Studios, ausgelegt auf Selbstfahrerbetrieb im Alltag.\n\n" +
+      "make/c konnte im Pitch mit seinem hybriden, leanen und ganzheitlichen Ansatz überzeugen. Wir haben das ganze Projekt von der Nutzung her gedacht und mit unserer langjährigen Content- und Technikexpertise aus einer Hand umgesetzt. Unsere 3D-Visualisierung aus den frühen Konzepttagen deckt sich mit der späteren Umsetzung bis in viele Details.\n\n" +
+      "Nach der Fertigstellung haben wir das Schenker-Personal für den Selbstfahrerbetrieb geschult und helfen bei größeren Produktionen auf Anfrage immer wieder aus. Das Studio erfreut sich im Schenker-Universum großer Beliebtheit.",
     quote: {
       text: "Das fertige Studio entspricht genau unseren Erwartungen aus unserem Briefing und der Visualisierung von make/c. Sie haben den Prozess zu unserer vollsten Zufriedenheit gesteuert – immer kreativ, zuverlässig und lösungsorientiert. Wir freuen uns auf die weitere Zusammenarbeit.",
       author: "Christoph Kocher",
@@ -493,7 +500,7 @@ export const CASES: CaseStudy[] = [
       // war sichtbar im Case-Fenster und speiste die `CreativeWork.description`
       // in der `ItemList` von /work. Entfernt; kein Ersatztext, weil es keinen
       // gibt.
-      "Das Insights Center von KPMG steht für Top Beratung im Bereich KI, Digitalisierung und Advanced Analytics. Doch wie lassen sich diese abstrakten Themen bildstark und dynamisch wie in einem Musikvideo umsetzen? Hier konnten wir unserer Kreativität freien Lauf lassen. Ein Blick in die Umsetzung lohnt sich.",
+      "Das Insights Center von KPMG steht für Top-Beratung im Bereich KI, Digitalisierung und Advanced Analytics. Doch wie lassen sich diese abstrakten Themen bildstark und dynamisch wie in einem Musikvideo umsetzen? Hier konnten wir unserer Kreativität freien Lauf lassen. Ein Blick in die Umsetzung lohnt sich.",
     services: ["Kreation", "Produktion", "Postproduktion"],
     video: "https://vimeo.com/859822560",
     image: { src: "/work/kpmg.webp", alt: "KPMG — Imagetrailer Insights Center" },
@@ -512,8 +519,8 @@ export const CASES: CaseStudy[] = [
     categories: ["video-motion-design"],
     kicker: "/ Case Study /",
     summary:
-      "Unter der Marke „FORMAT Tools for Professionals“ produziert die Wuppertaler Firma E/D/E Werkzeuge für echte Profis. Zur Bewerbung des neuen Katalogs sollten ausgewählte Werkzeuge emotional und hochwertig in Szene gesetzt werden. Das Video wird als Header auf der Website und zur Social Media Bewerbung eingesetzt.\n\nmake/c hat im ersten Schritt 3D Modelle der Werkzeuge erstellt und diese im zweiten Schritt emotional in Szene gesetzt – in Verbindung mit dem Katalog. Der Kunde ist happy und wir entsprechend auch!",
-    services: ["3D Rendering der Werkzeuge", "Animation in 3D"],
+      "Unter der Marke „FORMAT Tools for Professionals“ produziert die Wuppertaler Firma E/D/E Werkzeuge für echte Profis. Zur Bewerbung des neuen Katalogs sollten ausgewählte Werkzeuge emotional und hochwertig in Szene gesetzt werden. Das Video wird als Header auf der Website und zur Social-Media-Bewerbung eingesetzt.\n\nmake/c hat im ersten Schritt 3D-Modelle der Werkzeuge erstellt und diese im zweiten Schritt emotional in Szene gesetzt – in Verbindung mit dem Katalog. Der Kunde ist happy und wir entsprechend auch!",
+    services: ["3D-Rendering der Werkzeuge", "Animation in 3D"],
     video: "https://www.youtube.com/watch?v=d9gvWj3kgF0",
     image: { src: "/work/format-tools-katalog.webp", alt: "FORMAT — 3D Animation „Katalog“" },
     credits: [
@@ -532,9 +539,9 @@ export const CASES: CaseStudy[] = [
     kicker: "/ Case Study /",
     summary:
       "Sommer, Sonne, Zieglers „Zeitgeist“. Ein Getränk, das Lust auf Sommer macht. Wir durften für unseren Partner Storymachine aus Berlin diesen Spot realisieren. Das Timing war wie immer bei Produktionen sportlich, die Anforderungen an den Cast und die Locations ebenso.\n\n" +
-      "Das maker-Team hat sich der Aufgabe gestellt und binnen kürzester Zeit diesen Spot geplant, organisiert, produziert und postproduziert. Die Creation kommt von Storymachine. Neben dem unten verlinkten Spot haben wir natürlich noch cut-downs für alle gängigen Social-Media-Kanäle angefertigt.\n\n" +
-      "Der Sommer kann also kommen. Wir wissen was zu tun ist.",
-    services: ["Casting", "Location Scouting", "Produktion", "Post-Produktion"],
+      "Das maker-Team hat sich der Aufgabe gestellt und binnen kürzester Zeit diesen Spot geplant, organisiert, produziert und postproduziert. Die Creation kommt von Storymachine. Neben dem unten verlinkten Spot haben wir natürlich noch Cut-downs für alle gängigen Social-Media-Kanäle angefertigt.\n\n" +
+      "Der Sommer kann also kommen. Wir wissen, was zu tun ist.",
+    services: ["Casting", "Location-Scouting", "Produktion", "Postproduktion"],
     // ⚠️ Watch-Form, **nicht** der Vimeo-Einbettcode: `VideoFacade` baut den
     // iframe selbst — erst nach dem Klick und mit `dnt=1`. Der gelieferte
     // <iframe>+player.js würde schon beim Öffnen des Fensters laden und die
@@ -568,11 +575,11 @@ export const CASES: CaseStudy[] = [
     categories: ["video-strategie", "event-content"],
     kicker: "/ Case Study /",
     summary:
-      "Seit 2020 dürfen wir bereits die jährlichen Kommunikationsformate der ZURICH Versicherung zum „Strategie 2023“ als Content- und Konzept-Partner begleiten.\n\n" +
-      "Nach einer „Late-Night-Show“, einer „digitalen Musical Inszenierung“ war es in diesem Jahr der „ZURICH Strategiegarten“. Angelehnt an den ZDF Fernsehgarten fand die Veranstaltung für über 2.000 Mitarbeiterinnen und Mitarbeiter bei uns gegenüber im legendären Kölner Tanzbrunnen statt.\n\n" +
-      "Gemeinsam mit dem #love2becomms Team der ZURICH durften wir das Konzept kreativ mitgestalten und den gesamten Videocontent produzieren (über 80 Content Pieces). Dazu haben wir die Veranstaltung mit mehreren Kameras aufgezeichnet und in verschiedenen Versionen postproduziert.\n\n" +
-      "Die Veranstaltung hat nicht nur den Kunden glücklich gemacht, sondern vor allem auch die Zielgruppe, für die sie stattgefunden hat: die Mitarbeiterinnen und Mitarbeiter der ZURICH Versicherung waren von dem Event begeistert.\n\n" +
-      "Die interessanten Vorträge des ZURICH Managements wurden begleitet von vielen Künstlern, darunter z. B. Ross Antony, Chris Böhm und der TV Tanzperformance Gruppe „BreakALeg“.\n\n" +
+      "Seit 2020 dürfen wir bereits die jährlichen Kommunikationsformate der ZURICH Versicherung zur „Strategie 2023“ als Content- und Konzept-Partner begleiten.\n\n" +
+      "Nach einer „Late-Night-Show“, einer „digitalen Musical-Inszenierung“ war es in diesem Jahr der „ZURICH Strategiegarten“. Angelehnt an den ZDF-Fernsehgarten fand die Veranstaltung für über 2.000 Mitarbeiterinnen und Mitarbeiter bei uns gegenüber im legendären Kölner Tanzbrunnen statt.\n\n" +
+      "Gemeinsam mit dem #love2becomms-Team der ZURICH durften wir das Konzept kreativ mitgestalten und den gesamten Videocontent produzieren (über 80 Content-Pieces). Dazu haben wir die Veranstaltung mit mehreren Kameras aufgezeichnet und in verschiedenen Versionen postproduziert.\n\n" +
+      "Die Veranstaltung hat nicht nur den Kunden glücklich gemacht, sondern vor allem auch die Zielgruppe, für die sie stattgefunden hat: Die Mitarbeiterinnen und Mitarbeiter der ZURICH Versicherung waren von dem Event begeistert.\n\n" +
+      "Die interessanten Vorträge des ZURICH-Managements wurden begleitet von vielen Künstlern, darunter z. B. Ross Antony, Chris Böhm und der TV-Tanzperformance-Gruppe „BreakALeg“.\n\n" +
       // Letzter Absatz: SEO-Text von der alten Portfolio-Seite, in Sie-Form.
       // Kein anderer der 32 Cases spricht die Leserin direkt an — der User hat
       // ihn am 25.08.2026 gesehen und bewusst behalten. Nicht wegkürzen.
@@ -602,7 +609,7 @@ export const CASES: CaseStudy[] = [
     categories: ["video-produktion", "event-content"],
     kicker: "/ Case Study /",
     summary:
-      "Durch die Entwickelung einer speziellen Augmented Reality App können die Besucher der diesjährigen BUGA sechs Kunstwerke von Horst Hamann, ausgestellt von der MVV Mannheim, zum Leben erwecken und sehen durch ihr Handykamerabild Tänzer/innen, die innerhalb und außerhalb des Kunstwerkes performen.\n\nWir haben das künstlerische Konzept dazu entwickelt, die App programmiert und die Aufnahmen mit den Tänzern produziert und choreographiert. Mit Hilfe der App werden die Kunstwerke mit tänzerischen Szenen ergänzt und erwecken die Fotografien „zum Leben“.",
+      "Durch die Entwicklung einer speziellen Augmented-Reality-App können die Besucher der diesjährigen BUGA sechs Kunstwerke von Horst Hamann, ausgestellt von der MVV Mannheim, zum Leben erwecken und sehen durch ihr Handykamerabild Tänzer/innen, die innerhalb und außerhalb des Kunstwerkes performen.\n\nWir haben das künstlerische Konzept dazu entwickelt, die App programmiert und die Aufnahmen mit den Tänzern produziert und choreographiert. Mit Hilfe der App werden die Kunstwerke mit tänzerischen Szenen ergänzt und erwecken die Fotografien „zum Leben“.",
     image: { src: "/work/mvv-energie-ag-buga-ar-app.webp", alt: "MVV Energie AG — Augmented Reality App zur BUGA 2023" },
     credits: [{ role: "Umsetzung", name: "Michael Ramlau, Melissa Eken" }],
   },
@@ -637,7 +644,7 @@ export const CASES: CaseStudy[] = [
     categories: ["video-motion-design"],
     kicker: "/ Case Study /",
     summary:
-      "Seit einigen Jahren begleiten wir schon mit der Agentur NJU zusammen die Digital Signage Aktivitäten von OBI. In dem Zusammenhang sind schon viele Grafiken und Videos bei uns entstanden. Dazu gehört auch dieser Trailer fürs OBI Gartenmagazin 2022. Hier verbinden wir After Effects mit normalem Bewegtbild und machen aus einem vermeintlich statischen Katalog einen echten Hingucker.",
+      "Seit einigen Jahren begleiten wir schon mit der Agentur NJU zusammen die Digital-Signage-Aktivitäten von OBI. In dem Zusammenhang sind schon viele Grafiken und Videos bei uns entstanden. Dazu gehört auch dieser Trailer fürs OBI Gartenmagazin 2022. Hier verbinden wir After Effects mit normalem Bewegtbild und machen aus einem vermeintlich statischen Katalog einen echten Hingucker.",
     // Hinweis: das Video heißt bei Vimeo „HEY OBI" und ist am 12.04.2024
     // hochgeladen, während der Case das Gartenmagazin **2022** beschreibt. Der
     // User hat 2022 als Jahr bestätigt (25.08.2026) — der Upload ist also
@@ -664,7 +671,7 @@ export const CASES: CaseStudy[] = [
     categories: ["video-produktion"],
     kicker: "/ Case Study /",
     summary:
-      "Die Masco Group ist ein international tätiges Unternehmen mit Hauptsitz in Italien. In Zusammenarbeit mit unserem langjährigen Technikpartner Qvest Media haben wir diesen Brandfilm umgesetzt. Masco Group hatte sich zuvor einen neuen „look“ und eine neue brand identity geschaffen und seinen „purpose“ und seine „mission“ nachgeschärft. All das sollte in dem neuen Film verarbeitet werden.\n\n" +
+      "Die Masco Group ist ein international tätiges Unternehmen mit Hauptsitz in Italien. In Zusammenarbeit mit unserem langjährigen Technikpartner Qvest Media haben wir diesen Brandfilm umgesetzt. Masco Group hatte sich zuvor einen neuen „Look“ und eine neue Brand Identity geschaffen und seinen „Purpose“ und seine „Mission“ nachgeschärft. All das sollte in dem neuen Film verarbeitet werden.\n\n" +
       "make/c hat das Konzept und das Storyboard entwickelt sowie das Video postproduziert – in enger Abstimmung mit Qvest Media und Masco Group.",
     services: ["Kreation Storyboard", "Postproduktion"],
     // ⚠️ Wie beim ZURICH-StrategieGarten ist dieses Video bei Vimeo
@@ -692,8 +699,8 @@ export const CASES: CaseStudy[] = [
     categories: ["video-strategie"],
     kicker: "/ Case Study /",
     summary:
-      "Manchmal ist es das Budget, manchmal der Zeitdruck: in Unternehmen steigt der Bedarf, selber Video Content produzieren zu können. Was vor einigen Jahren noch undenkbar schien, vermitteln wir heute als Basiswissen in einem eintägigen Workshop.\n\nDie Hürden sind denkbar niedrig, schließlich hat jede/r sein Handy immer dabei. Aber auch wenn das Handy in der Theorie tolle Videos produziert, so sieht es in der Praxis doch oft anders aus. Bildformat, Bildaufbau, Hintergrund, Audio, … Es gibt viele Gründe, die ein Video im Ergebnis schlecht machen können. Und vieles davon ist ganz einfach zu vermeiden.\n\n" +
-      "Durch unsere langjährige Erfahrung im Bereich Bewegtbildproduktion sind wir euer kompetenter Partner und vermitteln euch zuerst ein theoretisches Grundgerüst von „Worauf muss ich bei der Kamera-Perspektive achten?“ über „Welches Format eignet sich für welche social media-Seite?“ bis zu „Wie betreibe ich Visual Storytelling?“.\n\n" +
+      "Manchmal ist es das Budget, manchmal der Zeitdruck: In Unternehmen steigt der Bedarf, selber Videocontent produzieren zu können. Was vor einigen Jahren noch undenkbar schien, vermitteln wir heute als Basiswissen in einem eintägigen Workshop.\n\nDie Hürden sind denkbar niedrig, schließlich hat jede/r sein Handy immer dabei. Aber auch wenn das Handy in der Theorie tolle Videos produziert, so sieht es in der Praxis doch oft anders aus. Bildformat, Bildaufbau, Hintergrund, Audio, … Es gibt viele Gründe, die ein Video im Ergebnis schlecht machen können. Und vieles davon ist ganz einfach zu vermeiden.\n\n" +
+      "Durch unsere langjährige Erfahrung im Bereich Bewegtbildproduktion sind wir euer kompetenter Partner und vermitteln euch zuerst ein theoretisches Grundgerüst von „Worauf muss ich bei der Kamera-Perspektive achten?“ über „Welches Format eignet sich für welche Social-Media-Seite?“ bis zu „Wie betreibe ich Visual Storytelling?“.\n\n" +
       "Der Workshop gliedert sich in einen Theorie- und einen Praxisteil, in dem die Teilnehmer eigene Videos erstellen. Dazu beraten wir auch bei der Auswahl der Technik und wir zeigen die Grenzen des selber erstellbaren Contents.",
     quote: {
       text: "Ein großes Dankeschön für den tollen Workshop, praxisnah und mit Leidenschaft vermittelt. Wir haben sehr viel mitgenommen und waren alle durchweg begeistert.",
@@ -713,11 +720,11 @@ export const CASES: CaseStudy[] = [
     categories: ["video-produktion", "video-motion-design"],
     kicker: "/ Case Study /",
     summary:
-      "Für diese Erklärfilm Reihe haben wir eine eigene Handschrift entwickelt, da wir weg wollten von dem 08/15 Erklärfilm Stil. Nach ersten Testläufen in unserem Parkhaus waren der Kunde und wir sofort begeistert.\n\n" +
-      "Am Ende haben wir die fünf Videos in einem Greenscreen Studio mit einem echten Auto und echten Darstellern gedreht und in der Postproduktion entsprechend verfremdet und mit Motion Graphics in eine stilisierte Landschaft versetzt. Die Soundeffekte unterstützen die oft beklemmenden Botschaften eindrucksvoll.\n\n" +
-      "Die Videoinhalte basieren auf den Ergebnissen einer Studie und dienen der Kommunikation mit Journalisten und natürlich auch für die Social Media Kommunikation.\n\n" +
+      "Für diese Erklärfilmreihe haben wir eine eigene Handschrift entwickelt, da wir wegwollten von dem 08/15-Erklärfilm-Stil. Nach ersten Testläufen in unserem Parkhaus waren der Kunde und wir sofort begeistert.\n\n" +
+      "Am Ende haben wir die fünf Videos in einem Greenscreen-Studio mit einem echten Auto und echten Darstellern gedreht und in der Postproduktion entsprechend verfremdet und mit Motion Graphics in eine stilisierte Landschaft versetzt. Die Soundeffekte unterstützen die oft beklemmenden Botschaften eindrucksvoll.\n\n" +
+      "Die Videoinhalte basieren auf den Ergebnissen einer Studie und dienen der Kommunikation mit Journalisten und natürlich auch der Social-Media-Kommunikation.\n\n" +
       "Der Kunde schreibt: „Die Videos sind wirklich sehr gelungen. Gute Arbeit!“",
-    services: ["Produktion im Greenscreen Studio", "Motion Graphics", "Postproduktion"],
+    services: ["Produktion im Greenscreen-Studio", "Motion Graphics", "Postproduktion"],
     video: "https://www.youtube.com/watch?v=D73J23W1pdM",
     // Zweites der fünf Videos, unter dem Text als „Weiteres Video". ⚠️ Das
     // Standbild ist das YouTube-Thumbnail, aber **lokal** abgelegt — direkt von
@@ -746,8 +753,8 @@ export const CASES: CaseStudy[] = [
     categories: ["video-produktion"],
     kicker: "/ Case Study /",
     summary:
-      "Schon seit 2020 arbeiten wir immer wieder für die renommierte Atlantik-Brücke in Berlin. In 2022 stand der Festakt zum 70jährigen Jubiläum mit vielen Prominenten Weggefährten an.\n\nWir durften in Form eines Rück- und Ausblicks die Geschichte und Bedeutung der Atlantik-Brücke filmisch in Szene setzen. Dafür standen uns viele renommierte Interviewpartner auf beiden Seiten des Atlantiks zur Verfügung.\n\n" +
-      "Da die Umsetzung auf Grund dünner Bewegtbildarchiv-Lage nicht so ganz einfach war, haben wir mit After Effects Templates einen einheitlichen, hochwertigen und zeitgemäßen Rahmen entwickelt.",
+      "Schon seit 2020 arbeiten wir immer wieder für die renommierte Atlantik-Brücke in Berlin. In 2022 stand der Festakt zum 70-jährigen Jubiläum mit vielen prominenten Weggefährten an.\n\nWir durften in Form eines Rück- und Ausblicks die Geschichte und Bedeutung der Atlantik-Brücke filmisch in Szene setzen. Dafür standen uns viele renommierte Interviewpartner auf beiden Seiten des Atlantiks zur Verfügung.\n\n" +
+      "Da die Umsetzung auf Grund dünner Bewegtbildarchiv-Lage nicht so ganz einfach war, haben wir mit After-Effects-Templates einen einheitlichen, hochwertigen und zeitgemäßen Rahmen entwickelt.",
     services: ["Interviews", "Stock Footage", "Dreh", "After Effects"],
     video: "https://www.youtube.com/watch?v=J4carNHyMvk",
     image: { src: "/work/atlantik-bruecke-70-jahre.webp", alt: "ATLANTIK-BRÜCKE e.V. — Jubiläumsfilm 70 Jahre" },
@@ -762,7 +769,7 @@ export const CASES: CaseStudy[] = [
     categories: ["video-produktion"],
     kicker: "/ Case Study /",
     summary:
-      "Der süße Waschbär SIMON ist das Testimonial der jungen Vodafone Marke „SIMon Mobile“. Als Werbepartner der AdAlliance für das „Sommerhaus der Stars“ wollte sich SIMON gerne selber einen Eindruck vom „Sommerhaus“ machen.\n\nWir haben SIMON dabei mit der Kamera begleitet. Er hat in alle Ecken geschaut und das Haus für die Stars freigegeben…",
+      "Der süße Waschbär SIMON ist das Testimonial der jungen Vodafone-Marke „SIMon Mobile“. Als Werbepartner der AdAlliance für das „Sommerhaus der Stars“ wollte sich SIMON gerne selber einen Eindruck vom „Sommerhaus“ machen.\n\nWir haben SIMON dabei mit der Kamera begleitet. Er hat in alle Ecken geschaut und das Haus für die Stars freigegeben…",
     image: { src: "/work/simon-mobile.webp", alt: "SIMon Mobile — Instagram & Facebook Kampagne" },
   },
   {
@@ -774,7 +781,7 @@ export const CASES: CaseStudy[] = [
     categories: ["video-motion-design"],
     kicker: "/ Case Study /",
     summary:
-      "Seit einigen Jahren dürfen wir regelmäßig süße Videos machen – für den BDSI. Das aktuellste Projekt sind eine Reihe von Twitter Videos, die der BDSI fortlaufend posted.\n\nHierfür haben wir auf Basis des Kunden CD ein Motion Graphics Design entwickelt und adaptieren es für die jeweilige kurze Story. So kann der BDSI schnell und wirkungsvoll aktuelle Themen der Branche per Video kommunizieren.",
+      "Seit einigen Jahren dürfen wir regelmäßig süße Videos machen – für den BDSI. Das aktuellste Projekt ist eine Reihe von Twitter-Videos, die der BDSI fortlaufend postet.\n\nHierfür haben wir auf Basis des Kunden-CDs ein Motion-Graphics-Design entwickelt und adaptieren es für die jeweilige kurze Story. So kann der BDSI schnell und wirkungsvoll aktuelle Themen der Branche per Video kommunizieren.",
     video: "https://www.youtube.com/watch?v=ql_WuGraClg",
     image: { src: "/work/bdsi-twitter-videos.webp", alt: "BDSI — Twitter Videos" },
   },
@@ -787,7 +794,7 @@ export const CASES: CaseStudy[] = [
     categories: ["video-strategie", "video-produktion"],
     kicker: "/ Case Study /",
     summary:
-      "Was macht euer Start-Up aus? Warum habt Ihr es gegründet? Welche Tipps könnt Ihr anderen mit auf den Weg geben? Diese Fragen sind für junge Start-Ups, wie sie der High-Tech Gründerfonds berät, essenziell und vielfältig.\n\nDaher produzieren wir eine Reihe kurzer Clips mit erfolgreichen Gründer/innen, die von ihrer Start-Up-Journey berichten. Extra hierfür haben wir ein stark stilisiertes Format mit einer durchgängigen „Dual Tone Beleuchtung“ und eingeblendeten Interviewfragen im „Billboard-Stil“ entwickelt. Die Umsetzung ist eher aus dem Musikvideo-Bereich bekannt und erzeugt visuelle Aufmerksamkeit und einen modernen Look.",
+      "Was macht euer Start-up aus? Warum habt Ihr es gegründet? Welche Tipps könnt Ihr anderen mit auf den Weg geben? Diese Fragen sind für junge Start-ups, wie sie der High-Tech Gründerfonds berät, essenziell und vielfältig.\n\nDaher produzieren wir eine Reihe kurzer Clips mit erfolgreichen Gründer/innen, die von ihrer Start-up-Journey berichten. Extra hierfür haben wir ein stark stilisiertes Format mit einer durchgängigen „Dual-Tone-Beleuchtung“ und eingeblendeten Interviewfragen im „Billboard-Stil“ entwickelt. Die Umsetzung ist eher aus dem Musikvideo-Bereich bekannt und erzeugt visuelle Aufmerksamkeit und einen modernen Look.",
     video: "https://www.youtube.com/watch?v=cuIqtmjkPzQ",
     image: { src: "/work/high-tech-gruenderfonds.webp", alt: "High-Tech Gründerfonds — High-Tech Gründerfonds Start-Up Stories" },
   },
@@ -800,7 +807,7 @@ export const CASES: CaseStudy[] = [
     categories: ["event-content"],
     kicker: "/ Case Study /",
     summary:
-      "Das Greentech-Festival von Nico Rosberg feiert 2022 schon 15jähriges Jubiläum. Vieles war in diesem Jahr neu – z.B. die Location auf dem alten Flughafen Gelände in Tegel und auch der Partner für die (Live) Video Produktionen: make/c.\n\nMit über 30 Personen aus Berlin und Köln waren wir fast eine Woche vor Ort und konnten viele beeindruckende Innovationen aus der Greentech Welt kennenlernen. Höhepunkt war sicher die glamouröse Verleihung der Greentech Awards.",
+      "Das Greentech-Festival von Nico Rosberg feiert 2022 schon 15-jähriges Jubiläum. Vieles war in diesem Jahr neu – z. B. die Location auf dem alten Flughafengelände in Tegel und auch der Partner für die (Live-)Videoproduktionen: make/c.\n\nMit über 30 Personen aus Berlin und Köln waren wir fast eine Woche vor Ort und konnten viele beeindruckende Innovationen aus der Greentech-Welt kennenlernen. Höhepunkt war sicher die glamouröse Verleihung der Greentech Awards.",
     video: "https://www.youtube.com/watch?v=VcMqbNpX5pk",
     image: { src: "/work/greentech-festival.webp", alt: "Greentech Festival — Live-Streaming und Stage Video Produktionen" },
   },
@@ -813,7 +820,7 @@ export const CASES: CaseStudy[] = [
     categories: ["video-produktion"],
     kicker: "/ Case Study /",
     summary:
-      "Ein Job in der Versicherungsbranche? Klingt langweilig, kann aber ganz schön spannend sein. Und viele Vorteile für Arbeitnehmer/innen gibt es auch noch. Aber wir zeigt man das in einem Spot, der Lust auf mehr macht und nicht „more of the same“ ist.\n\nWir haben eine Kreation entwickelt, die bekannte Elemente der Dating Welt aufgreift, und spielerisch und mit einer Prise Humor auf die Job-Möglichkeiten bei der Gothaer hinweist.",
+      "Ein Job in der Versicherungsbranche? Klingt langweilig, kann aber ganz schön spannend sein. Und viele Vorteile für Arbeitnehmer/innen gibt es auch noch. Aber wie zeigt man das in einem Spot, der Lust auf mehr macht und nicht „more of the same“ ist?\n\nWir haben eine Kreation entwickelt, die bekannte Elemente der Dating-Welt aufgreift und spielerisch und mit einer Prise Humor auf die Job-Möglichkeiten bei der Gothaer hinweist.",
     image: { src: "/work/gothaer-versicherung.webp", alt: "GOTHAER Versicherung — Social Media Spot" },
   },
   {
@@ -825,7 +832,7 @@ export const CASES: CaseStudy[] = [
     categories: ["video-produktion"],
     kicker: "/ Case Study /",
     summary:
-      "Im September 2021 ging es mit Jan Köppen und seinem filmenden Kumpel „Jimmie“ auf einen Road Trip. „Cross und Quer“ durch Deutschland war die Aufgabenstellung und zeigt, wie schön es vor der eigenen Haustür sein kann.\n\nWir haben entsprechende Locations in der Eifel, im Weltkulturerbe Mittelrheintal und in Bonn gefunden. Dazu entsprechende Storyboards entwickelt und unser Team mit einer Sony FX6, Sony FX3 und einer Drohne ausgestattet. Die Stimmung war – anders als das Wetter – durchgehend gut.",
+      "Im September 2021 ging es mit Jan Köppen und seinem filmenden Kumpel „Jimmie“ auf einen Roadtrip. „Cross und Quer“ durch Deutschland war die Aufgabenstellung und zeigt, wie schön es vor der eigenen Haustür sein kann.\n\nWir haben entsprechende Locations in der Eifel, im Weltkulturerbe Mittelrheintal und in Bonn gefunden. Dazu entsprechende Storyboards entwickelt und unser Team mit einer Sony FX6, Sony FX3 und einer Drohne ausgestattet. Die Stimmung war – anders als das Wetter – durchgehend gut.",
     image: { src: "/work/toyota-cross-und-quer.webp", alt: "Toyota — Cross & Quer" },
   },
   {
@@ -837,7 +844,7 @@ export const CASES: CaseStudy[] = [
     categories: ["event-content"],
     kicker: "/ Case Study /",
     summary:
-      "Als Live-Streaming Partner der Koelnmesse durften wir im Jahr 2021 u.a. die Weltleitmesse für die Lebensmittel- und Getränkeindustrie `Anuga´ produzieren. An 10 Tagen mehr als 100 Speaker von 6 Bühnen mit ca. 74 Stunden Programm.\n\nAußerdem haben wir in Form eines Trailers einen kurzweiligen und informativen Rückblick auf die erfolgreiche und hybride `Anuga´ 2021 hergestellt. Die Messe findet alle zwei Jahre statt und der Trailer sorgt jetzt schon für große Vorfreude auf die nächste `Anuga´ im Jahr 2023.",
+      "Als Live-Streaming-Partner der Koelnmesse durften wir im Jahr 2021 u. a. die Weltleitmesse für die Lebensmittel- und Getränkeindustrie „Anuga“ produzieren. An 10 Tagen mehr als 100 Speaker von 6 Bühnen mit ca. 74 Stunden Programm.\n\nAußerdem haben wir in Form eines Trailers einen kurzweiligen und informativen Rückblick auf die erfolgreiche und hybride „Anuga“ 2021 hergestellt. Die Messe findet alle zwei Jahre statt und der Trailer sorgt jetzt schon für große Vorfreude auf die nächste „Anuga“ im Jahr 2023.",
     video: "https://www.youtube.com/watch?v=bhiYsZTc7t4",
     image: { src: "/work/anuga-live-stream.webp", alt: "Anuga — Live-Streams und Trailer" },
   },
@@ -848,7 +855,7 @@ export const CASES: CaseStudy[] = [
     year: "2023",
     category: "Video Produktion",
     categories: ["video-produktion"],
-    kicker: "Case ALDI",
+    kicker: "/ Case Study /",
     summary:
       "Für ALDI wurden Hero-Assets und Content-Cuts entwickelt, die kanalübergreifend funktionieren und gleichzeitig den Markencharakter konsequent transportieren.",
     services: ["Kampagnenkonzept", "Produktion", "Postproduktion", "Format-Adaption", "Rollout Support"],

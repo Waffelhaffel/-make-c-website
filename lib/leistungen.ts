@@ -1,8 +1,9 @@
 // Content der Leistungs-Detailseiten (/leistungen/<slug>).
 //
-// ⚠️ Es sind **fünf**, nicht sechs: `artificial-intelligence` hat seit
+// ⚠️ Es sind **sechs**, nicht sieben: `artificial-intelligence` hat seit
 // 01.09.2026 keine eigene Seite mehr (siehe den Block unten, wo sie stand).
-// `SERVICES` in `lib/content/services.ts` führt weiter alle sechs Kacheln.
+// `SERVICES` in `lib/content/services.ts` führt alle sieben Kacheln. Seit
+// 13.11.2026 dabei: `branded-entertainment`.
 //
 // Hartcodiert und so gewollt (CLAUDE.md Regel 1): Content gehört seit 31.07.2026
 // in den Code, Sanity verwaltet nur noch die Case Studies. Die früher hier
@@ -29,6 +30,17 @@ export type ServicePageContent = {
   titlePart1: string;
   /** MixedHeadline part2 (Garamond SemiBold Italic) */
   titlePart2: string;
+  /**
+   * Der Titel enthält ein Wort, das breiter ist als „Produktion" — für das die
+   * Mobil-Deckelung von `display` (12,5vw) und der Kachel (11,5vw) ausgelegt
+   * ist. Dann setzen `ServiceHero` und `ServiceList` die Headline auf dem Handy
+   * kleiner; die Klassen stehen dort, weil Tailwind `lib/` nicht scannt.
+   *
+   * Einziger Fall bisher: „ENTERTAINMENT", 1,30× so breit wie „PRODUKTION" (an
+   * der Schriftdatei gemessen) — lief bei 390 px rund 80 px über den Rand.
+   * Kein Trennstrich (User-Entscheidung 13.11.2026), deshalb kleiner.
+   */
+  compactTitle?: boolean;
   /** Klartext-H1 für Metadata und JSON-LD */
   h1Plain: string;
   /** Keyword-tragende Zeile direkt unter der H1 */
@@ -111,7 +123,7 @@ export const SERVICE_PAGES: ServicePageContent[] = [
       },
       {
         title: "Prozesse und Messbarkeit",
-        body: "Eine Strategie funktioniert nur, wenn klar ist, wer briefed, wer freigibt und wer produziert. Wir definieren Freigabewege, Vorlaufzeiten und Schnittstellen — und legen pro Format fest, woran sich Erfolg ablesen lässt: Reichweite, Verweildauer, Conversion oder interne Nutzung. So wird aus einem Bauchgefühl eine Entscheidungsgrundlage für das nächste Budget.",
+        body: "Eine Strategie funktioniert nur, wenn klar ist, wer brieft, wer freigibt und wer produziert. Wir definieren Freigabewege, Vorlaufzeiten und Schnittstellen — und legen pro Format fest, woran sich Erfolg ablesen lässt: Reichweite, Verweildauer, Conversion oder interne Nutzung. So wird aus einem Bauchgefühl eine Entscheidungsgrundlage für das nächste Budget.",
       },
     ],
     steps: [
@@ -299,6 +311,143 @@ export const SERVICE_PAGES: ServicePageContent[] = [
         "Kampagnenfilm",
         "Produktvideo",
         "Employer Branding Video",
+      ],
+    },
+  },
+
+  // ---------------------------------------------------------------------
+  // Seit 13.11.2026 (User-Wunsch): eine Leistung, für die make/c gefunden
+  // werden will, obwohl es dazu noch keine großen Cases gibt. Text nach einem
+  // Rohtext des Users, redigiert.
+  //
+  // ⚠️ **Drei Angaben sind nicht bestätigt** und im Text unten markiert:
+  // (1) das Verhältnis zur CNC — der Rohtext sagt „Schwesterfirma", das
+  //     Impressum (`lib/content/legal.ts`) „make/c ist ein Unternehmen der CNC
+  //     Cologne News Corporation GmbH". Hier steht deshalb neutral „aus
+  //     derselben Unternehmensgruppe"; der Rohtext trug selbst die Rückfrage
+  //     „@Philip: passt so mit Blick auf CNC?".
+  // (2) die TV-Formate der CNC („Shopping Queen", „Guidos Deko Queen",
+  //     „Most Wanted") — wörtlich aus dem Rohtext.
+  // (3) „über 15 Monate" bei MERKUR — der Case-Text von `merkur-lighthouse`
+  //     sagt „mehr als zwölf Monate".
+  // „(Haribo)" aus dem Rohtext steht bewusst nicht im Text: Kunde ist die
+  // Dr. Hans Riegel-Stiftung, nicht das Unternehmen HARIBO.
+  {
+    slug: "branded-entertainment",
+    titlePart1: "Video",
+    titlePart2: "Branded Entertainment",
+    compactTitle: true,
+    h1Plain: "Video Branded Entertainment",
+    subline:
+      "Branded Entertainment aus Köln und Essen — Doku-Serien, Mockumentarys und Showformate für Marken.",
+    definition:
+      "Branded Entertainment bei make/c heißt: Marken erzählen in Formaten, die Menschen freiwillig anschauen — Doku-Serien, Mockumentarys, Show- und Spielformate statt klassischer Werbung. Gemeinsam mit der TV-Produktion CNC verbindet make/c das Wissen, wie Marken, Creator und Influencer ticken, mit dem Produktions-Know-how großer TV-Formate — für Streaming, YouTube, TV und Social Media.",
+    facts: [
+      { label: "Leistungsumfang", value: "Formatentwicklung, Konzept und Drehbuch, Casting, Produktion, Postproduktion, Plattform-Fassungen" },
+      { label: "Formate", value: "Doku-Serie, Mockumentary, Show- und Spielformat, Webserie, Creator-Format, Gamification" },
+      { label: "Ausspielung", value: "Streaming, YouTube, TV, Social Media und interne Kanäle" },
+      // ⚠️ Unbestätigt, siehe oben (2).
+      { label: "TV-Partner", value: "CNC — produziert Formate wie „Shopping Queen“, „Guidos Deko Queen“ und „Most Wanted“ mit" },
+      { label: "Einsatzgebiet", value: "Köln, Essen, bundesweit und international" },
+    ],
+    blocks: [
+      {
+        // ⚠️ Unbestätigt, siehe oben (1) und (2).
+        title: "TV-Know-how trifft Markenverständnis",
+        body: "Mit der TV-Produktion CNC aus derselben Unternehmensgruppe steht make/c seit jeher an der Schnittstelle zwischen dem, was Marken erzählen wollen, und dem Produktions-Know-how großer TV-Formate. Während die CNC seit Jahren Formate wie „Shopping Queen“, „Guidos Deko Queen“ und „Most Wanted“ mitproduziert, weiß make/c, wie Marken, Creator und Influencer ticken. Gemeinsam sind beide ein starkes Duo für Branded-Entertainment-Formate — ob für Streamer, YouTube, TV oder Social Media.",
+      },
+      {
+        // ⚠️ „Über 15 Monate" unbestätigt, siehe oben (3).
+        title: "Doku-Serien und Mockumentarys",
+        body: "Für die MERKUR GROUP hat make/c zuletzt eine gefeierte Doku-Serie in acht Folgen umgesetzt und dafür über 15 Monate Teams weltweit begleitet — von Lübbecke und Graz bis nach Las Vegas und Barcelona. Für die BIH-Integrationsämter entstand eine Mockumentary, die ein ernstes Thema mit trockenem Humor erzählt. Beide folgen den Regeln guter Unterhaltung: Dramaturgie, starke Figuren und echte Geschichten statt Werbebotschaft.",
+      },
+      {
+        title: "Spielwelten und Gamification",
+        body: "Unterhaltung muss nicht linear sein. Für die Dr. Hans Riegel-Stiftung hat make/c umfassende Gamification-Welten entwickelt. Spielmechaniken machen aus Zuschauern Mitspieler — und wer mitspielt, beschäftigt sich länger mit einem Thema als jemand, der nur zuschaut.",
+      },
+    ],
+    steps: [
+      { title: "Idee und Format", body: "Was soll die Marke erzählen, wen soll das Format erreichen und auf welcher Plattform? Daraus entwickeln wir eine Formatidee mit Dramaturgie, Look und Folgenstruktur." },
+      { title: "Entwicklung und Casting", body: "Drehbuch oder Rechercheplan, die Auswahl von Protagonisten, Talents oder Creatorn, Motive und Drehplanung — bei Bedarf mit einem Piloten als Testlauf." },
+      { title: "Produktion", body: "Dreh mit eingespieltem Team: im Studio, on location oder als dokumentarische Begleitung über Monate, auch international." },
+      { title: "Postproduktion und Ausspielung", body: "Schnitt, Grading, Sounddesign und Grafik — dazu Fassungen für jede Plattform, von der Langform für Streaming und YouTube bis zum Kurzclip für Social Media." },
+    ],
+    audience: [
+      "Marken, die mehr erzählen wollen, als in einen Spot passt",
+      "Unternehmen mit Geschichten aus dem eigenen Haus, vom Change-Prozess bis zur Unternehmenskultur",
+      "Kommunikationsteams, die auf YouTube, Streaming- und Social-Plattformen Reichweite aufbauen wollen",
+      "Institutionen, die ernste Themen zugänglich und unterhaltsam vermitteln wollen",
+    ],
+    faq: [
+      {
+        question: "Was ist Branded Entertainment?",
+        answer:
+          "Branded Entertainment bezeichnet Unterhaltungsformate, die eine Marke verantwortet oder präsentiert — etwa eine Doku-Serie, eine Mockumentary, eine Show oder ein Spielformat. Anders als ein Werbespot unterbricht es kein Programm, es ist selbst das Programm: Menschen schauen zu, weil es sie unterhält, und erleben die Marke dabei mit.",
+      },
+      {
+        question: "Was unterscheidet Branded Entertainment von klassischer Werbung?",
+        answer:
+          "Werbung kauft Aufmerksamkeit, Branded Entertainment verdient sie. Statt einer Botschaft in 30 Sekunden entsteht ein Format mit Dramaturgie und Figuren, das auf Streaming-Plattformen, YouTube oder Social Media ein eigenes Publikum findet. Die Marke ist Absender oder Teil der Geschichte — aber nicht der Mittelpunkt einer Verkaufsbotschaft.",
+      },
+      {
+        question: "Für welche Plattformen entwickelt make/c Formate?",
+        answer:
+          "Für Streaming-Plattformen, YouTube, TV und Social Media — und für interne Kanäle, wenn sich ein Format an die eigene Belegschaft richtet. Die Plattform bestimmt Länge, Taktung und Erzählweise. Deshalb klären wir sie, bevor die erste Idee steht.",
+      },
+      {
+        // ⚠️ Unbestätigt, siehe oben (1) und (2).
+        question: "Welche Rolle spielt die CNC?",
+        answer:
+          "Die CNC ist eine TV-Produktion aus derselben Unternehmensgruppe wie make/c und produziert seit Jahren Formate wie „Shopping Queen“, „Guidos Deko Queen“ und „Most Wanted“ mit. In Branded-Entertainment-Projekten bringt sie die Erfahrung aus Serienproduktion und TV-Abläufen ein, make/c das Verständnis für Marken, Creator und Influencer.",
+      },
+      {
+        question: "Arbeitet make/c auch mit Creatorn und Influencern?",
+        answer:
+          "Ja. make/c weiß, wie Creator und Influencer arbeiten und was ihr Publikum von ihnen erwartet. Ob ein Format mit bekannten Gesichtern, mit eigenen Mitarbeitenden oder mit einem gecasteten Ensemble am besten funktioniert, entscheiden wir gemeinsam in der Formatentwicklung.",
+      },
+      {
+        question: "Was kostet ein Branded-Entertainment-Format?",
+        answer:
+          "Das hängt vor allem von Folgenzahl, Drehtagen, Cast und Reiseaufwand ab: Eine Mockumentary mit wenigen Drehtagen liegt in einer anderen Größenordnung als eine Doku-Serie, die Teams über Monate begleitet. make/c entwickelt zuerst Format und Umfang gemeinsam mit euch und kalkuliert danach als Festpreis.",
+      },
+    ],
+    relatedSlugs: ["video-produktion", "video-strategie"],
+    // ⚠️ Nur zwei Kacheln (User-Entscheidung 13.11.2026) — die beiden Projekte,
+    // die der Rohtext selbst nennt. Zur Dr. Hans Riegel-Stiftung gibt es keinen
+    // Case mehr (beide von 2020/21, mit dem Schnitt bei 2022 entfallen), und
+    // Toyota „Cross & Quer" wollte der User hier nicht sehen.
+    caseSlugs: ["merkur-lighthouse", "cwh-bih-sbv-wahl"],
+    loopVideo: "/leistungen-loops/branded-entertainment.mp4",
+    // Die beiden Fotos der früheren AI-Seite, umbenannt — siehe `MAPPING` in
+    // `scripts/build-service-images.mjs`.
+    images: [
+      {
+        src: "/leistungen-bilder/branded-entertainment-1.webp",
+        alt: "Zwei Personen bauen eine Kamera auf einem Gimbal auf",
+      },
+      {
+        src: "/leistungen-bilder/branded-entertainment-2.webp",
+        alt: "Dunkles Studio mit großer LED-Wand während einer Produktion",
+      },
+    ],
+    cta: {
+      headline: "Mehr als ein Spot?",
+      body: "Erzählt uns von eurer Marke und eurem Publikum — wir entwickeln daraus ein Format, das man freiwillig anschaut.",
+      buttonText: "Format besprechen",
+    },
+    seo: {
+      metaTitle: "Branded Entertainment & Markenformate | make/c Köln",
+      metaDescription:
+        "Branded Entertainment von make/c: Doku-Serien, Mockumentarys und Showformate für Marken — mit TV-Know-how der CNC, für Streaming, YouTube, TV und Social Media.",
+      keywords: [
+        "Branded Entertainment",
+        "Branded Content",
+        "Markenformate",
+        "Doku-Serie für Unternehmen",
+        "Mockumentary",
+        "Webserie",
+        "Influencer-Format",
+        "Gamification",
       ],
     },
   },
@@ -535,8 +684,8 @@ export const SERVICE_PAGES: ServicePageContent[] = [
   //
   // ⚠️ **Nicht** entfallen ist die Filter-Kategorie `artificial-intelligence`
   // auf `/work` (`lib/content/workCategories.ts`) — vier Cases tragen sie. Diese
-  // Liste ist damit fünfteilig, `SERVICES` und `WORK_CATEGORIES` bleiben
-  // sechsteilig. Das ist gewollt.
+  // Liste ist damit eine Leistung kürzer als `SERVICES` und `WORK_CATEGORIES`
+  // (seit 13.11.2026: sechs gegen sieben). Das ist gewollt.
 
   // ---------------------------------------------------------------------
   {

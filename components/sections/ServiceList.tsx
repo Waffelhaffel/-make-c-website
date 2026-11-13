@@ -22,7 +22,7 @@ function splitTitle(title: string): [string, string | null] {
 /**
  * Der Rahmen einer Kachel.
  *
- * Fünf Leistungen verlinken intern auf ihre Detailseite. **Video AI hat seit dem
+ * Sechs Leistungen verlinken intern auf ihre Detailseite. **Video AI hat seit dem
  * 01.09.2026 keine** (User-Entscheidung) und trägt stattdessen `externalUrl` —
  * dann ein normales `<a>` mit `target`/`rel` wie an allen übrigen externen Links
  * der Seite. `next/link` wäre hier falsch: es würde den Client-Router bemühen
@@ -88,7 +88,8 @@ export function ServiceList({ services }: ServiceListProps) {
             // nur an einer Stelle steht. Für eine Leistung **ohne** Detailseite
             // (Video AI) gibt es diese Stelle nicht mehr; die trägt den Pfad
             // deshalb selbst und hat hier Vorrang.
-            const loopVideo = service.loopVideo ?? getServicePage(service.slug)?.loopVideo;
+            const page = getServicePage(service.slug);
+            const loopVideo = service.loopVideo ?? page?.loopVideo;
 
             return (
               // Bild abwechselnd links/rechts, Headline überlappt die Bildkante (Figma 38:184ff)
@@ -152,7 +153,21 @@ export function ServiceList({ services }: ServiceListProps) {
                         // left-[6%] der Bildbreite, ihr fehlen also ~6 % gegenüber
                         // einer Headline am Spaltenrand. Greift nur unter 383 px —
                         // dort lief „Produktion" 37 px über den Bildschirmrand.
-                        size="text-[min(11.5vw,clamp(2.75rem,5.5vw,6.5625rem))]"
+                        //
+                        // `compactTitle` (lib/leistungen.ts, bisher nur
+                        // „ENTERTAINMENT", 1,3× so breit): 8,5 statt 11,5vw,
+                        // greift unter 518 px. Damit endet das Wort auf jedem
+                        // Handy **im Bild** — mit 9vw ragte das letzte „T" bis
+                        // 14 px über die Bildkante (gemessen 13.11.2026). Dazu
+                        // das Maximum 5,5 statt 6,5625rem: das Wort steht allein
+                        // in der 59,5 % breiten Textspalte und liefe ab ~1600 px
+                        // Viewport sonst bis zu 150 px über die Kachelkante.
+                        // Dazwischen identisch mit allen anderen Kacheln.
+                        size={
+                          page?.compactTitle
+                            ? "text-[min(8.5vw,clamp(2.75rem,5.5vw,5.5rem))]"
+                            : "text-[min(11.5vw,clamp(2.75rem,5.5vw,6.5625rem))]"
+                        }
                         className={imageLeft ? "" : "md:text-right"}
                       />
                       {/* CTA in die Detailseite. PillButton ohne href/onClick

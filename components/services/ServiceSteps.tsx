@@ -25,7 +25,16 @@ export function ServiceSteps({ steps }: ServiceStepsProps) {
 
         {/* Vier Spalten seit 12.08.2026: der Ablauf ist von sechs auf vier
             Schritte zusammengefasst und steht damit in einer Reihe statt in
-            zwei angebrochenen. */}
+            zwei angebrochenen.
+            ⚠️ `hyphens-auto` seit 13.11.2026: in vier Spalten ist eine Spalte
+            bei 1024 px nur ~210 px breit, und Titel wie „Postproduktion",
+            „Technikplanung" oder „Umsetzungsbegleitung" liefen in die
+            Nachbarspalte bzw. wurden am Bildschirmrand abgeschnitten — auf
+            fünf von sechs Leistungsseiten (gemessen). Getrennt wird nur, was
+            nicht passt; `lang="de"` am <html> liefert die Silbenregeln.
+            Bewusst **nur an den Titeln** (h3): an der ganzen Liste trennte der
+            Browser auch die Fließtexte durchgehend, und die liefen gar nicht
+            über. */}
         <ol className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           {steps.map((step, i) => (
             <li key={step.title} className="border-t border-white/15 pt-6">
@@ -35,7 +44,7 @@ export function ServiceSteps({ steps }: ServiceStepsProps) {
               >
                 {String(i + 1).padStart(2, "0")}
               </span>
-              <h3 className="mt-3 font-gotham text-h4 text-white">{step.title}</h3>
+              <h3 className="mt-3 font-gotham text-h4 text-white hyphens-auto">{step.title}</h3>
               <p className="mt-3 font-gotham text-body-lg text-white/80">
                 {step.body}
               </p>

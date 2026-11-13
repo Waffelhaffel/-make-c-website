@@ -17,7 +17,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     // Kein Eintrag für /leistungen mehr: die Übersichtsseite ist 08/2026
-    // entfallen, die sechs Leistungen stehen auf der Startseite. Die Route
+    // entfallen, die Leistungen stehen auf der Startseite. Die Route
     // leitet nur noch auf /#service weiter (next.config.ts).
     {
       url: absoluteUrl("/work"),

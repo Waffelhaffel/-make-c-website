@@ -1,6 +1,6 @@
 import type { Service } from "./types";
 
-// Die sechs Leistungs-Kacheln auf der Startseite (Anker `#service`) —
+// Die sieben Leistungs-Kacheln auf der Startseite (Anker `#service`) —
 // hartcodiert (siehe CLAUDE.md, Regel 1). Die frühere Übersichtsseite
 // `/leistungen` ist 08/2026 entfallen.
 //
@@ -17,9 +17,10 @@ import type { Service } from "./types";
 //
 // ⚠️ **Eine Ausnahme, seit 01.09.2026:** `artificial-intelligence` hat keinen
 // Eintrag in `SERVICE_PAGES` und damit keine Detailseite — die Kachel verlinkt
-// über `externalUrl` nach `make-ai.de`. Die Liste hier bleibt trotzdem
-// sechsteilig, `SERVICE_PAGES` ist fünfteilig. Das ist gewollt und der einzige
-// Punkt, an dem die beiden Listen auseinanderlaufen dürfen.
+// über `externalUrl` nach `make-ai.de`. Die Liste hier ist deshalb eine
+// Leistung länger als `SERVICE_PAGES` (seit 13.11.2026: sieben gegen sechs).
+// Das ist gewollt und der einzige Punkt, an dem die beiden Listen
+// auseinanderlaufen dürfen.
 //
 // ⚠️ Die Grafiken sind handgezeichnete Platzhalter (Magnific, weiße
 // Marker-Linien auf #14140F). Austauschen = Datei unter demselben Pfad ersetzen.
@@ -43,6 +44,13 @@ export const SERVICES: Service[] = [
       src: "/leistungen/video-produktion.png",
       alt: "Handgezeichnete Illustration: Video Produktion",
     },
+  },
+  // Seit 13.11.2026, bewusst auf Platz 3 neben der Produktion (User-Entscheidung).
+  // Ohne `image`: das Feld ist nur der Rückfall für eine Leistung ohne Loop, und
+  // für diese gab es nie eine handgezeichnete Grafik.
+  {
+    slug: "branded-entertainment",
+    title: "Video Branded Entertainment",
   },
   {
     slug: "video-motion-design",

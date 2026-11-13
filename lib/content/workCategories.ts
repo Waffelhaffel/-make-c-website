@@ -1,8 +1,9 @@
 // Die Kategorien der Referenzen — Quelle für die Filterleiste auf `/work` und
 // für das `categories`-Feld der Cases in `./cases.ts`.
 //
-// Seit 12.08.2026 sind es **genau die sechs Leistungen** von der Startseite
-// (User-Entscheidung). Vorher standen hier 14 Kategorien aus der Filterleiste
+// Seit 12.08.2026 sind es **genau die Leistungen** von der Startseite
+// (User-Entscheidung) — seit 13.11.2026 sieben, mit „Video Branded
+// Entertainment" auf Platz 3. Vorher standen hier 14 Kategorien aus der Filterleiste
 // der alten Portfolio-Seite (make-c.de/portfolio) — „Erklärvideo", „Imagefilm",
 // „Live-Streaming", „Partner für Agenturen" und so weiter. Die haben ein
 // zweites, konkurrierendes Vokabular neben den Leistungen aufgemacht: ein
@@ -19,7 +20,7 @@
 // fehlt seit 01.09.2026 `artificial-intelligence`, weil „Video AI" keine
 // Detailseite mehr hat. Als **Filter-Kategorie** bleibt sie hier — vier Cases
 // tragen sie in `categories[]`, und ein Chip ohne Leistungsseite ist völlig in
-// Ordnung. Diese Liste ist also sechsteilig, `SERVICE_PAGES` fünfteilig.
+// Ordnung. Diese Liste ist also siebenteilig, `SERVICE_PAGES` sechsteilig.
 
 export type WorkCategory = {
   /** Technischer Schlüssel, steht in `CaseStudy.categories`. Gleich dem Leistungs-Slug. */
@@ -31,6 +32,7 @@ export type WorkCategory = {
 export const WORK_CATEGORIES: WorkCategory[] = [
   { slug: "video-strategie", label: "Video Strategie" },
   { slug: "video-produktion", label: "Video Produktion" },
+  { slug: "branded-entertainment", label: "Video Branded Entertainment" },
   { slug: "video-motion-design", label: "Video Motion Design" },
   { slug: "event-content", label: "Video Event Content" },
   { slug: "artificial-intelligence", label: "Video AI" },

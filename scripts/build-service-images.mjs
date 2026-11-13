@@ -14,8 +14,10 @@
  *
  * ⚠️ Die Zuordnung unten ist der einzige Ort, an dem steht, welches Foto auf
  * welcher Leistungsseite landet. Alle zwölf Bilder sind Set-/Behind-the-Scenes-
- * Fotos; für „Motion Design" und „AI" gibt es kein wörtlich passendes Motiv,
- * dort ist nach Bildwirkung sortiert (grafisch/aufgeräumt bzw. dunkel/technisch).
+ * Fotos; für „Motion Design" und die frühere AI-Seite gab es kein wörtlich
+ * passendes Motiv, dort ist nach Bildwirkung sortiert (grafisch/aufgeräumt bzw.
+ * dunkel/technisch). Die beiden AI-Fotos tragen seit 13.11.2026 die Seite
+ * „Branded Entertainment" — das Studio mit Talk-Set passt dort sogar wörtlich.
  * Zum Tauschen die Dateinamen hier vertauschen, Skript neu laufen lassen — die
  * Pfade in `lib/leistungen.ts` bleiben dabei unverändert.
  */
@@ -38,7 +40,12 @@ const MAPPING = {
   "video-produktion": ["A7400507.jpg", "A7400432.jpg"],
   "video-motion-design": ["A7400632.jpg", "A7401150.jpg"],
   "event-content": ["A7401157.jpg", "A7401256.jpg"],
-  "artificial-intelligence": ["A7408896.jpg", "A7409669.jpg"],
+  // Bis 01.09.2026 die Fotos der AI-Seite (die Leistung hat seither keine
+  // Detailseite). Seit 13.11.2026 bei Branded Entertainment, in **getauschter**
+  // Reihenfolge: das dunkle Studio mit LED-Wand und Talk-Set trägt das breite
+  // Band, die Nahaufnahme am Gimbal steht unbeschnitten im 3:2-Rahmen — im
+  // 21:9-Band hätte sie der Person links den Kopf gekappt.
+  "branded-entertainment": ["A7409669.jpg", "A7408896.jpg"],
   studiobau: ["A7409855.jpg", "A7409933.jpg"],
 };
 

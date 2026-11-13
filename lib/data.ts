@@ -1,6 +1,6 @@
 // Sichtbare Links in der Header-Leiste (Figma: Über Uns / Leistungen / Selected Work).
 // "Leistungen" zeigt seit 08/2026 wieder auf den Landing-Anker: die Übersichts-
-// seite /leistungen ist entfallen (User-Entscheidung — die sechs Leistungen
+// seite /leistungen ist entfallen (User-Entscheidung — die Leistungen
 // stehen auf der Startseite, die Zwischenseite war eine Ebene zu viel).
 // Anker-Links werden von getNavHref() in HeaderClient.tsx auf Unterseiten
 // automatisch zu "/#anker" umgeschrieben — von einer Detailseite aus führt der
@@ -67,7 +67,7 @@ export const SELECTED_WORK: SelectedWorkItem[] = [
   },
   {
     name: "FOM Video",
-    label: "Studio bau und Betrieb",
+    label: "Studiobau und Betrieb",
     image: "/selected-work/fom-studio.webp",
     caseSlug: "fom-studio",
   },

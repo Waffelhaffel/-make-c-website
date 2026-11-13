@@ -1,12 +1,48 @@
 "use client";
 
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { AnimatePresence, motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import { Swoosh } from "@/components/ui/Swoosh";
 import type { LandingHero } from "@/lib/content/types";
 
 type HeroProps = {
   data: LandingHero;
+};
+
+// Intro der H1: die Buchstaben fliegen gestaffelt ein. Als Konstanten, weil
+// dieselben Werte auch festlegen, wann Zeile 2 mit dem Wortwechsel anfängt.
+const INTRO_DELAY = 0.2;
+const INTRO_STAGGER = 0.05;
+const INTRO_DURATION = 0.8;
+const HOUSE_EASE = [0.22, 1, 0.36, 1] as const;
+
+/**
+ * Takt des Wortwechsels in Zeile 2 („Video &" ↔ „Gen AI", seit 13.11.2026).
+ * Stellschraube: alle 3 s ein neues Wort, davon stehen ~1,7 s still — der Rest
+ * ist Raus- und Reinrollen.
+ */
+const CYCLE_MS = 3000;
+
+/**
+ * Ein Leerzeichen allein in einem Flex-Item kollabiert auf Breite 0 — „Video &"
+ * stünde sonst als „VIDEO&". Deshalb als geschütztes Leerzeichen. (Bis 13.11.2026
+ * stand hier `" " → " "`, also Leerzeichen gegen Leerzeichen; es fiel nicht auf,
+ * weil keine Zeile eins enthielt.)
+ */
+const letters = (text: string) => [...text].map((c) => (c === " " ? "\u00A0" : c));
+
+// Der Wechsel im Stil des Intros: Buchstabe für Buchstabe nach oben raus, das
+// neue Wort von unten rein. Die Zeile ist die Maske (`overflow-hidden`).
+// Mit „Bewegung reduzieren" streicht `MotionConfig` (SiteEffects) die
+// y-Bewegung — übrig bleibt ein Überblenden, kein harter Sprung.
+const cycleWord = {
+  visible: { transition: { staggerChildren: 0.04 } },
+  exit: { transition: { staggerChildren: 0.025 } },
+};
+const cycleLetter = {
+  hidden: { y: "100%", opacity: 0 },
+  visible: { y: "0%", opacity: 1, transition: { duration: 0.6, ease: HOUSE_EASE } },
+  exit: { y: "-100%", opacity: 0, transition: { duration: 0.35, ease: [0.55, 0, 1, 0.45] as const } },
 };
 
 export function Hero({ data }: HeroProps) {
@@ -59,8 +95,8 @@ export function Hero({ data }: HeroProps) {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.05,
-        delayChildren: 0.2,
+        staggerChildren: INTRO_STAGGER,
+        delayChildren: INTRO_DELAY,
       },
     },
   };
@@ -71,15 +107,46 @@ export function Hero({ data }: HeroProps) {
       y: 0,
       opacity: 1,
       transition: {
-        duration: 0.8,
-        ease: [0.22, 1, 0.36, 1] as const,
+        duration: INTRO_DURATION,
+        ease: HOUSE_EASE,
       },
     },
   };
 
-  const lines = [data.headlineLine1, data.headlineLine2, data.headlineLine3].filter(
-    Boolean
-  ) as string[];
+  // Zeile 2 kann zwischen mehreren Wörtern wechseln. Das erste steht beim
+  // Laden und fliegt mit dem Intro ein; erst danach übernimmt der Wechsler.
+  const rotation = [data.headlineLine2, ...(data.headlineLine2Cycle ?? [])];
+  // `null`: die Intro-Buchstaben stehen noch. Danach der Index in `rotation`.
+  // Nur im Effekt gesetzt — das Server-HTML bleibt damit unverändert.
+  const [slot, setSlot] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (rotation.length < 2) return;
+    // Übernehmen, sobald der letzte Buchstabe von Zeile 2 gelandet ist. Der
+    // Wechsler zeigt dann dasselbe Wort im selben Aufbau — die Übergabe ist
+    // pixelgleich und damit unsichtbar.
+    const line2Letters = data.headlineLine1.length + data.headlineLine2.length;
+    const handoverMs =
+      (INTRO_DELAY + (line2Letters - 1) * INTRO_STAGGER + INTRO_DURATION) * 1000;
+    let interval = 0;
+    const handover = window.setTimeout(() => {
+      setSlot(0);
+      interval = window.setInterval(
+        () => setSlot((s) => ((s ?? 0) + 1) % rotation.length),
+        CYCLE_MS
+      );
+    }, handoverMs);
+    return () => {
+      window.clearTimeout(handover);
+      window.clearInterval(interval);
+    };
+  }, [rotation.length, data.headlineLine1, data.headlineLine2]);
+
+  const lines = [
+    { text: data.headlineLine1 },
+    { text: data.headlineLine2, rotates: rotation.length > 1 },
+    { text: data.headlineLine3 },
+  ].filter((line) => line.text);
 
   return (
     <section ref={containerRef} className="relative">
@@ -118,20 +185,49 @@ export function Hero({ data }: HeroProps) {
             style={{ skewY: smoothSkew }}
           >
             <h1 className="font-gotham text-[16vw] sm:text-[13vw] lg:text-[10.5vw] leading-[0.95] font-bold italic tracking-[-0.03em] uppercase text-white flex flex-col">
+              {/* Screenreader und Suchmaschinen bekommen den ganzen Satz — sichtbar
+                  sind Einzelbuchstaben und ein Wort, das wechselt. */}
+              <span className="sr-only">
+                {[data.headlineLine1, rotation.join(" "), data.headlineLine3]
+                  .filter(Boolean)
+                  .join(" ")}
+              </span>
               {lines.map((line, lineIndex) => (
-                <span key={lineIndex} className="block overflow-hidden">
-                  {/* pr verhindert, dass der Italic-Überhang des letzten Buchstabens abgeschnitten wird */}
-                  <span className="flex pr-[0.1em]">
-                    {line.split("").map((char, charIndex) => (
+                <span key={lineIndex} aria-hidden="true" className="block overflow-hidden">
+                  {line.rotates && slot !== null ? (
+                    // Ohne `initial`-Animation beim ersten Mal: das erste Wort
+                    // steht schon (Übergabe vom Intro). `mode="wait"`: erst raus,
+                    // dann rein — so bleibt die Zeile einzeilig.
+                    <AnimatePresence mode="wait" initial={false}>
                       <motion.span
-                        key={charIndex}
-                        variants={letterVariants}
-                        className="inline-block"
+                        key={slot}
+                        variants={cycleWord}
+                        initial="hidden"
+                        animate="visible"
+                        exit="exit"
+                        className="flex pr-[0.1em]"
                       >
-                        {char === " " ? " " : char}
+                        {letters(rotation[slot]).map((char, charIndex) => (
+                          <motion.span key={charIndex} variants={cycleLetter} className="inline-block">
+                            {char}
+                          </motion.span>
+                        ))}
                       </motion.span>
-                    ))}
-                  </span>
+                    </AnimatePresence>
+                  ) : (
+                    /* pr verhindert, dass der Italic-Überhang des letzten Buchstabens abgeschnitten wird */
+                    <span className="flex pr-[0.1em]">
+                      {letters(line.text).map((char, charIndex) => (
+                        <motion.span
+                          key={charIndex}
+                          variants={letterVariants}
+                          className="inline-block"
+                        >
+                          {char}
+                        </motion.span>
+                      ))}
+                    </span>
+                  )}
                 </span>
               ))}
             </h1>
@@ -140,7 +236,7 @@ export function Hero({ data }: HeroProps) {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 1, ease: "easeOut" }}
-                className="font-garamond-semibold-italic text-[clamp(1.5rem,3vw,3rem)] text-white mt-6"
+                className="font-garamond font-semibold italic text-[clamp(1.5rem,3vw,3rem)] text-white mt-6"
               >
                 {data.subheadline}
               </motion.p>
