@@ -121,6 +121,7 @@ export function WorkGrid({ caseStudies }: WorkGridProps) {
                 alt={item.image.alt || item.client}
                 fill
                 priority={i < 4}
+                style={{ objectPosition: item.imagePosition }}
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
               />
@@ -145,9 +146,10 @@ export function WorkGrid({ caseStudies }: WorkGridProps) {
                 {/* Nur der Kunde — **das Jahr steht seit 01.09.2026 nicht mehr
                     auf der Kachel** (User-Entscheidung), sondern erst in der
                     Metazeile des Case-Fensters (`CaseModal.tsx`). `year` bleibt
-                    am Datensatz: es trägt weiter den 2022-Schnitt und die
-                    Sortierung. Wer es hier wieder einsetzt, holt sich auch das
-                    „seit 2018" des Simon-Mobile-Cases in die Kachelzeile. */}
+                    am Datensatz: es trägt weiter den 2022-Schnitt und seit
+                    17.11.2026 die Sortierung (`lib/content/cases.ts`). Wer es
+                    hier wieder einsetzt, holt sich auch das „seit 2018" des
+                    DMEXCO-Cases in die Kachelzeile. */}
                 <p className="font-gotham text-[10px] text-white/70 uppercase tracking-widest mb-1">
                   {item.client}
                 </p>

@@ -23,6 +23,33 @@ export type ServiceStep = { title: string; body: string };
 export type ServiceFact = { label: string; value: string };
 export type ServiceBlock = { title: string; body: string };
 
+/**
+ * Ein Format, an dem make/c mitgewirkt hat, ohne es selbst zu produzieren —
+ * gerendert von `ServiceFormats`. Bewusst **kein Case** (`lib/content/cases.ts`):
+ * es steht nicht auf /work und sieht anders aus als die Case-Kacheln.
+ */
+export type ServiceFormat = {
+  title: string;
+  /** Wer produziert hat und für wen, z. B. „CNC-Produktion für ProSieben". */
+  label: string;
+  /** Was das Format ist — ein, zwei Sätze. */
+  body: string;
+  /** Lokal abgelegt: ein Bild direkt vom Sender wäre ein fremder Host. */
+  image: LocalImage;
+  /** Externe Seite des Formats, öffnet im neuen Tab. */
+  url: string;
+  linkLabel: string;
+};
+
+export type ServiceFormats = {
+  /** MixedHeadline, zweiteilig wie die anderen Sektionen */
+  titlePart1: string;
+  titlePart2: string;
+  /** Wer produziert hat und was make/c beigetragen hat — muss stimmen. */
+  intro: string;
+  items: ServiceFormat[];
+};
+
 export type ServicePageContent = {
   /** identisch mit `SERVICES[].slug` in lib/content/services.ts — niemals abweichen */
   slug: string;
@@ -57,8 +84,14 @@ export type ServicePageContent = {
   faq: ServiceFaq[];
   /** zwei Schwester-Slugs für die interne Verlinkung */
   relatedSlugs: string[];
-  /** genau drei Case-Slugs aus `lib/content/cases.ts` */
+  /** zwei oder drei Case-Slugs aus `lib/content/cases.ts`, in Anzeige-Reihenfolge */
   caseSlugs: string[];
+  /**
+   * Formate, an denen make/c mitgewirkt, die es aber nicht selbst produziert
+   * hat — eigene Sektion in der Mitte der Seite (`ServiceFormats`), getrennt von
+   * den Cases. Bisher nur Branded Entertainment (die TV-Formate der CNC).
+   */
+  formats?: ServiceFormats;
   /**
    * Loop-Video unter `public/leistungen-loops/`, benannt nach dem Slug.
    * Ohne Wert zeigt `ServiceBlocks` das Bild aus `SERVICES` (`lib/content/services.ts`).
@@ -320,14 +353,21 @@ export const SERVICE_PAGES: ServicePageContent[] = [
   // werden will, obwohl es dazu noch keine großen Cases gibt. Text nach einem
   // Rohtext des Users, redigiert.
   //
-  // ⚠️ **Drei Angaben sind nicht bestätigt** und im Text unten markiert:
+  // ⚠️ **Zwei Angaben sind nicht bestätigt** und im Text unten markiert:
   // (1) das Verhältnis zur CNC — der Rohtext sagt „Schwesterfirma", das
   //     Impressum (`lib/content/legal.ts`) „make/c ist ein Unternehmen der CNC
   //     Cologne News Corporation GmbH". Hier steht deshalb neutral „aus
   //     derselben Unternehmensgruppe"; der Rohtext trug selbst die Rückfrage
   //     „@Philip: passt so mit Blick auf CNC?".
-  // (2) die TV-Formate der CNC („Shopping Queen", „Guidos Deko Queen",
-  //     „Most Wanted") — wörtlich aus dem Rohtext.
+  // (2) erledigt 17.11.2026: die TV-Formate der CNC. Der User hat
+  //     „Catch Us. Die Jagd durch Europa" und „Most Wanted" bestätigt — von der
+  //     CNC produziert, make/c hat in der Produktion unterstützt. „Shopping
+  //     Queen" und „Guidos Deko Queen" aus dem Rohtext sind auf seinen Wunsch
+  //     raus. Beide Formate haben eine eigene Sektion in der Mitte der Seite
+  //     (`formats`) — **bewusst nicht als Cases**: ein erster Anlauf am selben
+  //     Tag stellte sie als Case-Kacheln auf /work und unten zu den Projekten.
+  //     Der User: „es ist ja nicht unser Case, wir haben nur unterstützt … das
+  //     muss man nicht kleinreden, aber es muss auch wahr sein."
   // (3) „über 15 Monate" bei MERKUR — der Case-Text von `merkur-lighthouse`
   //     sagt „mehr als zwölf Monate".
   // „(Haribo)" aus dem Rohtext steht bewusst nicht im Text: Kunde ist die
@@ -346,15 +386,14 @@ export const SERVICE_PAGES: ServicePageContent[] = [
       { label: "Leistungsumfang", value: "Formatentwicklung, Konzept und Drehbuch, Casting, Produktion, Postproduktion, Plattform-Fassungen" },
       { label: "Formate", value: "Doku-Serie, Mockumentary, Show- und Spielformat, Webserie, Creator-Format, Gamification" },
       { label: "Ausspielung", value: "Streaming, YouTube, TV, Social Media und interne Kanäle" },
-      // ⚠️ Unbestätigt, siehe oben (2).
-      { label: "TV-Partner", value: "CNC — produziert Formate wie „Shopping Queen“, „Guidos Deko Queen“ und „Most Wanted“ mit" },
+      { label: "TV-Partner", value: "CNC — produziert u. a. „Catch Us. Die Jagd durch Europa“ (ProSieben) und „Most Wanted“ (Joyn), make/c hat beide Produktionen unterstützt" },
       { label: "Einsatzgebiet", value: "Köln, Essen, bundesweit und international" },
     ],
     blocks: [
       {
-        // ⚠️ Unbestätigt, siehe oben (1) und (2).
+        // ⚠️ Unbestätigt, siehe oben (1).
         title: "TV-Know-how trifft Markenverständnis",
-        body: "Mit der TV-Produktion CNC aus derselben Unternehmensgruppe steht make/c seit jeher an der Schnittstelle zwischen dem, was Marken erzählen wollen, und dem Produktions-Know-how großer TV-Formate. Während die CNC seit Jahren Formate wie „Shopping Queen“, „Guidos Deko Queen“ und „Most Wanted“ mitproduziert, weiß make/c, wie Marken, Creator und Influencer ticken. Gemeinsam sind beide ein starkes Duo für Branded-Entertainment-Formate — ob für Streamer, YouTube, TV oder Social Media.",
+        body: "Mit der TV-Produktion CNC aus derselben Unternehmensgruppe steht make/c seit jeher an der Schnittstelle zwischen dem, was Marken erzählen wollen, und dem Produktions-Know-how großer TV-Formate. Die CNC hat die Reality-Formate „Catch Us. Die Jagd durch Europa“ für ProSieben und „Most Wanted“ für Joyn produziert, make/c hat beide Produktionen unterstützt — und weiß zugleich, wie Marken, Creator und Influencer ticken. Gemeinsam sind beide ein starkes Duo für Branded-Entertainment-Formate — ob für Streamer, YouTube, TV oder Social Media.",
       },
       {
         // ⚠️ „Über 15 Monate" unbestätigt, siehe oben (3).
@@ -395,10 +434,10 @@ export const SERVICE_PAGES: ServicePageContent[] = [
           "Für Streaming-Plattformen, YouTube, TV und Social Media — und für interne Kanäle, wenn sich ein Format an die eigene Belegschaft richtet. Die Plattform bestimmt Länge, Taktung und Erzählweise. Deshalb klären wir sie, bevor die erste Idee steht.",
       },
       {
-        // ⚠️ Unbestätigt, siehe oben (1) und (2).
+        // ⚠️ Unbestätigt, siehe oben (1).
         question: "Welche Rolle spielt die CNC?",
         answer:
-          "Die CNC ist eine TV-Produktion aus derselben Unternehmensgruppe wie make/c und produziert seit Jahren Formate wie „Shopping Queen“, „Guidos Deko Queen“ und „Most Wanted“ mit. In Branded-Entertainment-Projekten bringt sie die Erfahrung aus Serienproduktion und TV-Abläufen ein, make/c das Verständnis für Marken, Creator und Influencer.",
+          "Die CNC ist eine TV-Produktion aus derselben Unternehmensgruppe wie make/c. Sie hat unter anderem die Reality-Formate „Catch Us. Die Jagd durch Europa“ (ProSieben) und „Most Wanted“ (Joyn) produziert, make/c hat beide Produktionen unterstützt. In Branded-Entertainment-Projekten bringt die CNC die Erfahrung aus Serienproduktion und TV-Abläufen ein, make/c das Verständnis für Marken, Creator und Influencer.",
       },
       {
         question: "Arbeitet make/c auch mit Creatorn und Influencern?",
@@ -412,11 +451,48 @@ export const SERVICE_PAGES: ServicePageContent[] = [
       },
     ],
     relatedSlugs: ["video-produktion", "video-strategie"],
-    // ⚠️ Nur zwei Kacheln (User-Entscheidung 13.11.2026) — die beiden Projekte,
-    // die der Rohtext selbst nennt. Zur Dr. Hans Riegel-Stiftung gibt es keinen
-    // Case mehr (beide von 2020/21, mit dem Schnitt bei 2022 entfallen), und
-    // Toyota „Cross & Quer" wollte der User hier nicht sehen.
+    // ⚠️ Nur zwei Kacheln (User-Entscheidung 13.11.2026) — die beiden eigenen
+    // Projekte, die der Rohtext nennt. Die CNC-Formate gehören **nicht** hierher,
+    // sie stehen unter `formats` (siehe oben, (2)). Zur Dr. Hans Riegel-Stiftung
+    // gibt es keinen Case mehr (beide von 2020/21, mit dem Schnitt bei 2022
+    // entfallen), und Toyota „Cross & Quer" wollte der User hier nicht sehen.
     caseSlugs: ["merkur-lighthouse", "cwh-bih-sbv-wahl"],
+    // Seit 17.11.2026. ⚠️ `body` ist von Claude aus der Joyn-Beschreibung
+    // formuliert; was make/c konkret beigetragen hat, ist nicht geliefert —
+    // deshalb steht da nur „unterstützt" (das Wort des Users). Die Bilder sind
+    // die Titelbilder der Joyn-Seiten, vom User für die Seite freigegeben,
+    // lokal abgelegt (Originale in `assets/masters/tv-formate/`). Die
+    // Tracking-Parameter der gelieferten Links (`utm_*`, `gclid`) sind entfernt.
+    formats: {
+      titlePart1: "TV-Formate",
+      titlePart2: "der CNC",
+      intro:
+        "Beide Shows hat die CNC produziert, die TV-Produktion aus derselben Unternehmensgruppe wie make/c. make/c hat die Produktion unterstützt.",
+      items: [
+        {
+          title: "Catch Us. Die Jagd durch Europa",
+          label: "CNC-Produktion für ProSieben",
+          body: "Prominente tauchen in drei europäischen Großstädten unter und müssen fünf Tage lang unentdeckt bleiben – während Hunter-Teams mithilfe ihrer Community Jagd auf sie machen.",
+          image: {
+            src: "/tv-formate/catch-us.webp",
+            alt: "Catch Us. Die Jagd durch Europa — Prominente in Ringelshirts auf der Flucht vor europäischen Wahrzeichen",
+          },
+          url: "https://www.joyn.de/serien/catch-us-die-jagd-durch-europa",
+          linkLabel: "Auf Joyn ansehen",
+        },
+        {
+          title: "Most Wanted",
+          label: "CNC-Produktion für Joyn",
+          body: "Prominente brechen aus einem Gefängnis aus und versuchen, fünf Tage in Freiheit zu bleiben – ohne Geld und Handy, verfolgt von drei Huntern mit GPS-Daten.",
+          image: {
+            src: "/tv-formate/most-wanted.webp",
+            alt: "Most Wanted — drei Hunter mit verschränkten Armen, darunter Ausbrecher in orangefarbenen Overalls",
+          },
+          url: "https://www.joyn.de/serien/most-wanted",
+          linkLabel: "Auf Joyn ansehen",
+        },
+      ],
+    },
     loopVideo: "/leistungen-loops/branded-entertainment.mp4",
     // Die beiden Fotos der früheren AI-Seite, umbenannt — siehe `MAPPING` in
     // `scripts/build-service-images.mjs`.

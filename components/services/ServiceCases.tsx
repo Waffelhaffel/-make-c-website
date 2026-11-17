@@ -31,7 +31,11 @@ export function ServiceCases({ caseStudies }: ServiceCasesProps) {
           className="mb-12 md:mb-20"
         />
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {/* `items-start` (17.11.2026): ohne zieht das Raster alle Kacheln auf
+            die Höhe der höchsten, und ein `<button>` zentriert seinen Inhalt
+            dann senkrecht — eine Kachel mit kürzerem Titel rutschte mit Bild
+            nach unten (Branded Entertainment 18 px, Partner für Agenturen 36 px). */}
+        <div className="grid items-start gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {caseStudies.map((item) => (
             <button
               key={item.slug}

@@ -274,11 +274,13 @@ export function CaseModal({ caseData, onClose }: CaseModalProps) {
               {gallery.length > 0 && (
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   {gallery.map((g, i) => {
-                    // Bei drei Bildern läuft das erste über beide Spalten und
-                    // ist dann rund 860 px breit, nicht 480. Mit der schmalen
-                    // Angabe holte next/image die 480-px-Variante und zog sie
-                    // auf die doppelte Breite — auf 1x-Displays sichtbar weich.
-                    const full = gallery.length === 3 && i === 0;
+                    // Bei einem oder drei Bildern läuft das erste über beide
+                    // Spalten (ein einzelnes stand sonst halb breit links, seit
+                    // 17.11.2026 bei Anuga) und ist dann rund 860 px breit,
+                    // nicht 480. Mit der schmalen Angabe holte next/image die
+                    // 480-px-Variante und zog sie auf die doppelte Breite — auf
+                    // 1x-Displays sichtbar weich.
+                    const full = i === 0 && gallery.length !== 2;
                     return (
                       <div
                         key={g.src}

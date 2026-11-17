@@ -8,13 +8,15 @@ import type { CaseStudy } from "./types";
 // aufnehmen will, holt es per `git show` aus dem Stand vom 11.08.2026 zurück;
 // die Bilddateien liegen unverändert unter `public/work/`.
 //
-// ⚠️ **32 Cases, Stand 05.10.2026** (`koeln-marathon` neu, „Video Event
-// Content" damit 9 Treffer). Davor 31 seit 01.09.2026: `ihk-koeln` („IHK Köln —
-// Rahmenvertragspartner Streaming", 2022, Kategorie `event-content`) ist auf
-// Wunsch des Users an diesem Tag komplett entfallen; das Bild liegt in `assets/_unused/work/`.
-// Damit fällt „Video Event Content" im Filter von 9 auf 8 Treffer — die Zahl
-// steht als `CONTENT.FILTER.treffer` in `e2e/config.mjs` und muss mitgezogen
-// werden, ebenso `CONTENT.CASES`.
+// ⚠️ **33 Cases, Stand 17.11.2026** (neu: `the-perfect-jean`;
+// `koelnmesse-anuga-pressekonferenz` zeigt seit diesem Tag die Avatar-PK von
+// 2026 statt der von 2023). ⚠️ Die CNC-Formate „Catch Us" und „Most Wanted"
+// sind **bewusst keine Cases** (User-Vorgabe 17.11.2026: make/c hat dort nur
+// unterstützt) — sie stehen allein auf der Leistungsseite Branded Entertainment,
+// als `formats` in `lib/leistungen.ts`. Die Zahl steht als `CONTENT.CASES` in
+// `e2e/config.mjs`, die Treffer von „Video Event Content" (weiter 9) als
+// `CONTENT.FILTER.treffer` — beide bei jeder Änderung hier mitziehen.
+// Entfallen ist am 01.09.2026 `ihk-koeln` (Bild in `assets/_unused/work/`).
 //
 // ⚠️ **`year` steht seit 01.09.2026 nicht mehr auf der Kachel** (`WorkGrid.tsx`),
 // sondern nur noch in der Metazeile des Case-Fensters (`CaseModal.tsx`). Das
@@ -25,8 +27,12 @@ import type { CaseStudy } from "./types";
 // Beschreibungstexte, Jahre, Videos und Credits von den zugehörigen
 // Detailseiten) plus `merkur` und `aldi`, die es nur in Sanity gab.
 //
-// Die Reihenfolge hier ist die Reihenfolge auf /work — grob neu → alt. Es gibt
-// kein `featured`-Flag mehr: was hier steht, wird gezeigt.
+// **Reihenfolge auf /work: nach `year`, neueste zuerst** (User-Vorgabe
+// 17.11.2026). Sortiert wird am Ende dieser Datei, nicht von Hand — innerhalb
+// eines Jahres gilt die Reihenfolge hier im Array. Bis dahin war die
+// Array-Reihenfolge die Anzeige-Reihenfolge, und die Selected-Work-Cases standen
+// bewusst vorn: `telekom` (2025) eröffnete die Seite, gefolgt von `fom-studio`
+// (2022). Es gibt kein `featured`-Flag: was hier steht, wird gezeigt.
 //
 // ⚠️ `categories` sind seit 12.08.2026 **die Leistungs-Slugs** (seit 13.11.2026 sieben) aus
 // `./workCategories.ts`, nicht mehr die 14 Genre-Kategorien der alten
@@ -45,8 +51,98 @@ import type { CaseStudy } from "./types";
 // Bilder liegen unter `public/work/<slug>.webp` (max. 1600 px, WebP).
 
 export const CASES: CaseStudy[] = [
-  // Die ersten Einträge gehören zu den Selected-Work-Kacheln der Startseite und
-  // stehen deshalb bewusst vorn — also in der ersten Reihe von /work.
+  // Die zwei Einträge vom 17.11.2026 stehen oben und damit zuerst unter 2026.
+  {
+    slug: "koelnmesse-anuga-pressekonferenz",
+    // Seit 17.11.2026 die Avatar-PK von 2026 (User-Lieferung „Anuga FoodTec
+    // 2026"). Bis dahin stand unter demselben Slug die erste Avatar-PK von 2023
+    // („Interaktive PK mit KI-gesteuerten Avataren", blaues Nachrichtenstudio).
+    // Der User wollte sie ersetzt, nicht ergänzt. Der Slug bleibt, damit die
+    // Alt-URL `/portfolio/koelnmesse-anuga-pressekonferenz/` weiter hierher
+    // führt. Alter Stand: `git show 1e6b739:lib/content/cases.ts`.
+    client: "Anuga FoodTec 2026",
+    project: "Avatar-Live-KI-Pressekonferenz China und Japan",
+    // Veröffentlichung: 2026.
+    year: "2026",
+    category: "Video Event Content · Video AI",
+    categories: ["event-content", "artificial-intelligence"],
+    kicker: "/ Case Study /",
+    // Text vom User (17.11.2026), nur orthografisch korrigiert. Die
+    // RTL-Berichterstattung steht damit wieder drin — als Satz, ohne Link. (Im
+    // alten Text stand bis 25.08.2026 ein RTL-Absatz mit einem Link, den es nie
+    // gab; der ist damals auf Wunsch des Users ersatzlos entfallen.)
+    summary:
+      "Für die Weltleitmesse Anuga FoodTec durften wir ein einzigartiges PK-Konzept umsetzen. Für ein Live-Gespräch mit chinesischen und japanischen Fachjournalisten haben wir ein virtuelles Studio gebaut und dort Avatare des Koelnmesse-Geschäftsführers Oliver Frese eingesetzt.\n\n" +
+      "Diese Avatare haben sich dann live mit den Journalisten in ihrer jeweiligen Landessprache unterhalten (die sie eigentlich aber weder sprechen noch verstehen). Damit unterstreicht die Messe, die im Frühjahr 2027 wieder in Köln stattfindet, ihren innovativen Anspruch und sendet ein starkes internationales Signal.\n\n" +
+      "Die technische Umsetzung basiert auf eigens von make/c (make/ai) entwickelten Produkten und ist DSGVO-konform. Die Pressekonferenz fand entsprechend an Rechnern in den Räumen von make/c in Köln statt.\n\n" +
+      "Das innovative Konzept hat sogar RTL zu einer Berichterstattung veranlasst.",
+    // ⚠️ Das Zitat stammt von der **ersten** Avatar-PK (2023) und bleibt auf
+    // Wunsch des Users (17.11.2026) beim neuen Case.
+    quote: {
+      // Bewusst **nicht** übersetzt — Fremdrede im Original.
+      text: "Many thanks to our partners from make/c - video content marketing GmbH for the creativity and realization.",
+      author: "Oliver Frese",
+      role: "Geschäftsführer Koelnmesse",
+    },
+    services: ["Live-PK mit Avataren auf Chinesisch und Japanisch"],
+    // „PK-China-V1", 10:06 min, bei Vimeo hochgeladen am 17.11.2026 (oEmbed
+    // geprüft). ⚠️ Privacy-Hash `/bbad4dfe04` muss dranbleiben — ohne ihn 403.
+    video: "https://vimeo.com/1247603171/bbad4dfe04",
+    // Bild 1 der Lieferung (16:9, beide Avatare), dient auch als Standbild im
+    // Case-Fenster. Das 4:5-Raster auf /work schnitte mittig genau zwischen die
+    // zwei Personen — `imagePosition` setzt den Ausschnitt auf Oliver Frese.
+    // Original: `assets/masters/work/anuga-foodtec-2026-1.png`.
+    image: { src: "/work/koelnmesse-anuga-pressekonferenz.webp", alt: "Anuga FoodTec 2026 — die KI-Avatare im virtuellen Studio der Pressekonferenz" },
+    imagePosition: "17% 50%",
+    credits: [
+      { role: "Kunde", name: "Koelnmesse" },
+      { role: "Ort", name: "Köln" },
+      { role: "Steuerung", name: "Michael Ramlau, Eric Nitschke" },
+    ],
+    // Bild 2 der Lieferung („für die Infos"). Ein einzelnes Galeriebild läuft im
+    // Case-Fenster über die volle Breite; die Quelle ist 4:3 → `standard`, kein
+    // Beschnitt. Original: `assets/masters/work/anuga-foodtec-2026-2.jpg`.
+    gallery: [
+      { src: "/work/koelnmesse-anuga-pressekonferenz-gallery-1.webp", alt: "Anuga FoodTec 2026 — das make/c-Team steuert die Live-Pressekonferenz aus den Räumen in Köln", ratio: "standard" },
+    ],
+  },
+  {
+    slug: "the-perfect-jean",
+    client: "Internationale Agenturgruppe",
+    // Kampagnenname in „…" hinter dem Projekt, wie bei Flughafen und Kölner Zoo.
+    project: "Content Automation mit KI „The perfect Jean“",
+    // Produktion: 2026.
+    year: "2026",
+    category: "Video AI",
+    categories: ["artificial-intelligence"],
+    kicker: "/ Case Study /",
+    // Text vom User (17.11.2026), nur orthografisch korrigiert (u. a. „Was an
+    // dem diesen Video" → „diesem").
+    summary:
+      "KI öffnet fast täglich neue Möglichkeiten in der Content-Erstellung. Für eine Firma aus Israel haben wir uns in neue Sphären vorgewagt. Fast vollautomatisierte Content-Erstellung zu niedrigen dreistelligen Stückkosten – optimiert auf den Kanal und die Zielgruppe.\n\n" +
+      "Was an diesem Video gibt es wirklich? Die Jeans. Von ihr hatten wir diverse Produktshots. Die Charaktere, die Videosequenzen, die Grafiken, der Schnitt, die Musik: KI. Take a look into the future.",
+    services: ["Weitestgehend vollautomatisierte KI Videos"],
+    // „TPJ_Ad2_Shift_9x16_v3", 45 s, **Hochformat 9:16** (oEmbed geprüft
+    // 17.11.2026). Das Case-Fenster spielt Videos in einem 16:9-Rahmen, der
+    // Vimeo-Player zeigt dieses also mittig mit schwarzen Rändern links und
+    // rechts. ⚠️ Privacy-Hash `/5e84835765` muss dranbleiben — ohne ihn 403.
+    video: "https://vimeo.com/1247604781/5e84835765",
+    // Kein Bild geliefert: beides stammt aus dem Vimeo-Vorschaubild (1280×2276),
+    // einmal geladen und lokal abgelegt (Original in `assets/masters/work/`).
+    // Die Kachel ist ein 4:5-Ausschnitt **oberhalb** der eingebrannten
+    // Einblendung „6:04 PM: THE SWAMPY WEDGIE" (x 0, y 120, 848×1060) — mittig
+    // geschnitten lag die auf dem Handy genau hinter der Kachelschrift. Das
+    // Standbild im Case-Fenster zeigt das volle Hochformat, wie beim
+    // Köln-Marathon-Reel auf einem unscharfen 16:9-Grund. Liefert der User ein
+    // eigenes Motiv (etwa einen Produktshot der Jeans), nur die zwei Dateien tauschen.
+    image: { src: "/work/the-perfect-jean.webp", alt: "„The perfect Jean“ — Szene aus dem KI-generierten Werbeclip" },
+    poster: { src: "/work/the-perfect-jean-poster.webp", alt: "„The perfect Jean“ — KI-generierter Werbeclip im Hochformat" },
+    credits: [
+      { role: "Kunde", name: "Internationale Agenturgruppe" },
+      { role: "Ort", name: "Köln" },
+      { role: "Steuerung", name: "Christian Wesner" },
+    ],
+  },
   {
     slug: "telekom",
     client: "Telekom",
@@ -431,32 +527,6 @@ export const CASES: CaseStudy[] = [
       { src: "/work/merkur-gallery-1.webp", alt: "MERKUR — Behind the Scenes", ratio: "wide" },
       { src: "/work/merkur-gallery-2.webp", alt: "MERKUR — Produktion", ratio: "wide" },
       { src: "/work/merkur-gallery-3.webp", alt: "MERKUR — Portrait", ratio: "tall" },
-    ],
-  },
-  {
-    slug: "koelnmesse-anuga-pressekonferenz",
-    client: "Koelnmesse",
-    project: "Interaktive PK mit KI-gesteuerten Avataren",
-    // Veröffentlichung: 2023.
-    year: "2023",
-    category: "Video Event Content · Video AI",
-    categories: ["event-content", "artificial-intelligence"],
-    kicker: "/ Case Study /",
-    summary:
-      "Mit der Anuga-FoodTec-Pressekonferenz setzt die Koelnmesse ein starkes Zeichen für ihre digitale Innovationsbereitschaft. Die PK richtete sich an ein asiatisches Fachpublikum in China und Japan und fand erstmalig mit KI-gesteuerten Avataren statt.\n\nmake/c hat dafür das Tool des „24/7-Beraters“ angepasst. Es wurden Avatare der Protagonisten erstellt, die dann in Echtzeit und interaktiv sowohl chinesisch als auch japanisch mit den Journalisten gesprochen haben, obwohl sie in Wirklichkeit beide Sprachen nicht sprechen.",
-    // ⚠️ Hier stand bis 25.08.2026 ein Absatz über einen RTL-Beitrag, der auf
-    // einen Link zeigte, den es nie gab. Auf Wunsch des Users ersatzlos raus.
-    quote: {
-      // Bewusst **nicht** übersetzt — Fremdrede im Original.
-      text: "Many thanks to our partners from make/c - video content marketing GmbH for the creativity and realization.",
-      author: "Oliver Frese",
-      role: "Geschäftsführer Koelnmesse",
-    },
-    services: ["Pressekonferenz mit interaktiven, KI-gesteuerten Avataren auf Chinesisch und Japanisch"],
-    image: { src: "/work/koelnmesse-anuga-pressekonferenz.webp", alt: "Koelnmesse — Interaktive PK mit KI-gesteuerten Avataren" },
-    credits: [
-      { role: "Kunde", name: "Koelnmesse, Anuga FoodTec" },
-      { role: "Projektsteuerung", name: "Michael Ramlau, Melissa Eken, Eric Nitschke" },
     ],
   },
   {
@@ -862,6 +932,14 @@ export const CASES: CaseStudy[] = [
     image: { src: "/work/aldi.webp", alt: "ALDI — Retail Campaign Assets" },
   },
 ];
+
+// /work zeigt die Cases nach Jahr, neueste zuerst (User-Vorgabe 17.11.2026).
+// `sort` ist stabil: innerhalb eines Jahres bleibt die Reihenfolge von oben.
+// Ein `year` ohne reine Jahreszahl („seit 2018" bei der DMEXCO) ist ein
+// laufendes Engagement und zählt als aktuelles Jahr — zum Build-Zeitpunkt,
+// die Seite ist statisch.
+const sortYear = (c: CaseStudy) => (/^\d{4}$/.test(c.year) ? Number(c.year) : new Date().getFullYear());
+CASES.sort((a, b) => sortYear(b) - sortYear(a));
 
 const BY_SLUG = new Map(CASES.map((c) => [c.slug, c]));
 

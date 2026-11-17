@@ -235,6 +235,15 @@ export type CaseStudy = {
   credits?: CaseCredit[];
   /** Kachelbild und, ohne eigenes `poster`, auch das Standbild im Case-Fenster. */
   image: LocalImage;
+  /**
+   * Ausschnitt der Kachel auf /work als CSS `object-position`, z. B. „70% 50%".
+   * Das Raster dort ist 4:5 und schneidet sonst mittig; die 16:9-Rahmen
+   * (Leistungsseite, Case-Fenster) zeigen das Bild ganz und brauchen es nicht.
+   * Seit 17.11.2026 für Motive, die nicht in der Bildmitte stehen. Vorher half
+   * nur ein eigener 4:5-Zuschnitt plus `poster` (so bei `telekom`) — der passt
+   * aber nicht in den 16:9-Rahmen der Leistungsseiten.
+   */
+  imagePosition?: string;
   poster?: LocalImage;
   /** Vimeo- oder YouTube-URL. Ohne Wert zeigt das Case-Fenster nur das Standbild. */
   video?: string;

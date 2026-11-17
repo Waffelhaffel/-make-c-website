@@ -9,6 +9,7 @@ import { ServiceCases } from "@/components/services/ServiceCases";
 import { ServiceCta } from "@/components/services/ServiceCta";
 import { ServiceFacts } from "@/components/services/ServiceFacts";
 import { ServiceFaq } from "@/components/services/ServiceFaq";
+import { ServiceFormats } from "@/components/services/ServiceFormats";
 import { ServiceHero } from "@/components/services/ServiceHero";
 import { ServiceImageBand } from "@/components/services/ServiceImageBand";
 import { ServiceRelated } from "@/components/services/ServiceRelated";
@@ -94,6 +95,7 @@ export default async function ServiceDetailPage(props: {
         <ServiceHero content={content} />
         <ServiceFacts facts={content.facts} audience={content.audience} />
         <ServiceBlocks blocks={content.blocks} image={content.images[0]} />
+        <ServiceFormats formats={content.formats} />
         <ServiceSteps steps={content.steps} />
         <ServiceImageBand image={content.images[1]} />
         <ServiceFaq faq={content.faq} />
